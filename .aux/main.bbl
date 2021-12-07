@@ -1,0 +1,1059 @@
+% $ biblatex auxiliary file $
+% $ biblatex bbl format version 3.1 $
+% Do not modify the above lines!
+%
+% This is an auxiliary file used by the 'biblatex' package.
+% This file may safely be deleted. It will be recreated by
+% biber as required.
+%
+\begingroup
+\makeatletter
+\@ifundefined{ver@biblatex.sty}
+  {\@latex@error
+     {Missing 'biblatex' package}
+     {The bibliography requires the 'biblatex' package.}
+      \aftergroup\endinput}
+  {}
+\endgroup
+
+
+\refsection{0}
+  \datalist[entry]{nyt/global//global/global}
+    \entry{adams:1996}{book}{}
+      \name{author}{1}{}{%
+        {{hash=493a1565aa10be310441b6e4707c405e}{%
+           family={Adams},
+           familyi={A\bibinitperiod},
+           given={Scott},
+           giveni={S\bibinitperiod}}}%
+      }
+      \list{location}{1}{%
+        {New York, NY, USA}%
+      }
+      \list{publisher}{1}{%
+        {Harper Business}%
+      }
+      \strng{namehash}{493a1565aa10be310441b6e4707c405e}
+      \strng{fullhash}{493a1565aa10be310441b6e4707c405e}
+      \strng{bibnamehash}{493a1565aa10be310441b6e4707c405e}
+      \strng{authorbibnamehash}{493a1565aa10be310441b6e4707c405e}
+      \strng{authornamehash}{493a1565aa10be310441b6e4707c405e}
+      \strng{authorfullhash}{493a1565aa10be310441b6e4707c405e}
+      \field{extraname}{1}
+      \field{sortinit}{A}
+      \field{sortinithash}{2f401846e2029bad6b3ecc16d50031e2}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{title}{The Dilbert Principle}
+      \field{year}{1996}
+    \endentry
+    \entry{adams:2013}{book}{}
+      \name{author}{1}{}{%
+        {{hash=493a1565aa10be310441b6e4707c405e}{%
+           family={Adams},
+           familyi={A\bibinitperiod},
+           given={Scott},
+           giveni={S\bibinitperiod}}}%
+      }
+      \list{location}{1}{%
+        {London, United Kingdom}%
+      }
+      \list{publisher}{1}{%
+        {Portfolio Penguin}%
+      }
+      \strng{namehash}{493a1565aa10be310441b6e4707c405e}
+      \strng{fullhash}{493a1565aa10be310441b6e4707c405e}
+      \strng{bibnamehash}{493a1565aa10be310441b6e4707c405e}
+      \strng{authorbibnamehash}{493a1565aa10be310441b6e4707c405e}
+      \strng{authornamehash}{493a1565aa10be310441b6e4707c405e}
+      \strng{authorfullhash}{493a1565aa10be310441b6e4707c405e}
+      \field{extraname}{2}
+      \field{sortinit}{A}
+      \field{sortinithash}{2f401846e2029bad6b3ecc16d50031e2}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{title}{How to Fail at Almost Everything and Still Win Big: Kind of the Story of My Life}
+      \field{year}{2013}
+    \endentry
+    \entry{aurelius:2002}{book}{}
+      \name{author}{1}{}{%
+        {{hash=12fa3139028cbecf9cb0a9d54b61d7a9}{%
+           family={Aurelius},
+           familyi={A\bibinitperiod},
+           given={Marcus},
+           giveni={M\bibinitperiod}}}%
+      }
+      \list{location}{1}{%
+        {New York, NY, USA}%
+      }
+      \list{publisher}{1}{%
+        {Modern Library}%
+      }
+      \strng{namehash}{12fa3139028cbecf9cb0a9d54b61d7a9}
+      \strng{fullhash}{12fa3139028cbecf9cb0a9d54b61d7a9}
+      \strng{bibnamehash}{12fa3139028cbecf9cb0a9d54b61d7a9}
+      \strng{authorbibnamehash}{12fa3139028cbecf9cb0a9d54b61d7a9}
+      \strng{authornamehash}{12fa3139028cbecf9cb0a9d54b61d7a9}
+      \strng{authorfullhash}{12fa3139028cbecf9cb0a9d54b61d7a9}
+      \field{sortinit}{A}
+      \field{sortinithash}{2f401846e2029bad6b3ecc16d50031e2}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{title}{Meditations (A New Translation)}
+      \field{year}{2002}
+    \endentry
+    \entry{bentley:1999}{book}{}
+      \name{author}{1}{}{%
+        {{hash=a2ea6a4e7fe1b839acb38db376905df8}{%
+           family={Bentley},
+           familyi={B\bibinitperiod},
+           given={Jon},
+           giveni={J\bibinitperiod}}}%
+      }
+      \list{location}{1}{%
+        {Boston, MA, USA}%
+      }
+      \list{publisher}{1}{%
+        {Ad\-dison--Wesley}%
+      }
+      \strng{namehash}{a2ea6a4e7fe1b839acb38db376905df8}
+      \strng{fullhash}{a2ea6a4e7fe1b839acb38db376905df8}
+      \strng{bibnamehash}{a2ea6a4e7fe1b839acb38db376905df8}
+      \strng{authorbibnamehash}{a2ea6a4e7fe1b839acb38db376905df8}
+      \strng{authornamehash}{a2ea6a4e7fe1b839acb38db376905df8}
+      \strng{authorfullhash}{a2ea6a4e7fe1b839acb38db376905df8}
+      \field{sortinit}{B}
+      \field{sortinithash}{d7095fff47cda75ca2589920aae98399}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{edition}{2}
+      \field{title}{{P}rogramming {P}earls}
+      \field{year}{1999}
+    \endentry
+    \entry{bringhurst:2002}{book}{}
+      \name{author}{1}{}{%
+        {{hash=26e95fb42484f0ba33bccaf28955982e}{%
+           family={Bringhurst},
+           familyi={B\bibinitperiod},
+           given={Robert},
+           giveni={R\bibinitperiod}}}%
+      }
+      \list{location}{1}{%
+        {Point Roberts, WA, USA}%
+      }
+      \list{publisher}{1}{%
+        {Hartley \& Marks Publishers}%
+      }
+      \strng{namehash}{26e95fb42484f0ba33bccaf28955982e}
+      \strng{fullhash}{26e95fb42484f0ba33bccaf28955982e}
+      \strng{bibnamehash}{26e95fb42484f0ba33bccaf28955982e}
+      \strng{authorbibnamehash}{26e95fb42484f0ba33bccaf28955982e}
+      \strng{authornamehash}{26e95fb42484f0ba33bccaf28955982e}
+      \strng{authorfullhash}{26e95fb42484f0ba33bccaf28955982e}
+      \field{sortinit}{B}
+      \field{sortinithash}{d7095fff47cda75ca2589920aae98399}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{series}{Version 4.0: 20th Anniversary Edition}
+      \field{title}{{T}he {E}lements of {T}ypographic {S}tyle}
+      \field{year}{2013}
+    \endentry
+    \entry{cialdini:1984}{book}{}
+      \name{author}{1}{}{%
+        {{hash=14fb39c2f836992aaaa039e74db15e97}{%
+           family={Cialdini},
+           familyi={C\bibinitperiod},
+           given={Robert\bibnamedelima B.},
+           giveni={R\bibinitperiod\bibinitdelim B\bibinitperiod}}}%
+      }
+      \list{location}{1}{%
+        {New York, NY, USA}%
+      }
+      \list{publisher}{1}{%
+        {Harper Business}%
+      }
+      \strng{namehash}{14fb39c2f836992aaaa039e74db15e97}
+      \strng{fullhash}{14fb39c2f836992aaaa039e74db15e97}
+      \strng{bibnamehash}{14fb39c2f836992aaaa039e74db15e97}
+      \strng{authorbibnamehash}{14fb39c2f836992aaaa039e74db15e97}
+      \strng{authornamehash}{14fb39c2f836992aaaa039e74db15e97}
+      \strng{authorfullhash}{14fb39c2f836992aaaa039e74db15e97}
+      \field{sortinit}{C}
+      \field{sortinithash}{4d103a86280481745c9c897c925753c0}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{title}{Influence: The Psychology of Persuasion}
+      \field{year}{1984}
+    \endentry
+    \entry{cormen:2001}{book}{}
+      \name{author}{4}{}{%
+        {{hash=835b8c52757d98c15859b416316d9820}{%
+           family={Cormen},
+           familyi={C\bibinitperiod},
+           given={Thomas\bibnamedelima H.},
+           giveni={T\bibinitperiod\bibinitdelim H\bibinitperiod}}}%
+        {{hash=a389dea91a76366c4b4af5f52a928a76}{%
+           family={Leiserson},
+           familyi={L\bibinitperiod},
+           given={Charles\bibnamedelima E.},
+           giveni={C\bibinitperiod\bibinitdelim E\bibinitperiod}}}%
+        {{hash=3a964821f97ee17f8bb285bc61c52899}{%
+           family={Rivest},
+           familyi={R\bibinitperiod},
+           given={Ronald\bibnamedelima L.},
+           giveni={R\bibinitperiod\bibinitdelim L\bibinitperiod}}}%
+        {{hash=bc78426660400760f77758aec45e71a8}{%
+           family={Stein},
+           familyi={S\bibinitperiod},
+           given={Clifford},
+           giveni={C\bibinitperiod}}}%
+      }
+      \list{location}{1}{%
+        {Cambridge, MA, USA}%
+      }
+      \list{publisher}{1}{%
+        {The MIT Press}%
+      }
+      \strng{namehash}{c251cdfd036d9474565c517e73c19c5d}
+      \strng{fullhash}{10f004e08c7c03d98be0da1231a869ce}
+      \strng{bibnamehash}{c251cdfd036d9474565c517e73c19c5d}
+      \strng{authorbibnamehash}{c251cdfd036d9474565c517e73c19c5d}
+      \strng{authornamehash}{c251cdfd036d9474565c517e73c19c5d}
+      \strng{authorfullhash}{10f004e08c7c03d98be0da1231a869ce}
+      \field{sortinit}{C}
+      \field{sortinithash}{4d103a86280481745c9c897c925753c0}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{edition}{3}
+      \field{title}{{I}ntroduction to {A}lgorithms}
+      \field{year}{2009}
+    \endentry
+    \entry{dueck:trio}{book}{}
+      \name{author}{1}{}{%
+        {{hash=533f5bc7044c4f67810539ca0e50a588}{%
+           family={Dueck},
+           familyi={D\bibinitperiod},
+           given={Gunter},
+           giveni={G\bibinitperiod}}}%
+      }
+      \list{location}{1}{%
+        {Berlin, Germany}%
+      }
+      \list{publisher}{1}{%
+        {Springer}%
+      }
+      \strng{namehash}{533f5bc7044c4f67810539ca0e50a588}
+      \strng{fullhash}{533f5bc7044c4f67810539ca0e50a588}
+      \strng{bibnamehash}{533f5bc7044c4f67810539ca0e50a588}
+      \strng{authorbibnamehash}{533f5bc7044c4f67810539ca0e50a588}
+      \strng{authornamehash}{533f5bc7044c4f67810539ca0e50a588}
+      \strng{authorfullhash}{533f5bc7044c4f67810539ca0e50a588}
+      \field{sortinit}{D}
+      \field{sortinithash}{6f385f66841fb5e82009dc833c761848}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{title}{{D}ueck's {T}rilogie 2.1: {O}mnisophie -- {S}upramanie -- {T}opothesie}
+      \field{year}{2013}
+    \endentry
+    \entry{ferriss:2016}{book}{}
+      \name{author}{1}{}{%
+        {{hash=7e52ab189ae682db4b09438e406d379b}{%
+           family={Ferriss},
+           familyi={F\bibinitperiod},
+           given={Timothy},
+           giveni={T\bibinitperiod}}}%
+      }
+      \list{location}{1}{%
+        {Boston, MA, USA}%
+      }
+      \list{publisher}{1}{%
+        {Houghton Mifflin Harcourt}%
+      }
+      \strng{namehash}{7e52ab189ae682db4b09438e406d379b}
+      \strng{fullhash}{7e52ab189ae682db4b09438e406d379b}
+      \strng{bibnamehash}{7e52ab189ae682db4b09438e406d379b}
+      \strng{authorbibnamehash}{7e52ab189ae682db4b09438e406d379b}
+      \strng{authornamehash}{7e52ab189ae682db4b09438e406d379b}
+      \strng{authorfullhash}{7e52ab189ae682db4b09438e406d379b}
+      \field{sortinit}{F}
+      \field{sortinithash}{2638baaa20439f1b5a8f80c6c08a13b4}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{title}{Tools of Titans: The Tactics, Routines, and Habits of Billionaires, Icons, and World-Class Performers}
+      \field{year}{2016}
+    \endentry
+    \entry{feynman:1985}{book}{}
+      \name{author}{1}{}{%
+        {{hash=aac54ccf9c76aa4ba4310ed1334be7d8}{%
+           family={Feynman},
+           familyi={F\bibinitperiod},
+           given={Richard\bibnamedelima P.},
+           giveni={R\bibinitperiod\bibinitdelim P\bibinitperiod}}}%
+      }
+      \list{location}{1}{%
+        {New York, NY, USA}%
+      }
+      \list{publisher}{1}{%
+        {W. W. Norton}%
+      }
+      \strng{namehash}{aac54ccf9c76aa4ba4310ed1334be7d8}
+      \strng{fullhash}{aac54ccf9c76aa4ba4310ed1334be7d8}
+      \strng{bibnamehash}{aac54ccf9c76aa4ba4310ed1334be7d8}
+      \strng{authorbibnamehash}{aac54ccf9c76aa4ba4310ed1334be7d8}
+      \strng{authornamehash}{aac54ccf9c76aa4ba4310ed1334be7d8}
+      \strng{authorfullhash}{aac54ccf9c76aa4ba4310ed1334be7d8}
+      \field{sortinit}{F}
+      \field{sortinithash}{2638baaa20439f1b5a8f80c6c08a13b4}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{title}{{S}urely {Y}ou're {J}oking, {M}r. {F}eynman: {A}dventures of a {C}urious {C}haracter}
+      \field{year}{1985}
+    \endentry
+    \entry{frankl:1959}{book}{}
+      \name{author}{1}{}{%
+        {{hash=18e2c8c4b5fa6b147c14d2aaa3095c80}{%
+           family={Frankl},
+           familyi={F\bibinitperiod},
+           given={Viktor\bibnamedelima E.},
+           giveni={V\bibinitperiod\bibinitdelim E\bibinitperiod}}}%
+      }
+      \list{location}{1}{%
+        {Boston, MA, USA}%
+      }
+      \list{publisher}{1}{%
+        {Beacon Press}%
+      }
+      \strng{namehash}{18e2c8c4b5fa6b147c14d2aaa3095c80}
+      \strng{fullhash}{18e2c8c4b5fa6b147c14d2aaa3095c80}
+      \strng{bibnamehash}{18e2c8c4b5fa6b147c14d2aaa3095c80}
+      \strng{authorbibnamehash}{18e2c8c4b5fa6b147c14d2aaa3095c80}
+      \strng{authornamehash}{18e2c8c4b5fa6b147c14d2aaa3095c80}
+      \strng{authorfullhash}{18e2c8c4b5fa6b147c14d2aaa3095c80}
+      \field{sortinit}{F}
+      \field{sortinithash}{2638baaa20439f1b5a8f80c6c08a13b4}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{title}{Man's Search for Meaning}
+      \field{year}{1959}
+    \endentry
+    \entry{greenwald:2014}{book}{}
+      \name{author}{1}{}{%
+        {{hash=e10e33fcf6a5c52d14c0ff4712283a1a}{%
+           family={Greenwald},
+           familyi={G\bibinitperiod},
+           given={Glenn},
+           giveni={G\bibinitperiod}}}%
+      }
+      \list{location}{1}{%
+        {New York, NY, USA}%
+      }
+      \list{publisher}{1}{%
+        {Metropolitan Books}%
+      }
+      \strng{namehash}{e10e33fcf6a5c52d14c0ff4712283a1a}
+      \strng{fullhash}{e10e33fcf6a5c52d14c0ff4712283a1a}
+      \strng{bibnamehash}{e10e33fcf6a5c52d14c0ff4712283a1a}
+      \strng{authorbibnamehash}{e10e33fcf6a5c52d14c0ff4712283a1a}
+      \strng{authornamehash}{e10e33fcf6a5c52d14c0ff4712283a1a}
+      \strng{authorfullhash}{e10e33fcf6a5c52d14c0ff4712283a1a}
+      \field{sortinit}{G}
+      \field{sortinithash}{32d67eca0634bf53703493fb1090a2e8}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{title}{{N}o {P}lace to {H}ide: {E}dward {S}nowden, the {NSA}, and the {S}urveillance {S}tate}
+      \field{year}{2014}
+    \endentry
+    \entry{harari:2014}{book}{}
+      \name{author}{1}{}{%
+        {{hash=b67e8c9663b14e73608aa580a9ff0b26}{%
+           family={Harari},
+           familyi={H\bibinitperiod},
+           given={Yuval\bibnamedelima Noah},
+           giveni={Y\bibinitperiod\bibinitdelim N\bibinitperiod}}}%
+      }
+      \list{location}{1}{%
+        {New York, NY, USA}%
+      }
+      \list{publisher}{1}{%
+        {Random House}%
+      }
+      \strng{namehash}{b67e8c9663b14e73608aa580a9ff0b26}
+      \strng{fullhash}{b67e8c9663b14e73608aa580a9ff0b26}
+      \strng{bibnamehash}{b67e8c9663b14e73608aa580a9ff0b26}
+      \strng{authorbibnamehash}{b67e8c9663b14e73608aa580a9ff0b26}
+      \strng{authornamehash}{b67e8c9663b14e73608aa580a9ff0b26}
+      \strng{authorfullhash}{b67e8c9663b14e73608aa580a9ff0b26}
+      \field{sortinit}{H}
+      \field{sortinithash}{23a3aa7c24e56cfa16945d55545109b5}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{title}{Sapiens: A Brief History of Humankind}
+      \field{year}{2014}
+    \endentry
+    \entry{knuth:1974}{article}{}
+      \name{author}{1}{}{%
+        {{hash=ec08e6f01da5f3814f28a70c89c64656}{%
+           family={Knuth},
+           familyi={K\bibinitperiod},
+           given={Donald\bibnamedelima E.},
+           giveni={D\bibinitperiod\bibinitdelim E\bibinitperiod}}}%
+      }
+      \list{location}{1}{%
+        {New York, NY, USA}%
+      }
+      \list{publisher}{1}{%
+        {ACM Press}%
+      }
+      \strng{namehash}{ec08e6f01da5f3814f28a70c89c64656}
+      \strng{fullhash}{ec08e6f01da5f3814f28a70c89c64656}
+      \strng{bibnamehash}{ec08e6f01da5f3814f28a70c89c64656}
+      \strng{authorbibnamehash}{ec08e6f01da5f3814f28a70c89c64656}
+      \strng{authornamehash}{ec08e6f01da5f3814f28a70c89c64656}
+      \strng{authorfullhash}{ec08e6f01da5f3814f28a70c89c64656}
+      \field{extraname}{1}
+      \field{sortinit}{K}
+      \field{sortinithash}{c02bf6bff1c488450c352b40f5d853ab}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{Communications of the ACM}
+      \field{number}{12}
+      \field{title}{{C}omputer {P}rogramming as an {A}rt}
+      \field{volume}{17}
+      \field{year}{1974}
+      \field{pages}{667\bibrangedash 673}
+      \range{pages}{7}
+    \endentry
+    \entry{knuth:1976}{article}{}
+      \name{author}{1}{}{%
+        {{hash=ec08e6f01da5f3814f28a70c89c64656}{%
+           family={Knuth},
+           familyi={K\bibinitperiod},
+           given={Donald\bibnamedelima E.},
+           giveni={D\bibinitperiod\bibinitdelim E\bibinitperiod}}}%
+      }
+      \list{location}{1}{%
+        {New York, NY, USA}%
+      }
+      \list{publisher}{1}{%
+        {ACM Press}%
+      }
+      \strng{namehash}{ec08e6f01da5f3814f28a70c89c64656}
+      \strng{fullhash}{ec08e6f01da5f3814f28a70c89c64656}
+      \strng{bibnamehash}{ec08e6f01da5f3814f28a70c89c64656}
+      \strng{authorbibnamehash}{ec08e6f01da5f3814f28a70c89c64656}
+      \strng{authornamehash}{ec08e6f01da5f3814f28a70c89c64656}
+      \strng{authorfullhash}{ec08e6f01da5f3814f28a70c89c64656}
+      \field{extraname}{2}
+      \field{sortinit}{K}
+      \field{sortinithash}{c02bf6bff1c488450c352b40f5d853ab}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{SIGACT News}
+      \field{number}{2}
+      \field{title}{{B}ig {O}micron and {B}ig {O}mega and {B}ig {T}heta}
+      \field{volume}{8}
+      \field{year}{1976}
+      \field{pages}{18\bibrangedash 24}
+      \range{pages}{7}
+    \endentry
+    \entry{munger:2008}{book}{}
+      \name{author}{1}{}{%
+        {{hash=41043973ff6946a39c0ebb8bf75b660b}{%
+           family={Munger},
+           familyi={M\bibinitperiod},
+           given={Charles\bibnamedelima T.},
+           giveni={C\bibinitperiod\bibinitdelim T\bibinitperiod}}}%
+      }
+      \name{editor}{1}{}{%
+        {{hash=1667569b452c6b74a68250bf29bb9d5f}{%
+           family={Kaufman},
+           familyi={K\bibinitperiod},
+           given={Peter\bibnamedelima D.},
+           giveni={P\bibinitperiod\bibinitdelim D\bibinitperiod}}}%
+      }
+      \list{location}{1}{%
+        {Virginia Beach, VA, USA}%
+      }
+      \list{publisher}{1}{%
+        {Donning Company}%
+      }
+      \strng{namehash}{41043973ff6946a39c0ebb8bf75b660b}
+      \strng{fullhash}{41043973ff6946a39c0ebb8bf75b660b}
+      \strng{bibnamehash}{41043973ff6946a39c0ebb8bf75b660b}
+      \strng{authorbibnamehash}{41043973ff6946a39c0ebb8bf75b660b}
+      \strng{authornamehash}{41043973ff6946a39c0ebb8bf75b660b}
+      \strng{authorfullhash}{41043973ff6946a39c0ebb8bf75b660b}
+      \strng{editorbibnamehash}{1667569b452c6b74a68250bf29bb9d5f}
+      \strng{editornamehash}{1667569b452c6b74a68250bf29bb9d5f}
+      \strng{editorfullhash}{1667569b452c6b74a68250bf29bb9d5f}
+      \field{sortinit}{M}
+      \field{sortinithash}{4625c616857f13d17ce56f7d4f97d451}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{edition}{3}
+      \field{title}{Poor Charlie's Almanack: The Wit and Wisdom of Charles T. Munger}
+      \field{year}{2008}
+    \endentry
+    \entry{orwell:1949}{book}{}
+      \name{author}{1}{}{%
+        {{hash=2ef7da5d483d3c197804e8f1eb7b36eb}{%
+           family={Orwell},
+           familyi={O\bibinitperiod},
+           given={George},
+           giveni={G\bibinitperiod}}}%
+      }
+      \list{location}{1}{%
+        {London, United Kingdom}%
+      }
+      \list{publisher}{1}{%
+        {Secker \& Warburg}%
+      }
+      \strng{namehash}{2ef7da5d483d3c197804e8f1eb7b36eb}
+      \strng{fullhash}{2ef7da5d483d3c197804e8f1eb7b36eb}
+      \strng{bibnamehash}{2ef7da5d483d3c197804e8f1eb7b36eb}
+      \strng{authorbibnamehash}{2ef7da5d483d3c197804e8f1eb7b36eb}
+      \strng{authornamehash}{2ef7da5d483d3c197804e8f1eb7b36eb}
+      \strng{authorfullhash}{2ef7da5d483d3c197804e8f1eb7b36eb}
+      \field{sortinit}{O}
+      \field{sortinithash}{2cd7140a07aea5341f9e2771efe90aae}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{title}{Nineteen Eighty-Four}
+      \field{year}{1949}
+    \endentry
+    \entry{pausch:2008}{book}{}
+      \name{author}{1}{}{%
+        {{hash=c088121d9ff6d28e0dd80f0846f1670a}{%
+           family={Pausch},
+           familyi={P\bibinitperiod},
+           given={Randy},
+           giveni={R\bibinitperiod}}}%
+      }
+      \name{editor}{1}{}{%
+        {{hash=bf2f5e4e1350c5a750eba25dfbca3c48}{%
+           family={Zaslow},
+           familyi={Z\bibinitperiod},
+           given={Jeffrey},
+           giveni={J\bibinitperiod}}}%
+      }
+      \list{location}{1}{%
+        {London, United Kingdom}%
+      }
+      \list{publisher}{1}{%
+        {Hodder \& Stoughton}%
+      }
+      \strng{namehash}{c088121d9ff6d28e0dd80f0846f1670a}
+      \strng{fullhash}{c088121d9ff6d28e0dd80f0846f1670a}
+      \strng{bibnamehash}{c088121d9ff6d28e0dd80f0846f1670a}
+      \strng{authorbibnamehash}{c088121d9ff6d28e0dd80f0846f1670a}
+      \strng{authornamehash}{c088121d9ff6d28e0dd80f0846f1670a}
+      \strng{authorfullhash}{c088121d9ff6d28e0dd80f0846f1670a}
+      \strng{editorbibnamehash}{bf2f5e4e1350c5a750eba25dfbca3c48}
+      \strng{editornamehash}{bf2f5e4e1350c5a750eba25dfbca3c48}
+      \strng{editorfullhash}{bf2f5e4e1350c5a750eba25dfbca3c48}
+      \field{sortinit}{P}
+      \field{sortinithash}{ff3bcf24f47321b42cb156c2cc8a8422}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{title}{The Last Lecture}
+      \field{year}{2008}
+    \endentry
+    \entry{peterson:2018}{book}{}
+      \name{author}{1}{}{%
+        {{hash=15c6a00ffb3b65b74817a2b9df501adc}{%
+           family={Peterson},
+           familyi={P\bibinitperiod},
+           given={Jordan\bibnamedelima B.},
+           giveni={J\bibinitperiod\bibinitdelim B\bibinitperiod}}}%
+      }
+      \list{location}{1}{%
+        {Toronto, ON, Canada}%
+      }
+      \list{publisher}{1}{%
+        {Random House Canada}%
+      }
+      \strng{namehash}{15c6a00ffb3b65b74817a2b9df501adc}
+      \strng{fullhash}{15c6a00ffb3b65b74817a2b9df501adc}
+      \strng{bibnamehash}{15c6a00ffb3b65b74817a2b9df501adc}
+      \strng{authorbibnamehash}{15c6a00ffb3b65b74817a2b9df501adc}
+      \strng{authornamehash}{15c6a00ffb3b65b74817a2b9df501adc}
+      \strng{authorfullhash}{15c6a00ffb3b65b74817a2b9df501adc}
+      \field{sortinit}{P}
+      \field{sortinithash}{ff3bcf24f47321b42cb156c2cc8a8422}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{title}{12 Rules for Life: An Antidote to Chaos}
+      \field{year}{2018}
+    \endentry
+    \entry{postman:2005}{book}{}
+      \name{author}{1}{}{%
+        {{hash=a9dda4ef51174aa0a502da72ec227129}{%
+           family={Postman},
+           familyi={P\bibinitperiod},
+           given={Neil},
+           giveni={N\bibinitperiod}}}%
+      }
+      \list{location}{1}{%
+        {New York, NY, USA}%
+      }
+      \list{publisher}{1}{%
+        {Penguin Books}%
+      }
+      \strng{namehash}{a9dda4ef51174aa0a502da72ec227129}
+      \strng{fullhash}{a9dda4ef51174aa0a502da72ec227129}
+      \strng{bibnamehash}{a9dda4ef51174aa0a502da72ec227129}
+      \strng{authorbibnamehash}{a9dda4ef51174aa0a502da72ec227129}
+      \strng{authornamehash}{a9dda4ef51174aa0a502da72ec227129}
+      \strng{authorfullhash}{a9dda4ef51174aa0a502da72ec227129}
+      \field{sortinit}{P}
+      \field{sortinithash}{ff3bcf24f47321b42cb156c2cc8a8422}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{title}{Amusing Ourselves to Death: Public Discourse in the Age of Show Business (20th Anniversary Edition)}
+      \field{year}{2005}
+    \endentry
+    \entry{seneca}{book}{}
+      \name{author}{1}{}{%
+        {{hash=b9cfca7c84f1d8ce73cf35a8d94e20f0}{%
+           family={Seneca},
+           familyi={S\bibinitperiod},
+           given={Lucius},
+           giveni={L\bibinitperiod}}}%
+      }
+      \list{location}{1}{%
+        {Harmondsworth, United Kingdom}%
+      }
+      \list{publisher}{1}{%
+        {Penguin}%
+      }
+      \strng{namehash}{b9cfca7c84f1d8ce73cf35a8d94e20f0}
+      \strng{fullhash}{b9cfca7c84f1d8ce73cf35a8d94e20f0}
+      \strng{bibnamehash}{b9cfca7c84f1d8ce73cf35a8d94e20f0}
+      \strng{authorbibnamehash}{b9cfca7c84f1d8ce73cf35a8d94e20f0}
+      \strng{authornamehash}{b9cfca7c84f1d8ce73cf35a8d94e20f0}
+      \strng{authorfullhash}{b9cfca7c84f1d8ce73cf35a8d94e20f0}
+      \field{sortinit}{S}
+      \field{sortinithash}{b164b07b29984b41daf1e85279fbc5ab}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{title}{Letters from a Stoic: Epistulae Morales ad Lucilium}
+      \field{year}{1969}
+    \endentry
+    \entry{sommerville:1992}{book}{}
+      \name{author}{1}{}{%
+        {{hash=70341b3bfcce7026902f4eb1e4111b58}{%
+           family={Sommerville},
+           familyi={S\bibinitperiod},
+           given={Ian},
+           giveni={I\bibinitperiod}}}%
+      }
+      \list{location}{1}{%
+        {Boston, MA, USA}%
+      }
+      \list{publisher}{1}{%
+        {Addison-Wesley}%
+      }
+      \strng{namehash}{70341b3bfcce7026902f4eb1e4111b58}
+      \strng{fullhash}{70341b3bfcce7026902f4eb1e4111b58}
+      \strng{bibnamehash}{70341b3bfcce7026902f4eb1e4111b58}
+      \strng{authorbibnamehash}{70341b3bfcce7026902f4eb1e4111b58}
+      \strng{authornamehash}{70341b3bfcce7026902f4eb1e4111b58}
+      \strng{authorfullhash}{70341b3bfcce7026902f4eb1e4111b58}
+      \field{sortinit}{S}
+      \field{sortinithash}{b164b07b29984b41daf1e85279fbc5ab}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{edition}{10}
+      \field{title}{{S}oftware {E}ngineering}
+      \field{year}{2015}
+    \endentry
+    \entry{taleb:2010}{book}{}
+      \name{author}{1}{}{%
+        {{hash=97221c67145aabda05afac891300d180}{%
+           family={Taleb},
+           familyi={T\bibinitperiod},
+           given={Nassim\bibnamedelima Nicholas},
+           giveni={N\bibinitperiod\bibinitdelim N\bibinitperiod}}}%
+      }
+      \list{location}{1}{%
+        {New York, NY, USA}%
+      }
+      \list{publisher}{1}{%
+        {Random House}%
+      }
+      \strng{namehash}{97221c67145aabda05afac891300d180}
+      \strng{fullhash}{97221c67145aabda05afac891300d180}
+      \strng{bibnamehash}{97221c67145aabda05afac891300d180}
+      \strng{authorbibnamehash}{97221c67145aabda05afac891300d180}
+      \strng{authornamehash}{97221c67145aabda05afac891300d180}
+      \strng{authorfullhash}{97221c67145aabda05afac891300d180}
+      \field{extraname}{1}
+      \field{sortinit}{T}
+      \field{sortinithash}{9af77f0292593c26bde9a56e688eaee9}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{title}{The Black Swan: The Impact of the Highly Improbable}
+      \field{year}{2010}
+    \endentry
+    \entry{taleb:2012}{book}{}
+      \name{author}{1}{}{%
+        {{hash=97221c67145aabda05afac891300d180}{%
+           family={Taleb},
+           familyi={T\bibinitperiod},
+           given={Nassim\bibnamedelima Nicholas},
+           giveni={N\bibinitperiod\bibinitdelim N\bibinitperiod}}}%
+      }
+      \list{location}{1}{%
+        {New York, NY, USA}%
+      }
+      \list{publisher}{1}{%
+        {Random House}%
+      }
+      \strng{namehash}{97221c67145aabda05afac891300d180}
+      \strng{fullhash}{97221c67145aabda05afac891300d180}
+      \strng{bibnamehash}{97221c67145aabda05afac891300d180}
+      \strng{authorbibnamehash}{97221c67145aabda05afac891300d180}
+      \strng{authornamehash}{97221c67145aabda05afac891300d180}
+      \strng{authorfullhash}{97221c67145aabda05afac891300d180}
+      \field{extraname}{2}
+      \field{sortinit}{T}
+      \field{sortinithash}{9af77f0292593c26bde9a56e688eaee9}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{title}{{A}ntifragile: {T}hings {T}hat {G}ain from {D}isorder}
+      \field{year}{2012}
+    \endentry
+    \entry{taleb:2018}{book}{}
+      \name{author}{1}{}{%
+        {{hash=97221c67145aabda05afac891300d180}{%
+           family={Taleb},
+           familyi={T\bibinitperiod},
+           given={Nassim\bibnamedelima Nicholas},
+           giveni={N\bibinitperiod\bibinitdelim N\bibinitperiod}}}%
+      }
+      \list{location}{1}{%
+        {New York, NY, USA}%
+      }
+      \list{publisher}{1}{%
+        {Random House}%
+      }
+      \strng{namehash}{97221c67145aabda05afac891300d180}
+      \strng{fullhash}{97221c67145aabda05afac891300d180}
+      \strng{bibnamehash}{97221c67145aabda05afac891300d180}
+      \strng{authorbibnamehash}{97221c67145aabda05afac891300d180}
+      \strng{authornamehash}{97221c67145aabda05afac891300d180}
+      \strng{authorfullhash}{97221c67145aabda05afac891300d180}
+      \field{extraname}{3}
+      \field{sortinit}{T}
+      \field{sortinithash}{9af77f0292593c26bde9a56e688eaee9}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{title}{Skin in the Game: Hidden Asymmetries in Daily Life}
+      \field{year}{2018}
+    \endentry
+    \entry{trump:1987}{book}{}
+      \name{author}{2}{}{%
+        {{hash=152cbbc0983c550297856ad2b0491a53}{%
+           family={Trump},
+           familyi={T\bibinitperiod},
+           given={Donald\bibnamedelima J.},
+           giveni={D\bibinitperiod\bibinitdelim J\bibinitperiod}}}%
+        {{hash=45cf3b6b5ef43ccc4e9e9bcca74b3304}{%
+           family={Schwartz},
+           familyi={S\bibinitperiod},
+           given={Tony},
+           giveni={T\bibinitperiod}}}%
+      }
+      \list{location}{1}{%
+        {New York, NY, USA}%
+      }
+      \list{publisher}{1}{%
+        {Random House}%
+      }
+      \strng{namehash}{71018392c246cec58adf8c65aca2f17c}
+      \strng{fullhash}{71018392c246cec58adf8c65aca2f17c}
+      \strng{bibnamehash}{71018392c246cec58adf8c65aca2f17c}
+      \strng{authorbibnamehash}{71018392c246cec58adf8c65aca2f17c}
+      \strng{authornamehash}{71018392c246cec58adf8c65aca2f17c}
+      \strng{authorfullhash}{71018392c246cec58adf8c65aca2f17c}
+      \field{sortinit}{T}
+      \field{sortinithash}{9af77f0292593c26bde9a56e688eaee9}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{title}{Trump: The Art of the Deal}
+      \field{year}{1987}
+    \endentry
+  \enddatalist
+\endrefsection
+
+\refsection{1}
+  \datalist[entry]{nyt/global//global/global}
+    \entry{Isenberg2006}{inproceedings}{}
+      \name{author}{3}{}{%
+        {{hash=1f980758856350b3e536e3581ce77885}{%
+           family={Isenberg},
+           familyi={I\bibinitperiod},
+           given={Tobias},
+           giveni={T\bibinitperiod}}}%
+        {{hash=649da87eb5b9d8d2ebdb1d3fbd59d0f1}{%
+           family={Miede},
+           familyi={M\bibinitperiod},
+           given={André},
+           giveni={A\bibinitperiod}}}%
+        {{hash=7392c87f336887365212b906f7e36640}{%
+           family={Carpendale},
+           familyi={C\bibinitperiod},
+           given={Sheelagh},
+           giveni={S\bibinitperiod}}}%
+      }
+      \list{publisher}{1}{%
+        {IEEE}%
+      }
+      \strng{namehash}{f4f23bdf85877b6d3758462529cc72a8}
+      \strng{fullhash}{f4f23bdf85877b6d3758462529cc72a8}
+      \strng{bibnamehash}{f4f23bdf85877b6d3758462529cc72a8}
+      \strng{authorbibnamehash}{f4f23bdf85877b6d3758462529cc72a8}
+      \strng{authornamehash}{f4f23bdf85877b6d3758462529cc72a8}
+      \strng{authorfullhash}{f4f23bdf85877b6d3758462529cc72a8}
+      \field{sortinit}{I}
+      \field{sortinithash}{8d291c51ee89b6cd86bf5379f0b151d8}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{booktitle}{Proceedings of the Fourth International Conference on Creating, Connecting, and Collaborating through Computing (C\textsuperscript{\,5} 2006)}
+      \field{isbn}{978-0-7695-2563-1}
+      \field{title}{{A} {B}uffer {F}ramework for {S}upporting {R}esponsive {I}nteraction in {I}nformation {V}isualization {I}nterfaces}
+      \field{year}{2006}
+      \true{nocite}
+      \field{pages}{262\bibrangedash 269}
+      \range{pages}{8}
+    \endentry
+    \entry{Lampe2013c}{inproceedings}{}
+      \name{author}{5}{}{%
+        {{hash=46adc8d3a9f1a84b7fb5c70fe2211373}{%
+           family={Lampe},
+           familyi={L\bibinitperiod},
+           given={Ulrich},
+           giveni={U\bibinitperiod}}}%
+        {{hash=a9b75e0972b1211dd5d4455e12456d28}{%
+           family={Kieselmann},
+           familyi={K\bibinitperiod},
+           given={Markus},
+           giveni={M\bibinitperiod}}}%
+        {{hash=649da87eb5b9d8d2ebdb1d3fbd59d0f1}{%
+           family={Miede},
+           familyi={M\bibinitperiod},
+           given={André},
+           giveni={A\bibinitperiod}}}%
+        {{hash=efc77651494ceb55b7e13bef576da918}{%
+           family={Zöl\-ler},
+           familyi={Z\bibinithyphendelim l\bibinitperiod},
+           given={Sebastian},
+           giveni={S\bibinitperiod}}}%
+        {{hash=9eea3638fa9a97f4054f44f5e740579c}{%
+           family={Steinmetz},
+           familyi={S\bibinitperiod},
+           given={Ralf},
+           giveni={R\bibinitperiod}}}%
+      }
+      \list{publisher}{1}{%
+        {Springer}%
+      }
+      \strng{namehash}{9212aab238fa18c094b1bb4902e15286}
+      \strng{fullhash}{999131e71ca50adb1191e0d6831452cd}
+      \strng{bibnamehash}{9212aab238fa18c094b1bb4902e15286}
+      \strng{authorbibnamehash}{9212aab238fa18c094b1bb4902e15286}
+      \strng{authornamehash}{9212aab238fa18c094b1bb4902e15286}
+      \strng{authorfullhash}{999131e71ca50adb1191e0d6831452cd}
+      \field{extraname}{1}
+      \field{sortinit}{L}
+      \field{sortinithash}{7c47d417cecb1f4bd38d1825c427a61a}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{booktitle}{Proceedings of the Second European Conference on Service-Oriented and Cloud Computing (ESOCC 2013)}
+      \field{isbn}{978-3-642-40650-8}
+      \field{title}{{A} {T}ale of {M}illis and {N}anos: {O}n the {A}ccuracy of {T}ime {M}easurements in {V}irtual {M}achines}
+      \field{year}{2013}
+      \true{nocite}
+      \field{pages}{172\bibrangedash 179}
+      \range{pages}{8}
+    \endentry
+    \entry{Lampe2013a}{inproceedings}{}
+      \name{author}{5}{}{%
+        {{hash=46adc8d3a9f1a84b7fb5c70fe2211373}{%
+           family={Lampe},
+           familyi={L\bibinitperiod},
+           given={Ulrich},
+           giveni={U\bibinitperiod}}}%
+        {{hash=0e81b7f48acf5d9b1d1a4ea84152383f}{%
+           family={Wu},
+           familyi={W\bibinitperiod},
+           given={Qiong},
+           giveni={Q\bibinitperiod}}}%
+        {{hash=e6e4fa305a3f8ff4da61928eb5995a36}{%
+           family={Hans},
+           familyi={H\bibinitperiod},
+           given={Ronny},
+           giveni={R\bibinitperiod}}}%
+        {{hash=649da87eb5b9d8d2ebdb1d3fbd59d0f1}{%
+           family={Miede},
+           familyi={M\bibinitperiod},
+           given={André},
+           giveni={A\bibinitperiod}}}%
+        {{hash=9eea3638fa9a97f4054f44f5e740579c}{%
+           family={Steinmetz},
+           familyi={S\bibinitperiod},
+           given={Ralf},
+           giveni={R\bibinitperiod}}}%
+      }
+      \strng{namehash}{9212aab238fa18c094b1bb4902e15286}
+      \strng{fullhash}{6bb5c42124959e66ebb9f909475f8d08}
+      \strng{bibnamehash}{9212aab238fa18c094b1bb4902e15286}
+      \strng{authorbibnamehash}{9212aab238fa18c094b1bb4902e15286}
+      \strng{authornamehash}{9212aab238fa18c094b1bb4902e15286}
+      \strng{authorfullhash}{6bb5c42124959e66ebb9f909475f8d08}
+      \field{extraname}{2}
+      \field{sortinit}{L}
+      \field{sortinithash}{7c47d417cecb1f4bd38d1825c427a61a}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{booktitle}{Proceedings of the Third International Conference on Cloud Computing and Services Science (CLOSER 2013)}
+      \field{isbn}{9780618002221}
+      \field{title}{{T}o {F}rag {O}r {T}o {B}e {F}ragged -- {A}n {E}mpirical {A}ssessment of {L}atency in {C}loud {G}aming}
+      \field{year}{2013}
+      \true{nocite}
+      \field{pages}{5\bibrangedash 12}
+      \range{pages}{8}
+    \endentry
+    \entry{Miede2010:tugboat}{article}{}
+      \name{author}{1}{}{%
+        {{hash=649da87eb5b9d8d2ebdb1d3fbd59d0f1}{%
+           family={Miede},
+           familyi={M\bibinitperiod},
+           given={André},
+           giveni={A\bibinitperiod}}}%
+      }
+      \strng{namehash}{649da87eb5b9d8d2ebdb1d3fbd59d0f1}
+      \strng{fullhash}{649da87eb5b9d8d2ebdb1d3fbd59d0f1}
+      \strng{bibnamehash}{649da87eb5b9d8d2ebdb1d3fbd59d0f1}
+      \strng{authorbibnamehash}{649da87eb5b9d8d2ebdb1d3fbd59d0f1}
+      \strng{authornamehash}{649da87eb5b9d8d2ebdb1d3fbd59d0f1}
+      \strng{authorfullhash}{649da87eb5b9d8d2ebdb1d3fbd59d0f1}
+      \field{sortinit}{M}
+      \field{sortinithash}{4625c616857f13d17ce56f7d4f97d451}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{issn}{0896-3207}
+      \field{journaltitle}{TUGboat -- The Communications of the \TeX{} Users Group}
+      \field{number}{1}
+      \field{title}{{T}heses and other {B}eautiful {D}ocuments with \texttt{clas\-sic\-the\-sis}}
+      \field{volume}{31}
+      \field{year}{2010}
+      \true{nocite}
+      \field{pages}{18\bibrangedash 20}
+      \range{pages}{3}
+      \keyw{classicthesis}
+    \endentry
+    \entry{Miede2011}{inproceedings}{}
+      \name{author}{6}{}{%
+        {{hash=649da87eb5b9d8d2ebdb1d3fbd59d0f1}{%
+           family={Miede},
+           familyi={M\bibinitperiod},
+           given={André},
+           giveni={A\bibinitperiod}}}%
+        {{hash=25522e74f470ac7ce15d47beea66d42c}{%
+           family={Şimşek},
+           familyi={Ş\bibinitperiod},
+           given={Gökhan},
+           giveni={G\bibinitperiod}}}%
+        {{hash=fc6deee08b5bd035dcd6e504cf0ba551}{%
+           family={Schulte},
+           familyi={S\bibinitperiod},
+           given={Stefan},
+           giveni={S\bibinitperiod}}}%
+        {{hash=cd77ba6b9e19e4531696581f8054ffdd}{%
+           family={Abawi},
+           familyi={A\bibinitperiod},
+           given={Daniel\bibnamedelima F.},
+           giveni={D\bibinitperiod\bibinitdelim F\bibinitperiod}}}%
+        {{hash=0edfadb18d424395bc407be2f431cfec}{%
+           family={Eckert},
+           familyi={E\bibinitperiod},
+           given={Julian},
+           giveni={J\bibinitperiod}}}%
+        {{hash=9eea3638fa9a97f4054f44f5e740579c}{%
+           family={Steinmetz},
+           familyi={S\bibinitperiod},
+           given={Ralf},
+           giveni={R\bibinitperiod}}}%
+      }
+      \strng{namehash}{df626deee9e838e0e6f1a1d4b00c4153}
+      \strng{fullhash}{7bbdf861e8787f87eb29a02e6cb81e66}
+      \strng{bibnamehash}{df626deee9e838e0e6f1a1d4b00c4153}
+      \strng{authorbibnamehash}{df626deee9e838e0e6f1a1d4b00c4153}
+      \strng{authornamehash}{df626deee9e838e0e6f1a1d4b00c4153}
+      \strng{authorfullhash}{7bbdf861e8787f87eb29a02e6cb81e66}
+      \field{sortinit}{M}
+      \field{sortinithash}{4625c616857f13d17ce56f7d4f97d451}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{booktitle}{Proceedings of the Tenth International Conference Wirtschaftsinformatik (WI 2011)}
+      \field{isbn}{978-1-4467-9236-0}
+      \field{title}{{R}evealing {B}usiness {R}elationships -- {E}avesdropping {C}ross-organizational {C}ollaboration in the {I}nternet of {S}ervices}
+      \field{volume}{2}
+      \field{year}{2011}
+      \true{nocite}
+      \field{pages}{1083\bibrangedash 1092}
+      \range{pages}{10}
+    \endentry
+    \entry{Tsai2012}{article}{}
+      \name{author}{5}{}{%
+        {{hash=37184b1834eef3bb9eca9a49925ebb0e}{%
+           family={Tsai},
+           familyi={T\bibinitperiod},
+           given={Hsin-Yi},
+           giveni={H\bibinithyphendelim Y\bibinitperiod}}}%
+        {{hash=b9d10de0403667089bebbcf6a0f2f745}{%
+           family={Siebenhaar},
+           familyi={S\bibinitperiod},
+           given={Melanie},
+           giveni={M\bibinitperiod}}}%
+        {{hash=649da87eb5b9d8d2ebdb1d3fbd59d0f1}{%
+           family={Miede},
+           familyi={M\bibinitperiod},
+           given={André},
+           giveni={A\bibinitperiod}}}%
+        {{hash=182d6ad509322cd0ce1ab7bcc9948904}{%
+           family={Huang},
+           familyi={H\bibinitperiod},
+           given={Yu-Lun},
+           giveni={Y\bibinithyphendelim L\bibinitperiod}}}%
+        {{hash=9eea3638fa9a97f4054f44f5e740579c}{%
+           family={Steinmetz},
+           familyi={S\bibinitperiod},
+           given={Ralf},
+           giveni={R\bibinitperiod}}}%
+      }
+      \strng{namehash}{f89c8a1b6c775cc6e8a848cea525dce7}
+      \strng{fullhash}{28ed84b66e77dbb5afb4b51ad2f48caa}
+      \strng{bibnamehash}{f89c8a1b6c775cc6e8a848cea525dce7}
+      \strng{authorbibnamehash}{f89c8a1b6c775cc6e8a848cea525dce7}
+      \strng{authornamehash}{f89c8a1b6c775cc6e8a848cea525dce7}
+      \strng{authorfullhash}{28ed84b66e77dbb5afb4b51ad2f48caa}
+      \field{sortinit}{T}
+      \field{sortinithash}{9af77f0292593c26bde9a56e688eaee9}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{issn}{1520-9202}
+      \field{journaltitle}{IEEE IT Professional}
+      \field{number}{1}
+      \field{title}{{T}hreat as a {S}ervice? {V}irtualization's {I}mpact on {C}loud {S}ecurity}
+      \field{volume}{14}
+      \field{year}{2012}
+      \true{nocite}
+      \field{pages}{32\bibrangedash 37}
+      \range{pages}{6}
+    \endentry
+  \enddatalist
+\endrefsection
+\endinput
+

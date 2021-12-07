@@ -1,0 +1,105 @@
+\RequirePackage{silence} % :-\
+    \WarningFilter{scrreprt}{Usage of package `titlesec'}
+    %\WarningFilter{scrreprt}{Activating an ugly workaround}
+    \WarningFilter{titlesec}{Non standard sectioning command detected}
+\documentclass[twoside,openright,titlepage,numbers=noenddot,%1headlines,
+                headinclude,footinclude,cleardoublepage=empty,abstract=on,
+                BCOR=5mm,paper=b5,fontsize=11pt
+                ]{scrreprt}
+
+% python terminal: 
+% import os, shutil;new='jakob_daniel_18409686_MEEN30020_2020-21_assign1_report.pdf';os.replace(r'main.pdf',new); newPath = shutil.copy(new, '../')
+
+
+% latexmk -lualatex -auxdir=".aux" -shell-escape -recorder-  main.tex
+% lualatex  -shell-escape -aux-directory=".aux"  "main.tex"
+% makeindex -s nomencl.ist -t "main.nlg" -o "main.nls" ".aux/main.nlo"
+% biber  ".aux/main.bcf"
+
+%********************************************************************
+% Note: Make all your adjustments in here
+%*******************************************************
+\input{classicthesis-config}
+
+%********************************************************************
+% Bibliographies
+%*******************************************************
+\addbibresource{bibliography/bibliography.bib}
+\addbibresource[label=ownpubs]{bibliography/AMiede_Publications.bib}
+
+%********************************************************************
+% Hyphenation
+%*******************************************************
+%\hyphenation{put special hyphenation here}
+
+\newlength{\maxfigurewidth}
+
+% ********************************************************************
+% GO!GO!GO! MOVE IT!
+%*******************************************************
+%\newcolumntype{Z}{S[round-mode=places, round-precision=3,table-number-alignment = center] }
+\makeindex
+\begin{document}
+\frenchspacing
+\raggedbottom
+\selectlanguage{british} % american ngerman
+%\renewcommand*{\bibname}{new name}
+%\setbibpreamble{}
+\pagenumbering{roman}
+\pagestyle{plain}
+%********************************************************************
+% Frontmatter
+%*******************************************************
+\include{frontbackmatter/DirtyTitlepage}
+\include{frontbackmatter/Titlepage}
+\include{frontbackmatter/Titleback}
+\cleardoublepage\include{frontbackmatter/Dedication}
+%\cleardoublepage\include{frontbackmatter/Foreword}
+\cleardoublepage\include{frontbackmatter/Abstract}
+\cleardoublepage\include{frontbackmatter/Publications}
+\cleardoublepage\include{frontbackmatter/Acknowledgments}
+\cleardoublepage\input{frontbackmatter/Nomenclature}
+\cleardoublepage\include{frontbackmatter/Contents}
+%********************************************************************
+% Mainmatter
+%*******************************************************
+\cleardoublepage
+\pagestyle{scrheadings}
+\pagenumbering{arabic}
+%\setcounter{page}{90}
+% use \cleardoublepage here to avoid problems with pdfbookmark
+\cleardoublepage
+\part{Some Kind of Manual}\label{pt:manual}
+\include{chapters/Chapter01}
+\cleardoublepage
+\ctparttext{You can put some informational part preamble text here.
+Illo principalmente su nos. Non message \emph{occidental} angloromanic
+da. Debitas effortio simplificate sia se, auxiliar summarios da que,
+se avantiate publicationes via. Pan in terra summarios, capital
+interlingua se que. Al via multo esser specimen, campo responder que
+da. Le usate medical addresses pro, europa origine sanctificate nos se.}
+\part{The Showcase}\label{pt:showcase}
+\include{chapters/Chapter02}
+%\addtocontents{toc}{\protect\clearpage} % <--- just debug stuff, ignore
+\include{chapters/Chapter03}
+%\include{multiToC} % <--- just debug stuff, ignore for your documents
+% ********************************************************************
+% Backmatter
+%*******************************************************
+\appendix
+%\renewcommand{\thechapter}{\alph{chapter}}
+\cleardoublepage
+\part{Appendix}
+\include{chapters/Chapter0A}
+%********************************************************************
+% Other Stuff in the Back
+%*******************************************************
+\bookmarksetup{startatroot}
+\cleardoublepage\include{frontbackmatter/Bibliography}
+\cleardoublepage\include{frontbackmatter/Declaration}
+\cleardoublepage\include{frontbackmatter/Colophon}
+% ********************************************************************
+% Game Over: Restore, Restart, or Quit?
+%*******************************************************
+\end{document}
+% ********************************************************************

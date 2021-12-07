@@ -1,0 +1,8 @@
+\nomenclatureentry{A\(c\)@[{\(c\)}]\begingroup \href{https://physics.nist.gov/cgi-bin/cuu/Value?c} {Speed of light in a vacuum} \nomunit{\SI{299792458}{\meter\per\second}}\nomeqref {0.0}|nompageref}{xiii}
+\nomenclatureentry{A\(h\)@[{\(h\)}]\begingroup \href{https://physics.nist.gov/cgi-bin/cuu/Value?h} {Planck constant} \nomunit{\SI[group-digits=false]{6.62607015e-34}{\joule\per\hertz}}\nomeqref {0.0}|nompageref}{xiii}
+\nomenclatureentry{A\(G\)@[{\(G\)}]\begingroup \href{https://physics.nist.gov/cgi-bin/cuu/Value?bg} {Gravitational constant} \nomunit{\SI[group-digits=false]{6.67430e-11}{\meter\cubed\per\kilogram\per\second\squared}}\nomeqref {0.0}|nompageref}{xiii}
+\nomenclatureentry{B\(\mathbb{R}\)@[{\(\mathbb{R}\)}]\begingroup Real numbers\nomeqref {0.0}|nompageref}{xiii}
+\nomenclatureentry{B\(\mathbb{C}\)@[{\(\mathbb{C}\)}]\begingroup Complex numbers\nomeqref {0.0}|nompageref}{xiii}
+\nomenclatureentry{B\(\mathbb{H}\)@[{\(\mathbb{H}\)}]\begingroup Quaternions\nomeqref {0.0}|nompageref}{xiii}
+\nomenclatureentry{C\(V\)@[{\(V\)}]\begingroup Constant volume\nomeqref {0.0}|nompageref}{xiii}
+\nomenclatureentry{C\(\rho\)@[{\(\rho\)}]\begingroup Friction index\nomeqref {0.0}|nompageref}{xiii}
