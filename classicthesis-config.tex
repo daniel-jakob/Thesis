@@ -101,14 +101,13 @@ natbib=true % natbib compatibility mode (\citep and \citet still work)
 \graphicspath{{figures/}}
 \usepackage{scrhack} % fix warnings when using KOMA with listings package
 \usepackage{xspace} % to get the spacing after macros right
-\PassOptionsToPackage{printonlyused,smaller}{acronym}
-  \usepackage{acronym} % nice macros for handling all acronyms in the thesis
-  %\renewcommand{\bflabel}[1]{{#1}\hfill} % fix the list of acronyms --> no longer working
-  %\renewcommand*{\acsfont}[1]{\textsc{#1}}
-  %\renewcommand*{\aclabelfont}[1]{\acsfont{#1}}
-  %\def\bflabel#1{{#1\hfill}}
-  \def\bflabel#1{{\acsfont{#1}\hfill}}
-  \def\aclabelfont#1{\acsfont{#1}}
+\usepackage[printonlyused,smaller]{acronym} % nice macros for handling all acronyms in the thesis
+%\renewcommand{\bflabel}[1]{{#1}\hfill} % fix the list of acronyms --> no longer working
+%\renewcommand*{\acsfont}[1]{\textsc{#1}}
+%\renewcommand*{\aclabelfont}[1]{\acsfont{#1}}
+%\def\bflabel#1{{#1\hfill}}
+\def\bflabel#1{{\acsfont{#1}\hfill}}
+\def\aclabelfont#1{\acsfont{#1}}
 
 \usepackage{enumitem}
 \renewcommand{\theenumi}{\arabic{enumi}.}
@@ -321,6 +320,9 @@ natbib=true % natbib compatibility mode (\citep and \citet still work)
 \renewcommand\thesubfigure{(\alph{subfigure})}
 
 \usepackage{xurl}
+
+\counterwithout*{footnote}{chapter}
+\counterwithout*{footnote}{part}
 
 % ********************************************************************
 % Setup autoreferences (hyperref and babel)
