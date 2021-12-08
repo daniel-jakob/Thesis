@@ -19,6 +19,8 @@
 \usepackage[utf8]{inputenc}
 \usepackage[T1]{fontenc} % T2A for cyrillics
 
+\usepackage[british]{babel}
+
 \usepackage[british]{datetime2} % Edit \today date display
 \DTMlangsetup[en-GB]{ord=raise}
 
@@ -27,20 +29,22 @@
 % ****************************************************************************************************
 \newcommand{\myTitle}{A Classic Thesis Style\xspace}
 \newcommand{\mySubtitle}{An Homage to The Elements of Typographic Style\xspace}
-\newcommand{\myDegree}{Mechanical Engineering Masters (MEng.)\xspace}
+\newcommand{\myDegree}{Mechanical Engineering Master's (MEng.)\xspace}
 \newcommand{\myName}{Daniel Jakob\xspace}
-\newcommand{\myProf}{Put name here\xspace}
-\newcommand{\myOtherProf}{Put name here\xspace}
-\newcommand{\mySupervisor}{Put name here\xspace}
-\newcommand{\myExaminer}{Put name here\xspace}
+\newcommand{\myProf}{Dr. Kevin Nolan\xspace}
+\newcommand{\myOtherProf}{Dr. William Smith\xspace}
+\newcommand{\mySupervisor}{Prof. Donal Finn\xspace}
+\newcommand{\myExaminer}{Dr. Joseph Bourke\xspace}
 \newcommand{\myFaculty}{College of Engineering \& Architecture\xspace}
 \newcommand{\myDepartment}{School of Mechanical and Materials Engineering\xspace}
 \newcommand{\myUni}{University College Dublin\xspace}
-\newcommand{\myLocation}{Belfield, Dublin\xspace}
-\newcommand{\myTime}{August 2022\xspace}
+\newcommand{\myLocation}{Belfield, Dublin 4\xspace}
+\newcommand{\myCountry}{Ireland\xspace}
+\newcommand{\myPrintLocation}{Ballsbridge, Dublin 6, Ireland}
+%\newcommand{\myTime}{August 2022\xspace}
 \newcommand{\myVersion}{v0.1}
 \newcommand{\ctVersion}{\classicthesis}
-\newcommand{\mykeywords}{Masters Thesis, Mechanical Engineering}
+\newcommand{\mykeywords}{Master's Thesis, Mechanical Engineering}
 \newcommand{\mysubject}{Study of XXX, Mechanical Engineering}
 
 \DTMsavedate{submitdate}{2021-10-9}
@@ -67,7 +71,7 @@
 % ********************************************************************
 % Spanish languages need extra options in order to work with this template
 %\PassOptionsToPackage{spanish,es-lcroman}{babel}
-\usepackage[british]{babel}
+
 
 
 
@@ -119,7 +123,7 @@ natbib=true % natbib compatibility mode (\citep and \citet still work)
 \renewcommand{\theenumiv}{\Alph{enumiv}.}
 \renewcommand{\labelenumiv}{\theenumiv}
 
-\usepackage{siunitx}
+\usepackage[tight-spacing=true]{siunitx}
 
 \usepackage{nomencl}
 \makenomenclature
@@ -165,11 +169,16 @@ natbib=true % natbib compatibility mode (\citep and \citet still work)
 % Need to use MATLAB2TikZ %%% 
 % \usepackage{pgfplots}
 % \pgfplotsset{compat=1.17}
-% \usetikzlibrary{plotmarks}
-% \usetikzlibrary{arrows.meta}
 % \usepgfplotslibrary{patchplots}
 % \usepackage{grffile}
-% \usetikzlibrary{arrows,calc,intersections,positioning,angles, quotes}
+% \usetikzlibrary{arrows,
+                  %calc,
+                  %intersections,
+                  %positioning,
+                  %angles, 
+                  %quotes,
+                  %plotmarks, 
+                  %arrows.meta}
 % \usepackage{tikz-3dplot}
 
 
@@ -278,7 +287,9 @@ natbib=true % natbib compatibility mode (\citep and \citet still work)
 
 \hypersetup{%
   %draft, % hyperref's draft mode, for printing see below
-  colorlinks=true, linktocpage=true, pdfstartpage=3, pdfstartview=FitV,%
+  colorlinks=true, linktocpage=true, %pdfstartpage=3, 
+  pdfstartview=FitV,%
+  %pdfpagelayout=TwoPageRight,
   % uncomment the following line if you want to have black links (e.g., for printing)
   %colorlinks=false, linktocpage=false, pdfstartpage=3, pdfstartview=FitV, pdfborder={0 0 0},%
   breaklinks=true, pageanchor=true,%
@@ -289,7 +300,7 @@ natbib=true % natbib compatibility mode (\citep and \citet still work)
   urlcolor=CTurl, linkcolor=CTlink, citecolor=CTcitation, %pagecolor=RoyalBlue,%
   %urlcolor=Black, linkcolor=Black, citecolor=Black, %pagecolor=Black,%
   pdftitle={\myTitle},%
-  pdfauthor={\textcopyright\ \myName, \myUni, \myFaculty},%
+  pdfauthor={\textcopyright~\myName,~\myUni,~\myFaculty},%
   pdfsubject={\mysubject},%
   pdfkeywords={\mykeywords},%
   pdfcreator={LuaLaTeX},%
@@ -300,7 +311,7 @@ natbib=true % natbib compatibility mode (\citep and \citet still work)
 \Crefname{equation}{Eq.}{Eqs.}
 \Crefname{table}{Tbl.}{Tbls.}
 \Crefname{listing}{List.}{Lists.}
-\Crefname{paragraph}{Para.}{Paras.}
+%\Crefname{paragraph}{Para.}{Paras.}
 \Crefname{chapter}{Chpt.}{Chpts.}
 \Crefname{part}{Pt.}{Pts.}
 \Crefname{section}{Sec.}{Secs.}
@@ -323,6 +334,7 @@ natbib=true % natbib compatibility mode (\citep and \citet still work)
 
 \counterwithout*{footnote}{chapter}
 \counterwithout*{footnote}{part}
+
 
 % ********************************************************************
 % Setup autoreferences (hyperref and babel)
