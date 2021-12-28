@@ -20,7 +20,7 @@
 \usepackage[T1]{fontenc} % T2A for cyrillics
 
 \usepackage[british]{babel}
-
+\usepackage{setspace}
 \usepackage[british]{datetime2} % Edit \today date display
 \DTMlangsetup[en-GB]{ord=raise}
 
@@ -31,6 +31,7 @@
 \newcommand{\mySubtitle}{An Homage to The Elements of Typographic Style\xspace}
 \newcommand{\myDegree}{Mechanical Engineering Master's (MEng.)\xspace}
 \newcommand{\myName}{Daniel Jakob\xspace}
+\newcommand{\myStdNumber}{18409686}
 \newcommand{\myProf}{Dr. Kevin Nolan\xspace}
 \newcommand{\myOtherProf}{Dr. William Smith\xspace}
 \newcommand{\mySupervisor}{Prof. Donal Finn\xspace}
@@ -72,8 +73,9 @@
 % Spanish languages need extra options in order to work with this template
 %\PassOptionsToPackage{spanish,es-lcroman}{babel}
 
-
-
+\usepackage{parskip} % paragraph skips instead of indents 
+%\setlength{\parindent}{0em}
+%\setlength{\parskip}{1em} 
 
 \usepackage{csquotes}
 \usepackage[  
@@ -214,6 +216,14 @@ natbib=true % natbib compatibility mode (\citep and \citet still work)
 % ****************************************************************************************************
 
 
+\appto{\appendix}{ % Makes tables, listing, figures etc appear lowercase.
+\renewcommand\thefigure{\spacedlowsmallcaps{\thechapter}.\arabic{figure}}
+\renewcommand\theequation{\spacedlowsmallcaps{\thechapter}.\arabic{equation}}
+\renewcommand{\thelstlisting}{\spacedlowsmallcaps{\thechapter}.\arabic{lstlisting}}
+\renewcommand\thetable{\spacedlowsmallcaps{\thechapter}.\arabic{table}}
+}
+
+
 % ****************************************************************************************************
 % 4. Setup code listings
 % ****************************************************************************************************
@@ -293,8 +303,8 @@ natbib=true % natbib compatibility mode (\citep and \citet still work)
   % uncomment the following line if you want to have black links (e.g., for printing)
   %colorlinks=false, linktocpage=false, pdfstartpage=3, pdfstartview=FitV, pdfborder={0 0 0},%
   breaklinks=true, pageanchor=true,%
-  pdfpagemode=UseNone, %
-  % pdfpagemode=UseOutlines,%
+  %pdfpagemode=Us eNone, %
+  pdfpagemode=UseOutlines,%
   plainpages=false, bookmarksnumbered, bookmarksopen=true, bookmarksopenlevel=1,%
   hypertexnames=true, pdfhighlight=/O,%nesting=true,%frenchlinks,%
   urlcolor=CTurl, linkcolor=CTlink, citecolor=CTcitation, %pagecolor=RoyalBlue,%
@@ -312,7 +322,7 @@ natbib=true % natbib compatibility mode (\citep and \citet still work)
 \Crefname{table}{Tbl.}{Tbls.}
 \Crefname{listing}{List.}{Lists.}
 %\Crefname{paragraph}{Para.}{Paras.}
-\Crefname{chapter}{Chpt.}{Chpts.}
+\Crefname{chapter}{Chap.}{Chaps.}
 \Crefname{part}{Pt.}{Pts.}
 \Crefname{section}{Sec.}{Secs.}
 \Crefname{subsection}{Subsec.}{Subsecs.}
@@ -389,9 +399,17 @@ natbib=true % natbib compatibility mode (\citep and \citet still work)
 % ********************************************************************
 % Changing the text area
 % ********************************************************************
-%\areaset[current]{312pt}{761pt} % 686 (factor 2.2) + 33 head + 42 head \the\footskip
-%\setlength{\marginparwidth}{7em}%
-%\setlength{\marginparsep}{2em}%
+\usepackage{geometry}
+\geometry{
+  twoside,
+  paper=b5paper,
+  top = 21mm,
+  bottom = 32mm,
+  inner = 25mm,
+  outer = 35mm,
+  bindingoffset=5mm,
+  showframe
+}
 
 % ********************************************************************
 % Using different fonts

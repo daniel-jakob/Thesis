@@ -5,7 +5,7 @@
 \documentclass[twoside,openright,titlepage,numbers=noenddot,%1headlines,
                 headinclude,footinclude,cleardoublepage=empty,abstract=on,
                 BCOR=5mm,paper=b5,fontsize=11pt
-                ]{scrreprt}
+                ]{scrbook}
 
 % python terminal: 
 % import os, shutil;new='jakob_daniel_18409686_MEEN30020_2020-21_assign1_report.pdf';os.replace(r'main.pdf',new); newPath = shutil.copy(new, '../')
@@ -19,7 +19,7 @@
 %********************************************************************
 % Note: Make all your adjustments in here
 %*******************************************************
-\input{classicthesis-config}
+\input{tex/classicthesis-config}
 
 %********************************************************************
 % Bibliographies
@@ -50,19 +50,23 @@
 %********************************************************************
 % Frontmatter
 %*******************************************************
+\spacing{1.213} % One-and-a-half spacing shall be used, except for indented quotations and footnotes, where single spacing may be used.
+\frontmatter
 \include{frontbackmatter/DirtyTitlepage}
 \include{frontbackmatter/Titlepage}
 \include{frontbackmatter/Titleback}
+\cleardoublepage\include{frontbackmatter/Contents}
+\cleardoublepage\include{frontbackmatter/Abstract}
+\cleardoublepage\include{frontbackmatter/Declaration}
+\cleardoublepage\include{frontbackmatter/Acknowledgments}
 \cleardoublepage\include{frontbackmatter/Dedication}
 %\cleardoublepage\include{frontbackmatter/Foreword}
-\cleardoublepage\include{frontbackmatter/Abstract}
 \cleardoublepage\include{frontbackmatter/Publications}
-\cleardoublepage\include{frontbackmatter/Acknowledgments}
 \cleardoublepage\input{frontbackmatter/Nomenclature}
-\cleardoublepage\include{frontbackmatter/Contents}
 %********************************************************************
 % Mainmatter
 %*******************************************************
+\mainmatter
 \cleardoublepage
 \pagestyle{scrheadings}
 \pagenumbering{arabic}
@@ -102,8 +106,8 @@ da. Le usate medical addresses pro, europa origine sanctificate nos se.}
 % Other Stuff in the Back
 %*******************************************************
 \bookmarksetup{startatroot}
+\backmatter
 \cleardoublepage\include{frontbackmatter/Bibliography}
-\cleardoublepage\include{frontbackmatter/Declaration}
 \cleardoublepage\include{frontbackmatter/Colophon}
 % ********************************************************************
 % Game Over: Restore, Restart, or Quit?

@@ -106,6 +106,8 @@
 \RequirePackage{ifxetex}
 \RequirePackage{ifluatex}
 
+\directlua{pdf.setminorversion(7)}
+
 % ********************************************************************
 % Colors
 % ********************************************************************
@@ -197,9 +199,20 @@
     {% B5 176mm x 250mm
             % Thanks to Jos\'e M. Alcaide
             \PackageInfo{classicthesis}{B5 paper, Palatino or other}%
-            \areaset[current]{311pt}{645pt}%
+            %\areaset[current]{311pt}{645pt}%
             \setlength{\marginparwidth}{6em}%
             \setlength{\marginparsep}{1.5em}%
+            \usepackage{geometry}
+            \geometry{
+              twoside,
+              paper=b5paper,
+              top = 21mm,
+              bottom = 32mm,
+              inner = 25mm,
+              outer = 35mm,
+              bindingoffset=5mm,
+              showframe
+            }
     }{\relax}
 \ifthenelse{\equal{\ct@paper}{a5}}%
     {% A5 148mm x 210mm
@@ -282,7 +295,7 @@
       \PackageInfo{classicthesis}{Using microtype for character spacing.%
                                   Make sure your pdflatex is version 1.40 or higher.}%
       % \microtypesetup{expansion=false}
-      \microtypesetup{protrusion=true,expansion=true}
+      \microtypesetup{protrusion=true,expansion=true,final,babel}
       \DeclareRobustCommand{\spacedallcaps}[1]{\textls[160]{\ct@caps\MakeTextUppercase{#1}}}
       \DeclareRobustCommand{\spacedlowsmallcaps}[1]{\textls[80]{\ct@caps\MakeTextLowercase{#1}}}
       }{\relax}
