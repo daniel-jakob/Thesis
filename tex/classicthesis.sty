@@ -210,7 +210,7 @@
               bottom = 32mm,
               inner = 25mm,
               outer = 35mm,
-              bindingoffset=5mm,
+              bindingoffset=10mm,
               showframe
             }
     }{\relax}
@@ -664,3 +664,11 @@
 \let\myChapter\chapter
 \let\myPart\part
 \let\graffito\marginpar
+
+\RequirePackage[ruled,vlined]{algorithm2e} % algorithm package 
+
+% fixes issue with cross reference to algorithm not going to the actual top of the caption
+\let\old@algocf@pre@ruled\@algocf@pre@ruled
+\renewcommand{\@algocf@pre@ruled}{%
+  \Hy@raisedlink{\hyper@anchorstart{algocf.\thealgocf}\hyper@anchorend}%
+  \old@algocf@pre@ruled}

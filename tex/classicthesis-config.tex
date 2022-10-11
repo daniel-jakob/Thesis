@@ -33,9 +33,10 @@
 \newcommand{\myName}{Daniel Jakob\xspace}
 \newcommand{\myStdNumber}{18409686}
 \newcommand{\myProf}{Prof. Donal Finn\xspace}
+\newcommand{\HoS}{Prof. Kenneth Stanton\xspace}
 %\newcommand{\myOtherProf}{hmm\xspace}
 %\newcommand{\mySupervisor}{Prof. Donal Finn\xspace}
-\newcommand{\myCollaborator}{Prof. Dr. Mohammad Saffari\xspace}
+\newcommand{\myCollaborator}{Dr. Mohammad Saffari\xspace}
 \newcommand{\myExaminer}{Dr. Joe Bloggs\xspace}
 \newcommand{\myFaculty}{College of Engineering \& Architecture\xspace}
 \newcommand{\myDepartment}{School of Mechanical and Materials Engineering\xspace}
@@ -49,19 +50,20 @@
 \newcommand{\mykeywords}{Hybrid heat pumps}
 \newcommand{\mysubject}{Analysis of a Hybrid Heat Pump Configuration in a Residential Home, Mechanical Engineering}
 
-\DTMsavedate{submitdate}{2021-10-9}
-\DTMsavedate{duedate}{2021-11-10}
-\DTMsavedate{printdate}{2022-8-9}
+\DTMsavedate{submitdate}{2023-05-22}
+\DTMsavedate{duedate}{2024-11-10}
+\DTMsavedate{printdate}{2023-05-15}
 
 
 % ********************************************************************
 % Setup, finetuning, and useful commands
 % ********************************************************************
 \providecommand{\mLyX}{L\kern-.1667em\lower.25em\hbox{Y}\kern-.125emX\@}
-\newcommand{\ie}{i.\,e.}
-\newcommand{\Ie}{I.\,e.}
-\newcommand{\eg}{e.\,g.}
-\newcommand{\Eg}{E.\,g.}
+\newcommand{\ie}{i.\,e.,}
+\newcommand{\Ie}{I.\,e.,}
+\newcommand{\eg}{e.\,g.,}
+\newcommand{\Eg}{E.\,g.,}
+\newcommand{\modelica}{\texttt{Modelica}}
 % ****************************************************************************************************
 
 
@@ -194,13 +196,7 @@ natbib=true % natbib compatibility mode (\citep and \citet still work)
 
 %\pgfkeys{/pgf/plot/gnuplot call={cd .aux && gnuplot}}
 
-% \RequirePackage[ruled,vlined]{algorithm2e} % algorithm package 
-
-% % fixes issue with cross reference to algorithm not going to the actual top of the caption
-% \let\old@algocf@pre@ruled\@algocf@pre@ruled
-% \renewcommand{\@algocf@pre@ruled}{%
-%   \Hy@raisedlink{\hyper@anchorstart{algocf.\thealgocf}\hyper@anchorend}%
-%   \old@algocf@pre@ruled}
+\usepackage[ruled,vlined]{algorithm2e}
 
 % ****************************************************************************************************
 % 3. Setup floats: tables, (sub)figures, and captions
@@ -408,7 +404,7 @@ natbib=true % natbib compatibility mode (\citep and \citet still work)
   bottom = 32mm,
   inner = 25mm,
   outer = 35mm,
-  bindingoffset=5mm,
+  bindingoffset=10mm,
   %showframe
 }
 

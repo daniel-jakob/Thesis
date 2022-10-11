@@ -1,0 +1,14 @@
+*.aux
+*.nlg
+*.nls
+*.code-workspace
+*.synctex.gz
+*.synctex(busy)
+desktop.ini
+**/desktop.ini
+*.ini
+
+
+.aux/
+!.aux/.minted
+!.aux/tikzexternalize

@@ -25,7 +25,8 @@
 % Bibliographies
 %*******************************************************
 \addbibresource{bibliography/bibliography.bib}
-\addbibresource[label=ownpubs]{bibliography/AMiede_Publications.bib}
+\addbibresource{bibliography/zotero.bib}
+%\addbibresource[label=ownpubs]{bibliography/AMiede_Publications.bib}
 
 %********************************************************************
 % Hyphenation
@@ -60,8 +61,6 @@
 \cleardoublepage\include{frontbackmatter/Declaration}
 \cleardoublepage\include{frontbackmatter/Acknowledgments}
 \cleardoublepage\include{frontbackmatter/Dedication}
-%\cleardoublepage\include{frontbackmatter/Foreword}
-%\cleardoublepage\include{frontbackmatter/Publications}
 \cleardoublepage\input{frontbackmatter/Nomenclature}
 %********************************************************************
 % Mainmatter
@@ -73,24 +72,23 @@
 %\setcounter{page}{90}
 % use \cleardoublepage here to avoid problems with pdfbookmark
 \cleardoublepage
-%\part{Some Kind of Manual}\label{pt:manual}
+\part{Preamble}\label{pt:preamble}
 \include{chapters/Chapter01}
-\cleardoublepage
+%\cleardoublepage
+\include{chapters/Chapter02}
 %\ctparttext{You can put some informational part preamble text here.
 % Illo principalmente su nos. Non message \emph{occidental} angloromanic
 % da. Debitas effortio simplificate sia se, auxiliar summarios da que,
 % se avantiate publicationes via. Pan in terra summarios, capital
 % interlingua se que. Al via multo esser specimen, campo responder que
 % da. Le usate medical addresses pro, europa origine sanctificate nos se.
-%\part{The Showcase}\label{pt:showcase}
-\include{chapters/Chapter02}
-%\addtocontents{toc}{\protect\clearpage} % <--- just debug stuff, ignore
+\part{Model and Results}\label{pt:showcase}
 \include{chapters/Chapter03}
 \include{chapters/Chapter04}
 \include{chapters/Chapter05}
 \include{chapters/Chapter06}
 \include{chapters/Chapter07}
-
+\cleardoublepage\include{frontbackmatter/Bibliography}
 %\include{multiToC} % <--- just debug stuff, ignore for your documents
 % ********************************************************************
 % Backmatter
@@ -105,14 +103,13 @@
 % \creflabelformat{equation}{#2\scshape{#1}#3}
 % \makeatother
 \cleardoublepage
-\part{Appendix}
+%\part{Appendix}\label{pt:appx}
 \include{chapters/Chapter0A}
 %********************************************************************
 % Other Stuff in the Back
 %*******************************************************
 \bookmarksetup{startatroot}
 \backmatter
-\cleardoublepage\include{frontbackmatter/Bibliography}
 \cleardoublepage\include{frontbackmatter/Colophon}
 % ********************************************************************
 % Game Over: Restore, Restart, or Quit?
