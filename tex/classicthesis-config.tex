@@ -98,9 +98,20 @@ style=numeric-comp,%
 %bibstyle=authoryear,dashed=false, % dashed: substitute rep. author with ---
 sorting=nyt, % name, year, title
 %maxbibnames=10, % default: 3, et al.
-%backref=true,%
+backref=true,%
 natbib=true % natbib compatibility mode (\citep and \citet still work)
 ]{biblatex}
+
+\AtEveryBibitem{ % clears URL date
+    \clearfield{urldate}
+    \clearfield{urlyear}
+    \clearfield{urlmonth}
+}
+\renewcommand{\bibpagerefpunct}{\addperiod\space}
+\DefineBibliographyStrings{english}{
+  backrefpage={\!\!},
+  backrefpages={\!\!}
+}
 
 \RequirePackage{mathtools} % Required for some maths elements 
 \usepackage{amsmath, amsthm,amssymb} % math environments and more by the AMS
