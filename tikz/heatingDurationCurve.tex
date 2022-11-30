@@ -1,0 +1,47 @@
+\begin{tikzpicture}[trim axis left, trim axis right]%[scale=0.5] % Scale keeps the graphic small
+
+    \begin{axis}[
+    clip=false,
+    scale=1.5,
+    yscale=0.75,
+    xmin=0,
+    xmax=12,
+    ymin=0,
+    ymax=8.5,
+    yticklabels={,,},
+    ymajorticks=false,
+    xlabel=Hours over which heating load is equal to or above a \% of design load,
+    ylabel={Space heating load $\left[\unit{\kilo\watt\per\hour}\right]$},
+    axis lines=left,
+    xtick=\empty,
+    extra x ticks={0,2.4,4.8,7.2,9.6,12},
+    extra x tick labels={0,1000,2000,3000,4000,5000},]
+
+    % graph of function
+    
+    \draw[thick, gray, -, name path=line1] (0, 8)
+      .. controls (4, 0) and (8.5, 5) .. (10.512, 0);
+      %.. controls (-3.5, 3) and (-3, 6) .. (-1, 6);
+    \draw[thick, green, -, name path=line2] (0,5)  -- (10.512,7.5) node[above left,black] {Heating capacity of \HP};
+    \fill[yellow,name intersections={of=line1 and line2,by={Int2},total=\t}]
+    \foreach \s in {1,...,\t}{(intersection-\s) circle (0.15) node[above, black] {Balance point}};
+
+    \draw[draw=none, name path=horz] (0,4) -- (6,4);
+    \draw[draw=none, name path=jack] (0,0) -- (12,0);
+
+    
+    \coordinate (C) at (0,4);; % set (O)=(0,0)
+    \coordinate (O) at (0,0);; % set (O)=(0,0)
+    \draw[thick,blue,name intersections={of=horz and line1,by={Int1}}] (C) -- (Int1);
+    %\draw[thick,blue,name intersections={of=horz and line1,by={Int2}}] (5,0) -- (Int1);
+    \draw[thick,blue] (Int1) -- (Int1|-O);
+
+    \draw[dotted] (10.512,0) -- (10.512,7.5);
+    \draw[dotted] (Int2) -- (Int2|-O);
+
+    \node at (7.2,4.5) {Space heating capacity of \HP};
+    \node at (6.5,1.5) {Heat supplied by \HP};
+    \filldraw (0,4) circle (0.08) node (P) {} node[anchor=north west,yshift=-0.15cm, xshift=0.1cm] {50\% design load};
+    \end{axis}
+    
+  \end{tikzpicture}

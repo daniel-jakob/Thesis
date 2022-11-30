@@ -55,6 +55,7 @@
 \DTMsavedate{printdate}{2023-05-15}
 
 
+
 % ********************************************************************
 % Setup, finetuning, and useful commands
 % ********************************************************************
@@ -63,12 +64,12 @@
 \newcommand{\Ie}{I.\,e.,}
 \newcommand{\eg}{e.\,g.,}
 \newcommand{\Eg}{E.\,g.,}
-\newcommand{\modelica}{\texttt{Modelica}}
-\newcommand{\HP}{\ac{HP}{}}
-\newcommand{\ASHP}{\ac{ASHP}{}}
-\newcommand{\HPs}{\acs{HP}{}}
-\newcommand{\AWHP}{\ac{AWHP}{}}
-\newcommand{\AWHPs}{\acs{AWHP}{}}
+\newcommand{\modelica}{\texttt{Modelica}\xspace}
+\newcommand{\HP}{\ac{HP}\xspace}
+\newcommand{\ASHP}{\ac{ASHP}\xspace}
+\newcommand{\HPs}{\acp{HP}\xspace}
+\newcommand{\AWHP}{\ac{AWHP}\xspace}
+\newcommand{\AWHPs}{\acp{AWHP}\xspace}
 
 % ****************************************************************************************************
 
@@ -100,6 +101,18 @@ backref=true,%
 natbib=true % natbib compatibility mode (\citep and \citet still work)
 ]{biblatex}
 
+\defbibenvironment{bibliography}
+{\list{\printtext[labelnumberwidth]{%
+    \printfield{prefixnumber}%
+    \printfield{labelnumber}}}
+{\setlength{\bibhang}{0pt}%
+\setlength{\leftmargin}{\bibhang}%
+\setlength{\itemindent}{-\leftmargin}%
+\setlength{\itemsep}{\bibitemsep}%
+\setlength{\parsep}{\bibparsep}}}
+{\endlist}
+{\item}
+
 \AtEveryBibitem{ % clears URL date
     \clearfield{urldate}
     \clearfield{urlyear}
@@ -127,13 +140,15 @@ natbib=true % natbib compatibility mode (\citep and \citet still work)
 \graphicspath{{figures/}}
 \usepackage{scrhack} % fix warnings when using KOMA with listings package
 \usepackage{xspace} % to get the spacing after macros right
-\usepackage[printonlyused,smaller]{acronym} % nice macros for handling all acronyms in the thesis
+\RequirePackage[printonlyused,smaller]{acronym} % nice macros for handling all acronyms in the thesis
 %\renewcommand{\bflabel}[1]{{#1}\hfill} % fix the list of acronyms --> no longer working
-%\renewcommand*{\acsfont}[1]{\textsc{#1}}
-%\renewcommand*{\aclabelfont}[1]{\acsfont{#1}}
+%\renewcommand*{\acpfont}[1]{\textsc{#1}}
+%\renewcommand*{\aclabelfont}[1]{\acpfont{#1}}
 %\def\bflabel#1{{#1\hfill}}
-\def\bflabel#1{{\acsfont{#1}\hfill}}
-\def\aclabelfont#1{\acsfont{#1}}
+%\def\bflabel#1{{\acpfont{#1}\hfill}}
+%\def\aclabelfont#1{\acpfont{#1}}
+
+\usepackage{import}
 
 \usepackage{enumitem}
 \renewcommand{\theenumi}{\arabic{enumi}.}
@@ -189,18 +204,18 @@ natbib=true % natbib compatibility mode (\citep and \citet still work)
 % ****************************************************************************************************
 
 % Need to use MATLAB2TikZ %%% 
-% \usepackage{pgfplots}
-% \pgfplotsset{compat=1.17}
+\usepackage{pgfplots}
+\pgfplotsset{compat=1.17}
 % \usepgfplotslibrary{patchplots}
 % \usepackage{grffile}
-% \usetikzlibrary{arrows,
-                  %calc,
-                  %intersections,
-                  %positioning,
-                  %angles, 
-                  %quotes,
-                  %plotmarks, 
-                  %arrows.meta}
+\usetikzlibrary{arrows,
+                  calc,
+                  intersections,
+                  positioning,
+                  angles, 
+                  quotes,
+                  plotmarks, 
+                  arrows.meta}
 % \usepackage{tikz-3dplot}
 
 
