@@ -36,8 +36,8 @@
 \newcommand{\HoS}{Prof. Kenneth Stanton\xspace}
 %\newcommand{\myOtherProf}{hmm\xspace}
 %\newcommand{\mySupervisor}{Prof. Donal Finn\xspace}
-\newcommand{\myCollaborator}{Dr. Mohammad Saffari\xspace}
-\newcommand{\myExaminer}{Dr. Joe Bloggs\xspace}
+\newcommand{\myCollaborator}{Dr Mohammad Saffari\xspace}
+\newcommand{\myExaminer}{Dr Joe Bloggs\xspace}
 \newcommand{\myFaculty}{College of Engineering \& Architecture\xspace}
 \newcommand{\myDepartment}{School of Mechanical and Materials Engineering\xspace}
 \newcommand{\myUni}{University College Dublin\xspace}
@@ -66,8 +66,9 @@
 \newcommand{\Eg}{E.\,g.,}
 \newcommand{\modelica}{\texttt{Modelica}\xspace}
 \newcommand{\HP}{\ac{HP}\xspace}
-\newcommand{\ASHP}{\ac{ASHP}\xspace}
 \newcommand{\HPs}{\acp{HP}\xspace}
+\newcommand{\ASHP}{\ac{ASHP}\xspace}
+\newcommand{\ASHPs}{\ac{ASHPs}\xspace}
 \newcommand{\AWHP}{\ac{AWHP}\xspace}
 \newcommand{\AWHPs}{\acp{AWHP}\xspace}
 
@@ -95,12 +96,14 @@ language=english,%
 style=numeric-comp,%
 %style=authoryear-comp, % Author 1999, 2010
 %bibstyle=authoryear,dashed=false, % dashed: substitute rep. author with ---
-sorting=nyt, % name, year, title
+%sorting=nyt, % name, year, title
+sorting=none, % sort by appearance
 %maxbibnames=10, % default: 3, et al.
 backref=true,%
 natbib=true % natbib compatibility mode (\citep and \citet still work)
 ]{biblatex}
 
+% Places bib numeric in left margin 
 \defbibenvironment{bibliography}
 {\list{\printtext[labelnumberwidth]{%
     \printfield{prefixnumber}%
