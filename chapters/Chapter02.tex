@@ -19,6 +19,19 @@ To avoid this issue, \acp{AWHP} are specifically undersized. Various ``design te
 \acp{HP} tend to perform better when providing space heating through underfloor heating. This is partly due to underfloor heating being more efficient in general than other, more traditional space heating methods, namely hot-water radiators. Another reason more applicable to \acp{HP} is that the (space heating) inlet water temperature for underfloor heating is much lower than radiators. This means the \ac{HP} does not have to heat the circulating water as hot as it would with radiators. The temperature delta between water temperature inlet to the \ac{HP} and the outlet is simply lower and therefore less energy has to be produced by the \ac{HP} in the first place. However, retrofitting houses with underfloor heating is expensive and very intrusive to the building --- as obviously (all) floors much be ripped up and coils must be placed and plumbed --- which discourages many homeowners from performing this type of retrofit.
 
 \subsection{Vapour-Compression Cycle}\label{subsec:vapourcompcycle}
+The vapour-compression cycle is a process used in heat pumps and refrigeration systems to transfer heat from a low temperature heat source to a high temperature heat sink. The cycle begins when a refrigerant, typically in a liquid state, is vaporized in a evaporator. As the refrigerant vaporizes, it absorbs heat from the surrounding low temperature heat source, such as the air inside a refrigerator or the ground in a geothermal heat pump.
+
+Next, the vaporised refrigerant is pressurised and moves through a compressor. As the refrigerant is compressed, its temperature and pressure increase. The hot, high pressure refrigerant vapour is then passed through a condenser, where it releases heat to the surrounding high temperature heat sink, such as the air outside a refrigerator or the air inside a home in a \HP.
+
+As the refrigerant gives up heat, it condenses back into a liquid. The liquid refrigerant is then passed through an expansion valve, where its pressure is reduced and it begins to evaporate once again. This reduction in pressure causes the refrigerant to absorb additional heat, which helps to further cool the low temperature heat source.
+
+The refrigerant continues through the cycle, alternating between the evaporator, compressor, and condenser, until the desired level of heat transfer is achieved. In a \HP, the cycle is reversed during the heating mode, transferring heat from the outside air to the inside of a home.
+
+While the vapour-compression cycle is not identical to the Rankine cycle or the Carnot cycle, it shares some similarities and can be thought of as a practical implementation of these theoretical models.
+
+The Rankine cycle is a thermodynamic cycle that describes the operation of a heat engine, such as a steam power plant. The cycle consists of four processes: pressurisation, heating, expansion, and cooling. These processes are similar to those in the vapour-compression cycle, in which a working fluid (such as water or steam) is pressurised and heated, causing it to expand and generate work before being cooled and condensed back into a liquid. 
+
+Like the Rankine cycle, the Carnot cycle is a theoretical model of a heat engine that describes the maximum possible efficiency of a heat engine operating between two temperature reservoirs. The Carnot cycle consists of four reversible processes: isothermal expansion, adiabatic expansion, isothermal compression, and adiabatic compression. The efficiency of the Carnot cycle is determined by the temperature difference between the heat source and the heat sink, and it serves as a benchmark for the performance of real heat engines \cite{cengel_thermo_2020}.
 
 
 \subsection{Hybrid Heating Systems}
@@ -33,7 +46,17 @@ The controller of this system determines how much heat is being added to the cir
     \label{fig:hhsawhpboilerdiagram}
 \end{figure}
 
-TODO: Explicitly define what a hybrid heating system is à la Klein and Huchtemann mentioning bivalency, set-point temp, T_biv, show plot, etc. 
+%TODO: Explicitly define what a hybrid heating system is à la Klein and Hutchemann mentioning bivalency, set-point temp, T_biv, show plot, etc. 
+
+\subsubsection{Alternative-Parallel Operation}
+\label{subsubsec:alt-parallelop}
+In this study, the bivalent operation paradigm for a \ac{HHS} is used, which is where a controller determines whether to solely run the \HP conventional gas boiler, or so run them in parallel. At temperatures below a certain threshold ($T_\text{cutoff}$), only the boiler is used, see: domain 1 in \cref{fig:alt-parallel}. Between ($T_\text{cutoff}$) and a second threshold ($T_\text{biv}$), both the boiler and heat pump are used (domain 2). At temperatures above ($T_\text{biv}$), only the heat pump is used (domain 3). The second threshold ($T_\text{biv}$) is the temperature at which the heat pump can meet the building's heat demand, and ($T_\text{cutoff}$) is set to a value such that the \HP is ecologically and economically efficient. The optimisation of the bivalent temperature, $T_\text{biv}$, is the crux of this thesis. The cut-off temperature can be calculated using the boiler efficiency and the \acp{PEF} of the heat sources. 
+\begin{figure}[htb]
+    \centering
+    \includegraphics[width=0.4\linewidth]{alt-parallel}
+    \caption{Alternative-parallel bivalent operating scheme \cite{klein_numerical_2014}.}
+    \label{fig:alt-parallel}
+\end{figure}
 
 
 
