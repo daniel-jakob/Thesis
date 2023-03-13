@@ -56,7 +56,7 @@ The controller of this system determines how much heat is being added to the cir
 
 %TODO: Explicitly define what a hybrid heating system is à la Klein and Hutchemann mentioning bivalency, set-point temp, T_biv, show plot, etc. 
 
-\subsection{Operating Modes of \acp{HHS}}
+\subsection{Operating Modes of HHS}
 
 \graffito{In monovalent systems the entire heat demand, regardless of ambient temperature is supplied with the \HP, but there is hardly any reason to operate in this mode and requires an oversized \HP.}
 \subsubsection{Bivalent-Parallel Operation}
@@ -174,7 +174,7 @@ In a \ac{HHS}, controllers are used to manage the operation of the different hea
 
 For example, when the outside temperature is cold, the controller may determine that it is most efficient to use the gas furnace to heat the building. When the outside temperature is mild, the controller may determine that it is more efficient to use the \HP, which uses less energy than the gas furnace. Very advanced controllers may also use predictive algorithms and weather forecasts to anticipate changes in temperature and adjust the heating system accordingly by storing a lot of heat in the buffer tank during a warm period right before a cold period \cite{demirezen_feasibility_2021}.
 
-\subsection{\acs{PID} Controllers}
+\subsection{PID Controllers}
 \ac{PID} controllers are a type of feedback control system that are commonly used in a wide variety of systems to maintain a desired output or setpoint. The acronym refers to the three components of the control algorithm used by the controller. \ac{PID} controllers work by continuously calculating an error value that represents the difference between the desired setpoint and the current output of the system. \citeauthor{Rames_2012} \cite{Rames_2012} explains that this error value is then used to calculate and apply a correction to the system, based on the three components of the \ac{PID} algorithm:
 \begin{itemize}
     \item The proportional component applies a correction proportional to the error value. This allows the controller to quickly respond to large errors and make large corrections.
@@ -187,6 +187,57 @@ For example, when the outside temperature is cold, the controller may determine 
 
 \subsection{Noise and Error}
 Noise and error are common sources of problems in control systems. Noise refers to random variations in the system's output that are not caused by the control signal, while error refers to the difference between the desired setpoint and the actual output of the system. Noise and error can have a number of adverse effects on the performance of a control system, including reduced accuracy and stability, as well as increased oscillation and overshoot. To deal with noise and error in control systems, a number of different approaches can be used. One approach is to use a filter to remove noise from the system's output signal. This can be done using a low-pass filter, which removes high-frequency noise, or a high-pass filter, which removes low-frequency noise. Another approach is to use a model-based control algorithm, which uses a mathematical model of the system to predict the system's output and apply appropriate control signals. This can help to reduce the effects of noise and error by using the model to compensate for them. Furthermore, another approach is to use a robust control algorithm, which is designed to be resistant to the effects of noise and error. Robust control algorithms typically use a combination of feedback and feed-forward control, as well as advanced control techniques like gain scheduling and optimization, to achieve robust performance in the presence of noise and error.
+
+\section{Verification \& Validation of Model}
+Verification and validation are two important processes that are used to assess the credibility and reliability of a simulation model. While these terms are often used interchangeably in common parlance, they have distinct meanings and serve different purposes.
+
+Verification is the process of ensuring that a simulation model is implemented correctly and accurately represents the underlying mathematical equations, assumptions, and physical phenomena. Verification ensures that the simulation code is free from coding errors and that the numerical algorithms are implemented correctly, and confirms whether the model behaves as the modeller expects. This process involves checking the model against analytical solutions or known results and comparing the simulation output with the expected results.
+
+Validation, on the other hand, is the process of determining whether a simulation model accurately represents the real-world system it is intended to simulate. Validation involves comparing the model output to real-world observations and data to assess the model's accuracy in predicting system behaviour. This process also involves assessing the model's sensitivity to input parameters and assumptions. The model's underlying values (e.g., insulation thickness, floor tile conductivity, etc.) are altered and calibrated to fit the real-world data.
+
+Building energy simulation models must undergo verification and validation due to various sources of uncertainty arising naturally as a result of converting a real-life problem to a mathematical model to a numerical model. Four sources of uncertainty particular to building energy simulation are identified by \cite{coakley_review_2014,DEWIT2002951} as: 
+\begin{itemize}
+    \item Specification uncertainty arises from incomplete or inaccurate specifications of the building or systems being modelled. 
+    \item Modelling uncertainty results from simplifications and assumptions of complex physical processes. 
+    \item Numerical uncertainty is introduced during the discretisation and simulation of the model. 
+    \item Scenario uncertainty comes from external conditions imposed on the building, such as outdoor climate conditions and occupant behaviour.
+\end{itemize}
+
+\subsection{Verification}
+For the purposes of model verification, a series of small simulation runs were carried out to test whether the model was behaving as expected. It was noted during the early runs of the simulation, the air in \texttt{zone3\_floor1} was dramatically increasing in temperature during a certain day in early January. It was discovered that this was due to relatively high levels of direct and horizontal solar irradiation entering the room through the large, southerly facing window. The first verification test consists of loosely quantifying the solar irradiation energy gain into the room with the existing window from the model, and comparing this to a simulation run where the window was purposely shrunk to circa one tenth of its original area. 
+
+The ubiquitous heat capacity equation was utilised in quantifying the irradiation gain: 
+\begin{equation}
+    Q = mc\Delta T 
+\end{equation} 
+
+Where $Q$ is the heat energy in watts, $m$ is the mass of air in the room, $c$ is the specific heat capacity of air ($C_{\text{v}_\text{air}} = \qty{0.718}{\kilo\joule\per\kilo\gram\per\kelvin}$) and $\Delta T$ is the change in temperature of the air in the room (i.e., difference between temperature at a chosen time in hours leading up to the event, and the peak temperature after the bulk of the simulation day's irradiation). The mass of air in this room was found by taking the volume (\qty{31}{\meter\cubed}) and multiplying it by the density of air at a mean temperature (\sim \qty{1.204}{\kilo\gram\per\cubic\meter}). 
+The heat gained by the room with the large window was found to be \qty{420}{\joule} while with the small window it was found to be \qty{420}{\joule}. This is to be expected as a larger window would justly allow more irradiance to (semi-)directly into the room. 
+
+The next test was to check if heat was being conducted through the interior walls of the building. A room was chosen, and its temperature was purposely raised to an unnatural level of \qty{60}{\celsius}. One would expect that the temperature of the adjacent rooms would increase by means of conduction.\footnote{Door and window openings were not modelled as part of this simulation. The air infiltration rate was increased slightly to compensate for this. However, this also means interzonal airflow was also not modelled.} The test involved comparing the adjacent room temperatures to the corresponding room temperatures in the case where the chosen room's temperature was not artificially raised. The temperature was found to increase an average of \qty{6}{\celsius} across the 4 neighbouring rooms. 
+
+\subsection{Validation}
+The validation process of a building energy simulation model is a crucial step in ensuring that the model accurately predicts the energy performance of the building. The \citetitle{ashrae_guideline_project_committee_14_ashrae_2014} \cite{ashrae_guideline_project_committee_14_ashrae_2014} provides a comprehensive framework for validating building energy simulation models. This guideline outlines a step-by-step process for validating the simulation model and includes criteria for evaluating the accuracy of the model. The validation process involves comparing the model results with actual building energy consumption data and performing statistical analysis to determine the level of accuracy. In the validation process, three statistical tools are employed to evaluate the accuracy of the simulation model in this thesis. The first two are suggested by \citelist{owen_ashrae_2009}{institution} while the last is used as its properties are distinct from the first two and provides a useful measure of absolute error.
+
+\ac{CVRMSE} is a statistical tool used to determine the degree of error between the simulated and actual data and is a commonly used tool in the validation process of building energy simulation models because it takes into account the variability in the actual data. It calculates the \ac{RMSE} as a percentage of the mean of the actual data, which makes it a useful metric for evaluating the model's accuracy across a range of operating conditions. A lower \ac{CVRMSE} value indicates that the model is a better predictor of the actual building energy performance. The \ac{CVRMSE} tool is particularly useful when comparing the performance of different models or when assessing the impact of different input parameters on the model's accuracy. \cite{coakley_review_2014} said: ``[\ac{CVRMSE}] allows one to determine how well a model fits the data by capturing offsetting errors between measured and simulated data. It does not suffer from the cancellation effect.''. The formula for \ac{CVRMSE} is given by \cref{eq:cvrmse}.
+
+\begin{equation}
+    \operatorname{CV(RMSE)} = \frac{100}{\bar{Y}} \sqrt{\frac{\sum_{i=1}^N(Y_i - \hat{Y}_i)^2}{N-p}} = \frac{\operatorname{RMSE}}{\bar{Y}}  \label{eq:cvrmse}
+\end{equation}
+
+\ac{NMBE} is another statistical tool used in the validation process, measuring the bias of the model. It provides a measure of the difference between the mean of the simulated and actual data as a percentage of the actual data. A zero  \ac{NMBE} value indicates that the model is unbiased, while a positive or negative \ac{NMBE} value indicates overestimation or underestimation, respectively. The  \ac{NMBE} tool is useful in identifying systematic errors in the model, which can occur due to incorrect model assumptions, data input errors, or other issues. It helps to identify the direction and magnitude of the bias, which is important for developing strategies to improve the model's accuracy. The formula for \ac{NMBE} is given by \cref{eq:nmbe}.
+
+\begin{equation}
+    \operatorname{NMBE} = \frac{100}{\bar{Y}} \frac{\sum_{i=1}^N(Y_i - \hat{Y}_i)}{N-p} \label{eq:nmbe}
+\end{equation}
+
+\ac{SMAPE}, first proposed by \citeauthor{MAKRIDAKIS1993527} \cite{MAKRIDAKIS1993527} and approved by many \cite{tofallis_better_2015,khendek_system_2018,kim_new_2016}, is a statistical tool that measures the absolute percentage difference between the simulated and actual data. Unlike the previous two tools, \ac{SMAPE} is symmetric and thus gives equal weight to overestimation and underestimation. A lower \ac{SMAPE} value indicates higher model accuracy. It is an extension of the MAPE method which has the flaw of being asymmetric in its treatment of over- and underprediction of the actual value, overpredictions being penalised harder than underpredictions. There are three common definitions of \ac{SMAPE}, each with different properties, however, this thesis chooses to use the definition which outputs values as a percentage error between 0\% and 100\% as this is most easily interpretable and comparable. The formula for \ac{SMAPE} is given by \cref{eq:smape}.
+
+\begin{equation}
+    \operatorname{SMAPE} = \frac{100}{N} \sum_{i=1}^N\frac{|Y_i - \hat{Y}_i|}{|\hat{Y}_i|+|Y_i|} \label{eq:smape}
+\end{equation}
+
+\citetitle{ashrae_guideline_project_committee_14_ashrae_2014} \cite{ashrae_guideline_project_committee_14_ashrae_2014} suggest different tolerances for data calibrated by monthly or by hourly data for the \ac{CVRMSE} and \ac{NMBE} statistical methods. The experimental data was collected by monthly intervals. \citelist{owen_ashrae_2009}{institution} suggests tolerances of <15\% for \ac{CVRMSE} and $\pm$5\% for \ac{NMBE}. A simulation is said have high levels of model prediction performance if absolute percentage error values outputted by \ac{SMAPE} are less than 20\% and great levels if less than 10\%. 
 
 
 
