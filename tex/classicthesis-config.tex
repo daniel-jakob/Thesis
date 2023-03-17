@@ -27,7 +27,7 @@
 % ****************************************************************************************************
 % 1. Personal data and user ad-hoc commands (insert your own data here)
 % ****************************************************************************************************
-\newcommand{\myTitle}{Optimising the Bivalent Temperature of a Hybrid Heating System in the Irish Climate\xspace}
+\newcommand{\myTitle}{Optimising the Hybrid Operation Temperature Window of a Hybrid Heating System in the Irish Climate\xspace}
 \newcommand{\mySubtitle}{A Numerical Simulation Study of an Air-Water Heat Pump and Conventional Gas Boiler in a Residential Setting\xspace}
 \newcommand{\myDegree}{Mechanical Engineering Master's (MEng.)\xspace}
 \newcommand{\myName}{Daniel Jakob\xspace}
@@ -98,7 +98,8 @@ style=numeric-comp,%
 %bibstyle=authoryear,dashed=false, % dashed: substitute rep. author with ---
 %sorting=nyt, % name, year, title
 sorting=none, % sort by appearance
-%maxbibnames=10, % default: 3, et al.
+maxbibnames=10, % default: 3, et al.
+maxcitenames = 5,
 backref=true,%
 natbib=true % natbib compatibility mode (\citep and \citet still work)
 ]{biblatex}
@@ -126,6 +127,7 @@ natbib=true % natbib compatibility mode (\citep and \citet still work)
   backrefpage={\!\!},
   backrefpages={\!\!}
 }
+
 
 \RequirePackage{mathtools} % Required for some maths elements 
 \usepackage{amsmath, amsthm,amssymb} % math environments and more by the AMS
@@ -164,6 +166,8 @@ natbib=true % natbib compatibility mode (\citep and \citet still work)
 \renewcommand{\labelenumiv}{\theenumiv}
 
 \usepackage[tight-spacing=true]{siunitx}
+
+\usepackage{multirow}
 
 \usepackage{nomencl}
 \makenomenclature
