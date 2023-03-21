@@ -16,7 +16,7 @@
 The reference house that the building model is based off of a hipped dormer, two-storey residential house located in Belturbet, Cavan, a small town close to the Republic of Ireland and Northern Ireland border, about 125 kilometres from Dublin. The reference house lies at an elevation of 80 metres and is Easterly facing. The dwelling is located in a residential estate, and is thus classified as being located in an urban environment.
 
 \section{Form and Fabric}
-The reference model has a floor area of 160 square metres, 93 square metres of which are downstairs, i.e., ``exterior floor'', a gross roof area of 173 square metres and a total external wall surface area of 139 square metrse. There are 21 exterior windows of varying sizes in total and thirteen rooms, seven downstairs and six upstairs. The ceiling height is a uniform 2.5 metres throughout the model. All rooms except for one were considered to be unconditioned, the exception being a very small box room on the ground floor which was interpreted to be a utility room of sorts. The void zones were also unconditioned. The building model geometry and thermal properties were created during previous works by \citeauthor{keogh_technical_2022}. A floor plan schematic can be seen in \cref{fig:floorplan}, showing the ground floor and first floor room layouts and windows. A 3D rendered model of the house can be seen in \cref{fig:3dmodel}. All model data is contained in a \texttt{.idf} file, an input data file interpretable by \texttt{EnergyPlus}. This file contains data about the geometry of the building, envelope construction, thermal and physical properties of the constructions, building and occupancy schedules, internal gains, outside air infiltration to void zones and various other data regarding the simulation process e.g., timestep. 
+The reference model has a floor area of 160 square metres, 93 square metres of which are downstairs, i.e., ``exterior floor'', a gross roof area of 173 square metres and a total external wall surface area of 139 square metres. There are 21 exterior windows of varying sizes in total and thirteen rooms, seven downstairs and six upstairs. The ceiling height is a uniform 2.5 metres throughout the model. All rooms except for one were considered to be unconditioned, the exception being a very small box room on the ground floor which was interpreted to be a utility room of sorts. The void zones were also unconditioned. The building model geometry and thermal properties were created during previous works by \citeauthor{keogh_technical_2022}. A floor plan schematic can be seen in \cref{fig:floorplan}, showing the ground floor and first floor room layouts and windows. A 3D rendered model of the house can be seen in \cref{fig:3dmodel}. All model data is contained in a \texttt{.idf} file, an input data file interpretable by \texttt{EnergyPlus}. This file contains data about the geometry of the building, envelope construction, thermal and physical properties of the constructions, building and occupancy schedules, internal gains, outside air infiltration to void zones and various other data regarding the simulation process e.g., timestep. 
 
 \begin{figure}[htb]
     \centering
@@ -29,7 +29,7 @@ The reference model has a floor area of 160 square metres, 93 square metres of w
     \centering
     %\includegraphics[width=0.7\linewidth]{3dmodel}
     \includegraphics[width=0.7\linewidth]{example-image-a}
-    \caption[3D Model of Reference Building]{3D Model of Reference Building, rendered in SketchUp and the XXX plugin}
+    \caption[3D Model of Reference Building]{3D Model of Reference Building, rendered in \texttt{SketchUp} via the \texttt{Euclid} plugin}
     \label{fig:3dmodel}
 \end{figure}
 
@@ -42,7 +42,7 @@ The reference model has a floor area of 160 square metres, 93 square metres of w
     \caption{Summary of U-Values}
     \label{tbl:uvalues}  
     \begin{tabular}{lccccc}\toprule
-        \multicolumn{1}{c}{\multirow{2}{*}{\begin{tabular}[c]{@{}c@{}}Building \\ Model\end{tabular}}} & \multicolumn{4}{c}{\begin{tabular}[c]{@{}c@{}}U-Value\\ {[}W/m2-K{]}\end{tabular}} & \multirow{2}{*}{\begin{tabular}[c]{@{}c@{}}Infiltration\\ Rate\\ ACH\end{tabular}} \\ \cmidrule(lr){2-5}
+        \multicolumn{1}{c}{\multirow{2}{*}{\begin{tabular}[c]{@{}c@{}}Building \\ Model\end{tabular}}} & \multicolumn{4}{c}{\begin{tabular}[c]{@{}c@{}}U-Value\\ {[}W/m2-K{]}\end{tabular}} & \multirow{2}{*}{\begin{tabular}[c]{@{}c@{}}Infiltration\\ Rate\\ {[}ACH{]}\end{tabular}} \\ \cmidrule(lr){2-5}
         \multicolumn{1}{c}{} & \begin{tabular}[c]{@{}c@{}}Exterior\\ Wall\end{tabular} & \begin{tabular}[c]{@{}c@{}}Pitched\\ Roof\end{tabular} & \begin{tabular}[c]{@{}c@{}}Exterior\\ Floor\end{tabular} & \begin{tabular}[c]{@{}c@{}}Exterior\\ Glazing\end{tabular} &  \\ \midrule
         \begin{tabular}[c]{@{}l@{}}Minimal\\ Retrofit\end{tabular} & 0.31 & 0.16 & 0.25 & 2.15 & 0.8 \\
         \begin{tabular}[c]{@{}l@{}}Deep \\ Retrofit\end{tabular} & 0.18 & 0.16 & 0.18 & 1.39 & 0.5 \\ \bottomrule   
@@ -255,5 +255,52 @@ Plug loads in a residential home refer to the energy consumed by appliances and 
 
 \section{Climate}
 
+\section{Heating System}
+\subsection{ASHP}
+The \ac{ASHP} model was imported from the IDEAS library \cite{jorissen_implementation_2018}.Performance table data obtained from Daikin for a low-temperature, modulating \ac{AWHP} was used in the modelling of the heat pump. By interpolating the data in the table, the model is able to determine the heating power, electricity usage, and \ac{COP} based on the condenser outlet temperature and the ambient temperature. The \HP has a nominal heating power of \qty{7177}{\watt} at a test condition of 2/\qty{35}{\celsius} (air/condenser temperature), with a \ac{COP} of 3.17 at this condition and a \ac{COP} of 2.44 at a test condition of 2/\qty{45}{\celsius} for full load operation. The heat pump can operate at leaving water temperatures up to \qty{55}{\celsius}.
 
+The \ac{COP} of the \ac{AWHP} model is calculated by the ratio of heat energy transferred to the passing water to the electrical power used. This is given by \cref{eq:cop}. 
+
+\begin{equation}
+    \operatorname{COP}_\text{HP}=\frac{\dot{Q}_\text{H}}{\dot{W}_\text{elec}}\label{eq:cop}
+\end{equation}
+
+The \ac{SCOP} of the \HP is calculated by taking the ratio the total heat energy imparted to the water to the total electrical energy used by the \HP over the course of the year and is given by \cref{eq:scop}
+\begin{equation}
+    \operatorname{SCOP}_\text{HP}=\frac{Q_\text{H, tot}}{W_\text{elec, tot}}\label{eq:scop}
+\end{equation}
+
+The model uses modulation to introduce some hysteresis to avoid quick-succession, repeated on-off cycling. The \HP turns off when the modulation drops below 20\% and turns on when the modulation exceeds 35\%. Heat losses to the surroundings are taken into account to produce a dynamic model, al the while maintaining the performance as per Daikin's data \cite{daikin_altherma_tech_2006}.
+
+\subsection{Radiators}
+The \texttt{RadiatorEN442} radiator model from the Buildings library \cite{wetter_modelica_2014} was used. Each of the twelve conditioned rooms was assigned a radiator. The nominal heat flow for a radiator in room $i$ was determined by taking the nominal total heat flow of the system, $Q_\text{flow, nom}$ and multiplying it by the ratio of the volume of room $i$, $V_{\text{room, }i}$ to the total conditioned room volume, $V_\text{rooms, tot}$. The radiator model uses five discretised elements to perform a discretised element method heat transfer calculation. The model parameters were altered to only produce convective heat transfer to the room i.e., no radiative heat transfer as the \texttt{EnergyPlus} compatible \texttt{ThermalZone} model has no radiative heat input. The heat transfer was modelled with \cref{eq:radiatorheatrans} 
+
+
+\begin{equation}
+    Q_\text{c}^i=\operatorname{sign}(T^i-T_\text{a})(1-f_\text{r})\frac{UA}{N}|T^i-T_\text{a}|^n\label{eq:radiatorheatrans}
+\end{equation}
+
+Where $T^i$ is the water temperature of the element, $T_\text{a}$ is the temperature of the air in the room, $f_\text{r}$ fraction of the radiation, set to 0 in this model, $n$ is the exponent of heat transfer, set to 1.3, and $UA$ is the UA-value of the radiator which is numerical solved for the given nominal data values. 
+
+\subsection{Thermal Storage Tank}
+The thermal storage tank \texttt{Thermal.Storage} model from the Buildings library \cite{wetter_modelica_2014} was used in the \ac{HHS} model. The model uses ten stratified layer to model to dynamics of the temperature gradient of the water within the tank. The storage tank was fixed to contain \qty{0.5}{\cubic\meter} of water, or \qty{500}{\litre}, with \qty{10}{\centi\meter} of insulation thickness and a height of \qty{1.7}{\meter}. The tank was assumed to be located in the aforementioned unconditioned room, with heat losses occurring from the tank to the room. Two temperature sensors are connected to the tank, one at the bottom of the water volume (volume index 0) one at the top of the water volume (volume index 9). 
+
+\subsection{Boiler}
+The boiler model \texttt{BoilerPolynomial} from the Buildings library was utilised to model the natural gas boiler component of the \ac{HHS}. A constant efficiency of 90\% was used as this best matched the efficiency of the reference house boiler. A nominal mass flowrate of \qty{0.25}{\kilo\gram\per\second} was inputted, which had been calculated through \cref{eq:boiflowcalc}.
+
+\begin{equation}
+    \dot{m}_\text{boi, nom} = \frac{k\dot{Q}_\text{nom}}{\Delta T_\text{boi loop}  c_\text{water}} \label{eq:boiflowcalc}
+\end{equation}
+
+The coefficient $k$ is simply a scaling factor that affects the massflow rate and downstream variables.
+
+\subsection{Heating System Behaviour}
+\cref{fig:hhsflowchart} is an flowchart diagram which depicts (a slightly non-nuanced version) the system behaviour of the \ac{HHS} implemented in \modelica. 
+\begin{figure}[htb]
+    \centering
+    \input{tikz/flowchartHHS.tex}
+    \input{tikz/flowchartBoiHP.tex}
+    \caption{Flowchart diagram of \acs{HHS} behaviour}
+    \label{fig:hhsflowchart}
+\end{figure}
 \section{Load Profiles}

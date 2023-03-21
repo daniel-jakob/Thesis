@@ -11,13 +11,31 @@ This chapter presents the research methodologies employed in this thesis. \cref{
 
 
 
+\section{Experimental Reference Building}\label{sec:methodrefbuild}
+In September 2014 a Daikin Altherma hybrid \HP system was installed. The dwelling underwent a minimal retrofitting between December 2014 and February 2015. The insulation and air tightness of the building were improved. Low temperature optimised aluminium radiators were fitted which allow for lower temperature supply water to effectively heat a room, ultimately allowing for higher \acp{COP} from the \HP. The improved thermal properties of the building resulted in a reduction of 475 watts per month in the heating load of the house. The average energy consumption decreased by 44.5\%. All comparisons between the model and the reference house will be carried out post-minimal retrofit as it is generally not recommended to run a \HP in poorly insulated/inefficient homes. 
+\subsection{Experimental Measurements}
+Experimental measurements were carried out on the real-life dwelling pre-, during, and post-retrofit. Many data variables were logged, the main ones which this analysis is concerned with being: heating circuit water supply temperature and return temperature in celsius, volumetric flowrate of the heating circuit in cubic metres per hour, electricity power for \HP in watts, outdoor temperature in celsius and gas volume in cubic metres. The data was collected on at ten-minute intervals, but reduced to hourly resolution for the purposes of the data analytics. From the heating circuit water flowrate and temperature differentials it is possible to determine the nigh-ideal heating load of the building. These measurements are used in the verification process in \cref{subsubsec:validation}.
+
 
 \section{Building and Heating System Models}
-\subsection{Reference Building}\label{sec:methodrefbuild}
 
-\subsubsection{Verification}
-\subsection{\acs{HHS} Model}\label{sec:methodheatingsys}
-\subsubsection{Validation}
+
+
+\subsection{Verification} \label{subsubsec:verification}
+For the purposes of model verification, a series of small simulation runs were carried out to test whether the model was behaving as expected. It was noted during the early runs of the simulation, the air in \texttt{zone3\_floor1} was dramatically increasing in temperature during a certain day in early January. It was discovered that this was due to relatively high levels of direct and horizontal solar irradiation entering the room through the large, southerly facing window. The first verification test consists of loosely quantifying the solar irradiation energy gain into the room with the existing window from the model, and comparing this to a simulation run where the window was purposely shrunk to circa one tenth of its original area. 
+
+The ubiquitous heat capacity equation was utilised in quantifying the irradiation gain: 
+\begin{equation}
+    Q = mc\Delta T 
+\end{equation} 
+
+Where $Q$ is the heat energy in watts, $m$ is the mass of air in the room, $c$ is the specific heat capacity of air ($C_{v_\text{air}} = \qty{0.718}{\kilo\joule\per\kilo\gram\per\kelvin}$) and $\Delta T$ is the change in temperature of the air in the room (i.e., difference between temperature at a chosen time in hours leading up to the event, and the peak temperature after the bulk of the simulation day's irradiation). The mass of air in this room was found by taking the volume (\qty{31}{\meter\cubed}) and multiplying it by the density of air at a mean temperature (\sim \qty{1.204}{\kilo\gram\per\cubic\meter}). 
+The heat gained by the room with the large window was found to be \qty{420}{\joule} while with the small window it was found to be \qty{420}{\joule}. This is to be expected as a larger window would justly allow more irradiance to (semi-)directly into the room. 
+
+The next test was to check if heat was being conducted through the interior walls of the building. A room was chosen, and its temperature was purposely raised to an unnatural level of \qty{60}{\celsius}. One would expect that the temperature of the adjacent rooms would increase by means of conduction.\footnote{Door and window openings were not modelled as part of this simulation. The air infiltration rate was increased slightly to compensate for this. However, this also means interzonal airflow was also not modelled.} The test involved comparing the adjacent room temperatures to the corresponding room temperatures in the case where the chosen room's temperature was not artificially raised. The temperature was found to increase an average of \qty{6}{\celsius} across the 4 neighbouring rooms. 
+\subsection{HHS Model}\label{sec:methodheatingsys}
+\subsubsection{Validation} \label{subsubsec:validation}
+
 
 \section{Sensitivity Analysis}
 
