@@ -35,12 +35,11 @@ The heat gained by the room with the large window was found to be \qty{420}{\jou
 The next test was to check if heat was being conducted through the interior walls of the building. A room was chosen, and its temperature was purposely raised to an unnatural level of \qty{60}{\celsius}. One would expect that the temperature of the adjacent rooms would increase by means of conduction.\footnote{Door and window openings were not modelled as part of this simulation. The air infiltration rate was increased slightly to compensate for this. However, this also means interzonal airflow was also not modelled.} The test involved comparing the adjacent room temperatures to the corresponding room temperatures in the case where the chosen room's temperature was not artificially raised. The temperature was found to increase an average of \qty{6}{\celsius} across the 4 neighbouring rooms. 
 \subsection{HHS Model}\label{sec:methodheatingsys}
 \subsubsection{Validation} \label{subsubsec:validation}
-The validation of the \ac{BEM} was performed by comparing value obtained from the simulation with the experimental data collected from the building described in \cref{subse:expmeasure}. Two validation steps were carried out for the building. First, from the heating circuit water flowrate and temperature differentials it is possible to determine the nigh-ideal heating load of the building. The simulated heating loads were obtained by running a year long simulation of the \ac{BEM} and using an idealised heat source to maintain the temperature of the rooms at \qty{21}{\celsius} at all times. Secondly, an energy consumption comparison was carried out, comparing the electricity and gas consumption of the simulation and the experimental values separately. 
+The validation of the \ac{BEM} was performed by comparing values obtained from the simulation with the experimental data collected from the building described in \cref{subsec:expmeasure}. Two validation steps were carried out for the building. First, the idealised space heating load was compared. From the heating circuit water flowrate and temperature differentials it is possible to determine the nigh-ideal heating load of the building. The simulated heating loads were obtained by running a year long simulation of the \ac{BEM} and using an idealised heat source to maintain the temperature of the rooms at \qty{21}{\celsius} at all times. Secondly, an energy consumption comparison was carried out, comparing the electricity and gas consumption of the simulation and the experimental values separately, and then the combined fuel usages. It should be noted that the reference house had no night setback temperature---rather the indoor temperature was maintained at \SI[separate-uncertainty = true]{20(0.5)}{\celsius}. This was only reflected in the \modelica model for the validation phase. The in-situ Daikin Altherma 3 \ac{HHPS} had a cut-off temperature of \qty{2}{\celsius}.
 
 The validation criteria used to assess the accuracy of the model were based on  \citetitle{ashrae_guideline_project_committee_14_ashrae_2014} \cite{ashrae_guideline_project_committee_14_ashrae_2014}, using the three statistical indices explained in \cref{subsubsec:validation}, these indicators measure the deviation between simulated and measured values, as well as the direction and magnitude of the bias. A monthly calibration approach was adopted, meaning the \ac{CVRMSE}, \ac{NMBE} and \ac{SMAPE} values were calculated for each month using \cref{eq:cvrmse,eq:nmbe,eq:smape} respectively. 
 
-The \ac{CVRMSE} achieved was 9.483\%, which is under the ASHRAE suggested 15.0\% for monthly data comparisons. The \ac{NMBE} was calculated to be 0.02242, well under the suggested 5\%  threshold, meaning the model did not systematically over- or underpredict the space heating load. The \ac{SMAPE} value came to 6.061\%, which is under the generally accepted 10\% threshold for very good predictions. \cref{fig:spaceheatingcalib} shows a clustered bar chart comparing the simulation and experimental space heating values for all heating months.  
-
+The \ac{CVRMSE} achieved was 9.483\%, which is under the ASHRAE suggested 15.0\% for monthly data comparisons. The \ac{NMBE} was calculated to be 0.02242, well under the suggested 5\%  threshold, meaning the model did not systematically over- or underpredict the space heating load. The \ac{SMAPE} value came to 6.061\%, which is under the generally accepted 10\% threshold for very good predictions. \cref{fig:spaceheatingcalib} shows a clustered bar chart comparing the simulation and experimental space heating values for all heating months. 
 
 \begin{figure}[htb]
     \centering
@@ -50,10 +49,31 @@ The \ac{CVRMSE} achieved was 9.483\%, which is under the ASHRAE suggested 15.0\%
 \end{figure}
 
 
+The electricity and gas energy usage for the simulation and experimental values were also compared. The \ac{CVRMSE} evaluated to: XXX for the gas and XXX for the electricity and the \ac{NMBE} came to XXX and XXX for gas and electricity respectively, which are below the ASHRAE guidelines. The \ac{SMAPE} was XXX for gas and XXX for electricity which is also below the commonly agreed upon threshold. \cref{fig:energycalib} shows a stacked, group bar chart of the electricity and gas usage for the experimental and simulation. It can be seen that the two sets of data are in good agreement.
 
-\section{Sensitivity Analysis}
+
+\begin{figure}[htb]
+    \centering
+    \includegraphics[width=1\linewidth]{figures/energyCalib.tikz}
+    \caption{Combined energy usage for space heating}
+    \label{fig:energycalib}
+\end{figure}
+
+
+
+\section{Sensitivity Analysis}\label{sec:sensanal}
+A full factorial parametric study was carried out on the bivalent parallel operation temperature window of modelled \ac{HHS}. This analysis aims to evaluate the effect of varying the bivalent temperature and cut-off temperature on the total cost of fuel and electricity for the heating system, in addition to assessing its \ac{PEF} and $\text{CO}_2$ emissions. First, some fundamental preliminary steps must be completed before carrying out the sensitivity analysis. Choosing/identifying the parameters to be varied: it was discovered from the literature review that an optimising of the hybrid operation temperature window has not been carried out for the Irish climate, and not in any comprehensive way for other climates either. \ac{ASHP} manufacturers may have carried out proprietary research regarding this, however, such data is not available openly. Defining the range of values for each parameter: it is understood from Daikin's user manuals that they use a cut-off temperature of \qty{2}{\celsius} and a bivalent temperature of \qty{7}{\celsius}, which gives a good starting point. Knowledge gained from the literature review and Daikin's specifications manual for the \HP being modelled, it is understood that the performance of a \HP dramatically decreases with temperature due to diminishing \ac{COP} and frosting effects, therefore a lower bound of \qty{-2}{\celsius} was chosen. For the bivalent temperature, an upper bound of \qty{10}{\celsius} was chosen, as if it were much higher, the desired effects of running the \ac{HHS} solely with the \HP would be quite limited, almost defeating the purpose of the \HP entirely. The upper bound for the cut-off temperature was set to \qty{4}{\celsius} and finally the lower bound of the bivalent temperature was subsequently set to \qty{5}{\celsius} to avoid creating a bivalent alternative operation hybrid system with the bivalent temperature and cut-off temperature being equal.
+
+Next the resolution of the parameters was to be decided. This is typically determined based on the available computational resources and the desired level of detail in the analysis. Intervals of \qty{1}{\celsius} were chosen, resulting in a resolution of 6 for the bivalent temperature and 7 for the cut-off temperature. With this, a matrix that specifies all possible combinations of values for each parameter can be drawn. Then the simulations must be ran one-by-one, varying the parameters in sequence and systematically.
 
 \section{Eco-Economic Assessment}\label{sec:methodecoeco}
+The eco-economic assessment chapter deals with showcasing the results gathered from the 42 total simulation runs and performing the analysis. This paper is seeking to answer two questions: what is the optimal temperature window to minimise cost, and what is the optimal temperature window to minimise environmental impact. The economic analysis involves determining the hourly consumption of gas and electricity by the two heating devices and determining the overall cost of running the heating system for the year. The price of gas does not fluctuate, only changing at most a couple of times in a year, however, the price of electricity fluctuates on an hourly basis due to Time-of-Use tariffs. The cost of heating for a a given timestep for this analysis was simply the sum of the products of cost of energy type at time $t$ by consumption over the time interval, given by \cref{eq:sumofprod}, where $B$ is the fuel consumption in kilowatt-hours and $C$ is the cost of the fuel type in cent per kilowatt-hours for a given fuel (at a given time if electricity).
+
+
+\begin{equation}
+    B_\text{gas}C_\text{gas} + B_\text{elec}C_\text{elec}\label{eq:sumofprod}
+\end{equation}
+
 
 \section{Conclusion}\label{sec:methodconclusion}
 

@@ -4,6 +4,7 @@
         height=6cm,
         bar width=3mm,
         ymin=0,
+        yticklabel = {$\num[round-mode=places,round-precision=0]{\tick}$},
         ymax=2500,       
         enlarge x limits={abs=0.5},
         ylabel={Space Heating Load [kWh]},

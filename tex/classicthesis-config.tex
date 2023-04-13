@@ -212,7 +212,7 @@ natbib=true % natbib compatibility mode (\citep and \citet still work)
 
 % Need to use MATLAB2TikZ %%% 
 \usepackage{pgfplots}
-\pgfplotsset{compat=1.17}
+
 % \usepgfplotslibrary{patchplots}
 % \usepackage{grffile}
 \usetikzlibrary{arrows,
@@ -229,6 +229,15 @@ natbib=true % natbib compatibility mode (\citep and \citet still work)
 
 
 \usepackage{pgfplotstable}
+\pgfplotsset{compat=1.18, 
+        colormap={mycolor}{
+        rgb255=(0, 181, 26)
+        rgb255=(255,255,0)
+        rgb255=(255, 45, 33)
+    },
+    }
+\usepackage{diagbox}
+\usepackage{colortbl}
 \usepackage{tikzscale}
 % \pgfplotstableset{% global config, for example in the preamble
 % empty cells with={--}, % replace empty cells with '--'
@@ -237,6 +246,56 @@ natbib=true % natbib compatibility mode (\citep and \citet still work)
 % }
 
 %\pgfkeys{/pgf/plot/gnuplot call={cd .aux && gnuplot}}
+
+\pgfplotstableset{
+    /color cells/min/.initial=1000,
+    /color cells/max/.initial=8000,
+    /color cells/textcolor/.initial=,
+    %
+    % Usage: 'color cells={min=<value which is mapped to lowest color>, 
+    %   max = <value which is mapped to largest>}
+    color cells/.code=
+    {%
+        \pgfqkeys{/color cells}{#1}%
+        \pgfkeysalso
+        {%
+            postproc cell content/.code=
+            {%
+                \begingroup
+                \pgfkeysgetvalue{/pgfplots/table/@preprocessed cell content}\value
+                \pgfmathfloatparsenumber{\value}%
+                \pgfmathfloattofixed{\pgfmathresult}%
+                \let\value=\pgfmathresult
+                \pgfplotscolormapaccess
+                    [\pgfkeysvalueof{/color cells/min}:\pgfkeysvalueof{/color cells/max}]
+                    {\value}
+                    {\pgfkeysvalueof{/pgfplots/colormap name}}
+                \pgfkeysgetvalue{/pgfplots/table/@cell content}\typesetvalue %This is the important if-statement for font color selection
+                \ifdim\value pt<.5pt\relax
+                  \def\textcolorvalue{black}%
+                \else
+                  \def\textcolorvalue{black}%
+                \fi
+                \toks0=\expandafter{\typesetvalue}%
+                \xdef\temp{%
+                    \noexpand\pgfkeysalso{%
+                        @cell content={%
+                            \noexpand\cellcolor[rgb]{\pgfmathresult}%
+                            \noexpand\definecolor{mapped color}{rgb}{\pgfmathresult}%
+                            \ifx\textcolorvalue\empty
+                            \else
+                                \noexpand\color{\textcolorvalue}%
+                            \fi
+                            \the\toks0 %
+                        }%
+                    }%
+                }%
+                \endgroup
+                \temp
+            }%
+        }%
+    }%
+}
 
 \usepackage[ruled,vlined]{algorithm2e}
 

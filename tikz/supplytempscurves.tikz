@@ -1,0 +1,14 @@
+\begin{tikzpicture}
+\begin{axis}[ymajorgrids, clip=false,
+          xmax=25,ymax=55,xmin=-10,ymin=0,
+          axis lines=middle,
+          %enlargelimits
+          ]
+
+\addplot[domain=-10:22, color=red,]{(-25*x)/33+(125)/3} node [very near start, above right] {HP Curve};
+\addplot[domain=22:25, color=red,]{(25)};
+
+\addplot[domain=-10:22, color=red,]{(-22*x)/33+(105)/3} node [very near start, below left] {HP Curve};
+\addplot[domain=22:25, color=red,]{(20.3)};
+\end{axis}
+\end{tikzpicture}

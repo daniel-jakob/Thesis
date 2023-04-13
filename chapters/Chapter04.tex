@@ -16,7 +16,7 @@
 The reference house that the building model is based off of a hipped dormer, two-storey residential house located in Belturbet, Cavan, a small town close to the Republic of Ireland and Northern Ireland border, about 125 kilometres from Dublin. The reference house lies at an elevation of 80 metres and is Easterly facing. The dwelling is located in a residential estate, and is thus classified as being located in an urban environment.
 
 \section{Form and Fabric}
-The reference model has a floor area of 160 square metres, 93 square metres of which are downstairs, i.e., ``exterior floor'', a gross roof area of 173 square metres and a total external wall surface area of 139 square metres. There are 21 exterior windows of varying sizes in total and thirteen rooms, seven downstairs and six upstairs. The ceiling height is a uniform 2.5 metres throughout the model. All rooms except for one were considered to be unconditioned, the exception being a very small box room on the ground floor which was interpreted to be a utility room of sorts. The void zones were also unconditioned. The building model geometry and thermal properties were created during previous works by \citeauthor{keogh_technical_2022}. A floor plan schematic can be seen in \cref{fig:floorplan}, showing the ground floor and first floor room layouts and windows. A 3D rendered model of the house can be seen in \cref{fig:3dmodel}. All model data is contained in a \texttt{.idf} file, an input data file interpretable by \texttt{EnergyPlus}. This file contains data about the geometry of the building, envelope construction, thermal and physical properties of the constructions, building and occupancy schedules, internal gains, outside air infiltration to void zones and various other data regarding the simulation process e.g., timestep. 
+The reference model has a floor area of 160 square metres, 93 square metres of which are downstairs, i.e., ``exterior floor'', a gross roof area of 173 square metres and a total external wall surface area of 139 square metres. There are 21 exterior windows of varying sizes in total and thirteen rooms, seven downstairs and six upstairs. The ceiling height is a uniform 2.5 metres throughout the model. All rooms except for one were considered to be unconditioned, the exception being a very small box room on the ground floor which was interpreted to be a utility room of sorts. The void zones were also unconditioned. The building model geometry and thermal properties were created during previous works by \citeauthor{keogh_technical_2022}. A floor plan schematic can be seen in \cref{fig:floorplan}, showing the ground floor and first floor room layouts and windows. A 3D rendered model of the house can be seen in \cref{fig:3dmodel}. All building model data is contained in a \texttt{.idf}-file, an input data file interpretable by \texttt{EnergyPlus}. This file contains data about the geometry of the building, envelope construction, thermal and physical properties of the constructions, building and occupancy schedules, internal gains, outside air infiltration to void zones and various other data regarding the simulation process e.g., timestep. 
 
 \begin{figure}[htb]
     \centering
@@ -28,7 +28,7 @@ The reference model has a floor area of 160 square metres, 93 square metres of w
 \begin{figure}[htb]
     \centering
     %\includegraphics[width=0.7\linewidth]{3dmodel}
-    \includegraphics[width=0.7\linewidth]{example-image-a}
+    \includegraphics[width=0.7\linewidth]{Housepng.png}
     \caption[3D Model of Reference Building]{3D Model of Reference Building, rendered in \texttt{SketchUp} via the \texttt{Euclid} plugin}
     \label{fig:3dmodel}
 \end{figure}
@@ -44,8 +44,8 @@ The reference model has a floor area of 160 square metres, 93 square metres of w
     \begin{tabular}{lccccc}\toprule
         \multicolumn{1}{c}{\multirow{2}{*}{\begin{tabular}[c]{@{}c@{}}Building \\ Model\end{tabular}}} & \multicolumn{4}{c}{\begin{tabular}[c]{@{}c@{}}U-Value\\ {[}W/m2-K{]}\end{tabular}} & \multirow{2}{*}{\begin{tabular}[c]{@{}c@{}}Infiltration\\ Rate\\ {[}ACH{]}\end{tabular}} \\ \cmidrule(lr){2-5}
         \multicolumn{1}{c}{} & \begin{tabular}[c]{@{}c@{}}Exterior\\ Wall\end{tabular} & \begin{tabular}[c]{@{}c@{}}Pitched\\ Roof\end{tabular} & \begin{tabular}[c]{@{}c@{}}Exterior\\ Floor\end{tabular} & \begin{tabular}[c]{@{}c@{}}Exterior\\ Glazing\end{tabular} &  \\ \midrule
-        \begin{tabular}[c]{@{}l@{}}Minimal\\ Retrofit\end{tabular} & 0.31 & 0.16 & 0.25 & 2.15 & 0.8 \\
-        \begin{tabular}[c]{@{}l@{}}Deep \\ Retrofit\end{tabular} & 0.18 & 0.16 & 0.18 & 1.39 & 0.5 \\ \bottomrule   
+        \begin{tabular}[c]{@{}l@{}}Minimal\\ Retrofit\end{tabular} & \num{0.31} & \num{0.16} & \num{0.25} & \num{2.15} & \num{0.8} \\
+        \begin{tabular}[c]{@{}l@{}}Deep \\ Retrofit\end{tabular} & \num{0.18} & \num{0.16} & \num{0.18} & \num{1.39} & \num{0.5} \\ \bottomrule   
     \end{tabular}
 \end{table}
 
@@ -59,10 +59,10 @@ The reference model has a floor area of 160 square metres, 93 square metres of w
     \begin{tabular}{lcccc}
         \toprule
         Layer        & \multicolumn{1}{c}{\begin{tabular}[c]{@{}c@{}}Thickness \\ {[}m{]}\end{tabular}} & \multicolumn{1}{c}{\begin{tabular}[c]{@{}c@{}}Density \\ {[}\unit{\kilogram\per\cubic\meter}{]}\end{tabular}} & \multicolumn{1}{c}{\begin{tabular}[c]{@{}c@{}}Heat Capacity \\  {[}\unit{\joule\per\kilogram\per\kelvin}{]}\end{tabular}}  & \multicolumn{1}{c}{\begin{tabular}[c]{@{}c@{}}Conductivity \\   {[}\unit{\watt\per\meter\per\kelvin}{]}\end{tabular}} \\ \midrule
-        Rainscreen   & 0.01              & 7824                & 500                        & 30                       \\
-        Insulation   & 0.085             & 43                  & 1210                       & 0.03                     \\
-        Air Cavity      & 0.15              & $-$                  & $-$                      &  $-$                  \\
-        Gypsum board & 0.019             & 800                 & 1090                       & 0.16                     \\
+        Rainscreen   & \num{0.01}              & \num{7824}                & \num{500}                        & \num{30}                       \\
+        Insulation   & \num{0.085}             & \num{43}                  & \num{1210}                       & \num{0.03}                     \\
+        Air Cavity      & \num{0.15}              & $-$                  & $-$                      &  $-$                  \\
+        Gypsum board & \num{0.019}             & \num{800}                 & \num{1090}                       & \num{0.16}                     \\
         \bottomrule
     \end{tabular}
 \end{table}
@@ -77,10 +77,10 @@ The reference model has a floor area of 160 square metres, 93 square metres of w
     \begin{tabular}{lcccc}
         \toprule
         Layer        & \multicolumn{1}{c}{\begin{tabular}[c]{@{}c@{}}Thickness \\ {[}m{]}\end{tabular}} & \multicolumn{1}{c}{\begin{tabular}[c]{@{}c@{}}Density \\ {[}\unit{\kilogram\per\cubic\meter}{]}\end{tabular}} & \multicolumn{1}{c}{\begin{tabular}[c]{@{}c@{}}Heat Capacity \\  {[}\unit{\joule\per\kilogram\per\kelvin}{]}\end{tabular}}  & \multicolumn{1}{c}{\begin{tabular}[c]{@{}c@{}}Conductivity \\   {[}\unit{\watt\per\meter\per\kelvin}{]}\end{tabular}} \\ \midrule
-        Acoustic Tile   & 0.0191            & 368                 & 590                        & 0.06                     \\
-        Air Cavity      & 0.15              & $-$                  & $-$                      &  $-$                  \\
-        Insulation      & 0.085             & 43                  & 1210                       & 0.03                     \\
-        Concrete        & 0.1016             & 1280                 & 840                       & 0.53                     \\
+        Acoustic Tile   & \num{0.0191}            & \num{368}                 & \num{590}                        & \num{0.06}                     \\
+        Air Cavity      & \num{0.15}              & $-$                  & $-$                      &  $-$                  \\
+        Insulation      & \num{0.085}             & \num{43}                  & \num{1210}                       & \num{0.03}                     \\
+        Concrete        & \num{0.1016}             & \num{1280}                 & \num{840}                       & \num{0.53}                     \\
         \bottomrule
     \end{tabular}
 \end{table}
@@ -96,10 +96,10 @@ The reference model has a floor area of 160 square metres, 93 square metres of w
     \begin{tabular}{lcccc}
         \toprule
         Layer        & \multicolumn{1}{c}{\begin{tabular}[c]{@{}c@{}}Thickness \\ {[}m{]}\end{tabular}} & \multicolumn{1}{c}{\begin{tabular}[c]{@{}c@{}}Density \\ {[}\unit{\kilogram\per\cubic\meter}{]}\end{tabular}} & \multicolumn{1}{c}{\begin{tabular}[c]{@{}c@{}}Heat Capacity \\  {[}\unit{\joule\per\kilogram\per\kelvin}{]}\end{tabular}}  & \multicolumn{1}{c}{\begin{tabular}[c]{@{}c@{}}Conductivity \\   {[}\unit{\watt\per\meter\per\kelvin}{]}\end{tabular}} \\ \midrule
-        Clay Tile   & 0.025            & 1900                 & 800                        & 0.84                     \\
-        Air Cavity      & 0.15              & $-$                  & $-$                      &  $-$                  \\
-        Insulation      & 0.162            & 43                  & 1210                       & 0.03                     \\
-        Gypsum board & 0.019             & 800                 & 1090                       & 0.16                     \\
+        Clay Tile   & \num{0.025}            & \num{1900}                 & \num{800}                        & \num{0.84}                     \\
+        Air Cavity      & \num{0.15}              & $-$                  & $-$                      &  $-$                  \\
+        Insulation      & \num{0.162}            & \num{43}                  & \num{1210}                       & \num{0.03}                     \\
+        Gypsum board & \num{0.019}             & \num{800}                 & \num{1090}                       & \num{0.16}                     \\
         \bottomrule
     \end{tabular}
 \end{table}
@@ -113,9 +113,9 @@ The dormer roof provides no insulation and is only in place to protect the insid
     \begin{tabular}{lcccc}
         \toprule
         Layer        & \multicolumn{1}{c}{\begin{tabular}[c]{@{}c@{}}Thickness \\ {[}m{]}\end{tabular}} & \multicolumn{1}{c}{\begin{tabular}[c]{@{}c@{}}Density \\ {[}\unit{\kilogram\per\cubic\meter}{]}\end{tabular}} & \multicolumn{1}{c}{\begin{tabular}[c]{@{}c@{}}Heat Capacity \\  {[}\unit{\joule\per\kilogram\per\kelvin}{]}\end{tabular}}  & \multicolumn{1}{c}{\begin{tabular}[c]{@{}c@{}}Conductivity \\   {[}\unit{\watt\per\meter\per\kelvin}{]}\end{tabular}} \\ \midrule
-        Clay Tile   & 0.025            & 1900                 & 800                        & 0.84                     \\
-        Air Cavity      & 0.15              & $-$                  & $-$                      &  $-$                  \\
-        Roofing Felt      & 0.005            & 960                  & 837                      & 0.19                    \\
+        Clay Tile   & \num{0.025}            & \num{1900}                 & \num{800}                        & \num{0.84}                     \\
+        Air Cavity      & \num{0.15}              & $-$                  & $-$                      &  $-$                  \\
+        Roofing Felt      & \num{0.005}            & \num{960}                  & \num{837}                      & \num{0.19}                    \\
         \bottomrule
     \end{tabular}
 \end{table}
@@ -128,9 +128,9 @@ The dormer roof provides no insulation and is only in place to protect the insid
     \begin{tabular}{lccc}
         \toprule
         Layer        & \multicolumn{1}{c}{\begin{tabular}[c]{@{}c@{}}Thickness \\ {[}m{]}\end{tabular}} & \multicolumn{1}{c}{\begin{tabular}[c]{@{}c@{}}Transmittance \\ {[}\unit{\kilogram\per\cubic\meter}{]}\end{tabular}}  & \multicolumn{1}{c}{\begin{tabular}[c]{@{}c@{}}Conductivity \\   {[}\unit{\watt\per\meter\per\kelvin}{]}\end{tabular}} \\ \midrule
-        Inner Pane   & 0.003            & 0.783                 & 0.4                                         \\
-        Argon Gas      & 0.20              & $-$                  & $-$                                   \\
-        Outer Pane     & 0.003            & 0.783                  & 0.4                                    \\
+        Inner Pane   & \num{0.003}            & \num{0.783}                 & \num{0.4}                                         \\
+        Argon Gas      & \num{0.20}              & $-$                  & $-$                                   \\
+        Outer Pane     & \num{0.003}            & \num{0.783}                  & \num{0.4}                                    \\
         \bottomrule
     \end{tabular}
 \end{table}
@@ -146,11 +146,11 @@ During the deep retrofit process, the external wall, exposed floor and external 
     \begin{tabular}{lccc}
         \toprule
         Layer        & \multicolumn{1}{c}{\begin{tabular}[c]{@{}c@{}}Thickness \\ {[}m{]}\end{tabular}} & \multicolumn{1}{c}{\begin{tabular}[c]{@{}c@{}}Transmittance \\ {[}\unit{\kilogram\per\cubic\meter}{]}\end{tabular}}  & \multicolumn{1}{c}{\begin{tabular}[c]{@{}c@{}}Conductivity \\   {[}\unit{\watt\per\meter\per\kelvin}{]}\end{tabular}} \\ \midrule
-        Inner Pane   & 0.003            & 0.783                 & 0.4                                         \\
-        Argon Gas      & 0.20              & $-$                  & $-$                                   \\
-        Middle Pane   & 0.003            & 0.783                 & 0.4                                         \\
-        Argon Gas      & 0.20              & $-$                  & $-$                                   \\
-        Outer Pane     & 0.003            & 0.783                  & 0.4                                    \\
+        Inner Pane   & \num{0.003}            & \num{0.783}                 & \num{0.4}                                         \\
+        Argon Gas      & \num{0.20}              & $-$                  & $-$                                   \\
+        Middle Pane   & \num{0.003}            & \num{0.783}                 & \num{0.4}                                         \\
+        Argon Gas      & \num{0.20}              & $-$                  & $-$                                   \\
+        Outer Pane     & \num{0.003}            & \num{0.783}                  & \num{0.4}                                    \\
         \bottomrule
     \end{tabular}   
 \end{table}
@@ -163,10 +163,10 @@ During the deep retrofit process, the external wall, exposed floor and external 
     \begin{tabular}{lcccc}
         \toprule
         Layer        & \multicolumn{1}{c}{\begin{tabular}[c]{@{}c@{}}Thickness \\ {[}m{]}\end{tabular}} & \multicolumn{1}{c}{\begin{tabular}[c]{@{}c@{}}Density \\ {[}\unit{\kilogram\per\cubic\meter}{]}\end{tabular}} & \multicolumn{1}{c}{\begin{tabular}[c]{@{}c@{}}Heat Capacity \\  {[}\unit{\joule\per\kilogram\per\kelvin}{]}\end{tabular}}  & \multicolumn{1}{c}{\begin{tabular}[c]{@{}c@{}}Conductivity \\   {[}\unit{\watt\per\meter\per\kelvin}{]}\end{tabular}} \\ \midrule
-        Acoustic Tile   & 0.0191            & 368                 & 590                        & 0.06                     \\
-        Air Cavity      & 0.15              & $-$                  & $-$                      &  $-$                  \\
-        Insulation      & 0.085             & 43                  & 1210                       & 0.03                     \\
-        Concrete        & 0.1016             & 1280                 & 840                       & 0.53                     \\
+        Acoustic Tile   & \num{0.0191}            & \num{368}                 & \num{590}                        & \num{0.06}                     \\
+        Air Cavity      & \num{0.15}              & $-$                  & $-$                      &  $-$                  \\
+        Insulation      & \num{0.085}             & \num{43}                  & \num{1210}                       & \num{0.03}                     \\
+        Concrete        & \num{0.1016}             & \num{1280}                 & \num{840}                       & \num{0.53}                     \\
         \bottomrule
     \end{tabular}
 \end{table}
@@ -179,10 +179,10 @@ During the deep retrofit process, the external wall, exposed floor and external 
     \begin{tabular}{lcccc}
         \toprule
         Layer        & \multicolumn{1}{c}{\begin{tabular}[c]{@{}c@{}}Thickness \\ {[}m{]}\end{tabular}} & \multicolumn{1}{c}{\begin{tabular}[c]{@{}c@{}}Density \\ {[}\unit{\kilogram\per\cubic\meter}{]}\end{tabular}} & \multicolumn{1}{c}{\begin{tabular}[c]{@{}c@{}}Heat Capacity \\  {[}\unit{\joule\per\kilogram\per\kelvin}{]}\end{tabular}}  & \multicolumn{1}{c}{\begin{tabular}[c]{@{}c@{}}Conductivity \\   {[}\unit{\watt\per\meter\per\kelvin}{]}\end{tabular}} \\ \midrule
-        Rainscreen   & 0.01              & 7824                & 500                        & 30                       \\
-        Insulation   & 0.085             & 43                  & 1210                       & 0.03                     \\
-        Air Cavity      & 0.15              & $-$                  & $-$                      &  $-$                  \\
-        Gypsum board & 0.019             & 800                 & 1090                       & 0.16                     \\
+        Rainscreen   & \num{0.01}              & \num{7824}                & \num{500}                        & \num{30}                       \\
+        Insulation   & \num{0.085}             & \num{43}                  & \num{1210}                       & \num{0.03}                     \\
+        Air Cavity      & \num{0.15}              & $-$                  & $-$                      &  $-$                  \\
+        Gypsum board & \num{0.019}             & \num{800}                 & \num{1090}                       & \num{0.16}                     \\
         \bottomrule
     \end{tabular}
 \end{table}
@@ -205,32 +205,67 @@ The magnitude of these gains depends on factors such as the number of occupants,
 
 In order to accurately model occupancy gains in a \ac{BEM}, it is important to use typical occupancy profiles in conjunction with typical metabolic rates for different tasks. A typical occupancy profile is a representation of the number of occupants in the building over time, while a typical metabolic rate is a measure of the heat generated by a person due to their physical activity. Different tasks require different amounts of energy, and therefore result in different levels of heat generation. For example, a person sitting quietly may have a lower metabolic rate than someone performing strenuous physical activity.
 
-\citeauthor{buttitta_high-temporal_2020} \cite{buttitta_high-temporal_2020} developed a stochastic occupancy model which generates hourly occupancy schedules for up to five different types of occupancy profiles of residential buildings for an entire year, based off of data gathered from London, UK. For this thesis, an occupancy profile was chosen which represented the largest share of the population, and two schedules were drawn, one for the weekdays and one for the weekends. These schedules depict the number of persons occupying the dwelling at each hour of the day, and are detailed in \cref{tbl:occupancysched}.
+\citeauthor{buttitta_high-temporal_2020} \cite{buttitta_high-temporal_2020} developed a stochastic occupancy model which generates hourly occupancy schedules for up to five different types of occupancy profiles of residential buildings for an entire year, based off of data gathered from London, UK. For this thesis, an occupancy profile was chosen which represented the largest share of the population, and two schedules were drawn, one for the weekdays and one for the weekends. These schedules depict the number of persons occupying the dwelling at each hour of the day, and the weekday schedule is detailed in \cref{tbl:occupancysched}. The table shows the fraction of the (four) occupants in the home at the corresponding time interval. For the weekend schedule, it was assumed that all occupants remain home all day.
 
 \begin{table}[htb]
     \centering
-    \caption{Occupancy Schedules}
+    \caption{Weekday Occupancy Schedules}
     \label{tbl:occupancysched}
     \begin{tabular}
         {lcr}
         \toprule
-        1&1&1\\
+        Time & Fraction of Occupants \\
+        \midrule
+        \num[parse-numbers=false]{00}:\num[parse-numbers=false]{00} $\rightarrow$ \num[parse-numbers=false]{06}:\num[parse-numbers=false]{50} & \num{1.0}\\
+        \num[parse-numbers=false]{06}:\num[parse-numbers=false]{50} $\rightarrow$ \num[parse-numbers=false]{07}:\num[parse-numbers=false]{30} & \num{0.75}\\
+        \num[parse-numbers=false]{07}:\num[parse-numbers=false]{30} $\rightarrow$ \num[parse-numbers=false]{08}:\num[parse-numbers=false]{20} & \num{0.5}\\
+        \num[parse-numbers=false]{08}:\num[parse-numbers=false]{20} $\rightarrow$ \num[parse-numbers=false]{18}:\num[parse-numbers=false]{20} & \num{0.0}\\
+        \num[parse-numbers=false]{18}:\num[parse-numbers=false]{20} $\rightarrow$ \num[parse-numbers=false]{24}:\num[parse-numbers=false]{00} & \num{1.0}\\
         \bottomrule
     \end{tabular}
 \end{table}
 
-\citetitle{ashrae_ansiashrae_2010} \cite{ashrae_ansiashrae_2010} details the metabolic rate of people performing various tasks, given in Met units, as well as watts per square metre. An activity level schedule was quasi-arbitrarily assembled and is detailed in \cref{tbl:activitysched}.
-
+\citetitle{ashrae_ansiashrae_2010} \cite{ashrae_ansiashrae_2010} details the metabolic rate of people performing various tasks, given in Met units, as well as watts per square metre. An activity level schedule was quasi-arbitrarily assembled and is detailed in \cref{tbl:activitysched}. The table, which is very similar to the occupancy schedule in nature, shows the metabolic rate in watts per square metre for the corresponding time interval. \texttt{EnergyPlus} takes this metabolic rate and multiplies it by a value of \qty{1.8}{\square\meter}, deemed to be the standard surface area of a typical adult. As a reference, a rate of \qty{40}{\watt\per\square\meter} corresponds to sleeping, \qtyrange{50}{90}{\watt\per\square\meter} are non-strenuous activities such as lounging, reading, etc. and above \qty{100}{\watt\per\square\meter} corresponds to activities such as walking briskly and beyond.
+ 
 \begin{table}[htb]
     \centering
-    \caption{Activity Schedule}
+    \caption{Activity Schedules}
     \label{tbl:activitysched}
-    \begin{tabular}
-        {lcr}
+    \begin{subtable}[t]{0.485\linewidth}
+        %\centering
+        \caption{Weekday Activity Schedule}
+        \begin{tabular}
+        {lr}
         \toprule
-        1&1&1\\
+        Time & \multicolumn{1}{c}{\begin{tabular}[c]{@{}c@{}}Metabolic\\ rate\\ {[}\unit{\watt\per\square\meter}{]}\end{tabular}}   \\
+        \midrule
+        \num[parse-numbers=false]{00}:\num[parse-numbers=false]{00} $\rightarrow$ \num[parse-numbers=false]{06}:\num[parse-numbers=false]{50} & \num{40}\\
+        \num[parse-numbers=false]{06}:\num[parse-numbers=false]{50} $\rightarrow$ \num[parse-numbers=false]{08}:\num[parse-numbers=false]{20} & \num{120}\\
+        \num[parse-numbers=false]{08}:\num[parse-numbers=false]{20} $\rightarrow$ \num[parse-numbers=false]{18}:\num[parse-numbers=false]{20} & \num{0.0}\\
+        \num[parse-numbers=false]{18}:\num[parse-numbers=false]{20} $\rightarrow$ \num[parse-numbers=false]{22}:\num[parse-numbers=false]{00} & \num{120}\\
+        \num[parse-numbers=false]{20}:\num[parse-numbers=false]{00} $\rightarrow$ \num[parse-numbers=false]{23}:\num[parse-numbers=false]{10} & \num{75}\\
+        \num[parse-numbers=false]{23}:\num[parse-numbers=false]{10} $\rightarrow$ \num[parse-numbers=false]{24}:\num[parse-numbers=false]{00} & \num{40}\\
         \bottomrule
     \end{tabular}
+    \end{subtable}%
+    \hfill
+    \begin{subtable}[t]{0.485\linewidth}
+        %\centering
+        \caption{Weekend Activity Schedule}
+        \begin{tabular}
+        {lr}
+        \toprule
+        Time & \multicolumn{1}{c}{\begin{tabular}[c]{@{}c@{}}Metabolic\\ rate\\ {[}\unit{\watt\per\square\meter}{]}\end{tabular}} \\
+        \midrule
+        \num[parse-numbers=false]{00}:\num[parse-numbers=false]{00} $\rightarrow$ \num[parse-numbers=false]{01}:\num[parse-numbers=false]{00} & \num{75}\\
+        \num[parse-numbers=false]{01}:\num[parse-numbers=false]{00} $\rightarrow$ \num[parse-numbers=false]{07}:\num[parse-numbers=false]{20} & \num{40}\\
+        \num[parse-numbers=false]{07}:\num[parse-numbers=false]{20} $\rightarrow$ \num[parse-numbers=false]{09}:\num[parse-numbers=false]{30} & \num{75}\\
+        \num[parse-numbers=false]{09}:\num[parse-numbers=false]{30} $\rightarrow$ \num[parse-numbers=false]{24}:\num[parse-numbers=false]{00} & \num{120}\\
+        \num[parse-numbers=false]{20}:\num[parse-numbers=false]{00} $\rightarrow$ \num[parse-numbers=false]{23}:\num[parse-numbers=false]{10} & \num{75}\\
+        \num[parse-numbers=false]{23}:\num[parse-numbers=false]{10} $\rightarrow$ \num[parse-numbers=false]{24}:\num[parse-numbers=false]{00} & \num{40}\\
+        \bottomrule
+        \end{tabular}
+    \end{subtable}%
 \end{table}
 
 \subsection{Lighting}
@@ -239,23 +274,58 @@ In the past, internal gains from lighting used to be a significant contributor t
 However, with the gradual adoption of more efficient lighting technologies such as LED bulbs, internal gains from lighting have become much less of a concern. LED bulbs are significantly more efficient than incandescent bulbs, converting a higher percentage of their energy input into light rather than heat. This means that they generate far less waste heat, resulting in lower cooling loads and reduced energy consumption. \citefield{ISO17772}{shorttitle} presents lighting schedules and load density profiles for single family residential homes, and are reproduced in \cref{tbl:lightandequip}. 
 
 \subsection{Plug Loads and Equipment}
-Plug loads in a residential home refer to the energy consumed by appliances and devices that are plugged into electrical outlets, such as televisions, computers, and kitchen appliances. Equipment internal gains in a residential home refer to the heat generated by the operation of various equipment and appliances, such as refrigerators, ovens, and water heaters. This heat can contribute to the overall heat load of the home, particularly during periods of high use. \citefield{ISO17772}{shorttitle} gives details regarding standards for schedules and load density profiles for equipment gains and plug loads, and is reproduced in \cref{tbl:lightandequip}.
+Plug loads in a residential home refer to the energy consumed by appliances and devices that are plugged into electrical outlets, such as televisions, computers, and kitchen appliances. Equipment internal gains in a residential home refer to the heat generated by the operation of various equipment and appliances, such as refrigerators, ovens, and water heaters. This heat can contribute to the overall heat load of the home, particularly during periods of high use. \citefield{ISO17772}{shorttitle} gives details regarding standards for schedules and load density profiles for equipment gains and plug loads, and is reproduced in \cref{tbl:lightandequip}, showing the fraction of the load thought to be ``active'' at the corresponding time. The nominal lighting load is given to be \qty{2.07}{\watt\per\square\meter} and nominal equipment load is given to be \qty{1.92}{\watt\per\square\meter}
 
 \begin{table}[htb]
     \centering
     \caption{Lighting, Plug Loads and Equipment Gains Schedules and Load Densities \cite{ISO17772}}
     \label{tbl:lightandequip}
-    \begin{tabular}
+    \begin{subtable}[t]{0.485\linewidth}
+        %\centering
+        \caption{Lighting Schedule}
+        \begin{tabular}
         {lcr}
         \toprule
-        2.07&1.92   &1\\
+        Time & \multicolumn{1}{c}{\begin{tabular}[c]{@{}c@{}}Fraction of\\ nom. value\end{tabular}}  \\
+        \midrule
+        \num[parse-numbers=false]{00}:\num[parse-numbers=false]{00} $\rightarrow$ \num[parse-numbers=false]{07}:\num[parse-numbers=false]{00} & \num{0.251}\\
+        \num[parse-numbers=false]{07}:\num[parse-numbers=false]{00} $\rightarrow$ \num[parse-numbers=false]{11}:\num[parse-numbers=false]{00} & \num{0.749}\\
+        \num[parse-numbers=false]{17}:\num[parse-numbers=false]{00} $\rightarrow$ \num[parse-numbers=false]{23}:\num[parse-numbers=false]{00} & \num{0.251}\\
+        \num[parse-numbers=false]{23}:\num[parse-numbers=false]{00} $\rightarrow$ \num[parse-numbers=false]{24}:\num[parse-numbers=false]{00} & \num{0.749}\\
         \bottomrule
     \end{tabular}
+    \end{subtable}
+    \hfill
+    \begin{subtable}[t]{0.485\linewidth}
+        \centering
+        \caption{Equipment Schedule}
+        \begin{tabular}
+        {lcr}
+        \toprule
+        Time & \multicolumn{1}{c}{\begin{tabular}[c]{@{}c@{}}Fraction of\\ nom. value\end{tabular}} \\
+        \midrule
+        \num[parse-numbers=false]{00}:\num[parse-numbers=false]{00} $\rightarrow$ \num[parse-numbers=false]{08}:\num[parse-numbers=false]{00} & \num{0.625}\\
+        \num[parse-numbers=false]{08}:\num[parse-numbers=false]{00} $\rightarrow$ \num[parse-numbers=false]{10}:\num[parse-numbers=false]{00} & \num{0.875}\\
+        \num[parse-numbers=false]{10}:\num[parse-numbers=false]{00} $\rightarrow$ \num[parse-numbers=false]{12}:\num[parse-numbers=false]{00} & \num{0.625}\\
+        \num[parse-numbers=false]{12}:\num[parse-numbers=false]{00} $\rightarrow$ \num[parse-numbers=false]{16}:\num[parse-numbers=false]{00} & \num{0.750}\\
+        \num[parse-numbers=false]{16}:\num[parse-numbers=false]{00} $\rightarrow$ \num[parse-numbers=false]{18}:\num[parse-numbers=false]{00} & \num{0.625}\\
+        \num[parse-numbers=false]{18}:\num[parse-numbers=false]{00} $\rightarrow$ \num[parse-numbers=false]{20}:\num[parse-numbers=false]{00} & \num{0.875}\\
+        \num[parse-numbers=false]{20}:\num[parse-numbers=false]{00} $\rightarrow$ \num[parse-numbers=false]{22}:\num[parse-numbers=false]{00} & \num{1.0}\\
+        \num[parse-numbers=false]{22}:\num[parse-numbers=false]{00} $\rightarrow$ \num[parse-numbers=false]{24}:\num[parse-numbers=false]{00} & \num{0.750}\\
+        \bottomrule
+        \end{tabular}
+    \end{subtable}
 \end{table}
 
 \section{Climate}
 
 \section{Heating System}
+\begin{figure}[htb]
+    \centering
+    \includegraphics[width=0.8\linewidth]{ModelicaHHSDiagram}
+    \caption{\modelica Diagram view of implemented system}
+    \label{fig:modelicadiagram}
+\end{figure}
 \subsection{ASHP}
 The \ac{ASHP} model was imported from the IDEAS library \cite{jorissen_implementation_2018}.Performance table data obtained from Daikin for a low-temperature, modulating \ac{AWHP} was used in the modelling of the heat pump. By interpolating the data in the table, the model is able to determine the heating power, electricity usage, and \ac{COP} based on the condenser outlet temperature and the ambient temperature. The \HP has a nominal heating power of \qty{7177}{\watt} at a test condition of 2/\qty{35}{\celsius} (air/condenser temperature), with a \ac{COP} of 3.17 at this condition and a \ac{COP} of 2.44 at a test condition of 2/\qty{45}{\celsius} for full load operation. The heat pump can operate at leaving water temperatures up to \qty{55}{\celsius}.
 
@@ -272,18 +342,21 @@ The \ac{SCOP} of the \HP is calculated by taking the ratio the total heat energy
 
 The model uses modulation to introduce some hysteresis to avoid quick-succession, repeated on-off cycling. The \HP turns off when the modulation drops below 20\% and turns on when the modulation exceeds 35\%. Heat losses to the surroundings are taken into account to produce a dynamic model, al the while maintaining the performance as per Daikin's data \cite{daikin_altherma_tech_2006}.
 
+\subsubsection{Frosting Modelling}
+The model provided by IDEAS library does not include frosting effects. Thus, a simple model for the repercussions of frosting on the \ac{ASHP} was developed in the \modelica model. A conditional timer block and greater-than-threshold block were used to identify whether the outdoor temperature had been less than \qty{2}{\celsius} for an aggregate of 60 minutes, resetting the timer only if the outdoor temperature had exceeded \qty{4}{\celsius} for a contiguous 5-minute period. If this 60-minute condition was met, the \ac{ASHP} was turned off, no matter the modulation level, for 10 minutes. This is intended to introduce a ``penalty'' to the \HP for operating under cold conditions. The approximate values were taken from \citeauthor{sandstrom_frosting_2021} \cite{sandstrom_frosting_2021}. To account for energy loss due to a reverse-cycling defrosting of the \HP, \qty{500000}{\joule} of energy was removed from the buffer tank. This figure was calculated using data from \citeauthor{sandstrom_frosting_2021} \cite{sandstrom_frosting_2021} and the 60\% defrosting efficiency figure mentioned in \cref{subsec:defrost}. 
+
 \subsection{Radiators}
 The \texttt{RadiatorEN442} radiator model from the Buildings library \cite{wetter_modelica_2014} was used. Each of the twelve conditioned rooms was assigned a radiator. The nominal heat flow for a radiator in room $i$ was determined by taking the nominal total heat flow of the system, $Q_\text{flow, nom}$ and multiplying it by the ratio of the volume of room $i$, $V_{\text{room, }i}$ to the total conditioned room volume, $V_\text{rooms, tot}$. The radiator model uses five discretised elements to perform a discretised element method heat transfer calculation. The model parameters were altered to only produce convective heat transfer to the room i.e., no radiative heat transfer as the \texttt{EnergyPlus} compatible \texttt{ThermalZone} model has no radiative heat input. The heat transfer was modelled with \cref{eq:radiatorheatrans} 
 
 
 \begin{equation}
-    Q_\text{c}^i=\operatorname{sign}(T^i-T_\text{a})(1-f_\text{r})\frac{UA}{N}|T^i-T_\text{a}|^n\label{eq:radiatorheatrans}
+    Q_\text{c}^i=\operatorname{sign}(T^i-T_\text{a})(1-f_\text{rad})\frac{UA}{N}|T^i-T_\text{a}|^n\label{eq:radiatorheatrans}
 \end{equation}
 
-Where $T^i$ is the water temperature of the element, $T_\text{a}$ is the temperature of the air in the room, $f_\text{r}$ fraction of the radiation, set to 0 in this model, $n$ is the exponent of heat transfer, set to 1.3, and $UA$ is the UA-value of the radiator which is numerical solved for the given nominal data values. 
+Where $T^i$ is the water temperature of the element, $T_\text{a}$ is the temperature of the air in the room, $f_\text{rad}$ is the fraction of the heat converted to radiation, set to zero in this model, $n$ is the exponent of heat transfer, set to 1.3, and $UA$ is the UA-value of the radiator which is numerically solved for the given nominal data values. 
 
 \subsection{Thermal Storage Tank}
-The thermal storage tank \texttt{Thermal.Storage} model from the Buildings library \cite{wetter_modelica_2014} was used in the \ac{HHS} model. The model uses ten stratified layer to model to dynamics of the temperature gradient of the water within the tank. The storage tank was fixed to contain \qty{0.5}{\cubic\meter} of water, or \qty{500}{\litre}, with \qty{10}{\centi\meter} of insulation thickness and a height of \qty{1.7}{\meter}. The tank was assumed to be located in the aforementioned unconditioned room, with heat losses occurring from the tank to the room. Two temperature sensors are connected to the tank, one at the bottom of the water volume (volume index 0) one at the top of the water volume (volume index 9). 
+The thermal storage tank \texttt{Thermal.Storage} model from the Buildings library \cite{wetter_modelica_2014} was used in the \ac{HHS} model. The model uses ten stratified layers (\texttt{nSeg = 10}) to model to dynamics of the temperature gradient of the water within the tank. The storage tank was fixed to contain \qty{0.5}{\cubic\meter} of water, or \qty{500}{\litre}, with \qty{10}{\centi\meter} of insulation thickness and a height of \qty{1.7}{\meter}. The tank was assumed to be located in the aforementioned unconditioned room, with heat losses occurring from the tank to the room. Two temperature sensors are connected to the tank, one at the top of the water volume (volume index 1) and one at the bottom of the water volume (volume index \texttt{nSeg}). 
 
 \subsection{Boiler}
 The boiler model \texttt{BoilerPolynomial} from the Buildings library was utilised to model the natural gas boiler component of the \ac{HHS}. A constant efficiency of 90\% was used as this best matched the efficiency of the reference house boiler. A nominal mass flowrate of \qty{0.25}{\kilo\gram\per\second} was inputted, which had been calculated through \cref{eq:boiflowcalc}.
@@ -291,11 +364,46 @@ The boiler model \texttt{BoilerPolynomial} from the Buildings library was utilis
 \begin{equation}
     \dot{m}_\text{boi, nom} = \frac{k\dot{Q}_\text{nom}}{\Delta T_\text{boi loop}  c_\text{water}} \label{eq:boiflowcalc}
 \end{equation}
-
 The coefficient $k$ is simply a scaling factor that affects the massflow rate and downstream variables.
+
+The rate of heat produced by the fuel is calculated using \cref{eq:heatcombboi}, where $y \in [0\text{, }1]$ is the control signal, determined by the \ac{HHS} logic control outlined in \cref{fig:hhsflowchart}, $\dot{Q}_0$ is the nominal heating power, set to \qty{10}{\kilo\watt}, and $\eta_0$ is the nominal efficiency.
+\begin{equation}
+    \dot{Q}_\text{f} = y \frac{\dot{Q}_0}{\eta_0}\label{eq:heatcombboi}
+\end{equation}
+\cref{eq:heattofluid} determines the heat transferred to the passing water. $\eta$ is the efficiency at the at instantaneous operating temperature and $\dot{Q}_\text{amb} > 0 $ is the heat loss to the ambient. The boiler has a boundary condition of its heat port which is connected to the air of the unconditioned zone where the boiler is assumed to be installed.  
+\begin{equation}
+    \dot{Q} = \eta \dot{Q}_\text{f} - \dot{Q}_\text{amb}\label{eq:heattofluid}
+\end{equation}
+
+\cref{eq:massflowfuel} gives the mass flowrate and the volumetric flowrate of the fuel, where $h_\text{f}$ is the heating value of the fuel, and $\rho_\text{f}$ is the density of the fuel, \qty{845}{\kilo\gram\per\cubic\meter}. Since a condensing gas boiler is being used, the higher heating value of gas (\qty{4.26E7}{\joule\per\kilo\gram}) is being used.
+
+ \begin{equation}
+    \dot{m}_\text{f} =\frac{\dot{Q}_\text{f}}{h_\text{f}}\label{eq:massflowfuel}\text{\;\;\; ; \;\;\;} \dot{V}_\text{f} =\frac{\dot{m}_\text{f}}{\rho_\text{f}}
+ \end{equation}
+
 
 \subsection{Heating System Behaviour}
 \cref{fig:hhsflowchart} is an flowchart diagram which depicts (a slightly non-nuanced version) the system behaviour of the \ac{HHS} implemented in \modelica. 
+On a high level, there are two separate control systems, one for producing the hot water using the boiler and the \HP and depositing it in the \ac{TES}, and one for distributing the hot water throughout the radiators via the control of the valves, henceforth dubbed ``heat generation loop control'' and ``radiator loop control'' respectively. It must be noted that the reference house whose data the model  calibration was based off, did not have a night setback, however, the final model did include a night setback. During the day, the room setpoint is \qty{21}{\celsius}, while at night the setpoint is \qty{16}{\celsius}.
+
+\subsubsection{Heat Generation Loop Control}
+The heat generation loop starts when both of the following conditions have been met: the average room temperature is less than \qty{18}{\celsius}, and the water temperature of the buffer tank is less than the demanded supply water temperature. Then either one or both of the heating devices are activated. If the outdoor temperature is greater than $T_\text{biv}$ (nominally \qty{7}{\celsius}), the boiler is prevented from turning on, and if the outdoor temperature is less than $T_\text{cutoff}$ (nominally \qty{2}{\celsius}), the \HP is prevented from turning on. This temperature window results in the bivalent parallel hybrid operation. 
+
+The demanded water supply temperature curve changes depending on the outdoor temperature. If the temperature is greater than the bivalent temperature, the supply curve is calculated based off of the nominal post-\HP water temperature of \qty{35}{\celsius}, and the time-dependent room setpoint temperature, otherwise the supply curve is calculated using the values of the nominal post-boiler water temperature of \qty{50}{\celsius}. During bivalent operation, the \HP heats up the circulating water to \qty{35}{\celsius}, and the boiler ``tops up'' the water to the demanded supply temperature using a PD-controller. The two supply temperature curves can be seen in \cref{fig:supplytempcurves}.
+
+\begin{figure}[htb]
+    \centering
+    \includegraphics[width=0.6\linewidth]{tikz/supplytempscurves.tikz}
+    \caption{Supply temperature curves, demanded water temperature against outdoor temperature}
+    \label{fig:supplytempcurves}
+\end{figure}
+
+
+
+\subsubsection{Radiator Loop Control}
+Conceptually, this aspect of the heating system decides whether both the outdoor temperature is low and the P-controllers are outputting a higher than threshold level signal, determines the appropriate water supply temperature and subsequently mixes the supply and return water to achieve this setpoint, and controls the individual valve opening positions to distribute the supply water proportionally to the rooms depending on their temperature and percentage of total conditioned volume of the particular room. 
+
+
 \begin{figure}[htb]
     \centering
     \input{tikz/flowchartHHS.tex}
@@ -303,4 +411,3 @@ The coefficient $k$ is simply a scaling factor that affects the massflow rate an
     \caption{Flowchart diagram of \acs{HHS} behaviour}
     \label{fig:hhsflowchart}
 \end{figure}
-\section{Load Profiles}
