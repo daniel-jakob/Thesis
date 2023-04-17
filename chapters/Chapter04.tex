@@ -12,7 +12,7 @@
     --- Samuel Karlin
 \end{flushright}
 
-\section{Location}
+\section{Location} \label{sec:location}
 The reference house that the building model is based off of a hipped dormer, two-storey residential house located in Belturbet, Cavan, a small town close to the Republic of Ireland and Northern Ireland border, about 125 kilometres from Dublin. The reference house lies at an elevation of 80 metres and is Easterly facing. The dwelling is located in a residential estate, and is thus classified as being located in an urban environment.
 
 \section{Form and Fabric}
@@ -317,8 +317,6 @@ Plug loads in a residential home refer to the energy consumed by appliances and 
     \end{subtable}
 \end{table}
 
-\section{Climate}
-
 \section{Heating System}
 \begin{figure}[htb]
     \centering
@@ -326,7 +324,7 @@ Plug loads in a residential home refer to the energy consumed by appliances and 
     \caption{\modelica Diagram view of implemented system}
     \label{fig:modelicadiagram}
 \end{figure}
-\subsection{ASHP}
+\subsection{ASHP} \label{subsec:ashp}
 The \ac{ASHP} model was imported from the IDEAS library \cite{jorissen_implementation_2018}.Performance table data obtained from Daikin for a low-temperature, modulating \ac{AWHP} was used in the modelling of the heat pump. By interpolating the data in the table, the model is able to determine the heating power, electricity usage, and \ac{COP} based on the condenser outlet temperature and the ambient temperature. The \HP has a nominal heating power of \qty{7177}{\watt} at a test condition of 2/\qty{35}{\celsius} (air/condenser temperature), with a \ac{COP} of 3.17 at this condition and a \ac{COP} of 2.44 at a test condition of 2/\qty{45}{\celsius} for full load operation. The heat pump can operate at leaving water temperatures up to \qty{55}{\celsius}.
 
 The \ac{COP} of the \ac{AWHP} model is calculated by the ratio of heat energy transferred to the passing water to the electrical power used. This is given by \cref{eq:cop}. 
@@ -340,9 +338,9 @@ The \ac{SCOP} of the \HP is calculated by taking the ratio the total heat energy
     \operatorname{SCOP}_\text{HP}=\frac{Q_\text{H, tot}}{W_\text{elec, tot}}\label{eq:scop}
 \end{equation}
 
-The model uses modulation to introduce some hysteresis to avoid quick-succession, repeated on-off cycling. The \HP turns off when the modulation drops below 20\% and turns on when the modulation exceeds 35\%. Heat losses to the surroundings are taken into account to produce a dynamic model, al the while maintaining the performance as per Daikin's data \cite{daikin_altherma_tech_2006}.
+The model uses modulation to introduce some hysteresis to avoid quick-succession, repeated on-off cycling. The \HP turns off when the modulation drops below 20\% and turns on when the modulation exceeds 35\%. Heat losses to the surroundings are taken into account to produce a dynamic model, all the while maintaining the performance as per Daikin's data \cite{daikin_altherma_tech_2006}.
 
-\subsubsection{Frosting Modelling}
+\subsubsection{Frosting Modelling} \label{subsubsec:frostingmod}
 The model provided by IDEAS library does not include frosting effects. Thus, a simple model for the repercussions of frosting on the \ac{ASHP} was developed in the \modelica model. A conditional timer block and greater-than-threshold block were used to identify whether the outdoor temperature had been less than \qty{2}{\celsius} for an aggregate of 60 minutes, resetting the timer only if the outdoor temperature had exceeded \qty{4}{\celsius} for a contiguous 5-minute period. If this 60-minute condition was met, the \ac{ASHP} was turned off, no matter the modulation level, for 10 minutes. This is intended to introduce a ``penalty'' to the \HP for operating under cold conditions. The approximate values were taken from \citeauthor{sandstrom_frosting_2021} \cite{sandstrom_frosting_2021}. To account for energy loss due to a reverse-cycling defrosting of the \HP, \qty{500000}{\joule} of energy was removed from the buffer tank. This figure was calculated using data from \citeauthor{sandstrom_frosting_2021} \cite{sandstrom_frosting_2021} and the 60\% defrosting efficiency figure mentioned in \cref{subsec:defrost}. 
 
 \subsection{Radiators}
@@ -386,7 +384,7 @@ The rate of heat produced by the fuel is calculated using \cref{eq:heatcombboi},
 \cref{fig:hhsflowchart} is an flowchart diagram which depicts (a slightly non-nuanced version) the system behaviour of the \ac{HHS} implemented in \modelica. 
 On a high level, there are two separate control systems, one for producing the hot water using the boiler and the \HP and depositing it in the \ac{TES}, and one for distributing the hot water throughout the radiators via the control of the valves, henceforth dubbed ``heat generation loop control'' and ``radiator loop control'' respectively. It must be noted that the reference house whose data the model  calibration was based off, did not have a night setback, however, the final model did include a night setback. During the day, the room setpoint is \qty{21}{\celsius}, while at night the setpoint is \qty{16}{\celsius}.
 
-\subsubsection{Heat Generation Loop Control}
+\subsubsection{Heat Generation Loop Control} \label{subsubsec:heatgenloopcont}
 The heat generation loop starts when both of the following conditions have been met: the average room temperature is less than \qty{18}{\celsius}, and the water temperature of the buffer tank is less than the demanded supply water temperature. Then either one or both of the heating devices are activated. If the outdoor temperature is greater than $T_\text{biv}$ (nominally \qty{7}{\celsius}), the boiler is prevented from turning on, and if the outdoor temperature is less than $T_\text{cutoff}$ (nominally \qty{2}{\celsius}), the \HP is prevented from turning on. This temperature window results in the bivalent parallel hybrid operation. 
 
 The demanded water supply temperature curve changes depending on the outdoor temperature. If the temperature is greater than the bivalent temperature, the supply curve is calculated based off of the nominal post-\HP water temperature of \qty{35}{\celsius}, and the time-dependent room setpoint temperature, otherwise the supply curve is calculated using the values of the nominal post-boiler water temperature of \qty{50}{\celsius}. During bivalent operation, the \HP heats up the circulating water to \qty{35}{\celsius}, and the boiler ``tops up'' the water to the demanded supply temperature using a PD-controller. The two supply temperature curves can be seen in \cref{fig:supplytempcurves}.

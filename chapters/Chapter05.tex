@@ -26,8 +26,9 @@ As the two parameters were varied, the energy consumption of the two energy sour
     \label{tbl:gasconsump}
     \pgfplotstabletypeset[
         col sep=space,
+        precision=0,
         /pgf/number format/1000 sep= ,
-        color cells={min=1684.5,max=1876.66,textcolor=-mapped color!50!black},
+        color cells={min=2215,max=3996.66,textcolor=-mapped color!50!black},
         /pgfplots/colormap name=mycolor,
         every head row/.style={%
             output empty row,
@@ -54,8 +55,9 @@ When considering the electricity consumption heatmap, it is perhaps easier to in
     \label{tbl:elecconsump}
     \pgfplotstabletypeset[
         col sep=space,
-        /pgf/number format/1000 sep= ,\rightarrow
-        color cells={min=1684.5,max=1876.66,textcolor=-mapped color!50!black},
+        precision=0,
+        /pgf/number format/1000 sep= ,
+        color cells={min=3425.39,max=4347.03,textcolor=-mapped color!50!black},
         /pgfplots/colormap name=mycolor,
         every head row/.style={%
             output empty row,
@@ -78,10 +80,11 @@ When considering the electricity consumption heatmap, it is perhaps easier to in
 \begin{table}[htb]
     \footnotesize
     \centering
-    \caption{Year-total electricity consumption carpet plot for each parameter-level combination}
+    \caption{Year-total energy consumption carpet plot for each parameter-level combination}
     \label{tbl:totalconsump}
     \pgfplotstabletypeset[
         col sep=space,
+        precision=0,
         /pgf/number format/1000 sep= ,
         color cells={min=6249.6,max=7671.9,textcolor=-mapped color!50!black},
         /pgfplots/colormap name=mycolor,
@@ -102,6 +105,48 @@ When considering the electricity consumption heatmap, it is perhaps easier to in
 \end{table}
 
 
+\subsection{Performance Indices}
+\subsubsection{COP and SCOP}
+As the hybrid operation temperature window shifts, and contracts and expands, the performance of the \ac{HHS} changes due to the changing of the modes of heating active at a given a temperature and the dynamics between the operation of the gas boiler, \ac{ASHP} and building model at large. As discussed in \cref{subsec:ashp}, the \ac{SCOP} of the \HP can be thought of as the average \ac{COP} of the \ac{ASHP} over the course of the year or heating season. For this analysis, the entire year is being considered. The \ac{COP} will be greatly affected by the outdoor temperatures the \HP is operated at, thus, the \ac{COP} will be highly dependent on the bivalent temperature parameter being varied throughout the sensitivity analysis. It will also be minorly affected by the cut-off temperature due to the aforementioned system dynamics. The \ac{SCOP} for this analysis is calculated using \cref{eq:scop}. The tabulated results are found in \cref{tbl:scop}.
 
+\begin{table}[htb]
+    \begin{threeparttable}
+    \footnotesize
+    \centering
+    \caption{\acs{SCOP} values for each parameter-level combination}
+    \label{tbl:scop}
+    \pgfplotstabletypeset[
+        col sep=space,
+        /pgf/number format/1000 sep= ,
+        color cells={min=3.13,max=3.04,textcolor=-mapped color!50!black},
+        /pgfplots/colormap name=mycolor,
+        precision=2,
+        every head row/.style={%
+            output empty row,
+            before row={%
+                \diagbox[width=4em,height=2em]{$T_\mathrm{cut}$}{$T_\mathrm{biv}$} & $-$2 & $-$1 & 0 & 1 & 2 & 3& 4\\
+                },
+            },
+        create on use/newcol/.style={
+            create col/set list={10,9,8,7,6,5}
+        },
+        columns/newcol/.style={string type,reset styles,},
+        columns={newcol,0,1,2,3,4,5,6},
+        /pgf/number format/.cd,%sci,
+        set decimal separator={.},
+    ]{data/scop.dat}
+    \begin{tablenotes}
+        \small
+        \item Note: the colours in this table are the opposite to \cref{tbl:totalconsump,tbl:elecconsump,tbl:gasconsump}. 
+      \end{tablenotes}
+    \end{threeparttable}
+\end{table}
 
+At first the results from \cref{tbl:scop} may be confounding for two main reasons, first that the \ac{SCOP} values change only very slightly with the different parameter-level combinations, and secondly, the lowest \ac{SCOP} measured occurs in what was previously found to be the parameter-level combination, $\{1\text{, }5\}$, with the overall lowest energy consumption and a middling electricity consumption.
+
+A simple explanation for the \ac{SCOP} hardly changing as a function of the bivalent temperature and is because there simply are very few opportunities for a low outdoor temperature to greatly affect the overall \ac{COP} value of the \HP. As can be seen from the outdoor temperature plot in \cref{fig:weathercomp}, there are rarely times throughout the year where the ambient temperature drops below \qty{0}{\celsius}. Thus, when the \ac{COP} is averaged over the full 8760-hour year, the few number of hours where the \ac{COP} is low due to low outdoor temperatures hardly cause an affect, but is still detectable. If however, one were to perform the \ac{SCOP} calculation for the months where the outdoor temperatures do fall below \qty{0}{\celsius}, greater variances would be found. 
+
+However, there is another compounding phenomenon occurring which is perhaps downplaying the negative effects of low outdoor temperatures affecting the \ac{COP}, which is the effect of frosting on the time under which the \HP is operating at, at lower temperatures. The frosting of course only occurs when the outdoor temperature is low, and due to the frosting model described in \cref{subsubsec:frostingmod}, the \HP operation is blocked for a set time to emulate defrosting. This results in the \HP simply operating less at these temperatures, reducing the negative consequences on the \ac{COP}. This explains why the \ac{COP} is generally lowest at $\{1\text{,}\sim\}$. 
+
+\subsubsection{Time Spent (De)Frosting}
 
