@@ -1,0 +1,36 @@
+\begin{tikzpicture}[trim axis left]
+\begin{axis}[ybar,
+        scale only axis,
+        height=6cm,
+        bar width=3mm,
+        ymin=0,
+        yticklabel = {$\num[round-mode=places,round-precision=0]{\tick}$},
+        ymax=2500,       
+        enlarge x limits={abs=0.5},
+        ylabel={Space Heating Load [kWh]},
+        xtick=data,
+        xticklabels = {
+            \strut Jan,
+            \strut Feb,
+            \strut Mar,
+            \strut Apr,
+            \strut May,
+            \strut Jun,
+            \strut Sep,
+            \strut Oct,
+            \strut Nov,
+            \strut Dec
+        },
+        %xticklabel style={yshift=-10ex},
+        major x tick style = {opacity=0},
+        xtick pos = bottom,
+        minor x tick num = 1,
+        minor tick length=2ex,
+        legend entries={Simulation,Experimental},
+        legend columns=2,
+        legend style={draw=none,nodes={inner sep=3pt},at={(0.5,0.97)},anchor=north},
+        ]
+\addplot[draw=black,fill=green!20,] table[x index=0,y index=1, col sep=tab] {data/spaceheating.dat};
+\addplot[draw=black,fill=blue!40] table[x index=0,y index=2, col sep=tab] {data/spaceheating.dat};
+\end{axis}
+\end{tikzpicture}

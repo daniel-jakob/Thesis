@@ -3,4 +3,44 @@
 %************************************************
 % % P.E. savings, Energy and exergy(?) utilisation
 %An eco-economic study is an interdisciplinary analysis that combines ecological and economic evaluations to assess the interactions between the environment and the economy. It aims to evaluate the sustainability and social welfare implications of economic activities and policies, taking into account the ecological impacts and natural resource constraints. The study can help to identify trade-offs and synergies between ecological and economic objectives, and provide insights for decision-makers to achieve sustainable and equitable outcomes.
-%\cite{li_parallel_2018}
+
+\begin{flushright}{\slshape
+    Wir m\"ussen wissen. Wir werden wissen} \\ \medskip
+    --- David Hilbert
+\end{flushright}
+
+The ecological-economic assessment of a \ac{HHS} involves an analysis of the environmental and economic impacts associated with its operation. Such an assessment can provide insights into the effectiveness of the \ac{HHS} in achieving the dual goals of reducing \ac{GHG} emissions and minimising operational costs. The optimisation of the hybrid operation temperature window is a critical component of this assessment, as it has the potential to significantly impact both the ecological and economic performance of the system. By determining the optimal temperature range for the \ac{HHS}, it is possible to achieve a balance between reducing energy consumption, minimising carbon emissions, and ensuring comfortable indoor temperatures. This chapter presents a detailed analysis of the ecological and economic benefits of optimising the hybrid operation temperature window and discusses the key factors that influence the optimal temperature range.
+
+\section{Economic Assessment}
+
+The economic assessment was carried out to identify the most cost-effective hybrid operation temperature window for the \ac{HHS} through the parametric study explained in \cref{ch:sensitivity}. To achieve this, the Irish market was used as a case study. The typical cost of natural gas and a time-of-use electricity tariff model was employed to estimate the cost of energy consumption accurately, accounting for fluctuating peak and off-peak hours. Standing costs, such as connection and fixed charges, were excluded from the assessment as they are typically independent of the heating system used. By using the previously established electricity and gas usage metrics from \cref{tbl:gasconsump,tbl:elecconsump}, and respective energy costs,  the total cost of space heating was evaluated and the most cost-effective hybrid operation temperature window for the system was identified.
+
+\subsection{Cost of Energy}
+For the Irish market case study, the price of gas was taken to be a constant at 12.06 cent, which is the figure provided by the Household Energy Price Index (HEPI) in their February 2023 monthly update \cite{household_energy_price_index_price_nodate}.For the generalised analysis, varying values of gas price will be used of course. 
+
+\subsubsection{Electricity Tme-of-Use Tariff}
+A time-of-use tariff electricity price was utilised to calculate the cost of the electricity used in heating the dwelling at a given time. The tariff price comprised three tiers, namely peak rate, standard rate, and night rate, with each tier representing different costs. The peak rate was the most expensive, followed by the standard rate, with the night rate being the least expensive. By utilising the time-of-use tariff, the study accounted for the variation in electricity prices across different times of the day, thereby providing a more accurate representation of the energy costs associated with the operation of the \ac{HHS}. \cref{tbl:toutariffs} shows the price breakdown by tier for the electricity, provided by \citeauthor{electric_ireland_time--use_2023}. 
+
+\begin{table}[htb]
+    \centering
+    \caption{Time-of-Use Electricity tariffs \cite{electric_ireland_time--use_2023}}   
+    \label{tbl:toutariffs}
+    \begin{tabular}
+        {ccc}
+        \toprule
+        Time-band name & Interval & Cost [cents]\\\midrule
+        Night & \num[parse-numbers=false]{23}:\num[parse-numbers=false]{00} \rightarrow \num[parse-numbers=false]{08}:\num[parse-numbers=false]{00}  & \num{22.39} \\
+        Day & \num[parse-numbers=false]{08}:\num[parse-numbers=false]{00} \rightarrow \num[parse-numbers=false]{17}:\num[parse-numbers=false]{00} \& \num[parse-numbers=false]{19}:\num[parse-numbers=false]{00} \rightarrow \num[parse-numbers=false]{23}:\num[parse-numbers=false]{00} & \num{44.50} \\
+        Peak & \num[parse-numbers=false]{17}:\num[parse-numbers=false]{00} \rightarrow \num[parse-numbers=false]{19}:\num[parse-numbers=false]{00}  & \num{47.47} \\
+        \bottomrule
+    \end{tabular}
+\end{table}
+
+
+
+
+
+
+\section{Ecological Assessment}
+
+\subsection{Primary Energy Savings}
