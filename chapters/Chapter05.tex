@@ -15,7 +15,7 @@ As discussed in \cref{sec:sensanal}, the two parameters were varied with a non-u
 
 
 \section{Energy Consumption}
-As the two parameters were varied, the energy consumption of the two energy sources changes of course, in magnitude and their respective share of the total energy consumption. \cref{tbl:gasconsump} and \cref{tbl:elecconsump} show heatmaps of the year-total gas consumption and electricity consumption, in kilowatt hours, for each of the parameter-level combinations respectively. The bivalent temperature is varied in the horizontal direction, while the cut-off temperature is varied in the vertical direction. The heatmaps are coloured, with red cells representing high values and green cells representing low values Some general and relatively obvious first impressions from the heatmap reveal that the level of gas consumption falls off dramatically between the levels corresponding to \qty{1}{\celsius} and \qty{4}{\celsius} of the bivalent temperature, from a high of \qty{3996.7}{\kilo\watt\hour} to \qty{2215.6}{\kilo\watt\hour}, which also happen to be the minimum and maximum gas consumption values for the gas consumption carpet plot overall. It can be intuited that when the \HP turns off at higher outdoor temperatures, that the gas boiler must operate longer/more frequently to heat the dwelling. Once the bivalent temperature parameter is less than \qty{1}{\celsius}, the level of gas consumption rises again, though much slower than from the other direction. This can be understood by considering that when the \HP is forced to operate at these lower temperatures, the \HP must be defrosted more often, which of course requires energy from the boiler, as a reverse-cycling model was implemented. This results in the consumption of gas increasing moderately. 
+As the two parameters were varied, the energy consumption of the two energy sources changes of course, in magnitude and their respective share of the total energy consumption. \cref{tbl:gasconsump} and \cref{tbl:elecconsump} show heatmaps of the year-total gas consumption and electricity consumption, in kilowatt hours, for each of the parameter-level combinations respectively. The bivalent temperature is varied in the horizontal direction, while the cut-off temperature is varied in the vertical direction. The heatmaps are coloured, with red cells representing high values and green cells representing low values Some general and relatively obvious first impressions from the heatmap reveal that the level of gas consumption falls off dramatically between the levels corresponding to \qty{1}{\celsius} and \qty{4}{\celsius} of the bivalent temperature, from a high of \qty{3996.7}{\kWh} to \qty{2215.6}{\kWh}, which also happen to be the minimum and maximum gas consumption values for the gas consumption carpet plot overall. It can be intuited that when the \HP turns off at higher outdoor temperatures, that the gas boiler must operate longer/more frequently to heat the dwelling. Once the bivalent temperature parameter is less than \qty{1}{\celsius}, the level of gas consumption rises again, though much slower than from the other direction. This can be understood by considering that when the \HP is forced to operate at these lower temperatures, the \HP must be defrosted more often, which of course requires energy from the boiler, as a reverse-cycling model was implemented. This results in the consumption of gas increasing moderately. 
 
 
 
@@ -46,7 +46,7 @@ As the two parameters were varied, the energy consumption of the two energy sour
     ]{data/gasconsump.dat}
 \end{table}
 
-When considering the electricity consumption heatmap, it is perhaps easier to interpret than the gas consumption heatmap. For lower levels of bivalent temperature, more electricity is consumed, as the \HP naturally has simply more opportunities to operate, especially that during colder spells, where more heating is required. For lower values of cut-off temperature, less electricity is used, as the boiler is allowed to operate during colder temperatures, thus the heating system simply requires less input from the \HP. The highest value of electricity consumption observed is \qty{4347}{\kilo\watt\hour} and the lowest value is \qty{3425.4}{\kilo\watt\hour} for parameter-level combinations of $\{-2\text{, }10\}$ and $\{4\text{, }5\}$ respectively. 
+When considering the electricity consumption heatmap, it is perhaps easier to interpret than the gas consumption heatmap. For lower levels of bivalent temperature, more electricity is consumed, as the \HP naturally has simply more opportunities to operate, especially that during colder spells, where more heating is required. For lower values of cut-off temperature, less electricity is used, as the boiler is allowed to operate during colder temperatures, thus the heating system simply requires less input from the \HP. The highest value of electricity consumption observed is \qty{4347}{\kWh} and the lowest value is \qty{3425.4}{\kWh} for parameter-level combinations of $\{-2\text{, }10\}$ and $\{4\text{, }5\}$ respectively. 
 
 \begin{table}[htb]
     \footnotesize
@@ -75,7 +75,7 @@ When considering the electricity consumption heatmap, it is perhaps easier to in
     ]{data/elecconsump.dat}
 \end{table}
 
-\cref{tbl:totalconsump} shows the carpet plot for the year-total energy consumption for the heating system, i.e., the sum of the electricity and gas consumption, again, in kilowatt hours. It can be seen that similarly to \cref{tbl:gasconsump}, the overall energy consumption is greatest for the parameter-level combinations where the bivalent temperature is \qty{3}{\celsius} or greater. There is a sharp decline in energy consumption from $\{4\rightarrow2\text{,}\sim\}$, likely as the gas consumption figures dominate this region of the table. In the region of the table where the bivalent temperature is less than \qty{0}{\celsius}, the total energy consumption is mildly greater than in the middle region of the table. This is due to the electricity consumption increasing as discussed previously. The maximum and minimum values are \qty{7671.86}{\kilo\watt\hour} and \qty{6249.63}{\kilo\watt\hour} for parameter-level combinations of $\{4\text{, }10\}$ and $\{1\text{, }5\}$ respectively. 
+\cref{tbl:totalconsump} shows the carpet plot for the year-total energy consumption for the heating system, i.e., the sum of the electricity and gas consumption, again, in kilowatt hours. It can be seen that similarly to \cref{tbl:gasconsump}, the overall energy consumption is greatest for the parameter-level combinations where the bivalent temperature is \qty{3}{\celsius} or greater. There is a sharp decline in energy consumption from $\{4\rightarrow2\text{,}\sim\}$, likely as the gas consumption figures dominate this region of the table. In the region of the table where the bivalent temperature is less than \qty{0}{\celsius}, the total energy consumption is mildly greater than in the middle region of the table. This is due to the electricity consumption increasing as discussed previously. The maximum and minimum values are \qty{7671.86}{\kWh} and \qty{6249.63}{\kWh} for parameter-level combinations of $\{4\text{, }10\}$ and $\{1\text{, }5\}$ respectively. 
 
 \begin{table}[htb]
     \footnotesize
@@ -148,3 +148,36 @@ At first the results from \cref{tbl:scop} may be confounding for two main reason
 A simple explanation for the \ac{SCOP} hardly changing as a function of the bivalent temperature and is because there simply are very few opportunities for a low outdoor temperature to greatly affect the overall \ac{COP} value of the \HP. As can be seen from the outdoor temperature plot in \cref{fig:weathercomp}, there are rarely times throughout the year where the ambient temperature drops below \qty{0}{\celsius}. Thus, when the \ac{COP} is averaged over the full 8760-hour year, the few number of hours where the \ac{COP} is low due to low outdoor temperatures hardly cause an affect, but is still detectable. If however, one were to perform the \ac{SCOP} calculation for the months where the outdoor temperatures do fall below \qty{0}{\celsius}, greater variances would be found. 
 
 However, there is another compounding phenomenon occurring which is perhaps downplaying the negative effects of low outdoor temperatures affecting the \ac{COP}, which is the effect of frosting on the time under which the \HP is operating at, at lower temperatures. The frosting of course only occurs when the outdoor temperature is low, and due to the frosting model described in \cref{subsubsec:frostingmod}, the \HP operation is blocked for a set time to emulate defrosting. This results in the \HP simply operating less at these temperatures, reducing the negative consequences on the \ac{COP}. This explains why the \ac{COP} is generally lowest at $\{1\text{,}\sim\}$. 
+
+\subsubsection{Number of \acs{HP} Cycles}
+
+The number of on cycles for a \HP over the course of a year is closely linked to the temperature below which it will be blocked from operating, i.e., its bivalent temperature, due to frosting effects. This is due to the fact that as the \HP operates in cold weather, frost builds up on its outdoor unit, reducing its efficiency and eventually, the controller shuts off the \HP to perform a defrost cycle. \cref{tbl:cycling} shows a heatmap of the number of on-cycles 
+
+\begin{table}[htb]
+    \footnotesize
+    \centering
+    \caption{Annual number of \acs{HP} cycles for the different parameter-level combinations}
+    \label{tbl:cycling}
+    \pgfplotstabletypeset[
+        col sep=space,
+        precision=1,
+        /pgf/number format/1000 sep= ,
+        color cells={min=684,max=1024,textcolor=-mapped color!50!black},
+        /pgfplots/colormap name=mycolor,
+        every head row/.style={%
+            output empty row,
+            before row={%
+                \diagbox[width=4em,height=2.6em]{$T_\mathrm{cut}$}{$T_\mathrm{biv}$} & $-$2 & $-$1 & 0 & 1 & 2 & 3& 4\\
+                },
+            },
+        create on use/newcol/.style={
+            create col/set list={10,9,8,7,6,5}
+        },
+        columns/newcol/.style={string type,reset styles,},
+        columns={newcol,0,1,2,3,4,5,6},
+        /pgf/number format/.cd,%sci,
+        set decimal separator={.},
+    ]{data/cycling.dat}
+\end{table}
+
+
