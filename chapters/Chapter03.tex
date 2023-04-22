@@ -7,7 +7,12 @@
 \section{Overview} \label{sec:methodoverview}
 This chapter presents the research methodologies employed in this thesis. \cref{sec:methodoverview} gives a general overview of the study, including a flow chart of the main steps. \cref{sec:methodrefbuild,sec:methodheatingsys} give an overview of the reference building being modelled and the implemented heating system respectively. \cref{sec:methodecoeco} gives an introduction to the ecological and economic models used to quantify the different hybrid operation temperature windows along with a brief overview of the market context. Finally \cref{sec:methodconclusion} provides a conclusion to the methodologies chapter.
 
-
+\begin{figure}[htb]
+    \centering
+    \input{tikz/flowchartmethod.tex}
+    \caption{Flowchart methodology}
+    \label{fig:flowchartmethod}
+\end{figure}
 
 
 
@@ -33,15 +38,15 @@ The ubiquitous heat capacity equation was utilised in quantifying the irradiatio
 \end{equation} 
 
 Where $Q$ is the heat energy in watts, $m$ is the mass of air in the room, $c$ is the specific heat capacity of air ($C_{v_\text{air}} = \qty{0.718}{\kilo\joule\per\kilo\gram\per\kelvin}$) and $\Delta T$ is the change in temperature of the air in the room (i.e., difference between temperature at a chosen time in hours leading up to the event, and the peak temperature after the bulk of the simulation day's irradiation). The mass of air in this room was found by taking the volume (\qty{31}{\meter\cubed}) and multiplying it by the density of air at a mean temperature (\sim \qty{1.204}{\kilo\gram\per\cubic\meter}). 
-The heat gained by the room with the large window was found to be \qty{420}{\joule} while with the small window it was found to be \qty{420}{\joule}. This is to be expected as a larger window would justly allow more irradiance to (semi-)directly into the room. 
+The heat gained by the room with the large window was found to be \qty{527.8}{\kilo\joule} while with the small window it was found to be \qty{58.1}{\kilo\joule}. This is to be expected as a larger window would justly allow more irradiance to (semi-)directly into the room. 
 
-The next test was to check if heat was being conducted through the interior walls of the building. A room was chosen, and its temperature was purposely raised to an unnatural level of \qty{60}{\celsius}. One would expect that the temperature of the adjacent rooms would increase by means of conduction.\footnote{Door and window openings were not modelled as part of this simulation. The air infiltration rate was increased slightly to compensate for this. However, this also means interzonal airflow was also not modelled.} The test involved comparing the adjacent room temperatures to the corresponding room temperatures in the case where the chosen room's temperature was not artificially raised. The temperature was found to increase an average of \qty{6}{\celsius} across the 4 neighbouring rooms. 
+The next test was to check if heat was being conducted through the interior walls of the building. A room was chosen, and its temperature was purposely raised to an unnatural level of \qty{60}{\celsius}. One would expect that the temperature of the adjacent rooms would increase by means of conduction.\graffito{Door and window openings were not modelled as part of this simulation. The air infiltration rate was increased slightly to compensate for this. However, this also means interzonal airflow was also not modelled.} The test involved comparing the adjacent room temperatures to the corresponding room temperatures in the case where the chosen room's temperature was not artificially raised. The temperature was found to increase an average of \qty{16}{\celsius} across the 4 neighbouring rooms. 
 
 
 \subsection{Validation} \label{subsubsec:validation}
 
 \subsubsection{Climate}
-Climatic weather data obtained from the OneBuilding weather database \cite{onebuilding_climateonebuildingorg_nodate} in the \texttt{.epw} filetype and produced by ASHRAE. The weather data file used in this study is a product of an amalgamation of representative monthly weather data from a year occurring between 2020 and 2008 for each of the twelve months. This weather data was collected by the Clones weather station Operated by Met Éireann, located 16.5 kilometres away from Belturbet. 
+Climatic weather data was obtained from the OneBuilding weather database \cite{onebuilding_climateonebuildingorg_nodate} in the \texttt{.epw} filetype and produced by ASHRAE. The weather data file used in this study is a product of an amalgamation of representative monthly weather data from a year occurring between 2020 and 2008 for each of the twelve months. This weather data was collected by the Clones weather station Operated by Met Éireann, located 16.5 kilometres away from Belturbet. 
 
 The weather data contains various weather properties, such as dry bulb temperature, wet bulb temperature, dew point temperature, relative humidity, wind speed, wind direction, global horizontal irradiance, direct normal irradiance, diffuse horizontal irradiance, and atmospheric pressure, all of which are used in \texttt{EnergyPlus} in the envelope simulation. The data is presented in an hourly interval. \texttt{EnergyPlus} and \texttt{Modelica} (via \texttt{WeatherData.Bus} \texttt{Modelica} model provided by the Buildings Library) linearly interpolate the hourly data to give data at the appropriate/chosen timestep of the simulation. 
 
@@ -93,14 +98,21 @@ The Daikin Altherma \HP catalogue specifies that when producing hot water for sp
 \section{Sensitivity Analysis}\label{sec:sensanal}
 A full factorial parametric study was carried out on the bivalent parallel operation temperature window of modelled \ac{HHS}. This analysis aims to evaluate the effect of varying the bivalent temperature and cut-off temperature on the total cost of fuel and electricity for the heating system, in addition to assessing its \ac{PEF} and $\text{CO}_2$ emissions. First, some fundamental preliminary steps must be completed before carrying out the sensitivity analysis. Choosing/identifying the parameters to be varied: it was discovered from the literature review that an optimising of the hybrid operation temperature window has not been carried out for the Irish climate, and not in any comprehensive way for other climates either. \ac{ASHP} manufacturers may have carried out proprietary research regarding this, however, such data is not available openly. Defining the range of values for each parameter: it is understood from Daikin's user manuals that they use a cut-off temperature of \qty{2}{\celsius} and a bivalent temperature of \qty{7}{\celsius}, which gives a good starting point. Knowledge gained from the literature review and Daikin's specifications manual for the \HP being modelled, it is understood that the performance of a \HP dramatically decreases with temperature due to diminishing \ac{COP} and frosting effects, therefore a lower bound of \qty{-2}{\celsius} was chosen. For the bivalent temperature, an upper bound of \qty{10}{\celsius} was chosen, as if it were much higher, the desired effects of running the \ac{HHS} solely with the \HP would be quite limited, almost defeating the purpose of the \HP entirely. The upper bound for the cut-off temperature was set to \qty{4}{\celsius} and finally the lower bound of the bivalent temperature was subsequently set to \qty{5}{\celsius} to avoid creating a bivalent alternative operation hybrid system with the bivalent temperature and cut-off temperature being equal.
 
-Next the resolution of the parameters was to be decided. This is typically determined based on the available computational resources and the desired level of detail in the analysis. Intervals of \qty{1}{\celsius} were chosen, resulting in a resolution of 6 for the bivalent temperature and 7 for the cut-off temperature. With this, a matrix that specifies all possible combinations of values for each parameter can be drawn. Then the simulations must be ran one-by-one, varying the parameters in sequence and systematically.
+Next the resolution of the parameters was to be decided. This is typically determined based on the available computational resources and the desired level of detail in the analysis. Intervals of \qty{1}{\celsius} were chosen, resulting in a resolution of 6 for the bivalent temperature and 7 for the cut-off temperature. With this, a matrix that specifies all possible combinations of values for each parameter can be drawn. Then the simulations must be ran one-by-one, varying the parameters in sequence and systematically. A graphical representation of the bivalent operation window can be seen in \cref{fig:bivopwindow}. It takes as an example a cut-off temperature of \qty{7}{\celsius} and a bivalent temperature of \qty{0}{\celsius}, meaning, when the outdoor temperature is between \qty{0}{\celsius} and \qty{7}{\celsius}, bivalent-parallel operation is occurring.
+
+\begin{figure}[htb]
+    \centering
+    \includegraphics[width=1\linewidth]{tikz/bivopwindow.tikz}
+    \caption{Representation of the bivalent operation window. An example is showcased of bivalent operation if the external temperature is between \qty{0}{\celsius} and \qty{7}{\celsius}.}
+    \label{fig:bivopwindow}
+\end{figure}
 
 \section{Eco-Economic Assessment}\label{sec:methodecoeco}
 The eco-economic assessment chapter deals with showcasing the results gathered from the 42 total simulation runs and performing the analysis. This paper is seeking to answer two questions: what is the optimal temperature window to minimise cost, and what is the optimal temperature window to minimise environmental impact. The economic analysis involves determining the hourly consumption of gas and electricity by the two heating devices and determining the overall cost of running the heating system for the year. The price of gas does not fluctuate, only changing at most a couple of times in a year, however, the price of electricity fluctuates on an hourly basis due to Time-of-Use tariffs. The cost of heating for a a given timestep for this analysis was simply the sum of the products of cost of energy type at time $t$ by consumption over the time interval, given by \cref{eq:sumofprod}, where $B$ is the fuel consumption in kilowatt-hours and $C$ is the cost of the fuel type in cent per kilowatt-hours for a given fuel (at a given time if electricity).
 
 
 \begin{equation}
-    B_\text{gas}C_\text{gas} + B_\text{elec}C_\text{elec}\label{eq:sumofprod}
+    \text{Total Annual Cost} = \sum_{t=0}^{N}B_{\text{gas}_t} C_\text{gas} + B_{\text{elec}_t} C_{\text{elec}_t}\label{eq:sumofprod}
 \end{equation}
 
 

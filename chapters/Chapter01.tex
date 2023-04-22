@@ -7,9 +7,9 @@
 
 \section{Context}\label{sec:context}
 
-Largely, throughout the developed world, it is clear that residential energy usage accounts for a large share of total energy use, and of that, space heating and \ac{DHWP} account for the majority of final energy use. In the USA, \ac{HVAC} energy use is 50\% of all building energy use and in China, \ac{HVAC} energy use is between 50\%--70\% of building energy use \cite{ieaorg_2018}. It is estimated that by 2050, two thirds of all residential buildings will have a form of air conditioning unit, further increasing these percentage shares. Alone in 2021, space cooling demand rose by 6.5\% \cite{ieaorg_2022}. \graffito{Of course, it must be noted that air conditioning naturally rose sharply in no small part due to the COIVD-19 pandemic and subsequent isolation rules in place in many parts of the world.}
+Largely, throughout the developed world, it is clear that residential energy usage accounts for a large share of total energy use, and of that, space heating and \ac{DHWP} production account for the majority of final energy use. In the USA, \ac{HVAC} energy use is 50\% of all building energy use and in China, \ac{HVAC} energy use is between 50\%--70\% of building energy use \cite{ieaorg_2018}. It is estimated that by 2050, two thirds of all residential buildings will have a form of air conditioning unit, further increasing these percentage shares. Alone in 2021, space cooling demand rose by 6.5\% \cite{ieaorg_2022}. \graffito{Of course, it must be noted that air conditioning naturally rose sharply in no small part due to the COIVD-19 pandemic and subsequent isolation rules in place in many parts of the world.}
 In Europe in 2022, the  residential sector was responsible for 27\% of final energy consumption \cite{eurostat_final_2018}. Domestic water heating and space heating collectively account for close to 80\% of a household's energy usage in Europe. \cite{eurostat_energy_2020}.
-All of this is to say, energy use due to \ac{HVAC} and \ac{DHWP} are high and are expected to continue rising. 
+All of this is to say, energy use due to \ac{HVAC} and \ac{DHWP} production are high and are expected to continue rising. 
 
 Climate change has directly affected heating and cooling design. \citelist{owen_ashrae_2009}{institution} highlight that for \num{1274} weather stations/observing sites worldwide with sound data between 1974 and 2006, the averaged design conditions (which are explained in \cref{sec:hddanddesign}) over all locations had changed by the following:
 \begin{itemize}
@@ -45,13 +45,31 @@ Frosting is detrimental to the performance of \acp{HP} \cite{di_perna_experiment
 
 A \ac{HHPS} as opposed to monovalent systems, is a configuration of a \HP in combination with a conventional gas boiler. During warmer days, the \HP has sufficient heating capacity to provide all the energy needed to heat a space, while being very efficient, while on colder days, it may be not economical or ecological to run the \HP. During these periods, the majority of the heating load is passed to the gas boiler, which is not affected by the ambient air temperature. A control system can be put in place to intelligently turn on and off the \HP and gas boiler to better suit the current weather, for either economical or ecological reasons, or a weighted combination of the two. An alternative-parallel bivalent system is where the predefined external temperatures for turning on/off the \HP/boiler are not coincident, as discussed in \cref{subsubsec:biv-parallelop}. This creates a temperature range wherein the \HP and boiler are running simultaneously. This is the focus of this thesis: where lies the optimal crossover points for boiler-only operation, bivalent operation and \HP-only operation, specifically for the Irish climate. This research has been carried out for other climate types. The Irish climate is unique in that the temperature range (during the heating season) is quite narrow, the humidity is quite high almost all year round (especially on the west coast) and the temperature is quite mild.  
 
+\section{Overview of Methodology}
+Briefly, this thesis uses a numerical model of an Irish residential house (in \texttt{EnergyPlus}) coupled with a \ac{HHPS} model developed in \texttt{Modelica} to co-simulate year long experiments. The model of the dwelling was based off a real house in Belturbet, Co. Cavan, and experimental values measured from the dwelling in-situ, over the course of a year and a half, were used to validate the house and heating system model. 42 year long experiments were simulated, each with a different bivalent operation temperature window, i.e., a sensitivity analysis was carried out, varying two parameters, the bivalent temperature of the \HP, and the cut-off temperature of the boiler. The affects of varying this window were analysed from an ecological basis and an economic basis. 
+
 \section{Aim}
-The aim of this thesis is to first, give an overview of the current state of research regarding \HPs and explain their operation including advantages, disadvantages, principle of operation and use cases. 
+The overall aim of this thesis is to create a \texttt{Modelica}-\texttt{EnergyPlus} co-simulation model of a reference residential building and \ac{HHS}. Through this model, the dynamics of shifting and dilating the hybrid operation temperature window will be analysed in order to optimise the \ac{HHS} along two dimensions: minimising $\text{CO}_2$ emissions and minimising annual heating costs. In other words, a parametric study with fixed-factor design will be carried out investigating the effects of varying the year-fixed hybrid operation temperature window, in annual simulations of the model. This analysis will first be carried out using the Irish market as a case study, and the results will be generalised to determine inflection points.
 
 \section{Motivation}
 The operation, control and performance of \acp{HHS} consisting of \acp{AWHP} and traditional gas boilers has been moderately studied in the literature. This type of heating system has been simulated and tested in-situ in countries such as China \cite{li_parallel_2018}, Japan and Korea \cite{jang_continuous_2013, park_performance_2014}, North America \cite{rauschkolb_cost-optimal_2020, }, Germany \cite{klein_numerical_2014} and other continental European countries \cite{bagarella_annual_2016, roccatello_analysis_2022, amirkhizi_cost_2020, dongellini_influence_2021,di_perna_experimental_2015}, however, the research regarding efficient control of such a system in the Irish climate, namely a temperate oceanic climate, has not (or at the least only partially) been explored \cite{heinen_electricity_2016}. Ireland has a very changeable and mild climate, but the characteristic of note is its consistently high humidity. Humidity and low temperatures are the bane of \HP operation and efficiency.
 
-\section{The Problem} % Along with Novelty
+By achieving the aims mentioned previously, this thesis aims to contribute to the development of energy-efficient and cost-effective \acp{HHS} that have the potential to reduce \ac{GHG} emissions and promote sustainable energy practices in the residential sector. The use of a rigorous and validated simulation model will enable a more accurate analysis of the system dynamics, allowing for the identification of optimal operational parameters and the potential for further optimisation in future research.
+
+\section{Research Question} 
+Research question: How can a year-static hybrid operation temperature window of a \ac{HHS} be optimised to minimise both $\text{CO}_2$ emissions and annual heating costs in a typical Irish residential home.
 
 \section{Thesis Layout}
-\cref{ch:litreview} is a literature review of: the operation of \HPs (including the different types) and \acp{HHS}; overview of \ac{PE}; the electrification of heating in the EU; controllers and basic control theory; and ending with 
+The thesis is structured as follows: 
+
+\cref{ch:litreview} provides a literature review on \HPs,  \acp{HHS}, \acp{HHD}, \ac{PE}, electrification of heating, controllers and control theory, and verification and validation of models.
+
+\cref{ch:method} outlines the methodology used, including the experimental reference building, building and heating system models, sensitivity analysis design, and eco-economic assessment. 
+
+\cref{ch:method} focuses on the system model, including the location, form and fabric of the building, schedules, equipment and internal gains, and heating system. 
+
+\cref{ch:sensitivity} presents the results of the parametric study, specifically the parametric study design, energy consumption (electricity and gas), and performance indices. 
+
+\cref{ch:eco-ecoass} covers the eco-economic assessment, including analysis of the minimisation of the cost of annual heating, minimisation of $\text{CO}2$ emissions and optimising \ac{PES}.
+
+Finally, \cref{ch:conclusions} presents the conclusions drawn from the study, as well as giving outlines for potential future work on the subject.

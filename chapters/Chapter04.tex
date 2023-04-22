@@ -7,10 +7,10 @@
 % Equations 
 % economic and ecological models. 
 
-\begin{flushright}{\slshape
-    The purpose of models is not to fit the data, but to sharpen the question} \\ \medskip
-    --- Samuel Karlin
-\end{flushright}
+% \begin{flushright}{\slshape
+%     The purpose of models is not to fit the data, but to sharpen the question} \\ \medskip
+%     --- Samuel Karlin
+% \end{flushright}
 
 \section{Location} \label{sec:location}
 The reference house that the building model is based off of a hipped dormer, two-storey residential house located in Belturbet, Cavan, a small town close to the Republic of Ireland and Northern Ireland border, about 125 kilometres from Dublin. The reference house lies at an elevation of 80 metres and is Easterly facing. The dwelling is located in a residential estate, and is thus classified as being located in an urban environment.
@@ -29,7 +29,7 @@ The reference model has a floor area of 160 square metres, 93 square metres of w
     \centering
     %\includegraphics[width=0.7\linewidth]{3dmodel}
     \includegraphics[width=0.7\linewidth]{Housepng.png}
-    \caption[3D Model of Reference Building]{3D Model of Reference Building, rendered in \texttt{SketchUp} via the \texttt{Euclid} plugin}
+    \caption[3D Model of Reference Building]{3D Model of Reference Building, rendered in \texttt{SketchUp} via the \texttt{Euclid} plugin.}
     \label{fig:3dmodel}
 \end{figure}
 
@@ -39,13 +39,15 @@ The reference model has a floor area of 160 square metres, 93 square metres of w
 \begin{table}[htb]
     \footnotesize
     \centering
-    \caption{Summary of U-Values}
+    \caption{Summary of $U$-Values}
     \label{tbl:uvalues}  
     \begin{tabular}{lccccc}\toprule
-        \multicolumn{1}{c}{\multirow{2}{*}{\begin{tabular}[c]{@{}c@{}}Building \\ Model\end{tabular}}} & \multicolumn{4}{c}{\begin{tabular}[c]{@{}c@{}}U-Value\\ {[}W/m2-K{]}\end{tabular}} & \multirow{2}{*}{\begin{tabular}[c]{@{}c@{}}Infiltration\\ Rate\\ {[}ACH{]}\end{tabular}} \\ \cmidrule(lr){2-5}
+        \multicolumn{1}{c}{\multirow{2}{*}{\begin{tabular}[c]{@{}c@{}}Building \\ Model\end{tabular}}} & \multicolumn{4}{c}{\begin{tabular}[c]{@{}c@{}}$U$-Value\\ {[}\unit{\watt\per\square\meter\per\kelvin}{]}\end{tabular}} & \multirow{2}{*}{\begin{tabular}[c]{@{}c@{}}Infiltration\\ Rate\\ {[}\acs{ACPH}{]}\end{tabular}} \\ \cmidrule(lr){2-5}
         \multicolumn{1}{c}{} & \begin{tabular}[c]{@{}c@{}}Exterior\\ Wall\end{tabular} & \begin{tabular}[c]{@{}c@{}}Pitched\\ Roof\end{tabular} & \begin{tabular}[c]{@{}c@{}}Exterior\\ Floor\end{tabular} & \begin{tabular}[c]{@{}c@{}}Exterior\\ Glazing\end{tabular} &  \\ \midrule
-        \begin{tabular}[c]{@{}l@{}}Minimal\\ Retrofit\end{tabular} & \num{0.31} & \num{0.16} & \num{0.25} & \num{2.15} & \num{0.8} \\
-        \begin{tabular}[c]{@{}l@{}}Deep \\ Retrofit\end{tabular} & \num{0.18} & \num{0.16} & \num{0.18} & \num{1.39} & \num{0.5} \\ \bottomrule   
+        \begin{tabular}[c]{@{}l@{}}Minimal\\ Retrofit\end{tabular} & \num{0.31} & \num{0.16} & \num{0.25} & \num{2.15} & \num{0.8} %\\
+        %\begin{tabular}[c]{@{}l@{}}Deep 
+            %\\ Retrofit\end{tabular} & \num{0.18} & \num{0.16} & \num{0.18} & \num{1.39} & \num{0.5} 
+            \\ \bottomrule   
     \end{tabular}
 \end{table}
 
@@ -86,7 +88,7 @@ The reference model has a floor area of 160 square metres, 93 square metres of w
 \end{table}
 
 
-\cref{tbl:pitchroofconst} details the specifications of the pitched roof construction for the minimal retrofit model, from outside to inside. This construction is applied to the bulk of the roof and consists of clay tile, an air cavity, insulation board and then plasterboard. This construction remains the same across the minimal retrofit and deep retrofit models.
+\cref{tbl:pitchroofconst} details the specifications of the pitched roof construction for the minimal retrofit model, from outside to inside. This construction is applied to the bulk of the roof and consists of clay tile, an air cavity, insulation board and then plasterboard.
 
 \begin{table}[htb]
     \footnotesize
@@ -104,7 +106,7 @@ The reference model has a floor area of 160 square metres, 93 square metres of w
     \end{tabular}
 \end{table}
 
-The dormer roof provides no insulation and is only in place to protect the inside spaces from wind and rain. This construction is shared between the minimal retrofit model and the deep retrofit model.
+The dormer roof provides no insulation and is only in place to protect the inside spaces from wind and rain. Its specifications can be read in \cref{tbl:dormerroofconst}
 \begin{table}[htb]
     \footnotesize
     \centering
@@ -135,57 +137,57 @@ The dormer roof provides no insulation and is only in place to protect the insid
     \end{tabular}
 \end{table}
 
-\subsubsection{Deep Retrofit Model}
-During the deep retrofit process, the external wall, exposed floor and external glazing constructions are upgraded to conform to the Building Regulations Part L 2022. The infiltration rate was also decreased to 0.5 \ac{ACPH} due to leakiness being heavily reduced.
+% \subsubsection{Deep Retrofit Model}
+% During the deep retrofit process, the external wall, exposed floor and external glazing constructions are upgraded to conform to the Building Regulations Part L 2022. The infiltration rate was also decreased to 0.5 \ac{ACPH} due to leakiness being heavily reduced.
 
-\begin{table}[htb]
-    \footnotesize
-    \centering
-    \caption{External Glazing Construction (Deep Retrofit)}
-    \label{tbl:deepglazingconst}
-    \begin{tabular}{lccc}
-        \toprule
-        Layer        & \multicolumn{1}{c}{\begin{tabular}[c]{@{}c@{}}Thickness \\ {[}m{]}\end{tabular}} & \multicolumn{1}{c}{\begin{tabular}[c]{@{}c@{}}Transmittance \\ {[}\unit{\kilogram\per\cubic\meter}{]}\end{tabular}}  & \multicolumn{1}{c}{\begin{tabular}[c]{@{}c@{}}Conductivity \\   {[}\unit{\watt\per\meter\per\kelvin}{]}\end{tabular}} \\ \midrule
-        Inner Pane   & \num{0.003}            & \num{0.783}                 & \num{0.4}                                         \\
-        Argon Gas      & \num{0.20}              & $-$                  & $-$                                   \\
-        Middle Pane   & \num{0.003}            & \num{0.783}                 & \num{0.4}                                         \\
-        Argon Gas      & \num{0.20}              & $-$                  & $-$                                   \\
-        Outer Pane     & \num{0.003}            & \num{0.783}                  & \num{0.4}                                    \\
-        \bottomrule
-    \end{tabular}   
-\end{table}
+% \begin{table}[htb]
+%     \footnotesize
+%     \centering
+%     \caption{External Glazing Construction (Deep Retrofit)}
+%     \label{tbl:deepglazingconst}
+%     \begin{tabular}{lccc}
+%         \toprule
+%         Layer        & \multicolumn{1}{c}{\begin{tabular}[c]{@{}c@{}}Thickness \\ {[}m{]}\end{tabular}} & \multicolumn{1}{c}{\begin{tabular}[c]{@{}c@{}}Transmittance \\ {[}\unit{\kilogram\per\cubic\meter}{]}\end{tabular}}  & \multicolumn{1}{c}{\begin{tabular}[c]{@{}c@{}}Conductivity \\   {[}\unit{\watt\per\meter\per\kelvin}{]}\end{tabular}} \\ \midrule
+%         Inner Pane   & \num{0.003}            & \num{0.783}                 & \num{0.4}                                         \\
+%         Argon Gas      & \num{0.20}              & $-$                  & $-$                                   \\
+%         Middle Pane   & \num{0.003}            & \num{0.783}                 & \num{0.4}                                         \\
+%         Argon Gas      & \num{0.20}              & $-$                  & $-$                                   \\
+%         Outer Pane     & \num{0.003}            & \num{0.783}                  & \num{0.4}                                    \\
+%         \bottomrule
+%     \end{tabular}   
+% \end{table}
 
-\begin{table}[htb]
-    \footnotesize
-    \centering
-    \caption{Exterior Floor Construction}
-    \label{tbl:deepextfloorconst}
-    \begin{tabular}{lcccc}
-        \toprule
-        Layer        & \multicolumn{1}{c}{\begin{tabular}[c]{@{}c@{}}Thickness \\ {[}m{]}\end{tabular}} & \multicolumn{1}{c}{\begin{tabular}[c]{@{}c@{}}Density \\ {[}\unit{\kilogram\per\cubic\meter}{]}\end{tabular}} & \multicolumn{1}{c}{\begin{tabular}[c]{@{}c@{}}Heat Capacity \\  {[}\unit{\joule\per\kilogram\per\kelvin}{]}\end{tabular}}  & \multicolumn{1}{c}{\begin{tabular}[c]{@{}c@{}}Conductivity \\   {[}\unit{\watt\per\meter\per\kelvin}{]}\end{tabular}} \\ \midrule
-        Acoustic Tile   & \num{0.0191}            & \num{368}                 & \num{590}                        & \num{0.06}                     \\
-        Air Cavity      & \num{0.15}              & $-$                  & $-$                      &  $-$                  \\
-        Insulation      & \num{0.085}             & \num{43}                  & \num{1210}                       & \num{0.03}                     \\
-        Concrete        & \num{0.1016}             & \num{1280}                 & \num{840}                       & \num{0.53}                     \\
-        \bottomrule
-    \end{tabular}
-\end{table}
+% \begin{table}[htb]
+%     \footnotesize
+%     \centering
+%     \caption{Exterior Floor Construction}
+%     \label{tbl:deepextfloorconst}
+%     \begin{tabular}{lcccc}
+%         \toprule
+%         Layer        & \multicolumn{1}{c}{\begin{tabular}[c]{@{}c@{}}Thickness \\ {[}m{]}\end{tabular}} & \multicolumn{1}{c}{\begin{tabular}[c]{@{}c@{}}Density \\ {[}\unit{\kilogram\per\cubic\meter}{]}\end{tabular}} & \multicolumn{1}{c}{\begin{tabular}[c]{@{}c@{}}Heat Capacity \\  {[}\unit{\joule\per\kilogram\per\kelvin}{]}\end{tabular}}  & \multicolumn{1}{c}{\begin{tabular}[c]{@{}c@{}}Conductivity \\   {[}\unit{\watt\per\meter\per\kelvin}{]}\end{tabular}} \\ \midrule
+%         Acoustic Tile   & \num{0.0191}            & \num{368}                 & \num{590}                        & \num{0.06}                     \\
+%         Air Cavity      & \num{0.15}              & $-$                  & $-$                      &  $-$                  \\
+%         Insulation      & \num{0.085}             & \num{43}                  & \num{1210}                       & \num{0.03}                     \\
+%         Concrete        & \num{0.1016}             & \num{1280}                 & \num{840}                       & \num{0.53}                     \\
+%         \bottomrule
+%     \end{tabular}
+% \end{table}
 
-\begin{table}[htb]
-    \footnotesize
-    \centering
-    \caption{Exterior Wall Construction}
-    \label{tbl:deepextwallconst}
-    \begin{tabular}{lcccc}
-        \toprule
-        Layer        & \multicolumn{1}{c}{\begin{tabular}[c]{@{}c@{}}Thickness \\ {[}m{]}\end{tabular}} & \multicolumn{1}{c}{\begin{tabular}[c]{@{}c@{}}Density \\ {[}\unit{\kilogram\per\cubic\meter}{]}\end{tabular}} & \multicolumn{1}{c}{\begin{tabular}[c]{@{}c@{}}Heat Capacity \\  {[}\unit{\joule\per\kilogram\per\kelvin}{]}\end{tabular}}  & \multicolumn{1}{c}{\begin{tabular}[c]{@{}c@{}}Conductivity \\   {[}\unit{\watt\per\meter\per\kelvin}{]}\end{tabular}} \\ \midrule
-        Rainscreen   & \num{0.01}              & \num{7824}                & \num{500}                        & \num{30}                       \\
-        Insulation   & \num{0.085}             & \num{43}                  & \num{1210}                       & \num{0.03}                     \\
-        Air Cavity      & \num{0.15}              & $-$                  & $-$                      &  $-$                  \\
-        Gypsum board & \num{0.019}             & \num{800}                 & \num{1090}                       & \num{0.16}                     \\
-        \bottomrule
-    \end{tabular}
-\end{table}
+% \begin{table}[htb]
+%     \footnotesize
+%     \centering
+%     \caption{Exterior Wall Construction}
+%     \label{tbl:deepextwallconst}
+%     \begin{tabular}{lcccc}
+%         \toprule
+%         Layer        & \multicolumn{1}{c}{\begin{tabular}[c]{@{}c@{}}Thickness \\ {[}m{]}\end{tabular}} & \multicolumn{1}{c}{\begin{tabular}[c]{@{}c@{}}Density \\ {[}\unit{\kilogram\per\cubic\meter}{]}\end{tabular}} & \multicolumn{1}{c}{\begin{tabular}[c]{@{}c@{}}Heat Capacity \\  {[}\unit{\joule\per\kilogram\per\kelvin}{]}\end{tabular}}  & \multicolumn{1}{c}{\begin{tabular}[c]{@{}c@{}}Conductivity \\   {[}\unit{\watt\per\meter\per\kelvin}{]}\end{tabular}} \\ \midrule
+%         Rainscreen   & \num{0.01}              & \num{7824}                & \num{500}                        & \num{30}                       \\
+%         Insulation   & \num{0.085}             & \num{43}                  & \num{1210}                       & \num{0.03}                     \\
+%         Air Cavity      & \num{0.15}              & $-$                  & $-$                      &  $-$                  \\
+%         Gypsum board & \num{0.019}             & \num{800}                 & \num{1090}                       & \num{0.16}                     \\
+%         \bottomrule
+%     \end{tabular}
+% \end{table}
 
 
 
@@ -351,7 +353,7 @@ The \texttt{RadiatorEN442} radiator model from the Buildings library \cite{wette
     Q_\text{c}^i=\operatorname{sign}(T^i-T_\text{a})(1-f_\text{rad})\frac{UA}{N}|T^i-T_\text{a}|^n\label{eq:radiatorheatrans}
 \end{equation}
 
-Where $T^i$ is the water temperature of the element, $T_\text{a}$ is the temperature of the air in the room, $f_\text{rad}$ is the fraction of the heat converted to radiation, set to zero in this model, $n$ is the exponent of heat transfer, set to 1.3, and $UA$ is the UA-value of the radiator which is numerically solved for the given nominal data values. 
+Where $T^i$ is the water temperature of the element, $T_\text{a}$ is the temperature of the air in the room, $f_\text{rad}$ is the fraction of the heat converted to radiation, set to zero in this model, $n$ is the exponent of heat transfer, set to 1.3, and $UA$ is the $UA$-value of the radiator which is numerically solved for the given nominal data values. 
 
 \subsection{Thermal Storage Tank}
 The thermal storage tank \texttt{Thermal.Storage} model from the Buildings library \cite{wetter_modelica_2014} was used in the \ac{HHS} model. The model uses ten stratified layers (\texttt{nSeg = 10}) to model to dynamics of the temperature gradient of the water within the tank. The storage tank was fixed to contain \qty{0.5}{\cubic\meter} of water, or \qty{500}{\litre}, with \qty{10}{\centi\meter} of insulation thickness and a height of \qty{1.7}{\meter}. The tank was assumed to be located in the aforementioned unconditioned room, with heat losses occurring from the tank to the room. Two temperature sensors are connected to the tank, one at the top of the water volume (volume index 1) and one at the bottom of the water volume (volume index \texttt{nSeg}). 

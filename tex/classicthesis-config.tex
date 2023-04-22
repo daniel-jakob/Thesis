@@ -320,7 +320,7 @@ natbib=true % natbib compatibility mode (\citep and \citet still work)
 \appto{\appendix}{ % Makes tables, listing, figures etc appear lowercase.
 \renewcommand\thefigure{\spacedlowsmallcaps{\thechapter}.\arabic{figure}}
 \renewcommand\theequation{\spacedlowsmallcaps{\thechapter}.\arabic{equation}}
-\renewcommand{\thelstlisting}{\spacedlowsmallcaps{\thechapter}.\arabic{lstlisting}}
+%\renewcommand{\thelstlisting}{\spacedlowsmallcaps{\thechapter}.\arabic{lstlisting}}
 \renewcommand\thetable{\spacedlowsmallcaps{\thechapter}.\arabic{table}}
 }
 
@@ -328,40 +328,43 @@ natbib=true % natbib compatibility mode (\citep and \citet still work)
 % ****************************************************************************************************
 % 4. Setup code listings
 % ****************************************************************************************************
-\usepackage{listings}
+%\usepackage{listings}
 %\lstset{emph={trueIndex,root},emphstyle=\color{BlueViolet}}%\underbar} % for special keywords
-\lstset{language=[LaTeX]Tex,%C++,
-  morekeywords={PassOptionsToPackage,selectlanguage},
-  keywordstyle=\color{RoyalBlue},%\bfseries,
-  basicstyle=\small\ttfamily,
-  %identifierstyle=\color{NavyBlue},
-  commentstyle=\color{Green}\ttfamily,
-  stringstyle=\rmfamily,
-  numbers=left,%none
-  numberstyle=\scriptsize,%\tiny
-  stepnumber=1,
-  numbers=left,
-  numbersep=8pt,
-  showstringspaces=false,
-  breaklines=true,
-  %frameround=ftff,
-  %frame=single,
-  belowcaptionskip=.75\baselineskip
-  %frame=L
-}
-
-% \RequirePackage[cachedir=.minted,outputdir=.aux]{minted} % code listing package 
-% \setminted{ % style setup for minted 
-%     fontsize=\footnotesize,   
-%     baselinestretch=0.8, 
-%     linenos=true,
-%     autogobble,
-%     breaklines,
-%     escapeinside=££
+% \lstset{language=[LaTeX]Tex,%C++,
+%   morekeywords={PassOptionsToPackage,selectlanguage},
+%   keywordstyle=\color{RoyalBlue},%\bfseries,
+%   basicstyle=\small\ttfamily,
+%   %identifierstyle=\color{NavyBlue},
+%   commentstyle=\color{Green}\ttfamily,
+%   stringstyle=\rmfamily,
+%   numbers=left,%none
+%   numberstyle=\scriptsize,%\tiny
+%   stepnumber=1,
+%   numbers=left,
+%   numbersep=8pt,
+%   showstringspaces=false,
+%   breaklines=true,
+%   %frameround=ftff,
+%   %frame=single,
+%   belowcaptionskip=.75\baselineskip
+%   %frame=L
 % }
 
-% \newenvironment{longlisting}{\captionsetup{type=listing}}{} % allows for multipage and page-breaking of code listings
-% \AfterEndEnvironment{longlisting}{\hspace{-.5em}}
+% \input{tex/listings-modelica.cfg}
+
+
+\RequirePackage[cachedir=.minted,outputdir=.aux]{minted} % code listing package 
+\setminted{ % style setup for minted 
+    fontsize=\footnotesize,   
+    baselinestretch=0.8, 
+    linenos=true,
+    autogobble,
+    breaklines,
+    escapeinside=££
+}
+
+\newenvironment{longlisting}{\captionsetup{type=listing}}{} % allows for multipage and page-breaking of code listings
+\AfterEndEnvironment{longlisting}{\hspace{-.5em}}
 %\renewcommand\p@FancyVerbLine{Ln.~\@} % changes how cross referenced lines of code are displayed
 
 % ****************************************************************************************************
