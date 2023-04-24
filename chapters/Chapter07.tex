@@ -5,37 +5,18 @@
 %Intervals...
 %Improvements... Future Work
 
-
-% \begin{algorithm}[htpb]
-%     \SetKwFunction{counter}{counter}
-%     \caption{Newton-Raphson Method}
-%     \label{alg:newton-raphson}
-%     \SetAlgoLined
-%     \KwIn{Estimate $x_0$ and function $f(x)$}
-%     \KwResult{Approximation of the root of $f(x)$}
-%      \counter $\leftarrow$ 0\tcc*[r]{initialisations}
-%      $x_n \leftarrow x_0$\;
-%      \While{\counter\ $< 20$}{
-%       $\displaystyle x_{n+1}=x_n-\frac{f\kern-0.25em\rbk{x_n}}{f'\kern-0.25em\rbk{x_n}}$\tcc*[r]{see: \cref{fig:fds}}
-%       \If(\tcc*[f]{break func. if tol. level met}){$\abs{f\kern-0.25em\rbk{x_{n+1}}}<10^{-10}$}{Terminate\;
-%        }
-%        set $x_n$ to $x_{n+1}$\;
-%        \counter = \counter + 1\tcc*[r]{increment counter}
-%      }
-%      \Return{$x_{n+1}$}
-%     \end{algorithm}
-
 \section{Conclusions}
+
 
 \section{Future Work}
 There are many avenues to pursue in regard to potential future work in the \ac{HHPS} field. Although a great effort was made to investigate the issue of varying bivalent temperature operation windows, there is always more to study, science is never finished. A brief list of areas of potential future research which could be fruitful includes:
 \begin{itemize}
     \item Improve the frosting model implemented in this thesis. The frosting model described in \cref{subsubsec:frostingmod} is perhaps not the most developed or accurate model, a more nuanced model may include a model which tracks ice build up as a function both temperature and r.h. The data required for this may be too sparse to accurately model this behaviour however.
     \item Different constructions, perhaps a model representing a dwelling having undergone a deep retrofit could be investigated. The resulting improved thermal properties of the house would result in less heating demand overall and would surely alter the dynamics of the boiler-\HP relationship
-    \item Calibration was only performed for one of the temperature windows, namely a bivalent temperature of \qty{7}{\celsius} and a cut-off temperature of \qty{2}{\celsius}. It would better if a second window was experimental measured and calibrated with. 
-    \item More climates could be 
-    \item DHW production
-    \item See if parallel vs in-series \HP and boiler makes a difference
-    \item Smart bivalent operation temperature window shifting and dilating. 
+    \item Calibration was only performed for one of the temperature windows, namely a bivalent temperature of \qty{7}{\celsius} and a cut-off temperature of \qty{2}{\celsius}. It would better if a second operation window was experimentally measured and calibrated with. 
+    \item More climates could be investigated. The Irish climate is perhaps under researched in the field of \ac{HHPS}, however, there are also other climates which could be researched to further generalise the optimisation of the operation window.
+    \item \ac{DHW} production was omitted in the simulation of this thesis, however it could be of merit to inquire into how  \ac{DHW} production would alter the dynamics of the \HP and boiler, given the boiler were not the sole producer of hot water.
+    \item Scrutinise whether parallel vs. in-series \HP and boiler makes a difference in the analysis.
+    \item Finally, smart, real-time bivalent operation temperature window shifting and dilating could be a very interesting topic to pursue. 
 \end{itemize}
 

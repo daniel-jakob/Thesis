@@ -1,0 +1,19 @@
+\tikzstyle{int}=[draw, fill=blue!20, minimum size=2em, text width=2.5cm]
+\tikzstyle{sum}=[draw, fill=blue!20, shape=circle, inner sep=1pt, node distance=2.5cm]
+\begin{tikzpicture}[node distance=1.5cm,auto,>=latex',scale=0.70, transform shape]
+    \node [int] (kp) {P\hfill$k_\text{P} e(t)$};
+    \node [int] (ki) [below of=kp] {I\hfill$k_\text{I} \int{e(t)\mathrm{d}t}$};
+    \node [int] (kd) [below of=ki] {D\hfill$k_\text{D} \frac{e(t)}{\mathrm{d}t}$};
+    \node [sum] (sum) [right of=ki] {$\sum$};
+    \node [coordinate] (joint1) [left of=ki, node distance=2cm]{};
+    \node [coordinate] (begin) [left of=joint1, node distance=2cm]{};
+    \node [coordinate] (end) [right of=sum, node distance=2cm]{};
+    \draw[-] (begin) -- node {$e(t)$} (joint1);
+    \draw[->] (joint1) |- (kp.west);
+    \draw[->] (joint1) -- (ki);
+    \draw[->] (joint1) |- (kd);
+    \draw[->] (kp.east) -| node [pos=0.95] {$+$} (sum.north);
+    \draw[->] (ki.east) -- node [pos=0.8] {$+$} (sum.west);
+    \draw[->] (kd.east) -| node [pos=0.95] {$+$} (sum.south);
+    \draw[->] (sum.east) -- (end);
+\end{tikzpicture}   

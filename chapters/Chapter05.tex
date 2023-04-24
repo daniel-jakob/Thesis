@@ -22,7 +22,7 @@ As the two parameters were varied, the energy consumption of the two energy sour
 \begin{table}[htb]
     \footnotesize
     \centering
-    \caption{Year-total gas consumption carpet plot for each parameter-level combination}
+    \caption{Year-total gas consumption carpet plot for each parameter-level combination [\unit{\kWh\per\year}]}
     \label{tbl:gasconsump}
     \pgfplotstabletypeset[
         col sep=space,
@@ -51,7 +51,7 @@ When considering the electricity consumption heatmap, it is perhaps easier to in
 \begin{table}[htb]
     \footnotesize
     \centering
-    \caption{Year-total electricity consumption carpet plot for each parameter-level combination}
+    \caption{Year-total electricity consumption carpet plot for each parameter-level combination [\unit{\kWh\per\year}]}
     \label{tbl:elecconsump}
     \pgfplotstabletypeset[
         col sep=space,
@@ -80,7 +80,7 @@ When considering the electricity consumption heatmap, it is perhaps easier to in
 \begin{table}[htb]
     \footnotesize
     \centering
-    \caption{Year-total energy consumption carpet plot for each parameter-level combination}
+    \caption{Year-total energy consumption carpet plot for each parameter-level combination [\unit{\kWh\per\year}]}
     \label{tbl:totalconsump}
     \pgfplotstabletypeset[
         col sep=space,
@@ -106,7 +106,7 @@ When considering the electricity consumption heatmap, it is perhaps easier to in
 
 
 \subsection{Performance Indices}
-\subsubsection{COP and SCOP}
+\subsubsection{\acs{SCOP} Variation in Parametric Study}
 As the hybrid operation temperature window shifts, and contracts and expands, the performance of the \ac{HHS} changes due to the changing of the modes of heating active at a given a temperature and the dynamics between the operation of the gas boiler, \ac{ASHP} and building model at large. As discussed in \cref{subsec:ashp}, the \ac{SCOP} of the \HP can be thought of as the average \ac{COP} of the \ac{ASHP} over the course of the year or heating season. For this analysis, the entire year is being considered. The \ac{COP} will be greatly affected by the outdoor temperatures the \HP is operated at, thus, the \ac{COP} will be highly dependent on the bivalent temperature parameter being varied throughout the sensitivity analysis. It will also be minorly affected by the cut-off temperature due to the aforementioned system dynamics. The \ac{SCOP} for this analysis is calculated using \cref{eq:scop}. The tabulated results are found in \cref{tbl:scop}.
 
 \begin{table}[htb]
@@ -149,9 +149,9 @@ A simple explanation for the \ac{SCOP} hardly changing as a function of the biva
 
 However, there is another compounding phenomenon occurring which is perhaps downplaying the negative effects of low outdoor temperatures affecting the \ac{COP}, which is the effect of frosting on the time under which the \HP is operating at, at lower temperatures. The frosting of course only occurs when the outdoor temperature is low, and due to the frosting model described in \cref{subsubsec:frostingmod}, the \HP operation is blocked for a set time to emulate defrosting. This results in the \HP simply operating less at these temperatures, reducing the negative consequences on the \ac{COP}. This explains why the \ac{COP} is generally lowest at $\{1\text{,}\sim\}$. 
 
-\subsubsection{Number of \acs{HP} Cycles}
+\subsubsection{Number of \acs{HP} Cycles Variation in Parametric Study}
 
-The number of on cycles for a \HP over the course of a year is closely linked to the temperature below which it will be blocked from operating, i.e., its bivalent temperature, due to frosting effects. This is due to the fact that as the \HP operates in cold weather, frost builds up on its outdoor unit, reducing its efficiency and eventually, the controller shuts off the \HP to perform a defrost cycle. \cref{tbl:cycling} shows a heatmap of the number of on-cycles 
+The number of on cycles for a \HP over the course of a year is closely linked to the temperature below which it will be blocked from operating, i.e., its bivalent temperature, due to frosting effects. This is due to the fact that as the \HP operates in cold weather, frost builds up on its outdoor unit, reducing its efficiency and eventually, the controller shuts off the \HP to perform a defrost cycle. \cref{tbl:cycling} shows a heatmap of the number of on-cycles. A clear delineation can be seen when the bivalent temperature decreases past \qty{3}{\celsius}. This is due to the frosting model activating at outdoor temperatures less than \qty{2}{\celsius}. The \HP can be thought of as being interrupted when the ambient temperature is less than \qty{2}{\celsius} for longer than 60 minutes, leading to more regular on-off cycles, restarting the \HP after the 10-minute defrosting period. There appear to be anomalous values at the $\{-1\text{, }10\}$ and $\{0\text{,}6\}$ combinations, for which there is little explanation other than pure chance.
 
 \begin{table}[htb]
     \footnotesize
@@ -180,27 +180,27 @@ The number of on cycles for a \HP over the course of a year is closely linked to
     ]{data/cycling.dat}
 \end{table}
 
+Time series plots can be seen in \cref{fig:onoffhp51,fig:onoffhp34,fig:onoffhp07}, of a ten-day period from the 19\textsuperscript{th} of March to 29\textsuperscript{th} of March. This period was chosen quasi-arbitrarily, with the only criteria being a period where the temperature drops below \qty{2}{\celsius} multiple times for extended periods. Three series are shown in each, the water temperature of the supply and return radiator loop, and the outdoor temperature. At the bottom of each is a small subplot which shows the \HP on-off cycling. \cref{fig:onoffhp51,fig:onoffhp34} show parameter-level combinations where the \HP operates below \qty{2}{\celsius}, while \cref{fig:onoffhp07} does not. From the cycling subplot it can be seen that in \cref{fig:onoffhp51,fig:onoffhp34}, the \HP restarts many many times around the 20\textsuperscript{th}, 21\textsuperscript{st}, 23\textsuperscript{rd} and 25\textsuperscript{th}. This matches up with the outdoor temperature dropping below \qty{2}{\celsius} from the plot above. Constant on and off cycling incurs cycling losses which can amount to large amounts of energy and are detrimental to the lifespan of the \HP \cite{bagarella_cycling_2013}.
 
+\begin{figure}[htb]
+    \centering
+    \import{tikz/}{OnOffHP51.tex}
+    \caption[Supply and return water temperature, outdoor temperature and \acs{HP} on/off cycling for $\{-2\text{, }5\}$]{Supply and return water temperature overlaid with external temperature, with a subplot of \acs{HP} on-off cycles for $\{-2\text{, }5\}$ parameter-level combination for 19\textsuperscript{th} to 29\textsuperscript{th} of March}
+    \label{fig:onoffhp51}
+\end{figure}
 
-% \begin{figure}[htb]
-%     \centering
-%     \import{tikz/}{OnOffHP51.tex}
-%     \caption[Supply and return water temperature, outdoor temperature and \acs{HP} on/off cycling for $\{-2\text{,}5\}$]{Supply and return water temperature overlaid with external temperature, with a subplot of \acs{HP} on-off cycles for $\{-2\text{,}5\}$ parameter-level combination for 19\textsuperscript{th} of March to 29\textsuperscript{th} of March}
-%     \label{fig:onoffhp51}
-% \end{figure}
+\begin{figure}[htb]
+    \centering
+    \import{tikz/}{OnOffHP34.tex}
+    \caption[Supply and return water temperature, outdoor temperature and \acs{HP} on/off cycling for $\{1\text{, }7\}$]{Supply and return water temperature overlaid with external temperature, with a subplot of \acs{HP} on-off cycles for $\{1\text{, }7\}$ parameter-level combination for 19\textsuperscript{th} to 29\textsuperscript{th} of March}
+    \label{fig:onoffhp34}
+\end{figure}
 
-% \begin{figure}[htb]
-%     \centering
-%     \import{tikz/}{OnOffHP34.tex}
-%     \caption[Supply and return water temperature, outdoor temperature and \acs{HP} on/off cycling for $\{1\text{,}7\}$]{Supply and return water temperature overlaid with external temperature, with a subplot of \acs{HP} on-off cycles for $\{1\text{,}7\}$ parameter-level combination for 19\textsuperscript{th} of March to 29\textsuperscript{th} of March}
-%     \label{fig:onoffhp34}
-% \end{figure}
-
-% \begin{figure}[htb]
-%     \centering
-%     \import{tikz/}{OnOffHP07.tex}
-%     \caption[Supply and return water temperature, outdoor temperature and \acs{HP} on/off cycling for $\{4\text{,}10\}$]{Supply and return water temperature overlaid with external temperature, with a subplot of \acs{HP} on-off cycles for $\{4\text{,}10\}$ parameter-level combination for 19\textsuperscript{th} of March to 29\textsuperscript{th} of March}
-%     \label{fig:onoffhp07}
-% \end{figure}
+\begin{figure}[htb]
+    \centering
+    \import{tikz/}{OnOffHP07.tex}
+    \caption[Supply and return water temperature, outdoor temperature and \acs{HP} on/off cycling for $\{4\text{, }10\}$]{Supply and return water temperature overlaid with external temperature, with a subplot of \acs{HP} on-off cycles for $\{4\text{, }10\}$ parameter-level combination for 19\textsuperscript{th} to 29\textsuperscript{th} of March}
+    \label{fig:onoffhp07}
+\end{figure}
 
 

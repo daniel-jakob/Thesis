@@ -9,7 +9,7 @@
         decision/.style = {draw,diamond, aspect =2, minimum width=3cm, minimum height=1cm, text centered,text width= 1.8 cm, draw=black, inner sep=0pt, fill=orange!30},
         line/.style = {draw, -latex'}
     }
-\node [rblock]  (radloop) {Boiler, HP \& TES\\ loop control};
+\node [rblock]  (radloop) {Boiler, \acsfont{HP}  \& \acsfont{TES}\\ loop control};
 \node [io, right of=radloop, node distance=5cm] (roomtemp) {Avg room temp};
 \node [decision, right of=roomtemp, node distance=5 cm] (less18) {$<$\qty{18}{\celsius}};
 \node [decision, below of=less18, node distance=3 cm] (lesssuptemp) {$<$Supply temp};
@@ -21,9 +21,9 @@
 \node [decision, below of=roomtemp, node distance=3 cm] (less8) {$<$\qty{8}{\celsius}};
 \node [block, below of=less8, node distance=3cm] (boion) {Turn boiler on};
 \node [decision, right of=boion, node distance=5 cm] (less2) {$>$\qty{2}{\celsius}};
-\node [block, right of=less2, node distance=5 cm] (hpon) {Turn HP on};
+\node [block, right of=less2, node distance=5 cm] (hpon) {Turn \acsfont{HP}  on};
 
-\node [block, below of=outsidetemp, node distance=2 cm] (hpboioff) {Turn off HP\\ \& Boiler};
+\node [block, below of=outsidetemp, node distance=2 cm] (hpboioff) {Turn off \acsfont{HP} \\ \& Boiler};
 
 \node [decision, left of=boion, node distance=5 cm] (greatsup) {$>$Supply temp};
 

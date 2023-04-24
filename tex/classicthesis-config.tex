@@ -29,7 +29,7 @@
 % ****************************************************************************************************
 \newcommand{\myTitle}{Optimising the Hybrid Operation Temperature Window of a Hybrid Heating System in the Irish Climate\xspace}
 \newcommand{\mySubtitle}{A Numerical Simulation Study of an Air-Water Heat Pump and Conventional Gas Boiler in a Residential Setting\xspace}
-\newcommand{\myDegree}{Mechanical Engineering Master's (MEng.)\xspace}
+\newcommand{\myDegree}{ME in Mechanical Engineering\xspace}
 \newcommand{\myName}{Daniel Jakob\xspace}
 \newcommand{\myStdNumber}{18409686}
 \newcommand{\myProf}{Prof. Donal Finn\xspace}
@@ -47,10 +47,10 @@
 %\newcommand{\myTime}{August 2022\xspace}
 \newcommand{\myVersion}{v0.1}
 \newcommand{\ctVersion}{\classicthesis}
-\newcommand{\mykeywords}{Hybrid heat pumps}
+\newcommand{\mykeywords}{Hybrid heating system, parametric study, numerical building energy modelling}
 \newcommand{\mysubject}{A numerical simulation study of an air-water heat pump and conventional gas boiler hybrid heating system in the Irish climate to optimize the bivalent temperature.}
 
-\DTMsavedate{submitdate}{2023-05-22}
+\DTMsavedate{submitdate}{2023-04-25}
 \DTMsavedate{duedate}{2024-11-10}
 \DTMsavedate{printdate}{2023-05-15}
 
@@ -328,6 +328,9 @@ natbib=true % natbib compatibility mode (\citep and \citet still work)
 
 \DeclareSIUnit{\kWh}{kWh}
 \DeclareSIUnit{\EUR}{\text{\euro}}
+\DeclareSIUnit{\cents}{\text{¢}}
+\DeclareSIUnit\year{yr}
+
 % ****************************************************************************************************
 % 4. Setup code listings
 % ****************************************************************************************************
@@ -372,7 +375,15 @@ natbib=true % natbib compatibility mode (\citep and \citet still work)
 %\renewcommand\p@FancyVerbLine{Ln.~\@} % changes how cross referenced lines of code are displayed
 
 % ****************************************************************************************************
-
+\tikzset{cblock/.style={draw, fill=blue!10, rectangle, 
+minimum height=2em, minimum width=5em},
+csum/.style={draw, fill=blue!20, circle, node distance=1cm},
+cinput/.style={coordinate},
+coutput/.style={coordinate},
+pinstyle/.style={pin edge={Triangle[],thick,black}},
+carrow/.style={draw,thick,-{Triangle[]}},
+cline/.style={draw,thick,-},
+triangle/.style={draw,fill=red!20,regular polygon,regular polygon sides=3}}
 
 
 
@@ -384,7 +395,7 @@ natbib=true % natbib compatibility mode (\citep and \citet still work)
 % in order to deactivate the time-stamp on the pages
 % (see ClassicThesis.pdf for more information):
 
-\usepackage[  drafting=true,    % print version information on the bottom of the pages
+\usepackage[  %drafting=true,    % print version information on the bottom of the pages
   tocaligned=false, % the left column of the toc will be aligned (no indentation)
   dottedtoc=false,  % page numbers in ToC flushed right
   eulerchapternumbers=true, % use AMS Euler for chapter font (otherwise Palatino)

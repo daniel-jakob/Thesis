@@ -492,11 +492,12 @@
     \renewcommand{\cftfigleader}{\hspace{1.5em}}%
     \renewcommand{\cftfigafterpnum}{\cftparfillskip}%
 }
+\renewcommand{\figurename}{Fig.}
 \renewcommand{\cftfigpresnum}{\figurename~}%Fig.~}
 \newlength{\figurelabelwidth}
 \settowidth{\figurelabelwidth}{\cftfigpresnum~999}
 \addtolength{\figurelabelwidth}{2.5em}
-\cftsetindents{figure}{0em}{\figurelabelwidth}
+\cftsetindents{figure}{-2em}{\figurelabelwidth}
 % tables
 \renewcommand{\cfttabpresnum}{\scshape\MakeTextLowercase}%
 \renewcommand{\cfttabfont}{\normalfont}%
@@ -505,12 +506,13 @@
     \renewcommand{\cfttableader}{\hspace{1.5em}}%
     \renewcommand{\cfttabafterpnum}{\cftparfillskip}%
 }
+\renewcommand{\tablename}{Tbl.}
 \renewcommand{\cfttabpresnum}{\tablename~}%Tab.~}
 \newlength{\tablelabelwidth}
 \settowidth{\tablelabelwidth}{\cfttabpresnum~999}
 \addtolength{\tablelabelwidth}{2.5em}
 %\cftsetindents{table}{0em}{\tablelabelwidth}
-\cftsetindents{table}{0em}{\figurelabelwidth}
+\cftsetindents{table}{-2em}{\figurelabelwidth}
 % listings
 \ifthenelse{\boolean{ct@listings}}%
 {%
