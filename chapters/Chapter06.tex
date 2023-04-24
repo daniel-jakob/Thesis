@@ -97,7 +97,7 @@ The carbon intensity figure for electricity was placed at \qty{296}{\gram\per\kW
 \begin{table}[htb]
     \footnotesize
     \centering
-    \caption{Total annual $\text{CO}_2$ emissions from \acs{HHS} [kg]}
+    \caption{Irish Case Study: Total annual $\text{CO}_2$ emissions from \acs{HHS} [kg]}
     \label{tbl:annualheatingco2}
     \pgfplotstabletypeset[
         col sep=space,
@@ -132,7 +132,7 @@ Therefore, for the best case scenario a carbon intensity of \qty{58}{\gram\per\k
 \begin{table}[htb]
     \footnotesize
     \centering
-    \caption{Best Case: Total annual $\text{CO}_2$ emissions from \acs{HHS} [kg]}
+    \caption{Best Case (\qty{58}{\gram\per\kWh}): Total annual $\text{CO}_2$ emissions from \acs{HHS} [kg]}
     \label{tbl:bestcase}
     \pgfplotstabletypeset[
         col sep=space,
@@ -159,7 +159,7 @@ Therefore, for the best case scenario a carbon intensity of \qty{58}{\gram\per\k
 \begin{table}[htb]
     \footnotesize
     \centering
-    \caption{Middle Case: Total annual $\text{CO}_2$ emissions from \acs{HHS} [kg]}
+    \caption{Middle Case (\qty{131}{\gram\per\kWh}): Total annual $\text{CO}_2$ emissions from \acs{HHS} [kg]}
     \label{tbl:middlecase}
     \pgfplotstabletypeset[
         col sep=space,
@@ -186,7 +186,7 @@ Therefore, for the best case scenario a carbon intensity of \qty{58}{\gram\per\k
 \begin{table}[htb]
     \footnotesize
     \centering
-    \caption{Worst Case: Total annual $\text{CO}_2$ emissions from \acs{HHS} [kg]}
+    \caption{Worst Case (\qty{454}{\gram\per\kWh}): Total annual $\text{CO}_2$ emissions from \acs{HHS} [kg]}
     \label{tbl:worstcase}
     \pgfplotstabletypeset[
         col sep=space,
@@ -210,6 +210,7 @@ Therefore, for the best case scenario a carbon intensity of \qty{58}{\gram\per\k
     ]{data/worstcase.dat}
 \end{table}
 
+\cref{tbl:bestcase,tbl:middlecase,tbl:worstcase} show the three resulting tables from the best, middle and worst case scenarios. As it turns out, \cref{tbl:bestcase,tbl:middlecase} look much more similar to \cref{tbl:annualheatingco2} than \cref{tbl:worst} does to any of the other three. A change can be seen where around the Irish value of \qty{296}{\gram\per\kWh} where the emissions resulting from the gas boiler seem to dominate heavily as this figure begins to decrease. The parameter-level combinations of $\{3\rightarrow4\text{, }\sim\}$ are consistently the highest compared to the rest, and recalling the consumption distributions from \cref{tbl:gasconsump,tbl:elecconsump} along with the decreasing value of carbon emissions of the middle and best case, it make sense that the $\{3\rightarrow4\text{,}\sim\}$ dominate as the electricity carbon intensity is decreased.
 
 
 \subsection{Primary Energy Savings}

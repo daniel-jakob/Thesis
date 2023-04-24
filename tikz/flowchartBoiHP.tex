@@ -12,7 +12,7 @@
 \node [rblock]  (radloop) {Boiler, HP \& TES\\ loop control};
 \node [io, right of=radloop, node distance=5cm] (roomtemp) {Avg room temp};
 \node [decision, right of=roomtemp, node distance=5 cm] (less18) {$<$\qty{18}{\celsius}};
-\node [decision, below of=less18, node distance=3 cm] (lesssuptemp) {$<$Sup temp};
+\node [decision, below of=less18, node distance=3 cm] (lesssuptemp) {$<$Supply temp};
 \node [io, right of=less18, node distance=5cm] (roomset) {Room setpoint:\\Day: \qty{21}{\celsius}\\Night: \qty{16}{\celsius}};
 \node [io, below of=radloop, node distance=1.5cm] (outsidetemp) {Outside temperature};
 \node [block, below of=roomset, node distance=3cm] (calcsup) {Calculate water supply temperature};
@@ -25,7 +25,7 @@
 
 \node [block, below of=outsidetemp, node distance=2 cm] (hpboioff) {Turn off HP\\ \& Boiler};
 
-\node [decision, left of=boion, node distance=5 cm] (greatsup) {$>$Sup temp};
+\node [decision, left of=boion, node distance=5 cm] (greatsup) {$>$Supply temp};
 
 \node [coordinate,below=1.5 cm of roomtemp] (belowavg) {};
 \node [coordinate,right=3 cm of belowavg] (rightbelowavg) {};

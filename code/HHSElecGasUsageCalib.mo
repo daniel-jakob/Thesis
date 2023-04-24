@@ -7,13 +7,13 @@ model HHSElecGasUsageCalib
  replaceable package MediumW = Buildings.Media.Water "Medium model";
  constant Modelica.Units.SI.Volume RoomVols[:] = {29.85,13.5,6,13.5,78.625,61.2,30.225,15.7*2.5,4.83*2.5,5.85*2.5,10.14*2.5,13.72*2.5,14.06*2.5};
  constant Modelica.Units.SI.Volume TotRoomVols = sum(RoomVols) - RoomVols[3];
- parameter Modelica.Units.SI.MassFlowRate m_flow_nominal[:]=1.29*0.8/3600*RoomVols[:] "Design mass flow rate";
+ parameter Modelica.Units.SI.MassFlowRate m_flow_nominal[:]=1.29*0.8/3600*RoomVols[:] "Design massflow rate";
  parameter Modelica.Units.SI.Power Q_flow_nominal=7000
     "Nominal power of heating plant";
  // Due to the night setback, in which the radiator do not provide heat input into the room,
  // we scale the design power of the radiator loop
  parameter Real scaFacRad = 1.5
-    "Scaling factor to scale the power (and mass flow rate) of the radiator loop";
+    "Scaling factor to scale the power (and massflow rate) of the radiator loop";
   parameter Modelica.Units.SI.Temperature TSup_nominal=273.15 + 40 + 5
     "Nominal supply temperature for radiators";
   parameter Modelica.Units.SI.Temperature TRet_nominal=273.15 + 30 + 5
@@ -28,9 +28,9 @@ model HHSElecGasUsageCalib
     "Nominal temperature difference for boiler loop";
   parameter Modelica.Units.SI.MassFlowRate mRad_flow_nominal=scaFacRad*
       Q_flow_nominal/dTRad_nominal/4200
-    "Nominal mass flow rate of radiator loop";
+    "Nominal massflow rate of radiator loop";
   parameter Modelica.Units.SI.MassFlowRate mBoi_flow_nominal=scaFacRad*
-      Q_flow_nominal/dTBoi_nominal/4200 "Nominal mass flow rate of boiler loop";
+      Q_flow_nominal/dTBoi_nominal/4200 "Nominal massflow rate of boiler loop";
   parameter Modelica.Units.SI.PressureDifference dpPip_nominal=10000
     "Pressure difference of pipe (without valve)";
   parameter Modelica.Units.SI.PressureDifference dpVal_nominal=6000

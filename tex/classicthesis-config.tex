@@ -229,6 +229,8 @@ natbib=true % natbib compatibility mode (\citep and \citet still work)
                   arrows.meta}
 % \usepackage{tikz-3dplot}
 
+\usepgfplotslibrary{fillbetween}
+\usepgfplotslibrary{groupplots}
 
 \usepackage{pgfplotstable}
 \pgfplotsset{compat=1.18, 
@@ -354,7 +356,8 @@ natbib=true % natbib compatibility mode (\citep and \citet still work)
 % \input{tex/listings-modelica.cfg}
 
 
-\RequirePackage[cachedir=.minted,outputdir=.aux]{minted} % code listing package 
+%\RequirePackage[cachedir=.minted,outputdir=.aux]{minted} % code listing package 
+\RequirePackage[cachedir=.minted]{minted} % code listing package 
 \setminted{ % style setup for minted 
     fontsize=\footnotesize,   
     baselinestretch=0.8, 

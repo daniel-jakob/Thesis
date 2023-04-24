@@ -1,0 +1,1176 @@
+\begin{Verbatim}[commandchars=\\\{\},codes={\catcode`\$=3\catcode`\^=7\catcode`\_=8\relax}]
+\PYG{k+kr}{within} \PYG{n+nn}{Thesis\PYGZus{}Project}\PYG{o}{.}\PYG{n}{Experiments}\PYG{p}{;}
+\PYG{k+kr}{model} \PYG{n+nc}{HHSElecGasUsageCalib}
+  \PYG{l+s+s2}{\PYGZdq{}}\PYG{l+s+s2}{Model of a hydronic heating system with energy storage}\PYG{l+s+s2}{\PYGZdq{}}
+  \PYG{k+kr}{extends} \PYG{n}{Modelica}\PYG{o}{.}\PYG{n}{Icons}\PYG{o}{.}\PYG{n}{Example}\PYG{p}{;}
+ \PYG{k+kr}{replaceable} \PYG{k+kr}{package} \PYG{n+nc}{MediumA} \PYG{o}{=} \PYG{n}{Buildings}\PYG{o}{.}\PYG{n}{Media}\PYG{o}{.}\PYG{n}{Air}\PYG{p}{(}\PYG{n}{T\PYGZus{}default}\PYG{o}{=}\PYG{l+m+mf}{293.15}\PYG{p}{)}
+    \PYG{l+s+s2}{\PYGZdq{}}\PYG{l+s+s2}{Medium model for air}\PYG{l+s+s2}{\PYGZdq{}}\PYG{p}{;}
+ \PYG{k+kr}{replaceable} \PYG{k+kr}{package} \PYG{n+nc}{MediumW} \PYG{o}{=} \PYG{n}{Buildings}\PYG{o}{.}\PYG{n}{Media}\PYG{o}{.}\PYG{n}{Water} \PYG{l+s+s2}{\PYGZdq{}}\PYG{l+s+s2}{Medium model}\PYG{l+s+s2}{\PYGZdq{}}\PYG{p}{;}
+ \PYG{k+kr}{constant} \PYG{n}{Modelica}\PYG{o}{.}\PYG{n}{Units}\PYG{o}{.}\PYG{n}{SI}\PYG{o}{.}\PYG{n}{Volume} \PYG{n}{RoomVols}\PYG{p}{[}\PYG{o}{:}\PYG{p}{]} \PYG{o}{=} \PYG{p}{\PYGZob{}}\PYG{l+m+mf}{29.85}\PYG{p}{,}\PYG{l+m+mf}{13.5}\PYG{p}{,}\PYG{l+m+mi}{6}\PYG{p}{,}\PYG{l+m+mf}{13.5}\PYG{p}{,}\PYG{l+m+mf}{78.625}\PYG{p}{,}\PYG{l+m+mf}{61.2}\PYG{p}{,}\PYG{l+m+mf}{30.225}\PYG{p}{,}\PYG{l+m+mf}{15.7}\PYG{o}{*}\PYG{l+m+mf}{2.5}\PYG{p}{,}\PYG{l+m+mf}{4.83}\PYG{o}{*}\PYG{l+m+mf}{2.5}\PYG{p}{,}\PYG{l+m+mf}{5.85}\PYG{o}{*}\PYG{l+m+mf}{2.5}\PYG{p}{,}\PYG{l+m+mf}{10.14}\PYG{o}{*}\PYG{l+m+mf}{2.5}\PYG{p}{,}\PYG{l+m+mf}{13.72}\PYG{o}{*}\PYG{l+m+mf}{2.5}\PYG{p}{,}\PYG{l+m+mf}{14.06}\PYG{o}{*}\PYG{l+m+mf}{2.5}\PYG{p}{\PYGZcb{};}
+ \PYG{k+kr}{constant} \PYG{n}{Modelica}\PYG{o}{.}\PYG{n}{Units}\PYG{o}{.}\PYG{n}{SI}\PYG{o}{.}\PYG{n}{Volume} \PYG{n}{TotRoomVols} \PYG{o}{=} \PYG{n+nb}{sum}\PYG{p}{(}\PYG{n}{RoomVols}\PYG{p}{)} \PYG{o}{\PYGZhy{}} \PYG{n}{RoomVols}\PYG{p}{[}\PYG{l+m+mi}{3}\PYG{p}{];}
+ \PYG{k+kr}{parameter} \PYG{n}{Modelica}\PYG{o}{.}\PYG{n}{Units}\PYG{o}{.}\PYG{n}{SI}\PYG{o}{.}\PYG{n}{MassFlowRate} \PYG{n}{m\PYGZus{}flow\PYGZus{}nominal}\PYG{p}{[}\PYG{o}{:}\PYG{p}{]}\PYG{o}{=}\PYG{l+m+mf}{1.29}\PYG{o}{*}\PYG{l+m+mf}{0.8}\PYG{o}{/}\PYG{l+m+mi}{3600}\PYG{o}{*}\PYG{n}{RoomVols}\PYG{p}{[}\PYG{o}{:}\PYG{p}{]} \PYG{l+s+s2}{\PYGZdq{}}\PYG{l+s+s2}{Design massflow rate}\PYG{l+s+s2}{\PYGZdq{}}\PYG{p}{;}
+ \PYG{k+kr}{parameter} \PYG{n}{Modelica}\PYG{o}{.}\PYG{n}{Units}\PYG{o}{.}\PYG{n}{SI}\PYG{o}{.}\PYG{n}{Power} \PYG{n}{Q\PYGZus{}flow\PYGZus{}nominal}\PYG{o}{=}\PYG{l+m+mi}{7000}
+    \PYG{l+s+s2}{\PYGZdq{}}\PYG{l+s+s2}{Nominal power of heating plant}\PYG{l+s+s2}{\PYGZdq{}}\PYG{p}{;}
+ \PYG{c+c1}{// Due to the night setback, in which the radiator do not provide heat input into the room,}
+ \PYG{c+c1}{// we scale the design power of the radiator loop}
+ \PYG{k+kr}{parameter} \PYG{n+nb}{Real} \PYG{n}{scaFacRad} \PYG{o}{=} \PYG{l+m+mf}{1.5}
+    \PYG{l+s+s2}{\PYGZdq{}}\PYG{l+s+s2}{Scaling factor to scale the power (and massflow rate) of the radiator loop}\PYG{l+s+s2}{\PYGZdq{}}\PYG{p}{;}
+  \PYG{k+kr}{parameter} \PYG{n}{Modelica}\PYG{o}{.}\PYG{n}{Units}\PYG{o}{.}\PYG{n}{SI}\PYG{o}{.}\PYG{n}{Temperature} \PYG{n}{TSup\PYGZus{}nominal}\PYG{o}{=}\PYG{l+m+mf}{273.15} \PYG{o}{+} \PYG{l+m+mi}{40} \PYG{o}{+} \PYG{l+m+mi}{5}
+    \PYG{l+s+s2}{\PYGZdq{}}\PYG{l+s+s2}{Nominal supply temperature for radiators}\PYG{l+s+s2}{\PYGZdq{}}\PYG{p}{;}
+  \PYG{k+kr}{parameter} \PYG{n}{Modelica}\PYG{o}{.}\PYG{n}{Units}\PYG{o}{.}\PYG{n}{SI}\PYG{o}{.}\PYG{n}{Temperature} \PYG{n}{TRet\PYGZus{}nominal}\PYG{o}{=}\PYG{l+m+mf}{273.15} \PYG{o}{+} \PYG{l+m+mi}{30} \PYG{o}{+} \PYG{l+m+mi}{5}
+    \PYG{l+s+s2}{\PYGZdq{}}\PYG{l+s+s2}{Nominal return temperature for radiators}\PYG{l+s+s2}{\PYGZdq{}}\PYG{p}{;}
+  \PYG{k+kr}{parameter} \PYG{n}{Modelica}\PYG{o}{.}\PYG{n}{Units}\PYG{o}{.}\PYG{n}{SI}\PYG{o}{.}\PYG{n}{Temperature} \PYG{n}{THPSup\PYGZus{}nominal}\PYG{o}{=}\PYG{l+m+mf}{273.15} \PYG{o}{+} \PYG{l+m+mi}{32} \PYG{o}{+} \PYG{l+m+mi}{5}
+    \PYG{l+s+s2}{\PYGZdq{}}\PYG{l+s+s2}{Nominal supply temperature for radiators}\PYG{l+s+s2}{\PYGZdq{}}\PYG{p}{;}
+  \PYG{k+kr}{parameter} \PYG{n}{Modelica}\PYG{o}{.}\PYG{n}{Units}\PYG{o}{.}\PYG{n}{SI}\PYG{o}{.}\PYG{n}{Temperature} \PYG{n}{THPRet\PYGZus{}nominal}\PYG{o}{=}\PYG{l+m+mf}{273.15} \PYG{o}{+} \PYG{l+m+mi}{22} \PYG{o}{+} \PYG{l+m+mi}{5}
+    \PYG{l+s+s2}{\PYGZdq{}}\PYG{l+s+s2}{Nominal return temperature for radiators}\PYG{l+s+s2}{\PYGZdq{}}\PYG{p}{;}
+  \PYG{k+kr}{parameter} \PYG{n}{Modelica}\PYG{o}{.}\PYG{n}{Units}\PYG{o}{.}\PYG{n}{SI}\PYG{o}{.}\PYG{n}{Temperature} \PYG{n}{dTRad\PYGZus{}nominal}\PYG{o}{=}\PYG{n}{TSup\PYGZus{}nominal} \PYG{o}{\PYGZhy{}}
+      \PYG{n}{TRet\PYGZus{}nominal} \PYG{l+s+s2}{\PYGZdq{}}\PYG{l+s+s2}{Nominal temperature difference for radiator loop}\PYG{l+s+s2}{\PYGZdq{}}\PYG{p}{;}
+  \PYG{k+kr}{parameter} \PYG{n}{Modelica}\PYG{o}{.}\PYG{n}{Units}\PYG{o}{.}\PYG{n}{SI}\PYG{o}{.}\PYG{n}{Temperature} \PYG{n}{dTBoi\PYGZus{}nominal}\PYG{o}{=}\PYG{l+m+mi}{20}
+    \PYG{l+s+s2}{\PYGZdq{}}\PYG{l+s+s2}{Nominal temperature difference for boiler loop}\PYG{l+s+s2}{\PYGZdq{}}\PYG{p}{;}
+  \PYG{k+kr}{parameter} \PYG{n}{Modelica}\PYG{o}{.}\PYG{n}{Units}\PYG{o}{.}\PYG{n}{SI}\PYG{o}{.}\PYG{n}{MassFlowRate} \PYG{n}{mRad\PYGZus{}flow\PYGZus{}nominal}\PYG{o}{=}\PYG{n}{scaFacRad}\PYG{o}{*}
+      \PYG{n}{Q\PYGZus{}flow\PYGZus{}nominal}\PYG{o}{/}\PYG{n}{dTRad\PYGZus{}nominal}\PYG{o}{/}\PYG{l+m+mi}{4200}
+    \PYG{l+s+s2}{\PYGZdq{}}\PYG{l+s+s2}{Nominal massflow rate of radiator loop}\PYG{l+s+s2}{\PYGZdq{}}\PYG{p}{;}
+  \PYG{k+kr}{parameter} \PYG{n}{Modelica}\PYG{o}{.}\PYG{n}{Units}\PYG{o}{.}\PYG{n}{SI}\PYG{o}{.}\PYG{n}{MassFlowRate} \PYG{n}{mBoi\PYGZus{}flow\PYGZus{}nominal}\PYG{o}{=}\PYG{n}{scaFacRad}\PYG{o}{*}
+      \PYG{n}{Q\PYGZus{}flow\PYGZus{}nominal}\PYG{o}{/}\PYG{n}{dTBoi\PYGZus{}nominal}\PYG{o}{/}\PYG{l+m+mi}{4200} \PYG{l+s+s2}{\PYGZdq{}}\PYG{l+s+s2}{Nominal massflow rate of boiler loop}\PYG{l+s+s2}{\PYGZdq{}}\PYG{p}{;}
+  \PYG{k+kr}{parameter} \PYG{n}{Modelica}\PYG{o}{.}\PYG{n}{Units}\PYG{o}{.}\PYG{n}{SI}\PYG{o}{.}\PYG{n}{PressureDifference} \PYG{n}{dpPip\PYGZus{}nominal}\PYG{o}{=}\PYG{l+m+mi}{10000}
+    \PYG{l+s+s2}{\PYGZdq{}}\PYG{l+s+s2}{Pressure difference of pipe (without valve)}\PYG{l+s+s2}{\PYGZdq{}}\PYG{p}{;}
+  \PYG{k+kr}{parameter} \PYG{n}{Modelica}\PYG{o}{.}\PYG{n}{Units}\PYG{o}{.}\PYG{n}{SI}\PYG{o}{.}\PYG{n}{PressureDifference} \PYG{n}{dpVal\PYGZus{}nominal}\PYG{o}{=}\PYG{l+m+mi}{6000}
+    \PYG{l+s+s2}{\PYGZdq{}}\PYG{l+s+s2}{Pressure difference of valve}\PYG{l+s+s2}{\PYGZdq{}}\PYG{p}{;}
+  \PYG{k+kr}{parameter} \PYG{n}{Modelica}\PYG{o}{.}\PYG{n}{Units}\PYG{o}{.}\PYG{n}{SI}\PYG{o}{.}\PYG{n}{PressureDifference} \PYG{n}{dpRoo\PYGZus{}nominal}\PYG{o}{=}\PYG{l+m+mi}{6000}
+    \PYG{l+s+s2}{\PYGZdq{}}\PYG{l+s+s2}{Pressure difference of flow leg that serves a room}\PYG{l+s+s2}{\PYGZdq{}}\PYG{p}{;}
+  \PYG{k+kr}{parameter} \PYG{n}{Modelica}\PYG{o}{.}\PYG{n}{Units}\PYG{o}{.}\PYG{n}{SI}\PYG{o}{.}\PYG{n}{PressureDifference} \PYG{n}{dpThrWayVal\PYGZus{}nominal}\PYG{o}{=}\PYG{l+m+mi}{6000}
+    \PYG{l+s+s2}{\PYGZdq{}}\PYG{l+s+s2}{Pressure difference of three\PYGZhy{}way valve}\PYG{l+s+s2}{\PYGZdq{}}\PYG{p}{;}
+  \PYG{k+kr}{parameter} \PYG{n}{Modelica}\PYG{o}{.}\PYG{n}{Units}\PYG{o}{.}\PYG{n}{SI}\PYG{o}{.}\PYG{n}{PressureDifference} \PYG{n}{dp\PYGZus{}nominal}\PYG{o}{=}\PYG{n}{dpPip\PYGZus{}nominal} \PYG{o}{+}
+      \PYG{n}{dpVal\PYGZus{}nominal} \PYG{o}{+} \PYG{n}{dpRoo\PYGZus{}nominal} \PYG{o}{+} \PYG{n}{dpThrWayVal\PYGZus{}nominal}
+    \PYG{l+s+s2}{\PYGZdq{}}\PYG{l+s+s2}{Pressure difference of loop}\PYG{l+s+s2}{\PYGZdq{}}\PYG{p}{;}
+  \PYG{c+c1}{// Room model}
+
+ \PYG{k+kr}{parameter} \PYG{n}{Modelica}\PYG{o}{.}\PYG{n}{Units}\PYG{o}{.}\PYG{n}{SI}\PYG{o}{.}\PYG{n}{Temperature} \PYG{n}{TempBlockBoi}\PYG{o}{=} \PYG{l+m+mf}{273.15} \PYG{o}{+} \PYG{l+m+mi}{7}\PYG{p}{;}
+ \PYG{k+kr}{parameter} \PYG{n}{Modelica}\PYG{o}{.}\PYG{n}{Units}\PYG{o}{.}\PYG{n}{SI}\PYG{o}{.}\PYG{n}{Temperature} \PYG{n}{TempBlockHP} \PYG{o}{=} \PYG{l+m+mf}{273.15} \PYG{o}{\PYGZhy{}} \PYG{l+m+mi}{2}\PYG{p}{;}
+
+  \PYG{n}{Buildings}\PYG{o}{.}\PYG{n}{Fluid}\PYG{o}{.}\PYG{n}{Movers}\PYG{o}{.}\PYG{n}{SpeedControlled\PYGZus{}y} \PYG{n}{pumBoi}\PYG{p}{(}
+    \PYG{k+kr}{redeclare} \PYG{k+kr}{package} \PYG{n+nc}{Medium} \PYG{o}{=} \PYG{n}{MediumW}\PYG{p}{,}
+    \PYG{n}{per}\PYG{p}{(}\PYG{n}{pressure}\PYG{p}{(}\PYG{n}{V\PYGZus{}flow}\PYG{o}{=}\PYG{n}{mBoi\PYGZus{}flow\PYGZus{}nominal}\PYG{o}{/}\PYG{l+m+mi}{1000}\PYG{o}{*}\PYG{p}{\PYGZob{}}\PYG{l+m+mf}{0.5}\PYG{p}{,}\PYG{l+m+mi}{1}\PYG{p}{\PYGZcb{},} \PYG{n}{dp}\PYG{o}{=}\PYG{p}{(}\PYG{l+m+mi}{3000} \PYG{o}{+} \PYG{l+m+mi}{2000}\PYG{p}{)}\PYG{o}{*}\PYG{p}{\PYGZob{}}\PYG{l+m+mi}{2}\PYG{p}{,}\PYG{l+m+mi}{1}\PYG{p}{\PYGZcb{})),}
+    \PYG{n}{use\PYGZus{}inputFilter}\PYG{o}{=}\PYG{k+kc}{false}\PYG{p}{,}
+    \PYG{n}{energyDynamics}\PYG{o}{=}\PYG{n}{Modelica}\PYG{o}{.}\PYG{n}{Fluid}\PYG{o}{.}\PYG{n}{Types}\PYG{o}{.}\PYG{n}{Dynamics}\PYG{o}{.}\PYG{n}{SteadyState}\PYG{p}{)}
+    \PYG{l+s+s2}{\PYGZdq{}}\PYG{l+s+s2}{Pump for boiler circuit}\PYG{l+s+s2}{\PYGZdq{}} \PYG{p}{));}  \PYG{n}{Buildings}\PYG{o}{.}\PYG{n}{Fluid}\PYG{o}{.}\PYG{n}{Movers}\PYG{o}{.}\PYG{n}{SpeedControlled\PYGZus{}y} \PYG{n}{pumRad}\PYG{p}{(}
+    \PYG{k+kr}{redeclare} \PYG{k+kr}{package} \PYG{n+nc}{Medium} \PYG{o}{=} \PYG{n}{MediumW}\PYG{p}{,}
+    \PYG{n}{per}\PYG{p}{(}\PYG{n}{pressure}\PYG{p}{(}\PYG{n}{V\PYGZus{}flow}\PYG{o}{=}\PYG{n}{mRad\PYGZus{}flow\PYGZus{}nominal}\PYG{o}{/}\PYG{l+m+mi}{1000}\PYG{o}{*}\PYG{p}{\PYGZob{}}\PYG{l+m+mi}{0}\PYG{p}{,}\PYG{l+m+mi}{2}\PYG{p}{\PYGZcb{},} \PYG{n}{dp}\PYG{o}{=}\PYG{n}{dp\PYGZus{}nominal}\PYG{o}{*}\PYG{p}{\PYGZob{}}\PYG{l+m+mi}{2}\PYG{p}{,}\PYG{l+m+mi}{0}\PYG{p}{\PYGZcb{})),}
+    \PYG{n}{energyDynamics}\PYG{o}{=}\PYG{n}{Modelica}\PYG{o}{.}\PYG{n}{Fluid}\PYG{o}{.}\PYG{n}{Types}\PYG{o}{.}\PYG{n}{Dynamics}\PYG{o}{.}\PYG{n}{SteadyState}\PYG{p}{)}
+    \PYG{l+s+s2}{\PYGZdq{}}\PYG{l+s+s2}{Pump that serves the radiators}\PYG{l+s+s2}{\PYGZdq{}} \PYG{p}{));}  \PYG{n}{Buildings}\PYG{o}{.}\PYG{n}{Fluid}\PYG{o}{.}\PYG{n}{Boilers}\PYG{o}{.}\PYG{n}{BoilerPolynomial} \PYG{n}{boi}\PYG{p}{(}
+    \PYG{n}{allowFlowReversal}\PYG{o}{=}\PYG{k+kc}{false}\PYG{p}{,}
+    \PYG{n}{a}\PYG{o}{=}\PYG{p}{\PYGZob{}}\PYG{l+m+mf}{0.93}\PYG{p}{\PYGZcb{},}
+    \PYG{n}{effCur}\PYG{o}{=}\PYG{n}{Buildings}\PYG{o}{.}\PYG{n}{Fluid}\PYG{o}{.}\PYG{n}{Types}\PYG{o}{.}\PYG{n}{EfficiencyCurves}\PYG{o}{.}\PYG{n}{Constant}\PYG{p}{,}
+    \PYG{k+kr}{redeclare} \PYG{k+kr}{package} \PYG{n+nc}{Medium} \PYG{o}{=} \PYG{n}{MediumW}\PYG{p}{,}
+    \PYG{n}{Q\PYGZus{}flow\PYGZus{}nominal}\PYG{o}{=}\PYG{n}{Q\PYGZus{}flow\PYGZus{}nominal}\PYG{p}{,}
+    \PYG{n}{m\PYGZus{}flow\PYGZus{}nominal}\PYG{o}{=}\PYG{n}{mBoi\PYGZus{}flow\PYGZus{}nominal}\PYG{p}{,}
+    \PYG{n}{fue}\PYG{o}{=}\PYG{n}{Buildings}\PYG{o}{.}\PYG{n}{Fluid}\PYG{o}{.}\PYG{n}{Data}\PYG{o}{.}\PYG{n}{Fuels}\PYG{o}{.}\PYG{n}{HeatingOilLowerHeatingValue}\PYG{p}{(),}
+    \PYG{n}{dp\PYGZus{}nominal}\PYG{o}{=}\PYG{l+m+mi}{3000} \PYG{o}{+} \PYG{l+m+mi}{2000}\PYG{p}{,}
+    \PYG{n}{energyDynamics}\PYG{o}{=}\PYG{n}{Modelica}\PYG{o}{.}\PYG{n}{Fluid}\PYG{o}{.}\PYG{n}{Types}\PYG{o}{.}\PYG{n}{Dynamics}\PYG{o}{.}\PYG{n}{FixedInitial}\PYG{p}{,}
+    \PYG{n}{T\PYGZus{}start}\PYG{o}{=}\PYG{l+m+mf}{293.15}\PYG{p}{)} \PYG{l+s+s2}{\PYGZdq{}}\PYG{l+s+s2}{Boiler}\PYG{l+s+s2}{\PYGZdq{}}
+    \PYG{p}{));}
+  \PYG{n}{Modelica}\PYG{o}{.}\PYG{n}{Thermal}\PYG{o}{.}\PYG{n}{HeatTransfer}\PYG{o}{.}\PYG{n}{Sensors}\PYG{o}{.}\PYG{n}{TemperatureSensor} \PYG{n}{TRoo1}
+    \PYG{p}{));}
+  \PYG{n}{Buildings}\PYG{o}{.}\PYG{n}{Controls}\PYG{o}{.}\PYG{n}{OBC}\PYG{o}{.}\PYG{n}{CDL}\PYG{o}{.}\PYG{n}{Continuous}\PYG{o}{.}\PYG{n}{PIDWithReset} \PYG{n}{conPum}\PYG{p}{(}
+    \PYG{n}{yMax}\PYG{o}{=}\PYG{l+m+mi}{1}\PYG{p}{,}
+    \PYG{n}{Td}\PYG{o}{=}\PYG{l+m+mi}{60}\PYG{p}{,}
+    \PYG{n}{yMin}\PYG{o}{=}\PYG{l+m+mf}{0.05}\PYG{p}{,}
+    \PYG{n}{k}\PYG{o}{=}\PYG{l+m+mf}{0.5}\PYG{p}{,}
+    \PYG{n}{Ti}\PYG{o}{=}\PYG{l+m+mi}{15}\PYG{p}{)} \PYG{l+s+s2}{\PYGZdq{}}\PYG{l+s+s2}{Controller for pump}\PYG{l+s+s2}{\PYGZdq{}}
+    \PYG{p}{));}
+  \PYG{n}{Buildings}\PYG{o}{.}\PYG{n}{Fluid}\PYG{o}{.}\PYG{n}{Sensors}\PYG{o}{.}\PYG{n}{RelativePressure} \PYG{n}{dpSen}\PYG{p}{(}\PYG{k+kr}{redeclare} \PYG{k+kr}{package} \PYG{n+nc}{Medium} \PYG{o}{=}
+        \PYG{n}{MediumW}\PYG{p}{)}
+    \PYG{p}{));}  \PYG{n}{Buildings}\PYG{o}{.}\PYG{n}{Fluid}\PYG{o}{.}\PYG{n}{Actuators}\PYG{o}{.}\PYG{n}{Valves}\PYG{o}{.}\PYG{n}{TwoWayEqualPercentage} \PYG{n}{val1}\PYG{p}{(}
+    \PYG{k+kr}{redeclare} \PYG{k+kr}{package} \PYG{n+nc}{Medium} \PYG{o}{=} \PYG{n}{MediumW}\PYG{p}{,}
+    \PYG{n}{allowFlowReversal}\PYG{o}{=}\PYG{k+kc}{false}\PYG{p}{,}
+    \PYG{n}{dpValve\PYGZus{}nominal}\PYG{p}{(}\PYG{n}{displayUnit}\PYG{o}{=}\PYG{l+s+s2}{\PYGZdq{}}\PYG{l+s+s2}{Pa}\PYG{l+s+s2}{\PYGZdq{}}\PYG{p}{)} \PYG{o}{=} \PYG{n}{dpVal\PYGZus{}nominal}\PYG{p}{,}
+    \PYG{n}{m\PYGZus{}flow\PYGZus{}nominal}\PYG{o}{=}\PYG{n}{mRad\PYGZus{}flow\PYGZus{}nominal}\PYG{o}{*}\PYG{p}{(}\PYG{n}{RoomVols}\PYG{p}{[}\PYG{l+m+mi}{1}\PYG{p}{]}\PYG{o}{/}\PYG{n}{TotRoomVols}\PYG{p}{),}
+    \PYG{n}{dpFixed\PYGZus{}nominal}\PYG{o}{=}\PYG{n}{dpRoo\PYGZus{}nominal}\PYG{p}{,}
+    \PYG{n}{from\PYGZus{}dp}\PYG{o}{=}\PYG{k+kc}{true}\PYG{p}{,}
+    \PYG{n}{use\PYGZus{}inputFilter}\PYG{o}{=}\PYG{k+kc}{false}\PYG{p}{)} \PYG{l+s+s2}{\PYGZdq{}}\PYG{l+s+s2}{Radiator valve}\PYG{l+s+s2}{\PYGZdq{}}
+    \PYG{p}{));}
+  \PYG{n}{Buildings}\PYG{o}{.}\PYG{n}{Controls}\PYG{o}{.}\PYG{n}{OBC}\PYG{o}{.}\PYG{n}{CDL}\PYG{o}{.}\PYG{n}{Continuous}\PYG{o}{.}\PYG{n}{PID} \PYG{n}{conRoo1}\PYG{p}{(}
+    \PYG{n}{yMax}\PYG{o}{=}\PYG{l+m+mi}{1}\PYG{p}{,}
+    \PYG{n}{yMin}\PYG{o}{=}\PYG{l+m+mi}{0}\PYG{p}{,}
+    \PYG{n}{Ti}\PYG{o}{=}\PYG{l+m+mi}{60}\PYG{p}{,}
+    \PYG{n}{Td}\PYG{o}{=}\PYG{l+m+mi}{60}\PYG{p}{,}
+    \PYG{n}{controllerType}\PYG{o}{=}\PYG{n}{Modelica}\PYG{o}{.}\PYG{n}{Blocks}\PYG{o}{.}\PYG{n}{Types}\PYG{o}{.}\PYG{n}{SimpleController}\PYG{o}{.}\PYG{n}{P}\PYG{p}{,}
+    \PYG{n}{k}\PYG{o}{=}\PYG{l+m+mf}{0.5}\PYG{p}{)} \PYG{l+s+s2}{\PYGZdq{}}\PYG{l+s+s2}{Controller for room temperature}\PYG{l+s+s2}{\PYGZdq{}}
+    \PYG{p}{));}
+  \PYG{n}{Modelica}\PYG{o}{.}\PYG{n}{Thermal}\PYG{o}{.}\PYG{n}{HeatTransfer}\PYG{o}{.}\PYG{n}{Sensors}\PYG{o}{.}\PYG{n}{TemperatureSensor} \PYG{n}{TRoo2}
+    \PYG{p}{));}
+  \PYG{n}{Buildings}\PYG{o}{.}\PYG{n}{Fluid}\PYG{o}{.}\PYG{n}{Actuators}\PYG{o}{.}\PYG{n}{Valves}\PYG{o}{.}\PYG{n}{TwoWayEqualPercentage} \PYG{n}{val2}\PYG{p}{(}
+    \PYG{k+kr}{redeclare} \PYG{k+kr}{package} \PYG{n+nc}{Medium} \PYG{o}{=} \PYG{n}{MediumW}\PYG{p}{,}
+    \PYG{n}{allowFlowReversal}\PYG{o}{=}\PYG{k+kc}{false}\PYG{p}{,}
+    \PYG{n}{dpValve\PYGZus{}nominal}\PYG{p}{(}\PYG{n}{displayUnit}\PYG{o}{=}\PYG{l+s+s2}{\PYGZdq{}}\PYG{l+s+s2}{Pa}\PYG{l+s+s2}{\PYGZdq{}}\PYG{p}{)} \PYG{o}{=} \PYG{n}{dpVal\PYGZus{}nominal}\PYG{p}{,}
+    \PYG{n}{m\PYGZus{}flow\PYGZus{}nominal}\PYG{o}{=}\PYG{n}{mRad\PYGZus{}flow\PYGZus{}nominal}\PYG{o}{*}\PYG{p}{(}\PYG{n}{RoomVols}\PYG{p}{[}\PYG{l+m+mi}{2}\PYG{p}{]}\PYG{o}{/}\PYG{n}{TotRoomVols}\PYG{p}{),}
+    \PYG{n}{dpFixed\PYGZus{}nominal}\PYG{o}{=}\PYG{n}{dpRoo\PYGZus{}nominal}\PYG{p}{,}
+    \PYG{n}{from\PYGZus{}dp}\PYG{o}{=}\PYG{k+kc}{true}\PYG{p}{,}
+    \PYG{n}{use\PYGZus{}inputFilter}\PYG{o}{=}\PYG{k+kc}{false}\PYG{p}{)} \PYG{l+s+s2}{\PYGZdq{}}\PYG{l+s+s2}{Radiator valve}\PYG{l+s+s2}{\PYGZdq{}}
+    \PYG{p}{));}
+  \PYG{n}{Buildings}\PYG{o}{.}\PYG{n}{Controls}\PYG{o}{.}\PYG{n}{OBC}\PYG{o}{.}\PYG{n}{CDL}\PYG{o}{.}\PYG{n}{Continuous}\PYG{o}{.}\PYG{n}{PID} \PYG{n}{conRoo2}\PYG{p}{(}
+    \PYG{n}{yMax}\PYG{o}{=}\PYG{l+m+mi}{1}\PYG{p}{,}
+    \PYG{n}{yMin}\PYG{o}{=}\PYG{l+m+mi}{0}\PYG{p}{,}
+    \PYG{n}{Ti}\PYG{o}{=}\PYG{l+m+mi}{60}\PYG{p}{,}
+    \PYG{n}{Td}\PYG{o}{=}\PYG{l+m+mi}{60}\PYG{p}{,}
+    \PYG{n}{controllerType}\PYG{o}{=}\PYG{n}{Modelica}\PYG{o}{.}\PYG{n}{Blocks}\PYG{o}{.}\PYG{n}{Types}\PYG{o}{.}\PYG{n}{SimpleController}\PYG{o}{.}\PYG{n}{P}\PYG{p}{,}
+    \PYG{n}{k}\PYG{o}{=}\PYG{l+m+mf}{0.5}\PYG{p}{)} \PYG{l+s+s2}{\PYGZdq{}}\PYG{l+s+s2}{Controller for room temperature}\PYG{l+s+s2}{\PYGZdq{}}
+    \PYG{p}{));}
+  \PYG{n}{Buildings}\PYG{o}{.}\PYG{n}{Fluid}\PYG{o}{.}\PYG{n}{HeatExchangers}\PYG{o}{.}\PYG{n}{Radiators}\PYG{o}{.}\PYG{n}{RadiatorEN442\PYGZus{}2} \PYG{n}{rad2}\PYG{p}{(}
+    \PYG{k+kr}{redeclare} \PYG{k+kr}{package} \PYG{n+nc}{Medium} \PYG{o}{=} \PYG{n}{MediumW}\PYG{p}{,}
+    \PYG{n}{allowFlowReversal}\PYG{o}{=}\PYG{k+kc}{false}\PYG{p}{,}
+    \PYG{n}{fraRad}\PYG{o}{=}\PYG{l+m+mi}{0}\PYG{p}{,}
+    \PYG{n}{Q\PYGZus{}flow\PYGZus{}nominal}\PYG{o}{=}\PYG{n}{scaFacRad}\PYG{o}{*}\PYG{n}{Q\PYGZus{}flow\PYGZus{}nominal}\PYG{o}{*}\PYG{p}{(}\PYG{n}{RoomVols}\PYG{p}{[}\PYG{l+m+mi}{2}\PYG{p}{]}\PYG{o}{/}\PYG{n}{TotRoomVols}\PYG{p}{),}
+    \PYG{n}{energyDynamics}\PYG{o}{=}\PYG{n}{Modelica}\PYG{o}{.}\PYG{n}{Fluid}\PYG{o}{.}\PYG{n}{Types}\PYG{o}{.}\PYG{n}{Dynamics}\PYG{o}{.}\PYG{n}{FixedInitial}\PYG{p}{,}
+    \PYG{n}{T\PYGZus{}a\PYGZus{}nominal}\PYG{o}{=}\PYG{l+m+mf}{323.15}\PYG{p}{,}
+    \PYG{n}{T\PYGZus{}b\PYGZus{}nominal}\PYG{o}{=}\PYG{l+m+mf}{313.15}\PYG{p}{,}
+    \PYG{n}{n}\PYG{o}{=}\PYG{l+m+mf}{1.3}\PYG{p}{)} \PYG{l+s+s2}{\PYGZdq{}}\PYG{l+s+s2}{Radiator}\PYG{l+s+s2}{\PYGZdq{}}
+    \PYG{p}{));}
+  \PYG{n}{Buildings}\PYG{o}{.}\PYG{n}{Fluid}\PYG{o}{.}\PYG{n}{HeatExchangers}\PYG{o}{.}\PYG{n}{Radiators}\PYG{o}{.}\PYG{n}{RadiatorEN442\PYGZus{}2} \PYG{n}{rad1}\PYG{p}{(}
+    \PYG{k+kr}{redeclare} \PYG{k+kr}{package} \PYG{n+nc}{Medium} \PYG{o}{=} \PYG{n}{MediumW}\PYG{p}{,}
+    \PYG{n}{allowFlowReversal}\PYG{o}{=}\PYG{k+kc}{false}\PYG{p}{,}
+    \PYG{n}{fraRad}\PYG{o}{=}\PYG{l+m+mi}{0}\PYG{p}{,}
+    \PYG{n}{Q\PYGZus{}flow\PYGZus{}nominal}\PYG{o}{=}\PYG{n}{scaFacRad}\PYG{o}{*}\PYG{n}{Q\PYGZus{}flow\PYGZus{}nominal}\PYG{o}{*}\PYG{p}{(}\PYG{n}{RoomVols}\PYG{p}{[}\PYG{l+m+mi}{1}\PYG{p}{]}\PYG{o}{/}\PYG{n}{TotRoomVols}\PYG{p}{),}
+    \PYG{n}{energyDynamics}\PYG{o}{=}\PYG{n}{Modelica}\PYG{o}{.}\PYG{n}{Fluid}\PYG{o}{.}\PYG{n}{Types}\PYG{o}{.}\PYG{n}{Dynamics}\PYG{o}{.}\PYG{n}{FixedInitial}\PYG{p}{,}
+    \PYG{n}{T\PYGZus{}a\PYGZus{}nominal}\PYG{o}{=}\PYG{l+m+mf}{323.15}\PYG{p}{,}
+    \PYG{n}{T\PYGZus{}b\PYGZus{}nominal}\PYG{o}{=}\PYG{l+m+mf}{313.15}\PYG{p}{,}
+    \PYG{n}{n}\PYG{o}{=}\PYG{l+m+mf}{1.3}\PYG{p}{)}   \PYG{l+s+s2}{\PYGZdq{}}\PYG{l+s+s2}{Radiator}\PYG{l+s+s2}{\PYGZdq{}}
+    \PYG{p}{));}
+  \PYG{n}{Buildings}\PYG{o}{.}\PYG{n}{Fluid}\PYG{o}{.}\PYG{n}{Actuators}\PYG{o}{.}\PYG{n}{Valves}\PYG{o}{.}\PYG{n}{ThreeWayEqualPercentageLinear} \PYG{n}{thrWayVal}\PYG{p}{(}
+    \PYG{k+kr}{redeclare} \PYG{k+kr}{package} \PYG{n+nc}{Medium} \PYG{o}{=} \PYG{n}{MediumW}\PYG{p}{,}
+    \PYG{n}{dpValve\PYGZus{}nominal}\PYG{o}{=}\PYG{n}{dpThrWayVal\PYGZus{}nominal}\PYG{p}{,}
+    \PYG{n}{l}\PYG{o}{=}\PYG{p}{\PYGZob{}}\PYG{l+m+mf}{0.01}\PYG{p}{,}\PYG{l+m+mf}{0.01}\PYG{p}{\PYGZcb{},}
+    \PYG{n}{tau}\PYG{o}{=}\PYG{l+m+mi}{10}\PYG{p}{,}
+    \PYG{n}{m\PYGZus{}flow\PYGZus{}nominal}\PYG{o}{=}\PYG{n}{mRad\PYGZus{}flow\PYGZus{}nominal}\PYG{p}{,}
+    \PYG{n}{dpFixed\PYGZus{}nominal}\PYG{o}{=}\PYG{p}{\PYGZob{}}\PYG{l+m+mi}{100}\PYG{p}{,}\PYG{l+m+mi}{0}\PYG{p}{\PYGZcb{},}
+    \PYG{n}{use\PYGZus{}inputFilter}\PYG{o}{=}\PYG{k+kc}{false}\PYG{p}{,}
+    \PYG{n}{energyDynamics}\PYG{o}{=}\PYG{n}{Modelica}\PYG{o}{.}\PYG{n}{Fluid}\PYG{o}{.}\PYG{n}{Types}\PYG{o}{.}\PYG{n}{Dynamics}\PYG{o}{.}\PYG{n}{SteadyState}\PYG{p}{)} \PYG{l+s+s2}{\PYGZdq{}}\PYG{l+s+s2}{Three\PYGZhy{}way valve}\PYG{l+s+s2}{\PYGZdq{}}
+    \PYG{p}{));}  \PYG{n}{Buildings}\PYG{o}{.}\PYG{n}{Controls}\PYG{o}{.}\PYG{n}{OBC}\PYG{o}{.}\PYG{n}{CDL}\PYG{o}{.}\PYG{n}{Continuous}\PYG{o}{.}\PYG{n}{PIDWithReset} \PYG{n}{conVal}\PYG{p}{(}
+    \PYG{n}{yMax}\PYG{o}{=}\PYG{l+m+mi}{1}\PYG{p}{,}
+    \PYG{n}{yMin}\PYG{o}{=}\PYG{l+m+mi}{0}\PYG{p}{,}
+    \PYG{n}{xi\PYGZus{}start}\PYG{o}{=}\PYG{l+m+mi}{1}\PYG{p}{,}
+    \PYG{n}{Td}\PYG{o}{=}\PYG{l+m+mi}{60}\PYG{p}{,}
+    \PYG{n}{k}\PYG{o}{=}\PYG{l+m+mf}{0.1}\PYG{p}{,}
+    \PYG{n}{Ti}\PYG{o}{=}\PYG{l+m+mi}{120}\PYG{p}{)} \PYG{l+s+s2}{\PYGZdq{}}\PYG{l+s+s2}{Controller for pump}\PYG{l+s+s2}{\PYGZdq{}}
+    \PYG{p}{));}
+  \PYG{n}{Buildings}\PYG{o}{.}\PYG{n}{Fluid}\PYG{o}{.}\PYG{n}{Storage}\PYG{o}{.}\PYG{n}{Stratified} \PYG{n+nb}{tan}\PYG{p}{(}
+    \PYG{n}{allowFlowReversal}\PYG{o}{=}\PYG{k+kc}{true}\PYG{p}{,}
+    \PYG{n}{m\PYGZus{}flow\PYGZus{}nominal}\PYG{o}{=}\PYG{n}{mRad\PYGZus{}flow\PYGZus{}nominal}\PYG{p}{,}
+    \PYG{n}{dIns}\PYG{o}{=}\PYG{l+m+mf}{0.10}\PYG{p}{,}
+    \PYG{k+kr}{redeclare} \PYG{k+kr}{package} \PYG{n+nc}{Medium} \PYG{o}{=} \PYG{n}{MediumW}\PYG{p}{,}
+    \PYG{n}{hTan}\PYG{o}{=}\PYG{l+m+mf}{1.7}\PYG{p}{,}
+    \PYG{n}{nSeg}\PYG{o}{=}\PYG{l+m+mi}{10}\PYG{p}{,}
+    \PYG{n}{show\PYGZus{}T}\PYG{o}{=}\PYG{k+kc}{true}\PYG{p}{,}
+    \PYG{n}{VTan}\PYG{o}{=}\PYG{l+m+mf}{0.5}\PYG{p}{,}
+    \PYG{n}{energyDynamics}\PYG{o}{=}\PYG{n}{Modelica}\PYG{o}{.}\PYG{n}{Fluid}\PYG{o}{.}\PYG{n}{Types}\PYG{o}{.}\PYG{n}{Dynamics}\PYG{o}{.}\PYG{n}{FixedInitial}\PYG{p}{)} \PYG{l+s+s2}{\PYGZdq{}}\PYG{l+s+s2}{Storage tank}\PYG{l+s+s2}{\PYGZdq{}}
+    \PYG{p}{));}
+
+  \PYG{n}{Modelica}\PYG{o}{.}\PYG{n}{Thermal}\PYG{o}{.}\PYG{n}{HeatTransfer}\PYG{o}{.}\PYG{n}{Sensors}\PYG{o}{.}\PYG{n}{TemperatureSensor} \PYG{n}{tanTemBot}
+    \PYG{l+s+s2}{\PYGZdq{}}\PYG{l+s+s2}{Tank temperature}\PYG{l+s+s2}{\PYGZdq{}}
+    \PYG{p}{));}
+  \PYG{n}{Modelica}\PYG{o}{.}\PYG{n}{Thermal}\PYG{o}{.}\PYG{n}{HeatTransfer}\PYG{o}{.}\PYG{n}{Sensors}\PYG{o}{.}\PYG{n}{TemperatureSensor} \PYG{n}{tanTemTop}
+    \PYG{l+s+s2}{\PYGZdq{}}\PYG{l+s+s2}{Tank temperature}\PYG{l+s+s2}{\PYGZdq{}}
+    \PYG{p}{));}
+  \PYG{n}{Buildings}\PYG{o}{.}\PYG{n}{Controls}\PYG{o}{.}\PYG{n}{OBC}\PYG{o}{.}\PYG{n}{CDL}\PYG{o}{.}\PYG{n}{Continuous}\PYG{o}{.}\PYG{n}{GreaterThreshold} \PYG{n}{greThrBoi}\PYG{p}{(}\PYG{n}{t}\PYG{o}{=}
+        \PYG{n}{TSup\PYGZus{}nominal} \PYG{o}{+} \PYG{l+m+mi}{5}\PYG{p}{)} \PYG{l+s+s2}{\PYGZdq{}}\PYG{l+s+s2}{Check for temperature at the bottom of the tank}\PYG{l+s+s2}{\PYGZdq{}}
+    \PYG{p}{));}
+  \PYG{n}{Buildings}\PYG{o}{.}\PYG{n}{Controls}\PYG{o}{.}\PYG{n}{OBC}\PYG{o}{.}\PYG{n}{CDL}\PYG{o}{.}\PYG{n}{Conversions}\PYG{o}{.}\PYG{n}{BooleanToReal} \PYG{n}{booToReaPum} \PYG{l+s+s2}{\PYGZdq{}}\PYG{l+s+s2}{Signal converter for pump}\PYG{l+s+s2}{\PYGZdq{}}
+    \PYG{p}{));}
+  \PYG{n}{Buildings}\PYG{o}{.}\PYG{n}{Controls}\PYG{o}{.}\PYG{n}{OBC}\PYG{o}{.}\PYG{n}{CDL}\PYG{o}{.}\PYG{n}{Continuous}\PYG{o}{.}\PYG{n}{Greater} \PYG{n}{lesThr}
+    \PYG{l+s+s2}{\PYGZdq{}}\PYG{l+s+s2}{Check for temperature at the top of the tank}\PYG{l+s+s2}{\PYGZdq{}}
+    \PYG{p}{));}
+  \PYG{n}{Buildings}\PYG{o}{.}\PYG{n}{Fluid}\PYG{o}{.}\PYG{n}{Sensors}\PYG{o}{.}\PYG{n}{TemperatureTwoPort} \PYG{n}{temSup}\PYG{p}{(}
+    \PYG{k+kr}{redeclare} \PYG{k+kr}{package} \PYG{n+nc}{Medium} \PYG{o}{=} \PYG{n}{MediumW}\PYG{p}{,}
+    \PYG{n}{allowFlowReversal}\PYG{o}{=}\PYG{k+kc}{false}\PYG{p}{,}
+    \PYG{n}{m\PYGZus{}flow\PYGZus{}nominal}\PYG{o}{=}\PYG{n}{mRad\PYGZus{}flow\PYGZus{}nominal}\PYG{p}{)}
+    \PYG{p}{));}  \PYG{n}{Buildings}\PYG{o}{.}\PYG{n}{Fluid}\PYG{o}{.}\PYG{n}{Sensors}\PYG{o}{.}\PYG{n}{TemperatureTwoPort} \PYG{n}{temRet}\PYG{p}{(}
+    \PYG{k+kr}{redeclare} \PYG{k+kr}{package} \PYG{n+nc}{Medium} \PYG{o}{=} \PYG{n}{MediumW}\PYG{p}{,}
+    \PYG{n}{allowFlowReversal}\PYG{o}{=}\PYG{k+kc}{false}\PYG{p}{,}
+    \PYG{n}{m\PYGZus{}flow\PYGZus{}nominal}\PYG{o}{=}\PYG{n}{mRad\PYGZus{}flow\PYGZus{}nominal}\PYG{p}{)}
+    \PYG{p}{));}  \PYG{n}{Buildings}\PYG{o}{.}\PYG{n}{Controls}\PYG{o}{.}\PYG{n}{SetPoints}\PYG{o}{.}\PYG{n}{SupplyReturnTemperatureReset} \PYG{n}{heaChaBoi}\PYG{p}{(}
+    \PYG{n}{TRoo\PYGZus{}nominal}\PYG{o}{=}\PYG{l+m+mf}{296.15}\PYG{p}{,}
+    \PYG{n}{dTOutHeaBal}\PYG{o}{=}\PYG{l+m+mi}{3}\PYG{p}{,}
+    \PYG{n}{use\PYGZus{}TRoo\PYGZus{}in}\PYG{o}{=}\PYG{k+kc}{true}\PYG{p}{,}
+    \PYG{n}{TSup\PYGZus{}nominal}\PYG{o}{=}\PYG{n}{TSup\PYGZus{}nominal}\PYG{p}{,}
+    \PYG{n}{TRet\PYGZus{}nominal}\PYG{o}{=}\PYG{n}{TRet\PYGZus{}nominal}\PYG{p}{,}
+    \PYG{n}{TOut\PYGZus{}nominal}\PYG{o}{=}\PYG{l+m+mf}{268.15}\PYG{p}{)}
+    \PYG{p}{));}
+  \PYG{n}{Buildings}\PYG{o}{.}\PYG{n}{Controls}\PYG{o}{.}\PYG{n}{SetPoints}\PYG{o}{.}\PYG{n}{OccupancySchedule} \PYG{n}{occSch}\PYG{p}{(}\PYG{n}{occupancy}\PYG{o}{=}\PYG{l+m+mi}{3600}\PYG{o}{*}\PYG{p}{\PYGZob{}}\PYG{l+m+mi}{7}\PYG{p}{,}\PYG{l+m+mi}{19}\PYG{p}{\PYGZcb{})}\PYG{l+s+s2}{\PYGZdq{}}\PYG{l+s+s2}{Occupancy schedule}\PYG{l+s+s2}{\PYGZdq{}}
+    \PYG{p}{));}
+  \PYG{n}{Buildings}\PYG{o}{.}\PYG{n}{Controls}\PYG{o}{.}\PYG{n}{OBC}\PYG{o}{.}\PYG{n}{CDL}\PYG{o}{.}\PYG{n}{Continuous}\PYG{o}{.}\PYG{n}{Switch} \PYG{n}{swi} \PYG{l+s+s2}{\PYGZdq{}}\PYG{l+s+s2}{Switch to select set point}\PYG{l+s+s2}{\PYGZdq{}}
+    \PYG{p}{));}
+  \PYG{n}{Buildings}\PYG{o}{.}\PYG{n}{Controls}\PYG{o}{.}\PYG{n}{OBC}\PYG{o}{.}\PYG{n}{CDL}\PYG{o}{.}\PYG{n}{Continuous}\PYG{o}{.}\PYG{n}{Sources}\PYG{o}{.}\PYG{n}{Constant} \PYG{n}{TRooNig}\PYG{p}{(}\PYG{n}{k}\PYG{o}{=}\PYG{l+m+mf}{273.15} \PYG{o}{+} \PYG{l+m+mi}{18}\PYG{p}{)}
+    \PYG{l+s+s2}{\PYGZdq{}}\PYG{l+s+s2}{Room temperature set point at night}\PYG{l+s+s2}{\PYGZdq{}}
+    \PYG{p}{));}
+  \PYG{n}{Buildings}\PYG{o}{.}\PYG{n}{Controls}\PYG{o}{.}\PYG{n}{OBC}\PYG{o}{.}\PYG{n}{CDL}\PYG{o}{.}\PYG{n}{Continuous}\PYG{o}{.}\PYG{n}{Sources}\PYG{o}{.}\PYG{n}{Constant} \PYG{n}{TRooSet}\PYG{p}{(}\PYG{n}{k}\PYG{o}{=}\PYG{l+m+mf}{273.15} \PYG{o}{+} \PYG{l+m+mi}{24}\PYG{p}{)}
+    \PYG{p}{));}
+  \PYG{n}{Buildings}\PYG{o}{.}\PYG{n}{Controls}\PYG{o}{.}\PYG{n}{OBC}\PYG{o}{.}\PYG{n}{CDL}\PYG{o}{.}\PYG{n}{Continuous}\PYG{o}{.}\PYG{n}{MultiMax} \PYG{n}{mulMax}\PYG{p}{(}\PYG{n}{nin}\PYG{o}{=}\PYG{l+m+mi}{12}\PYG{p}{)} \PYG{l+s+s2}{\PYGZdq{}}\PYG{l+s+s2}{Maximum radiator valve position}\PYG{l+s+s2}{\PYGZdq{}} \PYG{p}{));}
+  \PYG{n}{Buildings}\PYG{o}{.}\PYG{n}{Controls}\PYG{o}{.}\PYG{n}{OBC}\PYG{o}{.}\PYG{n}{CDL}\PYG{o}{.}\PYG{n}{Continuous}\PYG{o}{.}\PYG{n}{Hysteresis} \PYG{n}{hysPum}\PYG{p}{(}\PYG{n}{uLow}\PYG{o}{=}\PYG{l+m+mf}{0.01}\PYG{p}{,} \PYG{n}{uHigh}\PYG{o}{=}\PYG{l+m+mf}{0.20}\PYG{p}{)}
+    \PYG{l+s+s2}{\PYGZdq{}}\PYG{l+s+s2}{Hysteresis for pump}\PYG{l+s+s2}{\PYGZdq{}}
+    \PYG{p}{));}
+  \PYG{n}{Modelica}\PYG{o}{.}\PYG{n}{Blocks}\PYG{o}{.}\PYG{n}{MathBoolean}\PYG{o}{.}\PYG{n}{Or} \PYG{n}{pumOnSig}\PYG{p}{(}\PYG{n}{nu}\PYG{o}{=}\PYG{l+m+mi}{4}\PYG{p}{)} \PYG{l+s+s2}{\PYGZdq{}}\PYG{l+s+s2}{Signal for pump being on}\PYG{l+s+s2}{\PYGZdq{}}
+    \PYG{p}{));}
+  \PYG{n}{Buildings}\PYG{o}{.}\PYG{n}{Controls}\PYG{o}{.}\PYG{n}{OBC}\PYG{o}{.}\PYG{n}{CDL}\PYG{o}{.}\PYG{n}{Continuous}\PYG{o}{.}\PYG{n}{Sources}\PYG{o}{.}\PYG{n}{Constant} \PYG{n}{dTThr}\PYG{p}{(}\PYG{n}{k}\PYG{o}{=}\PYG{l+m+mi}{1}\PYG{p}{)}
+    \PYG{l+s+s2}{\PYGZdq{}}\PYG{l+s+s2}{Threshold to switch boiler off}\PYG{l+s+s2}{\PYGZdq{}}
+    \PYG{p}{));}
+  \PYG{n}{Buildings}\PYG{o}{.}\PYG{n}{Controls}\PYG{o}{.}\PYG{n}{OBC}\PYG{o}{.}\PYG{n}{CDL}\PYG{o}{.}\PYG{n}{Continuous}\PYG{o}{.}\PYG{n}{Subtract} \PYG{n}{sub1}
+    \PYG{p}{));}
+  \PYG{n}{Buildings}\PYG{o}{.}\PYG{n}{Controls}\PYG{o}{.}\PYG{n}{OBC}\PYG{o}{.}\PYG{n}{CDL}\PYG{o}{.}\PYG{n}{Continuous}\PYG{o}{.}\PYG{n}{Sources}\PYG{o}{.}\PYG{n}{Constant} \PYG{n}{TRooOff}\PYG{p}{(}\PYG{n}{k}\PYG{o}{=}\PYG{l+m+mf}{273.15} \PYG{o}{\PYGZhy{}} \PYG{l+m+mi}{5}\PYG{p}{)}
+    \PYG{l+s+s2}{\PYGZdq{}}\PYG{l+s+s2}{Low room temperature set point to switch heating off}\PYG{l+s+s2}{\PYGZdq{}}
+    \PYG{p}{));}
+  \PYG{n}{Buildings}\PYG{o}{.}\PYG{n}{Controls}\PYG{o}{.}\PYG{n}{OBC}\PYG{o}{.}\PYG{n}{CDL}\PYG{o}{.}\PYG{n}{Continuous}\PYG{o}{.}\PYG{n}{Switch} \PYG{n}{swi1} \PYG{l+s+s2}{\PYGZdq{}}\PYG{l+s+s2}{Switch to select set point}\PYG{l+s+s2}{\PYGZdq{}}
+    \PYG{p}{));}
+  \PYG{n}{Modelica}\PYG{o}{.}\PYG{n}{Blocks}\PYG{o}{.}\PYG{n}{Logical}\PYG{o}{.}\PYG{n}{OnOffController} \PYG{n}{onOff}\PYG{p}{(}\PYG{n}{bandwidth}\PYG{o}{=}\PYG{l+m+mi}{2}\PYG{p}{)} \PYG{l+s+s2}{\PYGZdq{}}\PYG{l+s+s2}{On/off switch}\PYG{l+s+s2}{\PYGZdq{}}
+    \PYG{p}{));}
+  \PYG{n}{Buildings}\PYG{o}{.}\PYG{n}{Controls}\PYG{o}{.}\PYG{n}{OBC}\PYG{o}{.}\PYG{n}{CDL}\PYG{o}{.}\PYG{n}{Continuous}\PYG{o}{.}\PYG{n}{Sources}\PYG{o}{.}\PYG{n}{Constant} \PYG{n}{TOutSwi}\PYG{p}{(}\PYG{n}{k}\PYG{o}{=}\PYG{l+m+mi}{16} \PYG{o}{+} \PYG{l+m+mf}{293.15}\PYG{p}{)}
+    \PYG{l+s+s2}{\PYGZdq{}}\PYG{l+s+s2}{Outside air temperature to switch heating on or off}\PYG{l+s+s2}{\PYGZdq{}}
+    \PYG{p}{));}
+  \PYG{n}{Buildings}\PYG{o}{.}\PYG{n}{Fluid}\PYG{o}{.}\PYG{n}{Sources}\PYG{o}{.}\PYG{n}{Boundary\PYGZus{}pT} \PYG{n}{bou1}\PYG{p}{(}
+    \PYG{n}{T}\PYG{o}{=}\PYG{l+m+mf}{288.15}\PYG{p}{,}
+    \PYG{n}{nPorts}\PYG{o}{=}\PYG{l+m+mi}{1}\PYG{p}{,}
+    \PYG{k+kr}{redeclare} \PYG{k+kr}{package} \PYG{n+nc}{Medium} \PYG{o}{=} \PYG{n}{MediumW}\PYG{p}{)}
+    \PYG{l+s+s2}{\PYGZdq{}}\PYG{l+s+s2}{Fixed boundary condition, needed to provide a pressure in the system}\PYG{l+s+s2}{\PYGZdq{}}
+    \PYG{p}{));}
+  \PYG{n}{Buildings}\PYG{o}{.}\PYG{n}{Controls}\PYG{o}{.}\PYG{n}{OBC}\PYG{o}{.}\PYG{n}{CDL}\PYG{o}{.}\PYG{n}{Continuous}\PYG{o}{.}\PYG{n}{MultiplyByParameter} \PYG{n}{gain}\PYG{p}{(}\PYG{n}{k}\PYG{o}{=}\PYG{l+m+mi}{1}\PYG{o}{/}\PYG{n}{dp\PYGZus{}nominal}\PYG{p}{)}
+    \PYG{l+s+s2}{\PYGZdq{}}\PYG{l+s+s2}{Gain used to normalize pressure measurement signal}\PYG{l+s+s2}{\PYGZdq{}}
+    \PYG{p}{));}
+  \PYG{n}{Buildings}\PYG{o}{.}\PYG{n}{Fluid}\PYG{o}{.}\PYG{n}{FixedResistances}\PYG{o}{.}\PYG{n}{Junction} \PYG{n}{splVal}\PYG{p}{(}
+    \PYG{n}{dp\PYGZus{}nominal}\PYG{o}{=}\PYG{p}{\PYGZob{}}\PYG{n}{dpPip\PYGZus{}nominal}\PYG{p}{,}\PYG{l+m+mi}{0}\PYG{p}{,}\PYG{l+m+mi}{0}\PYG{p}{\PYGZcb{},}
+    \PYG{n}{m\PYGZus{}flow\PYGZus{}nominal}\PYG{o}{=}\PYG{n}{mRad\PYGZus{}flow\PYGZus{}nominal}\PYG{o}{*}\PYG{p}{\PYGZob{}}\PYG{l+m+mi}{1}\PYG{p}{,}\PYG{o}{\PYGZhy{}}\PYG{l+m+mi}{1}\PYG{p}{,}\PYG{o}{\PYGZhy{}}\PYG{l+m+mi}{1}\PYG{p}{\PYGZcb{},}
+    \PYG{k+kr}{redeclare} \PYG{k+kr}{package} \PYG{n+nc}{Medium} \PYG{o}{=} \PYG{n}{MediumW}\PYG{p}{,}
+    \PYG{n}{energyDynamics}\PYG{o}{=}\PYG{n}{Modelica}\PYG{o}{.}\PYG{n}{Fluid}\PYG{o}{.}\PYG{n}{Types}\PYG{o}{.}\PYG{n}{Dynamics}\PYG{o}{.}\PYG{n}{SteadyState}\PYG{p}{)}
+    \PYG{l+s+s2}{\PYGZdq{}}\PYG{l+s+s2}{Flow splitter}\PYG{l+s+s2}{\PYGZdq{}} \PYG{p}{));}  \PYG{n}{Buildings}\PYG{o}{.}\PYG{n}{Fluid}\PYG{o}{.}\PYG{n}{FixedResistances}\PYG{o}{.}\PYG{n}{Junction} \PYG{n}{splVal1}\PYG{p}{(}
+    \PYG{n}{m\PYGZus{}flow\PYGZus{}nominal}\PYG{o}{=}\PYG{n}{mRad\PYGZus{}flow\PYGZus{}nominal}\PYG{o}{*}\PYG{p}{\PYGZob{}}\PYG{l+m+mi}{1}\PYG{p}{,}\PYG{o}{\PYGZhy{}}\PYG{l+m+mi}{1}\PYG{p}{,}\PYG{o}{\PYGZhy{}}\PYG{l+m+mi}{1}\PYG{p}{\PYGZcb{},}
+    \PYG{k+kr}{redeclare} \PYG{k+kr}{package} \PYG{n+nc}{Medium} \PYG{o}{=} \PYG{n}{MediumW}\PYG{p}{,}
+    \PYG{n}{dp\PYGZus{}nominal}\PYG{o}{=}\PYG{p}{\PYGZob{}}\PYG{l+m+mi}{0}\PYG{p}{,}\PYG{l+m+mi}{0}\PYG{p}{,}\PYG{l+m+mi}{0}\PYG{p}{\PYGZcb{},}
+    \PYG{n}{energyDynamics}\PYG{o}{=}\PYG{n}{Modelica}\PYG{o}{.}\PYG{n}{Fluid}\PYG{o}{.}\PYG{n}{Types}\PYG{o}{.}\PYG{n}{Dynamics}\PYG{o}{.}\PYG{n}{SteadyState}\PYG{p}{)}
+    \PYG{l+s+s2}{\PYGZdq{}}\PYG{l+s+s2}{Flow splitter}\PYG{l+s+s2}{\PYGZdq{}} \PYG{p}{));}  \PYG{n}{Buildings}\PYG{o}{.}\PYG{n}{Fluid}\PYG{o}{.}\PYG{n}{FixedResistances}\PYG{o}{.}\PYG{n}{Junction} \PYG{n}{splVal2}\PYG{p}{(}
+    \PYG{n}{m\PYGZus{}flow\PYGZus{}nominal}\PYG{o}{=}\PYG{n}{mRad\PYGZus{}flow\PYGZus{}nominal}\PYG{o}{*}\PYG{p}{\PYGZob{}}\PYG{l+m+mi}{1}\PYG{p}{,}\PYG{o}{\PYGZhy{}}\PYG{l+m+mi}{1}\PYG{p}{,}\PYG{o}{\PYGZhy{}}\PYG{l+m+mi}{1}\PYG{p}{\PYGZcb{},}
+    \PYG{k+kr}{redeclare} \PYG{k+kr}{package} \PYG{n+nc}{Medium} \PYG{o}{=} \PYG{n}{MediumW}\PYG{p}{,}
+    \PYG{n}{dp\PYGZus{}nominal}\PYG{o}{=}\PYG{p}{\PYGZob{}}\PYG{l+m+mi}{0}\PYG{p}{,}\PYG{l+m+mi}{0}\PYG{p}{,}\PYG{l+m+mi}{0}\PYG{p}{\PYGZcb{},}
+    \PYG{n}{energyDynamics}\PYG{o}{=}\PYG{n}{Modelica}\PYG{o}{.}\PYG{n}{Fluid}\PYG{o}{.}\PYG{n}{Types}\PYG{o}{.}\PYG{n}{Dynamics}\PYG{o}{.}\PYG{n}{SteadyState}\PYG{p}{)}
+    \PYG{l+s+s2}{\PYGZdq{}}\PYG{l+s+s2}{Flow splitter}\PYG{l+s+s2}{\PYGZdq{}} \PYG{p}{));}  \PYG{n}{Modelica}\PYG{o}{.}\PYG{n}{Blocks}\PYG{o}{.}\PYG{n}{Logical}\PYG{o}{.}\PYG{n}{LessThreshold} \PYG{n}{lesThrTRoo}\PYG{p}{(}\PYG{n}{threshold}\PYG{o}{=}\PYG{l+m+mi}{19} \PYG{o}{+} \PYG{l+m+mf}{273.15}\PYG{p}{)}
+    \PYG{l+s+s2}{\PYGZdq{}}\PYG{l+s+s2}{Test to block boiler pump if room air temperature is sufficiently high}\PYG{l+s+s2}{\PYGZdq{}}
+    \PYG{p}{));}
+  \PYG{n}{Buildings}\PYG{o}{.}\PYG{n}{Controls}\PYG{o}{.}\PYG{n}{OBC}\PYG{o}{.}\PYG{n}{CDL}\PYG{o}{.}\PYG{n}{Logical}\PYG{o}{.}\PYG{n}{And} \PYG{n}{and1}
+    \PYG{l+s+s2}{\PYGZdq{}}\PYG{l+s+s2}{Logical test to enable pump and subsequently the boiler}\PYG{l+s+s2}{\PYGZdq{}}
+    \PYG{p}{));}
+
+  \PYG{n}{Modelica}\PYG{o}{.}\PYG{n}{StateGraph}\PYG{o}{.}\PYG{n}{TransitionWithSignal} \PYG{n}{T1} \PYG{l+s+s2}{\PYGZdq{}}\PYG{l+s+s2}{Transition to pump on}\PYG{l+s+s2}{\PYGZdq{}}
+    \PYG{p}{));}
+  \PYG{n}{Modelica}\PYG{o}{.}\PYG{n}{StateGraph}\PYG{o}{.}\PYG{n}{StepWithSignal} \PYG{n}{pumOn}\PYG{p}{(}\PYG{n}{nOut}\PYG{o}{=}\PYG{l+m+mi}{1}\PYG{p}{,} \PYG{n}{nIn}\PYG{o}{=}\PYG{l+m+mi}{1}\PYG{p}{)}
+ \PYG{l+s+s2}{\PYGZdq{}}\PYG{l+s+s2}{Pump on}\PYG{l+s+s2}{\PYGZdq{}}
+    \PYG{p}{));}
+  \PYG{n}{Modelica}\PYG{o}{.}\PYG{n}{StateGraph}\PYG{o}{.}\PYG{n}{StepWithSignal} \PYG{n}{boiOn}\PYG{p}{(}\PYG{n}{nIn}\PYG{o}{=}\PYG{l+m+mi}{1}\PYG{p}{,} \PYG{n}{nOut}\PYG{o}{=}\PYG{l+m+mi}{1}\PYG{p}{)} \PYG{l+s+s2}{\PYGZdq{}}\PYG{l+s+s2}{Boiler on}\PYG{l+s+s2}{\PYGZdq{}}
+    \PYG{p}{));}
+  \PYG{n}{Modelica}\PYG{o}{.}\PYG{n}{StateGraph}\PYG{o}{.}\PYG{n}{TransitionWithSignal} \PYG{n}{T2}\PYG{p}{(}\PYG{n}{enableTimer}\PYG{o}{=}\PYG{k+kc}{false}\PYG{p}{,} \PYG{n}{waitTime}\PYG{o}{=}\PYG{l+m+mi}{300}\PYG{p}{)}
+    \PYG{l+s+s2}{\PYGZdq{}}\PYG{l+s+s2}{Transition that switches HP off}\PYG{l+s+s2}{\PYGZdq{}}
+    \PYG{p}{));}
+  \PYG{n}{Modelica}\PYG{o}{.}\PYG{n}{StateGraph}\PYG{o}{.}\PYG{n}{StepWithSignal} \PYG{n}{pumOn2}\PYG{p}{(}        \PYG{n}{nIn}\PYG{o}{=}\PYG{l+m+mi}{1}\PYG{p}{,} \PYG{n}{nOut}\PYG{o}{=}\PYG{l+m+mi}{1}\PYG{p}{)}
+  \PYG{l+s+s2}{\PYGZdq{}}\PYG{l+s+s2}{Pump on}\PYG{l+s+s2}{\PYGZdq{}}
+    \PYG{p}{));}
+  \PYG{n}{Modelica}\PYG{o}{.}\PYG{n}{StateGraph}\PYG{o}{.}\PYG{n}{Transition} \PYG{n}{T4}\PYG{p}{(}\PYG{n}{enableTimer}\PYG{o}{=}\PYG{k+kc}{true}\PYG{p}{,} \PYG{n}{waitTime}\PYG{o}{=}\PYG{l+m+mi}{10}\PYG{p}{)}
+    \PYG{l+s+s2}{\PYGZdq{}}\PYG{l+s+s2}{Transition to boiler on}\PYG{l+s+s2}{\PYGZdq{}}
+    \PYG{p}{));}
+  \PYG{k+kr}{inner} \PYG{n}{Modelica}\PYG{o}{.}\PYG{n}{StateGraph}\PYG{o}{.}\PYG{n}{StateGraphRoot} \PYG{n}{stateGraphRoot}
+    \PYG{l+s+s2}{\PYGZdq{}}\PYG{l+s+s2}{Root of the state graph}\PYG{l+s+s2}{\PYGZdq{}}
+    \PYG{p}{));}
+  \PYG{n}{Buildings}\PYG{o}{.}\PYG{n}{Controls}\PYG{o}{.}\PYG{n}{OBC}\PYG{o}{.}\PYG{n}{CDL}\PYG{o}{.}\PYG{n}{Conversions}\PYG{o}{.}\PYG{n}{BooleanToReal} \PYG{n}{booToRea}
+    \PYG{l+s+s2}{\PYGZdq{}}\PYG{l+s+s2}{Conversion from boolean to real signal}\PYG{l+s+s2}{\PYGZdq{}}
+    \PYG{p}{));}
+  \PYG{n}{Buildings}\PYG{o}{.}\PYG{n}{Controls}\PYG{o}{.}\PYG{n}{OBC}\PYG{o}{.}\PYG{n}{CDL}\PYG{o}{.}\PYG{n}{Continuous}\PYG{o}{.}\PYG{n}{MovingAverage} \PYG{n}{aveTOut}\PYG{p}{(}\PYG{n}{delta}\PYG{o}{=}\PYG{l+m+mi}{12}\PYG{o}{*}\PYG{l+m+mi}{3600}\PYG{p}{)}
+    \PYG{l+s+s2}{\PYGZdq{}}\PYG{l+s+s2}{Time averaged outdoor air temperature}\PYG{l+s+s2}{\PYGZdq{}}
+    \PYG{p}{));}
+  \PYG{k+kr}{inner} \PYG{n}{Buildings}\PYG{o}{.}\PYG{n}{ThermalZones}\PYG{o}{.}\PYG{n}{EnergyPlus\PYGZus{}9\PYGZus{}6\PYGZus{}0}\PYG{o}{.}\PYG{n}{Building} \PYG{n}{building}\PYG{p}{(}
+    \PYG{n}{idfName}\PYG{o}{=}\PYG{l+s+s2}{\PYGZdq{}}\PYG{l+s+s2}{E:/Documents/ThesisNumericalSim/Reference\PYGZus{}Home/Irish\PYGZus{}Reference\PYGZus{}Home(v960)\PYGZus{}Minimal\PYGZus{}No\PYGZus{}Int\PYGZus{}Gains.idf}\PYG{l+s+s2}{\PYGZdq{}}\PYG{p}{,}
+    \PYG{n}{epwName}\PYG{o}{=}\PYG{l+s+s2}{\PYGZdq{}}\PYG{l+s+s2}{E:/Documents/ThesisNumericalSim/Weather/Clones/IRL\PYGZus{}Clones.039740\PYGZus{}IWEC\PYGZus{}Attempt2.epw}\PYG{l+s+s2}{\PYGZdq{}}\PYG{p}{,}
+    \PYG{n}{weaName}\PYG{o}{=}\PYG{l+s+s2}{\PYGZdq{}}\PYG{l+s+s2}{E:/Documents/ThesisNumericalSim/Weather/Clones/IRL\PYGZus{}Clones.039740\PYGZus{}IWEC\PYGZus{}Attempt2.mos}\PYG{l+s+s2}{\PYGZdq{}}\PYG{p}{,}
+    \PYG{n}{usePrecompiledFMU}\PYG{o}{=}\PYG{k+kc}{false}\PYG{p}{,}
+    \PYG{n}{computeWetBulbTemperature}\PYG{o}{=}\PYG{k+kc}{false}\PYG{p}{)} \PYG{l+s+s2}{\PYGZdq{}}\PYG{l+s+s2}{Building model}\PYG{l+s+s2}{\PYGZdq{}}
+    \PYG{p}{));}
+
+  \PYG{n}{Buildings}\PYG{o}{.}\PYG{n}{BoundaryConditions}\PYG{o}{.}\PYG{n}{WeatherData}\PYG{o}{.}\PYG{n}{Bus} \PYG{n}{weaBus} \PYG{p}{));}  \PYG{n}{Building}\PYG{o}{.}\PYG{n}{irishReferenceHouse} \PYG{n}{irishReferenceHouse}\PYG{p}{(}\PYG{n}{zone1\PYGZus{}floor1}\PYG{p}{(}\PYG{n}{zoneName}\PYG{o}{=}\PYG{l+s+s2}{\PYGZdq{}}\PYG{l+s+s2}{zone1\PYGZus{}floor1}\PYG{l+s+s2}{\PYGZdq{}}\PYG{p}{))}
+    \PYG{p}{));}
+  \PYG{n}{Buildings}\PYG{o}{.}\PYG{n}{Fluid}\PYG{o}{.}\PYG{n}{Sources}\PYG{o}{.}\PYG{n}{MassFlowSource\PYGZus{}WeatherData} \PYG{n}{bou}\PYG{p}{[}\PYG{l+m+mi}{13}\PYG{p}{](}
+    \PYG{k+kr}{redeclare} \PYG{k+kr}{package} \PYG{n+nc}{Medium} \PYG{o}{=} \PYG{n}{MediumA}\PYG{p}{,}
+    \PYG{n}{m\PYGZus{}flow}\PYG{o}{=}\PYG{n}{m\PYGZus{}flow\PYGZus{}nominal}\PYG{p}{,}
+    \PYG{n}{nPorts}\PYG{o}{=}\PYG{l+m+mi}{13}\PYG{p}{)}
+   \PYG{l+s+s2}{\PYGZdq{}}\PYG{l+s+s2}{Boundary condition}\PYG{l+s+s2}{\PYGZdq{}}
+    \PYG{p}{));}
+  \PYG{n}{Buildings}\PYG{o}{.}\PYG{n}{Fluid}\PYG{o}{.}\PYG{n}{Sources}\PYG{o}{.}\PYG{n}{Outside} \PYG{n}{out}\PYG{p}{(}\PYG{k+kr}{redeclare} \PYG{k+kr}{package} \PYG{n+nc}{Medium} \PYG{o}{=} \PYG{n}{MediumA}\PYG{p}{,} \PYG{n}{nPorts}\PYG{o}{=}
+       \PYG{l+m+mi}{1}\PYG{p}{)}
+    \PYG{l+s+s2}{\PYGZdq{}}\PYG{l+s+s2}{Outside condition}\PYG{l+s+s2}{\PYGZdq{}}
+    \PYG{p}{));}
+  \PYG{n}{Modelica}\PYG{o}{.}\PYG{n}{Thermal}\PYG{o}{.}\PYG{n}{HeatTransfer}\PYG{o}{.}\PYG{n}{Celsius}\PYG{o}{.}\PYG{n}{FromKelvin} \PYG{n}{fromKelvin}
+    \PYG{p}{));}
+  \PYG{n}{Modelica}\PYG{o}{.}\PYG{n}{Thermal}\PYG{o}{.}\PYG{n}{HeatTransfer}\PYG{o}{.}\PYG{n}{Celsius}\PYG{o}{.}\PYG{n}{PrescribedTemperature}
+    \PYG{n}{prescribedTemperature}
+    \PYG{p}{));}
+  \PYG{n}{Buildings}\PYG{o}{.}\PYG{n}{Fluid}\PYG{o}{.}\PYG{n}{FixedResistances}\PYG{o}{.}\PYG{n}{Junction} \PYG{n}{splVal3}\PYG{p}{(}
+    \PYG{n}{m\PYGZus{}flow\PYGZus{}nominal}\PYG{o}{=}\PYG{n}{mRad\PYGZus{}flow\PYGZus{}nominal}\PYG{o}{*}\PYG{p}{\PYGZob{}}\PYG{l+m+mi}{1}\PYG{p}{,}\PYG{o}{\PYGZhy{}}\PYG{l+m+mi}{1}\PYG{p}{,}\PYG{o}{\PYGZhy{}}\PYG{l+m+mi}{1}\PYG{p}{\PYGZcb{},}
+    \PYG{k+kr}{redeclare} \PYG{k+kr}{package} \PYG{n+nc}{Medium} \PYG{o}{=} \PYG{n}{MediumW}\PYG{p}{,}
+    \PYG{n}{dp\PYGZus{}nominal}\PYG{o}{=}\PYG{p}{\PYGZob{}}\PYG{l+m+mi}{0}\PYG{p}{,}\PYG{l+m+mi}{0}\PYG{p}{,}\PYG{l+m+mi}{0}\PYG{p}{\PYGZcb{},}
+    \PYG{n}{energyDynamics}\PYG{o}{=}\PYG{n}{Modelica}\PYG{o}{.}\PYG{n}{Fluid}\PYG{o}{.}\PYG{n}{Types}\PYG{o}{.}\PYG{n}{Dynamics}\PYG{o}{.}\PYG{n}{SteadyState}\PYG{p}{)}
+    \PYG{l+s+s2}{\PYGZdq{}}\PYG{l+s+s2}{Flow splitter}\PYG{l+s+s2}{\PYGZdq{}} \PYG{p}{));}  \PYG{n}{Buildings}\PYG{o}{.}\PYG{n}{Fluid}\PYG{o}{.}\PYG{n}{Actuators}\PYG{o}{.}\PYG{n}{Valves}\PYG{o}{.}\PYG{n}{TwoWayEqualPercentage} \PYG{n}{val4}\PYG{p}{(}
+    \PYG{k+kr}{redeclare} \PYG{k+kr}{package} \PYG{n+nc}{Medium} \PYG{o}{=} \PYG{n}{MediumW}\PYG{p}{,}
+    \PYG{n}{allowFlowReversal}\PYG{o}{=}\PYG{k+kc}{false}\PYG{p}{,}
+    \PYG{n}{dpValve\PYGZus{}nominal}\PYG{p}{(}\PYG{n}{displayUnit}\PYG{o}{=}\PYG{l+s+s2}{\PYGZdq{}}\PYG{l+s+s2}{Pa}\PYG{l+s+s2}{\PYGZdq{}}\PYG{p}{)} \PYG{o}{=} \PYG{n}{dpVal\PYGZus{}nominal}\PYG{p}{,}
+    \PYG{n}{m\PYGZus{}flow\PYGZus{}nominal}\PYG{o}{=}\PYG{n}{mRad\PYGZus{}flow\PYGZus{}nominal}\PYG{o}{*}\PYG{p}{(}\PYG{n}{RoomVols}\PYG{p}{[}\PYG{l+m+mi}{4}\PYG{p}{]}\PYG{o}{/}\PYG{n}{TotRoomVols}\PYG{p}{),}
+    \PYG{n}{dpFixed\PYGZus{}nominal}\PYG{o}{=}\PYG{n}{dpRoo\PYGZus{}nominal}\PYG{p}{,}
+    \PYG{n}{from\PYGZus{}dp}\PYG{o}{=}\PYG{k+kc}{true}\PYG{p}{,}
+    \PYG{n}{use\PYGZus{}inputFilter}\PYG{o}{=}\PYG{k+kc}{false}\PYG{p}{)} \PYG{l+s+s2}{\PYGZdq{}}\PYG{l+s+s2}{Radiator valve}\PYG{l+s+s2}{\PYGZdq{}}
+    \PYG{p}{));}
+  \PYG{n}{Buildings}\PYG{o}{.}\PYG{n}{Fluid}\PYG{o}{.}\PYG{n}{HeatExchangers}\PYG{o}{.}\PYG{n}{Radiators}\PYG{o}{.}\PYG{n}{RadiatorEN442\PYGZus{}2} \PYG{n}{rad4}\PYG{p}{(}
+    \PYG{k+kr}{redeclare} \PYG{k+kr}{package} \PYG{n+nc}{Medium} \PYG{o}{=} \PYG{n}{MediumW}\PYG{p}{,}
+    \PYG{n}{allowFlowReversal}\PYG{o}{=}\PYG{k+kc}{false}\PYG{p}{,}
+    \PYG{n}{fraRad}\PYG{o}{=}\PYG{l+m+mi}{0}\PYG{p}{,}
+    \PYG{n}{Q\PYGZus{}flow\PYGZus{}nominal}\PYG{o}{=}\PYG{n}{scaFacRad}\PYG{o}{*}\PYG{n}{Q\PYGZus{}flow\PYGZus{}nominal}\PYG{o}{*}\PYG{p}{(}\PYG{n}{RoomVols}\PYG{p}{[}\PYG{l+m+mi}{4}\PYG{p}{]}\PYG{o}{/}\PYG{n}{TotRoomVols}\PYG{p}{),}
+    \PYG{n}{energyDynamics}\PYG{o}{=}\PYG{n}{Modelica}\PYG{o}{.}\PYG{n}{Fluid}\PYG{o}{.}\PYG{n}{Types}\PYG{o}{.}\PYG{n}{Dynamics}\PYG{o}{.}\PYG{n}{FixedInitial}\PYG{p}{,}
+    \PYG{n}{T\PYGZus{}a\PYGZus{}nominal}\PYG{o}{=}\PYG{l+m+mf}{323.15}\PYG{p}{,}
+    \PYG{n}{T\PYGZus{}b\PYGZus{}nominal}\PYG{o}{=}\PYG{l+m+mf}{313.15}\PYG{p}{,}
+    \PYG{n}{n}\PYG{o}{=}\PYG{l+m+mf}{1.3}\PYG{p}{)} \PYG{l+s+s2}{\PYGZdq{}}\PYG{l+s+s2}{Radiator}\PYG{l+s+s2}{\PYGZdq{}}
+    \PYG{p}{));}
+  \PYG{n}{Buildings}\PYG{o}{.}\PYG{n}{Fluid}\PYG{o}{.}\PYG{n}{FixedResistances}\PYG{o}{.}\PYG{n}{Junction} \PYG{n}{splVal5}\PYG{p}{(}
+    \PYG{n}{m\PYGZus{}flow\PYGZus{}nominal}\PYG{o}{=}\PYG{n}{mRad\PYGZus{}flow\PYGZus{}nominal}\PYG{o}{*}\PYG{p}{\PYGZob{}}\PYG{l+m+mi}{1}\PYG{p}{,}\PYG{o}{\PYGZhy{}}\PYG{l+m+mi}{1}\PYG{p}{,}\PYG{o}{\PYGZhy{}}\PYG{l+m+mi}{1}\PYG{p}{\PYGZcb{},}
+    \PYG{k+kr}{redeclare} \PYG{k+kr}{package} \PYG{n+nc}{Medium} \PYG{o}{=} \PYG{n}{MediumW}\PYG{p}{,}
+    \PYG{n}{dp\PYGZus{}nominal}\PYG{o}{=}\PYG{p}{\PYGZob{}}\PYG{l+m+mi}{0}\PYG{p}{,}\PYG{l+m+mi}{0}\PYG{p}{,}\PYG{l+m+mi}{0}\PYG{p}{\PYGZcb{},}
+    \PYG{n}{energyDynamics}\PYG{o}{=}\PYG{n}{Modelica}\PYG{o}{.}\PYG{n}{Fluid}\PYG{o}{.}\PYG{n}{Types}\PYG{o}{.}\PYG{n}{Dynamics}\PYG{o}{.}\PYG{n}{SteadyState}\PYG{p}{)} \PYG{l+s+s2}{\PYGZdq{}}\PYG{l+s+s2}{Flow splitter}\PYG{l+s+s2}{\PYGZdq{}}
+    \PYG{p}{));}  \PYG{n}{Buildings}\PYG{o}{.}\PYG{n}{Fluid}\PYG{o}{.}\PYG{n}{FixedResistances}\PYG{o}{.}\PYG{n}{Junction} \PYG{n}{splVal4}\PYG{p}{(}
+    \PYG{n}{m\PYGZus{}flow\PYGZus{}nominal}\PYG{o}{=}\PYG{n}{mRad\PYGZus{}flow\PYGZus{}nominal}\PYG{o}{*}\PYG{p}{\PYGZob{}}\PYG{l+m+mi}{1}\PYG{p}{,}\PYG{o}{\PYGZhy{}}\PYG{l+m+mi}{1}\PYG{p}{,}\PYG{o}{\PYGZhy{}}\PYG{l+m+mi}{1}\PYG{p}{\PYGZcb{},}
+    \PYG{k+kr}{redeclare} \PYG{k+kr}{package} \PYG{n+nc}{Medium} \PYG{o}{=} \PYG{n}{MediumW}\PYG{p}{,}
+    \PYG{n}{dp\PYGZus{}nominal}\PYG{o}{=}\PYG{p}{\PYGZob{}}\PYG{l+m+mi}{0}\PYG{p}{,}\PYG{l+m+mi}{0}\PYG{p}{,}\PYG{l+m+mi}{0}\PYG{p}{\PYGZcb{},}
+    \PYG{n}{energyDynamics}\PYG{o}{=}\PYG{n}{Modelica}\PYG{o}{.}\PYG{n}{Fluid}\PYG{o}{.}\PYG{n}{Types}\PYG{o}{.}\PYG{n}{Dynamics}\PYG{o}{.}\PYG{n}{SteadyState}\PYG{p}{)}
+    \PYG{l+s+s2}{\PYGZdq{}}\PYG{l+s+s2}{Flow splitter}\PYG{l+s+s2}{\PYGZdq{}} \PYG{p}{));}  \PYG{n}{Buildings}\PYG{o}{.}\PYG{n}{Fluid}\PYG{o}{.}\PYG{n}{FixedResistances}\PYG{o}{.}\PYG{n}{Junction} \PYG{n}{splVal6}\PYG{p}{(}
+    \PYG{n}{m\PYGZus{}flow\PYGZus{}nominal}\PYG{o}{=}\PYG{n}{mRad\PYGZus{}flow\PYGZus{}nominal}\PYG{o}{*}\PYG{p}{\PYGZob{}}\PYG{l+m+mi}{1}\PYG{p}{,}\PYG{o}{\PYGZhy{}}\PYG{l+m+mi}{1}\PYG{p}{,}\PYG{o}{\PYGZhy{}}\PYG{l+m+mi}{1}\PYG{p}{\PYGZcb{},}
+    \PYG{k+kr}{redeclare} \PYG{k+kr}{package} \PYG{n+nc}{Medium} \PYG{o}{=} \PYG{n}{MediumW}\PYG{p}{,}
+    \PYG{n}{dp\PYGZus{}nominal}\PYG{o}{=}\PYG{p}{\PYGZob{}}\PYG{l+m+mi}{0}\PYG{p}{,}\PYG{l+m+mi}{0}\PYG{p}{,}\PYG{l+m+mi}{0}\PYG{p}{\PYGZcb{},}
+    \PYG{n}{energyDynamics}\PYG{o}{=}\PYG{n}{Modelica}\PYG{o}{.}\PYG{n}{Fluid}\PYG{o}{.}\PYG{n}{Types}\PYG{o}{.}\PYG{n}{Dynamics}\PYG{o}{.}\PYG{n}{SteadyState}\PYG{p}{)}
+    \PYG{l+s+s2}{\PYGZdq{}}\PYG{l+s+s2}{Flow splitter}\PYG{l+s+s2}{\PYGZdq{}} \PYG{p}{));}  \PYG{n}{Modelica}\PYG{o}{.}\PYG{n}{Thermal}\PYG{o}{.}\PYG{n}{HeatTransfer}\PYG{o}{.}\PYG{n}{Sensors}\PYG{o}{.}\PYG{n}{TemperatureSensor} \PYG{n}{TRoo4}
+    \PYG{p}{));}
+  \PYG{n}{Buildings}\PYG{o}{.}\PYG{n}{Controls}\PYG{o}{.}\PYG{n}{OBC}\PYG{o}{.}\PYG{n}{CDL}\PYG{o}{.}\PYG{n}{Continuous}\PYG{o}{.}\PYG{n}{PID} \PYG{n}{conRoo4}\PYG{p}{(}
+    \PYG{n}{yMax}\PYG{o}{=}\PYG{l+m+mi}{1}\PYG{p}{,}
+    \PYG{n}{yMin}\PYG{o}{=}\PYG{l+m+mi}{0}\PYG{p}{,}
+    \PYG{n}{Ti}\PYG{o}{=}\PYG{l+m+mi}{60}\PYG{p}{,}
+    \PYG{n}{Td}\PYG{o}{=}\PYG{l+m+mi}{60}\PYG{p}{,}
+    \PYG{n}{controllerType}\PYG{o}{=}\PYG{n}{Modelica}\PYG{o}{.}\PYG{n}{Blocks}\PYG{o}{.}\PYG{n}{Types}\PYG{o}{.}\PYG{n}{SimpleController}\PYG{o}{.}\PYG{n}{P}\PYG{p}{,}
+    \PYG{n}{k}\PYG{o}{=}\PYG{l+m+mf}{0.5}\PYG{p}{)} \PYG{l+s+s2}{\PYGZdq{}}\PYG{l+s+s2}{Controller for room temperature}\PYG{l+s+s2}{\PYGZdq{}}
+    \PYG{p}{));}
+  \PYG{n}{Buildings}\PYG{o}{.}\PYG{n}{Fluid}\PYG{o}{.}\PYG{n}{FixedResistances}\PYG{o}{.}\PYG{n}{Junction} \PYG{n}{splVal7}\PYG{p}{(}
+    \PYG{n}{m\PYGZus{}flow\PYGZus{}nominal}\PYG{o}{=}\PYG{n}{mRad\PYGZus{}flow\PYGZus{}nominal}\PYG{o}{*}\PYG{p}{\PYGZob{}}\PYG{l+m+mi}{1}\PYG{p}{,}\PYG{o}{\PYGZhy{}}\PYG{l+m+mi}{1}\PYG{p}{,}\PYG{o}{\PYGZhy{}}\PYG{l+m+mi}{1}\PYG{p}{\PYGZcb{},}
+    \PYG{k+kr}{redeclare} \PYG{k+kr}{package} \PYG{n+nc}{Medium} \PYG{o}{=} \PYG{n}{MediumW}\PYG{p}{,}
+    \PYG{n}{dp\PYGZus{}nominal}\PYG{o}{=}\PYG{p}{\PYGZob{}}\PYG{l+m+mi}{0}\PYG{p}{,}\PYG{l+m+mi}{0}\PYG{p}{,}\PYG{l+m+mi}{0}\PYG{p}{\PYGZcb{},}
+    \PYG{n}{energyDynamics}\PYG{o}{=}\PYG{n}{Modelica}\PYG{o}{.}\PYG{n}{Fluid}\PYG{o}{.}\PYG{n}{Types}\PYG{o}{.}\PYG{n}{Dynamics}\PYG{o}{.}\PYG{n}{SteadyState}\PYG{p}{)}
+    \PYG{l+s+s2}{\PYGZdq{}}\PYG{l+s+s2}{Flow splitter}\PYG{l+s+s2}{\PYGZdq{}} \PYG{p}{));}  \PYG{n}{Buildings}\PYG{o}{.}\PYG{n}{Fluid}\PYG{o}{.}\PYG{n}{FixedResistances}\PYG{o}{.}\PYG{n}{Junction} \PYG{n}{splVal8}\PYG{p}{(}
+    \PYG{n}{m\PYGZus{}flow\PYGZus{}nominal}\PYG{o}{=}\PYG{n}{mRad\PYGZus{}flow\PYGZus{}nominal}\PYG{o}{*}\PYG{p}{\PYGZob{}}\PYG{l+m+mi}{1}\PYG{p}{,}\PYG{o}{\PYGZhy{}}\PYG{l+m+mi}{1}\PYG{p}{,}\PYG{o}{\PYGZhy{}}\PYG{l+m+mi}{1}\PYG{p}{\PYGZcb{},}
+    \PYG{k+kr}{redeclare} \PYG{k+kr}{package} \PYG{n+nc}{Medium} \PYG{o}{=} \PYG{n}{MediumW}\PYG{p}{,}
+    \PYG{n}{dp\PYGZus{}nominal}\PYG{o}{=}\PYG{p}{\PYGZob{}}\PYG{l+m+mi}{0}\PYG{p}{,}\PYG{l+m+mi}{0}\PYG{p}{,}\PYG{l+m+mi}{0}\PYG{p}{\PYGZcb{},}
+    \PYG{n}{energyDynamics}\PYG{o}{=}\PYG{n}{Modelica}\PYG{o}{.}\PYG{n}{Fluid}\PYG{o}{.}\PYG{n}{Types}\PYG{o}{.}\PYG{n}{Dynamics}\PYG{o}{.}\PYG{n}{SteadyState}\PYG{p}{)}
+    \PYG{l+s+s2}{\PYGZdq{}}\PYG{l+s+s2}{Flow splitter}\PYG{l+s+s2}{\PYGZdq{}} \PYG{p}{));}  \PYG{n}{Buildings}\PYG{o}{.}\PYG{n}{Fluid}\PYG{o}{.}\PYG{n}{Actuators}\PYG{o}{.}\PYG{n}{Valves}\PYG{o}{.}\PYG{n}{TwoWayEqualPercentage} \PYG{n}{val5}\PYG{p}{(}
+    \PYG{k+kr}{redeclare} \PYG{k+kr}{package} \PYG{n+nc}{Medium} \PYG{o}{=} \PYG{n}{MediumW}\PYG{p}{,}
+    \PYG{n}{allowFlowReversal}\PYG{o}{=}\PYG{k+kc}{false}\PYG{p}{,}
+    \PYG{n}{dpValve\PYGZus{}nominal}\PYG{p}{(}\PYG{n}{displayUnit}\PYG{o}{=}\PYG{l+s+s2}{\PYGZdq{}}\PYG{l+s+s2}{Pa}\PYG{l+s+s2}{\PYGZdq{}}\PYG{p}{)} \PYG{o}{=} \PYG{n}{dpVal\PYGZus{}nominal}\PYG{p}{,}
+    \PYG{n}{m\PYGZus{}flow\PYGZus{}nominal}\PYG{o}{=}\PYG{n}{mRad\PYGZus{}flow\PYGZus{}nominal}\PYG{o}{*}\PYG{p}{(}\PYG{n}{RoomVols}\PYG{p}{[}\PYG{l+m+mi}{5}\PYG{p}{]}\PYG{o}{/}\PYG{n}{TotRoomVols}\PYG{p}{),}
+    \PYG{n}{dpFixed\PYGZus{}nominal}\PYG{o}{=}\PYG{n}{dpRoo\PYGZus{}nominal}\PYG{p}{,}
+    \PYG{n}{from\PYGZus{}dp}\PYG{o}{=}\PYG{k+kc}{true}\PYG{p}{,}
+    \PYG{n}{use\PYGZus{}inputFilter}\PYG{o}{=}\PYG{k+kc}{false}\PYG{p}{)} \PYG{l+s+s2}{\PYGZdq{}}\PYG{l+s+s2}{Radiator valve}\PYG{l+s+s2}{\PYGZdq{}}
+    \PYG{p}{));}
+  \PYG{n}{Buildings}\PYG{o}{.}\PYG{n}{Fluid}\PYG{o}{.}\PYG{n}{HeatExchangers}\PYG{o}{.}\PYG{n}{Radiators}\PYG{o}{.}\PYG{n}{RadiatorEN442\PYGZus{}2} \PYG{n}{rad5}\PYG{p}{(}
+    \PYG{k+kr}{redeclare} \PYG{k+kr}{package} \PYG{n+nc}{Medium} \PYG{o}{=} \PYG{n}{MediumW}\PYG{p}{,}
+    \PYG{n}{allowFlowReversal}\PYG{o}{=}\PYG{k+kc}{false}\PYG{p}{,}
+    \PYG{n}{fraRad}\PYG{o}{=}\PYG{l+m+mi}{0}\PYG{p}{,}
+    \PYG{n}{Q\PYGZus{}flow\PYGZus{}nominal}\PYG{o}{=}\PYG{n}{scaFacRad}\PYG{o}{*}\PYG{n}{Q\PYGZus{}flow\PYGZus{}nominal}\PYG{o}{*}\PYG{p}{(}\PYG{n}{RoomVols}\PYG{p}{[}\PYG{l+m+mi}{5}\PYG{p}{]}\PYG{o}{/}\PYG{n}{TotRoomVols}\PYG{p}{),}
+    \PYG{n}{energyDynamics}\PYG{o}{=}\PYG{n}{Modelica}\PYG{o}{.}\PYG{n}{Fluid}\PYG{o}{.}\PYG{n}{Types}\PYG{o}{.}\PYG{n}{Dynamics}\PYG{o}{.}\PYG{n}{FixedInitial}\PYG{p}{,}
+    \PYG{n}{T\PYGZus{}a\PYGZus{}nominal}\PYG{o}{=}\PYG{l+m+mf}{323.15}\PYG{p}{,}
+    \PYG{n}{T\PYGZus{}b\PYGZus{}nominal}\PYG{o}{=}\PYG{l+m+mf}{313.15}\PYG{p}{,}
+    \PYG{n}{n}\PYG{o}{=}\PYG{l+m+mf}{1.3}\PYG{p}{)} \PYG{l+s+s2}{\PYGZdq{}}\PYG{l+s+s2}{Radiator}\PYG{l+s+s2}{\PYGZdq{}}
+    \PYG{p}{));}
+  \PYG{n}{Modelica}\PYG{o}{.}\PYG{n}{Thermal}\PYG{o}{.}\PYG{n}{HeatTransfer}\PYG{o}{.}\PYG{n}{Sensors}\PYG{o}{.}\PYG{n}{TemperatureSensor} \PYG{n}{TRoo5}
+    \PYG{p}{));}
+  \PYG{n}{Buildings}\PYG{o}{.}\PYG{n}{Controls}\PYG{o}{.}\PYG{n}{OBC}\PYG{o}{.}\PYG{n}{CDL}\PYG{o}{.}\PYG{n}{Continuous}\PYG{o}{.}\PYG{n}{PID} \PYG{n}{conRoo5}\PYG{p}{(}
+    \PYG{n}{yMax}\PYG{o}{=}\PYG{l+m+mi}{1}\PYG{p}{,}
+    \PYG{n}{yMin}\PYG{o}{=}\PYG{l+m+mi}{0}\PYG{p}{,}
+    \PYG{n}{Ti}\PYG{o}{=}\PYG{l+m+mi}{60}\PYG{p}{,}
+    \PYG{n}{Td}\PYG{o}{=}\PYG{l+m+mi}{60}\PYG{p}{,}
+    \PYG{n}{controllerType}\PYG{o}{=}\PYG{n}{Modelica}\PYG{o}{.}\PYG{n}{Blocks}\PYG{o}{.}\PYG{n}{Types}\PYG{o}{.}\PYG{n}{SimpleController}\PYG{o}{.}\PYG{n}{P}\PYG{p}{,}
+    \PYG{n}{k}\PYG{o}{=}\PYG{l+m+mf}{0.5}\PYG{p}{)} \PYG{l+s+s2}{\PYGZdq{}}\PYG{l+s+s2}{Controller for room temperature}\PYG{l+s+s2}{\PYGZdq{}}
+    \PYG{p}{));}
+  \PYG{n}{Buildings}\PYG{o}{.}\PYG{n}{Fluid}\PYG{o}{.}\PYG{n}{FixedResistances}\PYG{o}{.}\PYG{n}{Junction} \PYG{n}{splVal9}\PYG{p}{(}
+    \PYG{n}{m\PYGZus{}flow\PYGZus{}nominal}\PYG{o}{=}\PYG{n}{mRad\PYGZus{}flow\PYGZus{}nominal}\PYG{o}{*}\PYG{p}{\PYGZob{}}\PYG{l+m+mi}{1}\PYG{p}{,}\PYG{o}{\PYGZhy{}}\PYG{l+m+mi}{1}\PYG{p}{,}\PYG{o}{\PYGZhy{}}\PYG{l+m+mi}{1}\PYG{p}{\PYGZcb{},}
+    \PYG{k+kr}{redeclare} \PYG{k+kr}{package} \PYG{n+nc}{Medium} \PYG{o}{=} \PYG{n}{MediumW}\PYG{p}{,}
+    \PYG{n}{dp\PYGZus{}nominal}\PYG{o}{=}\PYG{p}{\PYGZob{}}\PYG{l+m+mi}{0}\PYG{p}{,}\PYG{l+m+mi}{0}\PYG{p}{,}\PYG{l+m+mi}{0}\PYG{p}{\PYGZcb{},}
+    \PYG{n}{energyDynamics}\PYG{o}{=}\PYG{n}{Modelica}\PYG{o}{.}\PYG{n}{Fluid}\PYG{o}{.}\PYG{n}{Types}\PYG{o}{.}\PYG{n}{Dynamics}\PYG{o}{.}\PYG{n}{SteadyState}\PYG{p}{)}
+    \PYG{l+s+s2}{\PYGZdq{}}\PYG{l+s+s2}{Flow splitter}\PYG{l+s+s2}{\PYGZdq{}} \PYG{p}{));}  \PYG{n}{Buildings}\PYG{o}{.}\PYG{n}{Fluid}\PYG{o}{.}\PYG{n}{FixedResistances}\PYG{o}{.}\PYG{n}{Junction} \PYG{n}{splVal10}\PYG{p}{(}
+    \PYG{n}{m\PYGZus{}flow\PYGZus{}nominal}\PYG{o}{=}\PYG{n}{mRad\PYGZus{}flow\PYGZus{}nominal}\PYG{o}{*}\PYG{p}{\PYGZob{}}\PYG{l+m+mi}{1}\PYG{p}{,}\PYG{o}{\PYGZhy{}}\PYG{l+m+mi}{1}\PYG{p}{,}\PYG{o}{\PYGZhy{}}\PYG{l+m+mi}{1}\PYG{p}{\PYGZcb{},}
+    \PYG{k+kr}{redeclare} \PYG{k+kr}{package} \PYG{n+nc}{Medium} \PYG{o}{=} \PYG{n}{MediumW}\PYG{p}{,}
+    \PYG{n}{dp\PYGZus{}nominal}\PYG{o}{=}\PYG{p}{\PYGZob{}}\PYG{l+m+mi}{0}\PYG{p}{,}\PYG{l+m+mi}{0}\PYG{p}{,}\PYG{l+m+mi}{0}\PYG{p}{\PYGZcb{},}
+    \PYG{n}{energyDynamics}\PYG{o}{=}\PYG{n}{Modelica}\PYG{o}{.}\PYG{n}{Fluid}\PYG{o}{.}\PYG{n}{Types}\PYG{o}{.}\PYG{n}{Dynamics}\PYG{o}{.}\PYG{n}{SteadyState}\PYG{p}{)}
+    \PYG{l+s+s2}{\PYGZdq{}}\PYG{l+s+s2}{Flow splitter}\PYG{l+s+s2}{\PYGZdq{}} \PYG{p}{));}  \PYG{n}{Buildings}\PYG{o}{.}\PYG{n}{Fluid}\PYG{o}{.}\PYG{n}{Actuators}\PYG{o}{.}\PYG{n}{Valves}\PYG{o}{.}\PYG{n}{TwoWayEqualPercentage} \PYG{n}{val6}\PYG{p}{(}
+    \PYG{k+kr}{redeclare} \PYG{k+kr}{package} \PYG{n+nc}{Medium} \PYG{o}{=} \PYG{n}{MediumW}\PYG{p}{,}
+    \PYG{n}{allowFlowReversal}\PYG{o}{=}\PYG{k+kc}{false}\PYG{p}{,}
+    \PYG{n}{dpValve\PYGZus{}nominal}\PYG{p}{(}\PYG{n}{displayUnit}\PYG{o}{=}\PYG{l+s+s2}{\PYGZdq{}}\PYG{l+s+s2}{Pa}\PYG{l+s+s2}{\PYGZdq{}}\PYG{p}{)} \PYG{o}{=} \PYG{n}{dpVal\PYGZus{}nominal}\PYG{p}{,}
+    \PYG{n}{m\PYGZus{}flow\PYGZus{}nominal}\PYG{o}{=}\PYG{n}{mRad\PYGZus{}flow\PYGZus{}nominal}\PYG{o}{*}\PYG{p}{(}\PYG{n}{RoomVols}\PYG{p}{[}\PYG{l+m+mi}{6}\PYG{p}{]}\PYG{o}{/}\PYG{n}{TotRoomVols}\PYG{p}{),}
+    \PYG{n}{dpFixed\PYGZus{}nominal}\PYG{o}{=}\PYG{n}{dpRoo\PYGZus{}nominal}\PYG{p}{,}
+    \PYG{n}{from\PYGZus{}dp}\PYG{o}{=}\PYG{k+kc}{true}\PYG{p}{,}
+    \PYG{n}{use\PYGZus{}inputFilter}\PYG{o}{=}\PYG{k+kc}{false}\PYG{p}{)} \PYG{l+s+s2}{\PYGZdq{}}\PYG{l+s+s2}{Radiator valve}\PYG{l+s+s2}{\PYGZdq{}}
+    \PYG{p}{));}
+  \PYG{n}{Buildings}\PYG{o}{.}\PYG{n}{Fluid}\PYG{o}{.}\PYG{n}{HeatExchangers}\PYG{o}{.}\PYG{n}{Radiators}\PYG{o}{.}\PYG{n}{RadiatorEN442\PYGZus{}2} \PYG{n}{rad6}\PYG{p}{(}
+    \PYG{k+kr}{redeclare} \PYG{k+kr}{package} \PYG{n+nc}{Medium} \PYG{o}{=} \PYG{n}{MediumW}\PYG{p}{,}
+    \PYG{n}{allowFlowReversal}\PYG{o}{=}\PYG{k+kc}{false}\PYG{p}{,}
+    \PYG{n}{fraRad}\PYG{o}{=}\PYG{l+m+mi}{0}\PYG{p}{,}
+    \PYG{n}{Q\PYGZus{}flow\PYGZus{}nominal}\PYG{o}{=}\PYG{n}{scaFacRad}\PYG{o}{*}\PYG{n}{Q\PYGZus{}flow\PYGZus{}nominal}\PYG{o}{*}\PYG{p}{(}\PYG{n}{RoomVols}\PYG{p}{[}\PYG{l+m+mi}{6}\PYG{p}{]}\PYG{o}{/}\PYG{n}{TotRoomVols}\PYG{p}{),}
+    \PYG{n}{energyDynamics}\PYG{o}{=}\PYG{n}{Modelica}\PYG{o}{.}\PYG{n}{Fluid}\PYG{o}{.}\PYG{n}{Types}\PYG{o}{.}\PYG{n}{Dynamics}\PYG{o}{.}\PYG{n}{FixedInitial}\PYG{p}{,}
+    \PYG{n}{T\PYGZus{}a\PYGZus{}nominal}\PYG{o}{=}\PYG{l+m+mf}{323.15}\PYG{p}{,}
+    \PYG{n}{T\PYGZus{}b\PYGZus{}nominal}\PYG{o}{=}\PYG{l+m+mf}{313.15}\PYG{p}{,}
+    \PYG{n}{n}\PYG{o}{=}\PYG{l+m+mf}{1.3}\PYG{p}{)} \PYG{l+s+s2}{\PYGZdq{}}\PYG{l+s+s2}{Radiator}\PYG{l+s+s2}{\PYGZdq{}}
+    \PYG{p}{));}
+  \PYG{n}{Modelica}\PYG{o}{.}\PYG{n}{Thermal}\PYG{o}{.}\PYG{n}{HeatTransfer}\PYG{o}{.}\PYG{n}{Sensors}\PYG{o}{.}\PYG{n}{TemperatureSensor} \PYG{n}{TRoo6}
+    \PYG{p}{));}
+  \PYG{n}{Buildings}\PYG{o}{.}\PYG{n}{Controls}\PYG{o}{.}\PYG{n}{OBC}\PYG{o}{.}\PYG{n}{CDL}\PYG{o}{.}\PYG{n}{Continuous}\PYG{o}{.}\PYG{n}{PID} \PYG{n}{conRoo6}\PYG{p}{(}
+    \PYG{n}{yMax}\PYG{o}{=}\PYG{l+m+mi}{1}\PYG{p}{,}
+    \PYG{n}{yMin}\PYG{o}{=}\PYG{l+m+mi}{0}\PYG{p}{,}
+    \PYG{n}{Ti}\PYG{o}{=}\PYG{l+m+mi}{60}\PYG{p}{,}
+    \PYG{n}{Td}\PYG{o}{=}\PYG{l+m+mi}{60}\PYG{p}{,}
+    \PYG{n}{controllerType}\PYG{o}{=}\PYG{n}{Modelica}\PYG{o}{.}\PYG{n}{Blocks}\PYG{o}{.}\PYG{n}{Types}\PYG{o}{.}\PYG{n}{SimpleController}\PYG{o}{.}\PYG{n}{P}\PYG{p}{,}
+    \PYG{n}{k}\PYG{o}{=}\PYG{l+m+mf}{0.5}\PYG{p}{)} \PYG{l+s+s2}{\PYGZdq{}}\PYG{l+s+s2}{Controller for room temperature}\PYG{l+s+s2}{\PYGZdq{}}
+    \PYG{p}{));}
+  \PYG{n}{Buildings}\PYG{o}{.}\PYG{n}{Fluid}\PYG{o}{.}\PYG{n}{FixedResistances}\PYG{o}{.}\PYG{n}{Junction} \PYG{n}{splVal11}\PYG{p}{(}
+    \PYG{n}{m\PYGZus{}flow\PYGZus{}nominal}\PYG{o}{=}\PYG{n}{mRad\PYGZus{}flow\PYGZus{}nominal}\PYG{o}{*}\PYG{p}{\PYGZob{}}\PYG{l+m+mi}{1}\PYG{p}{,}\PYG{o}{\PYGZhy{}}\PYG{l+m+mi}{1}\PYG{p}{,}\PYG{o}{\PYGZhy{}}\PYG{l+m+mi}{1}\PYG{p}{\PYGZcb{},}
+    \PYG{k+kr}{redeclare} \PYG{k+kr}{package} \PYG{n+nc}{Medium} \PYG{o}{=} \PYG{n}{MediumW}\PYG{p}{,}
+    \PYG{n}{dp\PYGZus{}nominal}\PYG{o}{=}\PYG{p}{\PYGZob{}}\PYG{l+m+mi}{0}\PYG{p}{,}\PYG{l+m+mi}{0}\PYG{p}{,}\PYG{l+m+mi}{0}\PYG{p}{\PYGZcb{},}
+    \PYG{n}{energyDynamics}\PYG{o}{=}\PYG{n}{Modelica}\PYG{o}{.}\PYG{n}{Fluid}\PYG{o}{.}\PYG{n}{Types}\PYG{o}{.}\PYG{n}{Dynamics}\PYG{o}{.}\PYG{n}{SteadyState}\PYG{p}{)}
+    \PYG{l+s+s2}{\PYGZdq{}}\PYG{l+s+s2}{Flow splitter}\PYG{l+s+s2}{\PYGZdq{}} \PYG{p}{));}  \PYG{n}{Buildings}\PYG{o}{.}\PYG{n}{Fluid}\PYG{o}{.}\PYG{n}{FixedResistances}\PYG{o}{.}\PYG{n}{Junction} \PYG{n}{splVal12}\PYG{p}{(}
+    \PYG{n}{m\PYGZus{}flow\PYGZus{}nominal}\PYG{o}{=}\PYG{n}{mRad\PYGZus{}flow\PYGZus{}nominal}\PYG{o}{*}\PYG{p}{\PYGZob{}}\PYG{l+m+mi}{1}\PYG{p}{,}\PYG{o}{\PYGZhy{}}\PYG{l+m+mi}{1}\PYG{p}{,}\PYG{o}{\PYGZhy{}}\PYG{l+m+mi}{1}\PYG{p}{\PYGZcb{},}
+    \PYG{k+kr}{redeclare} \PYG{k+kr}{package} \PYG{n+nc}{Medium} \PYG{o}{=} \PYG{n}{MediumW}\PYG{p}{,}
+    \PYG{n}{dp\PYGZus{}nominal}\PYG{o}{=}\PYG{p}{\PYGZob{}}\PYG{l+m+mi}{0}\PYG{p}{,}\PYG{l+m+mi}{0}\PYG{p}{,}\PYG{l+m+mi}{0}\PYG{p}{\PYGZcb{},}
+    \PYG{n}{energyDynamics}\PYG{o}{=}\PYG{n}{Modelica}\PYG{o}{.}\PYG{n}{Fluid}\PYG{o}{.}\PYG{n}{Types}\PYG{o}{.}\PYG{n}{Dynamics}\PYG{o}{.}\PYG{n}{SteadyState}\PYG{p}{)}
+    \PYG{l+s+s2}{\PYGZdq{}}\PYG{l+s+s2}{Flow splitter}\PYG{l+s+s2}{\PYGZdq{}} \PYG{p}{));}  \PYG{n}{Buildings}\PYG{o}{.}\PYG{n}{Fluid}\PYG{o}{.}\PYG{n}{Actuators}\PYG{o}{.}\PYG{n}{Valves}\PYG{o}{.}\PYG{n}{TwoWayEqualPercentage} \PYG{n}{val7}\PYG{p}{(}
+    \PYG{k+kr}{redeclare} \PYG{k+kr}{package} \PYG{n+nc}{Medium} \PYG{o}{=} \PYG{n}{MediumW}\PYG{p}{,}
+    \PYG{n}{allowFlowReversal}\PYG{o}{=}\PYG{k+kc}{false}\PYG{p}{,}
+    \PYG{n}{dpValve\PYGZus{}nominal}\PYG{p}{(}\PYG{n}{displayUnit}\PYG{o}{=}\PYG{l+s+s2}{\PYGZdq{}}\PYG{l+s+s2}{Pa}\PYG{l+s+s2}{\PYGZdq{}}\PYG{p}{)} \PYG{o}{=} \PYG{n}{dpVal\PYGZus{}nominal}\PYG{p}{,}
+    \PYG{n}{m\PYGZus{}flow\PYGZus{}nominal}\PYG{o}{=}\PYG{n}{mRad\PYGZus{}flow\PYGZus{}nominal}\PYG{o}{*}\PYG{p}{(}\PYG{n}{RoomVols}\PYG{p}{[}\PYG{l+m+mi}{7}\PYG{p}{]}\PYG{o}{/}\PYG{n}{TotRoomVols}\PYG{p}{),}
+    \PYG{n}{dpFixed\PYGZus{}nominal}\PYG{o}{=}\PYG{n}{dpRoo\PYGZus{}nominal}\PYG{p}{,}
+    \PYG{n}{from\PYGZus{}dp}\PYG{o}{=}\PYG{k+kc}{true}\PYG{p}{,}
+    \PYG{n}{use\PYGZus{}inputFilter}\PYG{o}{=}\PYG{k+kc}{false}\PYG{p}{)} \PYG{l+s+s2}{\PYGZdq{}}\PYG{l+s+s2}{Radiator valve}\PYG{l+s+s2}{\PYGZdq{}}
+    \PYG{p}{));}
+  \PYG{n}{Buildings}\PYG{o}{.}\PYG{n}{Fluid}\PYG{o}{.}\PYG{n}{HeatExchangers}\PYG{o}{.}\PYG{n}{Radiators}\PYG{o}{.}\PYG{n}{RadiatorEN442\PYGZus{}2} \PYG{n}{rad7}\PYG{p}{(}
+    \PYG{k+kr}{redeclare} \PYG{k+kr}{package} \PYG{n+nc}{Medium} \PYG{o}{=} \PYG{n}{MediumW}\PYG{p}{,}
+    \PYG{n}{allowFlowReversal}\PYG{o}{=}\PYG{k+kc}{false}\PYG{p}{,}
+    \PYG{n}{fraRad}\PYG{o}{=}\PYG{l+m+mi}{0}\PYG{p}{,}
+    \PYG{n}{Q\PYGZus{}flow\PYGZus{}nominal}\PYG{o}{=}\PYG{n}{scaFacRad}\PYG{o}{*}\PYG{n}{Q\PYGZus{}flow\PYGZus{}nominal}\PYG{o}{*}\PYG{p}{(}\PYG{n}{RoomVols}\PYG{p}{[}\PYG{l+m+mi}{7}\PYG{p}{]}\PYG{o}{/}\PYG{n}{TotRoomVols}\PYG{p}{),}
+    \PYG{n}{energyDynamics}\PYG{o}{=}\PYG{n}{Modelica}\PYG{o}{.}\PYG{n}{Fluid}\PYG{o}{.}\PYG{n}{Types}\PYG{o}{.}\PYG{n}{Dynamics}\PYG{o}{.}\PYG{n}{FixedInitial}\PYG{p}{,}
+    \PYG{n}{T\PYGZus{}a\PYGZus{}nominal}\PYG{o}{=}\PYG{l+m+mf}{323.15}\PYG{p}{,}
+    \PYG{n}{T\PYGZus{}b\PYGZus{}nominal}\PYG{o}{=}\PYG{l+m+mf}{313.15}\PYG{p}{,}
+    \PYG{n}{n}\PYG{o}{=}\PYG{l+m+mf}{1.3}\PYG{p}{)} \PYG{l+s+s2}{\PYGZdq{}}\PYG{l+s+s2}{Radiator}\PYG{l+s+s2}{\PYGZdq{}}
+    \PYG{p}{));}
+  \PYG{n}{Modelica}\PYG{o}{.}\PYG{n}{Thermal}\PYG{o}{.}\PYG{n}{HeatTransfer}\PYG{o}{.}\PYG{n}{Sensors}\PYG{o}{.}\PYG{n}{TemperatureSensor} \PYG{n}{TRoo7}
+    \PYG{p}{));}
+  \PYG{n}{Buildings}\PYG{o}{.}\PYG{n}{Controls}\PYG{o}{.}\PYG{n}{OBC}\PYG{o}{.}\PYG{n}{CDL}\PYG{o}{.}\PYG{n}{Continuous}\PYG{o}{.}\PYG{n}{PID} \PYG{n}{conRoo7}\PYG{p}{(}
+    \PYG{n}{yMax}\PYG{o}{=}\PYG{l+m+mi}{1}\PYG{p}{,}
+    \PYG{n}{yMin}\PYG{o}{=}\PYG{l+m+mi}{0}\PYG{p}{,}
+    \PYG{n}{Ti}\PYG{o}{=}\PYG{l+m+mi}{60}\PYG{p}{,}
+    \PYG{n}{Td}\PYG{o}{=}\PYG{l+m+mi}{60}\PYG{p}{,}
+    \PYG{n}{controllerType}\PYG{o}{=}\PYG{n}{Modelica}\PYG{o}{.}\PYG{n}{Blocks}\PYG{o}{.}\PYG{n}{Types}\PYG{o}{.}\PYG{n}{SimpleController}\PYG{o}{.}\PYG{n}{P}\PYG{p}{,}
+    \PYG{n}{k}\PYG{o}{=}\PYG{l+m+mf}{0.5}\PYG{p}{)} \PYG{l+s+s2}{\PYGZdq{}}\PYG{l+s+s2}{Controller for room temperature}\PYG{l+s+s2}{\PYGZdq{}}
+    \PYG{p}{));}
+  \PYG{n}{Buildings}\PYG{o}{.}\PYG{n}{Fluid}\PYG{o}{.}\PYG{n}{FixedResistances}\PYG{o}{.}\PYG{n}{Junction} \PYG{n}{splVal13}\PYG{p}{(}
+    \PYG{n}{m\PYGZus{}flow\PYGZus{}nominal}\PYG{o}{=}\PYG{n}{mRad\PYGZus{}flow\PYGZus{}nominal}\PYG{o}{*}\PYG{p}{\PYGZob{}}\PYG{l+m+mi}{1}\PYG{p}{,}\PYG{o}{\PYGZhy{}}\PYG{l+m+mi}{1}\PYG{p}{,}\PYG{o}{\PYGZhy{}}\PYG{l+m+mi}{1}\PYG{p}{\PYGZcb{},}
+    \PYG{k+kr}{redeclare} \PYG{k+kr}{package} \PYG{n+nc}{Medium} \PYG{o}{=} \PYG{n}{MediumW}\PYG{p}{,}
+    \PYG{n}{dp\PYGZus{}nominal}\PYG{o}{=}\PYG{p}{\PYGZob{}}\PYG{l+m+mi}{0}\PYG{p}{,}\PYG{l+m+mi}{0}\PYG{p}{,}\PYG{l+m+mi}{0}\PYG{p}{\PYGZcb{},}
+    \PYG{n}{energyDynamics}\PYG{o}{=}\PYG{n}{Modelica}\PYG{o}{.}\PYG{n}{Fluid}\PYG{o}{.}\PYG{n}{Types}\PYG{o}{.}\PYG{n}{Dynamics}\PYG{o}{.}\PYG{n}{SteadyState}\PYG{p}{)}
+    \PYG{l+s+s2}{\PYGZdq{}}\PYG{l+s+s2}{Flow splitter}\PYG{l+s+s2}{\PYGZdq{}} \PYG{p}{));}  \PYG{n}{Buildings}\PYG{o}{.}\PYG{n}{Fluid}\PYG{o}{.}\PYG{n}{FixedResistances}\PYG{o}{.}\PYG{n}{Junction} \PYG{n}{splVal14}\PYG{p}{(}
+    \PYG{n}{m\PYGZus{}flow\PYGZus{}nominal}\PYG{o}{=}\PYG{n}{mRad\PYGZus{}flow\PYGZus{}nominal}\PYG{o}{*}\PYG{p}{\PYGZob{}}\PYG{l+m+mi}{1}\PYG{p}{,}\PYG{o}{\PYGZhy{}}\PYG{l+m+mi}{1}\PYG{p}{,}\PYG{o}{\PYGZhy{}}\PYG{l+m+mi}{1}\PYG{p}{\PYGZcb{},}
+    \PYG{k+kr}{redeclare} \PYG{k+kr}{package} \PYG{n+nc}{Medium} \PYG{o}{=} \PYG{n}{MediumW}\PYG{p}{,}
+    \PYG{n}{dp\PYGZus{}nominal}\PYG{o}{=}\PYG{p}{\PYGZob{}}\PYG{l+m+mi}{0}\PYG{p}{,}\PYG{l+m+mi}{0}\PYG{p}{,}\PYG{l+m+mi}{0}\PYG{p}{\PYGZcb{},}
+    \PYG{n}{energyDynamics}\PYG{o}{=}\PYG{n}{Modelica}\PYG{o}{.}\PYG{n}{Fluid}\PYG{o}{.}\PYG{n}{Types}\PYG{o}{.}\PYG{n}{Dynamics}\PYG{o}{.}\PYG{n}{SteadyState}\PYG{p}{)}
+    \PYG{l+s+s2}{\PYGZdq{}}\PYG{l+s+s2}{Flow splitter}\PYG{l+s+s2}{\PYGZdq{}} \PYG{p}{));}  \PYG{n}{Buildings}\PYG{o}{.}\PYG{n}{Fluid}\PYG{o}{.}\PYG{n}{Actuators}\PYG{o}{.}\PYG{n}{Valves}\PYG{o}{.}\PYG{n}{TwoWayEqualPercentage} \PYG{n}{val8}\PYG{p}{(}
+    \PYG{k+kr}{redeclare} \PYG{k+kr}{package} \PYG{n+nc}{Medium} \PYG{o}{=} \PYG{n}{MediumW}\PYG{p}{,}
+    \PYG{n}{allowFlowReversal}\PYG{o}{=}\PYG{k+kc}{false}\PYG{p}{,}
+    \PYG{n}{dpValve\PYGZus{}nominal}\PYG{p}{(}\PYG{n}{displayUnit}\PYG{o}{=}\PYG{l+s+s2}{\PYGZdq{}}\PYG{l+s+s2}{Pa}\PYG{l+s+s2}{\PYGZdq{}}\PYG{p}{)} \PYG{o}{=} \PYG{n}{dpVal\PYGZus{}nominal}\PYG{p}{,}
+    \PYG{n}{m\PYGZus{}flow\PYGZus{}nominal}\PYG{o}{=}\PYG{n}{mRad\PYGZus{}flow\PYGZus{}nominal}\PYG{o}{*}\PYG{p}{(}\PYG{n}{RoomVols}\PYG{p}{[}\PYG{l+m+mi}{8}\PYG{p}{]}\PYG{o}{/}\PYG{n}{TotRoomVols}\PYG{p}{),}
+    \PYG{n}{dpFixed\PYGZus{}nominal}\PYG{o}{=}\PYG{n}{dpRoo\PYGZus{}nominal}\PYG{p}{,}
+    \PYG{n}{from\PYGZus{}dp}\PYG{o}{=}\PYG{k+kc}{true}\PYG{p}{,}
+    \PYG{n}{use\PYGZus{}inputFilter}\PYG{o}{=}\PYG{k+kc}{false}\PYG{p}{)} \PYG{l+s+s2}{\PYGZdq{}}\PYG{l+s+s2}{Radiator valve}\PYG{l+s+s2}{\PYGZdq{}}
+    \PYG{p}{));}
+  \PYG{n}{Buildings}\PYG{o}{.}\PYG{n}{Fluid}\PYG{o}{.}\PYG{n}{HeatExchangers}\PYG{o}{.}\PYG{n}{Radiators}\PYG{o}{.}\PYG{n}{RadiatorEN442\PYGZus{}2} \PYG{n}{rad8}\PYG{p}{(}
+    \PYG{k+kr}{redeclare} \PYG{k+kr}{package} \PYG{n+nc}{Medium} \PYG{o}{=} \PYG{n}{MediumW}\PYG{p}{,}
+    \PYG{n}{allowFlowReversal}\PYG{o}{=}\PYG{k+kc}{false}\PYG{p}{,}
+    \PYG{n}{fraRad}\PYG{o}{=}\PYG{l+m+mi}{0}\PYG{p}{,}
+    \PYG{n}{Q\PYGZus{}flow\PYGZus{}nominal}\PYG{o}{=}\PYG{n}{scaFacRad}\PYG{o}{*}\PYG{n}{Q\PYGZus{}flow\PYGZus{}nominal}\PYG{o}{*}\PYG{p}{(}\PYG{n}{RoomVols}\PYG{p}{[}\PYG{l+m+mi}{8}\PYG{p}{]}\PYG{o}{/}\PYG{n}{TotRoomVols}\PYG{p}{),}
+    \PYG{n}{energyDynamics}\PYG{o}{=}\PYG{n}{Modelica}\PYG{o}{.}\PYG{n}{Fluid}\PYG{o}{.}\PYG{n}{Types}\PYG{o}{.}\PYG{n}{Dynamics}\PYG{o}{.}\PYG{n}{FixedInitial}\PYG{p}{,}
+    \PYG{n}{T\PYGZus{}a\PYGZus{}nominal}\PYG{o}{=}\PYG{l+m+mf}{323.15}\PYG{p}{,}
+    \PYG{n}{T\PYGZus{}b\PYGZus{}nominal}\PYG{o}{=}\PYG{l+m+mf}{313.15}\PYG{p}{,}
+    \PYG{n}{n}\PYG{o}{=}\PYG{l+m+mf}{1.3}\PYG{p}{)} \PYG{l+s+s2}{\PYGZdq{}}\PYG{l+s+s2}{Radiator}\PYG{l+s+s2}{\PYGZdq{}}
+    \PYG{p}{));}
+  \PYG{n}{Modelica}\PYG{o}{.}\PYG{n}{Thermal}\PYG{o}{.}\PYG{n}{HeatTransfer}\PYG{o}{.}\PYG{n}{Sensors}\PYG{o}{.}\PYG{n}{TemperatureSensor} \PYG{n}{TRoo8}
+    \PYG{p}{));}
+  \PYG{n}{Buildings}\PYG{o}{.}\PYG{n}{Controls}\PYG{o}{.}\PYG{n}{OBC}\PYG{o}{.}\PYG{n}{CDL}\PYG{o}{.}\PYG{n}{Continuous}\PYG{o}{.}\PYG{n}{PID} \PYG{n}{conRoo8}\PYG{p}{(}
+    \PYG{n}{yMax}\PYG{o}{=}\PYG{l+m+mi}{1}\PYG{p}{,}
+    \PYG{n}{yMin}\PYG{o}{=}\PYG{l+m+mi}{0}\PYG{p}{,}
+    \PYG{n}{Ti}\PYG{o}{=}\PYG{l+m+mi}{60}\PYG{p}{,}
+    \PYG{n}{Td}\PYG{o}{=}\PYG{l+m+mi}{60}\PYG{p}{,}
+    \PYG{n}{controllerType}\PYG{o}{=}\PYG{n}{Modelica}\PYG{o}{.}\PYG{n}{Blocks}\PYG{o}{.}\PYG{n}{Types}\PYG{o}{.}\PYG{n}{SimpleController}\PYG{o}{.}\PYG{n}{P}\PYG{p}{,}
+    \PYG{n}{k}\PYG{o}{=}\PYG{l+m+mf}{0.5}\PYG{p}{)} \PYG{l+s+s2}{\PYGZdq{}}\PYG{l+s+s2}{Controller for room temperature}\PYG{l+s+s2}{\PYGZdq{}}
+    \PYG{p}{));}
+  \PYG{n}{Buildings}\PYG{o}{.}\PYG{n}{Fluid}\PYG{o}{.}\PYG{n}{FixedResistances}\PYG{o}{.}\PYG{n}{Junction} \PYG{n}{splVal15}\PYG{p}{(}
+    \PYG{n}{m\PYGZus{}flow\PYGZus{}nominal}\PYG{o}{=}\PYG{n}{mRad\PYGZus{}flow\PYGZus{}nominal}\PYG{o}{*}\PYG{p}{\PYGZob{}}\PYG{l+m+mi}{1}\PYG{p}{,}\PYG{o}{\PYGZhy{}}\PYG{l+m+mi}{1}\PYG{p}{,}\PYG{o}{\PYGZhy{}}\PYG{l+m+mi}{1}\PYG{p}{\PYGZcb{},}
+    \PYG{k+kr}{redeclare} \PYG{k+kr}{package} \PYG{n+nc}{Medium} \PYG{o}{=} \PYG{n}{MediumW}\PYG{p}{,}
+    \PYG{n}{dp\PYGZus{}nominal}\PYG{o}{=}\PYG{p}{\PYGZob{}}\PYG{l+m+mi}{0}\PYG{p}{,}\PYG{l+m+mi}{0}\PYG{p}{,}\PYG{l+m+mi}{0}\PYG{p}{\PYGZcb{},}
+    \PYG{n}{energyDynamics}\PYG{o}{=}\PYG{n}{Modelica}\PYG{o}{.}\PYG{n}{Fluid}\PYG{o}{.}\PYG{n}{Types}\PYG{o}{.}\PYG{n}{Dynamics}\PYG{o}{.}\PYG{n}{SteadyState}\PYG{p}{)}
+    \PYG{l+s+s2}{\PYGZdq{}}\PYG{l+s+s2}{Flow splitter}\PYG{l+s+s2}{\PYGZdq{}} \PYG{p}{));}  \PYG{n}{Buildings}\PYG{o}{.}\PYG{n}{Fluid}\PYG{o}{.}\PYG{n}{FixedResistances}\PYG{o}{.}\PYG{n}{Junction} \PYG{n}{splVal16}\PYG{p}{(}
+    \PYG{n}{m\PYGZus{}flow\PYGZus{}nominal}\PYG{o}{=}\PYG{n}{mRad\PYGZus{}flow\PYGZus{}nominal}\PYG{o}{*}\PYG{p}{\PYGZob{}}\PYG{l+m+mi}{1}\PYG{p}{,}\PYG{o}{\PYGZhy{}}\PYG{l+m+mi}{1}\PYG{p}{,}\PYG{o}{\PYGZhy{}}\PYG{l+m+mi}{1}\PYG{p}{\PYGZcb{},}
+    \PYG{k+kr}{redeclare} \PYG{k+kr}{package} \PYG{n+nc}{Medium} \PYG{o}{=} \PYG{n}{MediumW}\PYG{p}{,}
+    \PYG{n}{dp\PYGZus{}nominal}\PYG{o}{=}\PYG{p}{\PYGZob{}}\PYG{l+m+mi}{0}\PYG{p}{,}\PYG{l+m+mi}{0}\PYG{p}{,}\PYG{l+m+mi}{0}\PYG{p}{\PYGZcb{},}
+    \PYG{n}{energyDynamics}\PYG{o}{=}\PYG{n}{Modelica}\PYG{o}{.}\PYG{n}{Fluid}\PYG{o}{.}\PYG{n}{Types}\PYG{o}{.}\PYG{n}{Dynamics}\PYG{o}{.}\PYG{n}{SteadyState}\PYG{p}{)}
+    \PYG{l+s+s2}{\PYGZdq{}}\PYG{l+s+s2}{Flow splitter}\PYG{l+s+s2}{\PYGZdq{}} \PYG{p}{));}  \PYG{n}{Buildings}\PYG{o}{.}\PYG{n}{Fluid}\PYG{o}{.}\PYG{n}{Actuators}\PYG{o}{.}\PYG{n}{Valves}\PYG{o}{.}\PYG{n}{TwoWayEqualPercentage} \PYG{n}{val9}\PYG{p}{(}
+    \PYG{k+kr}{redeclare} \PYG{k+kr}{package} \PYG{n+nc}{Medium} \PYG{o}{=} \PYG{n}{MediumW}\PYG{p}{,}
+    \PYG{n}{allowFlowReversal}\PYG{o}{=}\PYG{k+kc}{false}\PYG{p}{,}
+    \PYG{n}{dpValve\PYGZus{}nominal}\PYG{p}{(}\PYG{n}{displayUnit}\PYG{o}{=}\PYG{l+s+s2}{\PYGZdq{}}\PYG{l+s+s2}{Pa}\PYG{l+s+s2}{\PYGZdq{}}\PYG{p}{)} \PYG{o}{=} \PYG{n}{dpVal\PYGZus{}nominal}\PYG{p}{,}
+    \PYG{n}{m\PYGZus{}flow\PYGZus{}nominal}\PYG{o}{=}\PYG{n}{mRad\PYGZus{}flow\PYGZus{}nominal}\PYG{o}{*}\PYG{p}{(}\PYG{n}{RoomVols}\PYG{p}{[}\PYG{l+m+mi}{9}\PYG{p}{]}\PYG{o}{/}\PYG{n}{TotRoomVols}\PYG{p}{),}
+    \PYG{n}{dpFixed\PYGZus{}nominal}\PYG{o}{=}\PYG{n}{dpRoo\PYGZus{}nominal}\PYG{p}{,}
+    \PYG{n}{from\PYGZus{}dp}\PYG{o}{=}\PYG{k+kc}{true}\PYG{p}{,}
+    \PYG{n}{use\PYGZus{}inputFilter}\PYG{o}{=}\PYG{k+kc}{false}\PYG{p}{)} \PYG{l+s+s2}{\PYGZdq{}}\PYG{l+s+s2}{Radiator valve}\PYG{l+s+s2}{\PYGZdq{}}
+    \PYG{p}{));}
+  \PYG{n}{Buildings}\PYG{o}{.}\PYG{n}{Fluid}\PYG{o}{.}\PYG{n}{HeatExchangers}\PYG{o}{.}\PYG{n}{Radiators}\PYG{o}{.}\PYG{n}{RadiatorEN442\PYGZus{}2} \PYG{n}{rad9}\PYG{p}{(}
+    \PYG{k+kr}{redeclare} \PYG{k+kr}{package} \PYG{n+nc}{Medium} \PYG{o}{=} \PYG{n}{MediumW}\PYG{p}{,}
+    \PYG{n}{allowFlowReversal}\PYG{o}{=}\PYG{k+kc}{false}\PYG{p}{,}
+    \PYG{n}{fraRad}\PYG{o}{=}\PYG{l+m+mi}{0}\PYG{p}{,}
+    \PYG{n}{Q\PYGZus{}flow\PYGZus{}nominal}\PYG{o}{=}\PYG{n}{scaFacRad}\PYG{o}{*}\PYG{n}{Q\PYGZus{}flow\PYGZus{}nominal}\PYG{o}{*}\PYG{p}{(}\PYG{n}{RoomVols}\PYG{p}{[}\PYG{l+m+mi}{9}\PYG{p}{]}\PYG{o}{/}\PYG{n}{TotRoomVols}\PYG{p}{),}
+    \PYG{n}{energyDynamics}\PYG{o}{=}\PYG{n}{Modelica}\PYG{o}{.}\PYG{n}{Fluid}\PYG{o}{.}\PYG{n}{Types}\PYG{o}{.}\PYG{n}{Dynamics}\PYG{o}{.}\PYG{n}{FixedInitial}\PYG{p}{,}
+    \PYG{n}{T\PYGZus{}a\PYGZus{}nominal}\PYG{o}{=}\PYG{l+m+mf}{323.15}\PYG{p}{,}
+    \PYG{n}{T\PYGZus{}b\PYGZus{}nominal}\PYG{o}{=}\PYG{l+m+mf}{313.15}\PYG{p}{,}
+    \PYG{n}{n}\PYG{o}{=}\PYG{l+m+mf}{1.3}\PYG{p}{)} \PYG{l+s+s2}{\PYGZdq{}}\PYG{l+s+s2}{Radiator}\PYG{l+s+s2}{\PYGZdq{}}
+    \PYG{p}{));}
+  \PYG{n}{Modelica}\PYG{o}{.}\PYG{n}{Thermal}\PYG{o}{.}\PYG{n}{HeatTransfer}\PYG{o}{.}\PYG{n}{Sensors}\PYG{o}{.}\PYG{n}{TemperatureSensor} \PYG{n}{TRoo9}
+    \PYG{p}{));}
+  \PYG{n}{Buildings}\PYG{o}{.}\PYG{n}{Controls}\PYG{o}{.}\PYG{n}{OBC}\PYG{o}{.}\PYG{n}{CDL}\PYG{o}{.}\PYG{n}{Continuous}\PYG{o}{.}\PYG{n}{PID} \PYG{n}{conRoo9}\PYG{p}{(}
+    \PYG{n}{yMax}\PYG{o}{=}\PYG{l+m+mi}{1}\PYG{p}{,}
+    \PYG{n}{yMin}\PYG{o}{=}\PYG{l+m+mi}{0}\PYG{p}{,}
+    \PYG{n}{Ti}\PYG{o}{=}\PYG{l+m+mi}{60}\PYG{p}{,}
+    \PYG{n}{Td}\PYG{o}{=}\PYG{l+m+mi}{60}\PYG{p}{,}
+    \PYG{n}{controllerType}\PYG{o}{=}\PYG{n}{Modelica}\PYG{o}{.}\PYG{n}{Blocks}\PYG{o}{.}\PYG{n}{Types}\PYG{o}{.}\PYG{n}{SimpleController}\PYG{o}{.}\PYG{n}{P}\PYG{p}{,}
+    \PYG{n}{k}\PYG{o}{=}\PYG{l+m+mf}{0.5}\PYG{p}{)} \PYG{l+s+s2}{\PYGZdq{}}\PYG{l+s+s2}{Controller for room temperature}\PYG{l+s+s2}{\PYGZdq{}}
+    \PYG{p}{));}
+  \PYG{n}{Buildings}\PYG{o}{.}\PYG{n}{Fluid}\PYG{o}{.}\PYG{n}{FixedResistances}\PYG{o}{.}\PYG{n}{Junction} \PYG{n}{splVal17}\PYG{p}{(}
+    \PYG{n}{m\PYGZus{}flow\PYGZus{}nominal}\PYG{o}{=}\PYG{n}{mRad\PYGZus{}flow\PYGZus{}nominal}\PYG{o}{*}\PYG{p}{\PYGZob{}}\PYG{l+m+mi}{1}\PYG{p}{,}\PYG{o}{\PYGZhy{}}\PYG{l+m+mi}{1}\PYG{p}{,}\PYG{o}{\PYGZhy{}}\PYG{l+m+mi}{1}\PYG{p}{\PYGZcb{},}
+    \PYG{k+kr}{redeclare} \PYG{k+kr}{package} \PYG{n+nc}{Medium} \PYG{o}{=} \PYG{n}{MediumW}\PYG{p}{,}
+    \PYG{n}{dp\PYGZus{}nominal}\PYG{o}{=}\PYG{p}{\PYGZob{}}\PYG{l+m+mi}{0}\PYG{p}{,}\PYG{l+m+mi}{0}\PYG{p}{,}\PYG{l+m+mi}{0}\PYG{p}{\PYGZcb{},}
+    \PYG{n}{energyDynamics}\PYG{o}{=}\PYG{n}{Modelica}\PYG{o}{.}\PYG{n}{Fluid}\PYG{o}{.}\PYG{n}{Types}\PYG{o}{.}\PYG{n}{Dynamics}\PYG{o}{.}\PYG{n}{SteadyState}\PYG{p}{)}
+    \PYG{l+s+s2}{\PYGZdq{}}\PYG{l+s+s2}{Flow splitter}\PYG{l+s+s2}{\PYGZdq{}} \PYG{p}{));}  \PYG{n}{Buildings}\PYG{o}{.}\PYG{n}{Fluid}\PYG{o}{.}\PYG{n}{FixedResistances}\PYG{o}{.}\PYG{n}{Junction} \PYG{n}{splVal18}\PYG{p}{(}
+    \PYG{n}{m\PYGZus{}flow\PYGZus{}nominal}\PYG{o}{=}\PYG{n}{mRad\PYGZus{}flow\PYGZus{}nominal}\PYG{o}{*}\PYG{p}{\PYGZob{}}\PYG{l+m+mi}{1}\PYG{p}{,}\PYG{o}{\PYGZhy{}}\PYG{l+m+mi}{1}\PYG{p}{,}\PYG{o}{\PYGZhy{}}\PYG{l+m+mi}{1}\PYG{p}{\PYGZcb{},}
+    \PYG{k+kr}{redeclare} \PYG{k+kr}{package} \PYG{n+nc}{Medium} \PYG{o}{=} \PYG{n}{MediumW}\PYG{p}{,}
+    \PYG{n}{dp\PYGZus{}nominal}\PYG{o}{=}\PYG{p}{\PYGZob{}}\PYG{l+m+mi}{0}\PYG{p}{,}\PYG{l+m+mi}{0}\PYG{p}{,}\PYG{l+m+mi}{0}\PYG{p}{\PYGZcb{},}
+    \PYG{n}{energyDynamics}\PYG{o}{=}\PYG{n}{Modelica}\PYG{o}{.}\PYG{n}{Fluid}\PYG{o}{.}\PYG{n}{Types}\PYG{o}{.}\PYG{n}{Dynamics}\PYG{o}{.}\PYG{n}{SteadyState}\PYG{p}{)}
+    \PYG{l+s+s2}{\PYGZdq{}}\PYG{l+s+s2}{Flow splitter}\PYG{l+s+s2}{\PYGZdq{}} \PYG{p}{));}  \PYG{n}{Buildings}\PYG{o}{.}\PYG{n}{Fluid}\PYG{o}{.}\PYG{n}{Actuators}\PYG{o}{.}\PYG{n}{Valves}\PYG{o}{.}\PYG{n}{TwoWayEqualPercentage} \PYG{n}{val10}\PYG{p}{(}
+    \PYG{k+kr}{redeclare} \PYG{k+kr}{package} \PYG{n+nc}{Medium} \PYG{o}{=} \PYG{n}{MediumW}\PYG{p}{,}
+    \PYG{n}{allowFlowReversal}\PYG{o}{=}\PYG{k+kc}{false}\PYG{p}{,}
+    \PYG{n}{dpValve\PYGZus{}nominal}\PYG{p}{(}\PYG{n}{displayUnit}\PYG{o}{=}\PYG{l+s+s2}{\PYGZdq{}}\PYG{l+s+s2}{Pa}\PYG{l+s+s2}{\PYGZdq{}}\PYG{p}{)} \PYG{o}{=} \PYG{n}{dpVal\PYGZus{}nominal}\PYG{p}{,}
+    \PYG{n}{m\PYGZus{}flow\PYGZus{}nominal}\PYG{o}{=}\PYG{n}{mRad\PYGZus{}flow\PYGZus{}nominal}\PYG{o}{*}\PYG{p}{(}\PYG{n}{RoomVols}\PYG{p}{[}\PYG{l+m+mi}{10}\PYG{p}{]}\PYG{o}{/}\PYG{n}{TotRoomVols}\PYG{p}{),}
+    \PYG{n}{dpFixed\PYGZus{}nominal}\PYG{o}{=}\PYG{n}{dpRoo\PYGZus{}nominal}\PYG{p}{,}
+    \PYG{n}{from\PYGZus{}dp}\PYG{o}{=}\PYG{k+kc}{true}\PYG{p}{,}
+    \PYG{n}{use\PYGZus{}inputFilter}\PYG{o}{=}\PYG{k+kc}{false}\PYG{p}{)} \PYG{l+s+s2}{\PYGZdq{}}\PYG{l+s+s2}{Radiator valve}\PYG{l+s+s2}{\PYGZdq{}}
+    \PYG{p}{));}
+  \PYG{n}{Buildings}\PYG{o}{.}\PYG{n}{Fluid}\PYG{o}{.}\PYG{n}{HeatExchangers}\PYG{o}{.}\PYG{n}{Radiators}\PYG{o}{.}\PYG{n}{RadiatorEN442\PYGZus{}2} \PYG{n}{rad10}\PYG{p}{(}
+    \PYG{k+kr}{redeclare} \PYG{k+kr}{package} \PYG{n+nc}{Medium} \PYG{o}{=} \PYG{n}{MediumW}\PYG{p}{,}
+    \PYG{n}{allowFlowReversal}\PYG{o}{=}\PYG{k+kc}{false}\PYG{p}{,}
+    \PYG{n}{fraRad}\PYG{o}{=}\PYG{l+m+mi}{0}\PYG{p}{,}
+    \PYG{n}{Q\PYGZus{}flow\PYGZus{}nominal}\PYG{o}{=}\PYG{n}{scaFacRad}\PYG{o}{*}\PYG{n}{Q\PYGZus{}flow\PYGZus{}nominal}\PYG{o}{*}\PYG{p}{(}\PYG{n}{RoomVols}\PYG{p}{[}\PYG{l+m+mi}{10}\PYG{p}{]}\PYG{o}{/}\PYG{n}{TotRoomVols}\PYG{p}{),}
+    \PYG{n}{energyDynamics}\PYG{o}{=}\PYG{n}{Modelica}\PYG{o}{.}\PYG{n}{Fluid}\PYG{o}{.}\PYG{n}{Types}\PYG{o}{.}\PYG{n}{Dynamics}\PYG{o}{.}\PYG{n}{FixedInitial}\PYG{p}{,}
+    \PYG{n}{T\PYGZus{}a\PYGZus{}nominal}\PYG{o}{=}\PYG{l+m+mf}{323.15}\PYG{p}{,}
+    \PYG{n}{T\PYGZus{}b\PYGZus{}nominal}\PYG{o}{=}\PYG{l+m+mf}{313.15}\PYG{p}{,}
+    \PYG{n}{n}\PYG{o}{=}\PYG{l+m+mf}{1.3}\PYG{p}{)} \PYG{l+s+s2}{\PYGZdq{}}\PYG{l+s+s2}{Radiator}\PYG{l+s+s2}{\PYGZdq{}}
+    \PYG{p}{));}
+  \PYG{n}{Modelica}\PYG{o}{.}\PYG{n}{Thermal}\PYG{o}{.}\PYG{n}{HeatTransfer}\PYG{o}{.}\PYG{n}{Sensors}\PYG{o}{.}\PYG{n}{TemperatureSensor} \PYG{n}{TRoo10}
+    \PYG{p}{));}
+  \PYG{n}{Buildings}\PYG{o}{.}\PYG{n}{Controls}\PYG{o}{.}\PYG{n}{OBC}\PYG{o}{.}\PYG{n}{CDL}\PYG{o}{.}\PYG{n}{Continuous}\PYG{o}{.}\PYG{n}{PID} \PYG{n}{conRoo10}\PYG{p}{(}
+    \PYG{n}{yMax}\PYG{o}{=}\PYG{l+m+mi}{1}\PYG{p}{,}
+    \PYG{n}{yMin}\PYG{o}{=}\PYG{l+m+mi}{0}\PYG{p}{,}
+    \PYG{n}{Ti}\PYG{o}{=}\PYG{l+m+mi}{60}\PYG{p}{,}
+    \PYG{n}{Td}\PYG{o}{=}\PYG{l+m+mi}{60}\PYG{p}{,}
+    \PYG{n}{controllerType}\PYG{o}{=}\PYG{n}{Modelica}\PYG{o}{.}\PYG{n}{Blocks}\PYG{o}{.}\PYG{n}{Types}\PYG{o}{.}\PYG{n}{SimpleController}\PYG{o}{.}\PYG{n}{P}\PYG{p}{,}
+    \PYG{n}{k}\PYG{o}{=}\PYG{l+m+mf}{0.5}\PYG{p}{)} \PYG{l+s+s2}{\PYGZdq{}}\PYG{l+s+s2}{Controller for room temperature}\PYG{l+s+s2}{\PYGZdq{}}
+    \PYG{p}{));}
+  \PYG{n}{Buildings}\PYG{o}{.}\PYG{n}{Fluid}\PYG{o}{.}\PYG{n}{FixedResistances}\PYG{o}{.}\PYG{n}{Junction} \PYG{n}{splVal20}\PYG{p}{(}
+    \PYG{n}{m\PYGZus{}flow\PYGZus{}nominal}\PYG{o}{=}\PYG{n}{mRad\PYGZus{}flow\PYGZus{}nominal}\PYG{o}{*}\PYG{p}{\PYGZob{}}\PYG{l+m+mi}{1}\PYG{p}{,}\PYG{o}{\PYGZhy{}}\PYG{l+m+mi}{1}\PYG{p}{,}\PYG{o}{\PYGZhy{}}\PYG{l+m+mi}{1}\PYG{p}{\PYGZcb{},}
+    \PYG{k+kr}{redeclare} \PYG{k+kr}{package} \PYG{n+nc}{Medium} \PYG{o}{=} \PYG{n}{MediumW}\PYG{p}{,}
+    \PYG{n}{dp\PYGZus{}nominal}\PYG{o}{=}\PYG{p}{\PYGZob{}}\PYG{l+m+mi}{0}\PYG{p}{,}\PYG{l+m+mi}{0}\PYG{p}{,}\PYG{l+m+mi}{0}\PYG{p}{\PYGZcb{},}
+    \PYG{n}{energyDynamics}\PYG{o}{=}\PYG{n}{Modelica}\PYG{o}{.}\PYG{n}{Fluid}\PYG{o}{.}\PYG{n}{Types}\PYG{o}{.}\PYG{n}{Dynamics}\PYG{o}{.}\PYG{n}{SteadyState}\PYG{p}{)}
+    \PYG{l+s+s2}{\PYGZdq{}}\PYG{l+s+s2}{Flow splitter}\PYG{l+s+s2}{\PYGZdq{}} \PYG{p}{));}  \PYG{n}{Buildings}\PYG{o}{.}\PYG{n}{Fluid}\PYG{o}{.}\PYG{n}{Actuators}\PYG{o}{.}\PYG{n}{Valves}\PYG{o}{.}\PYG{n}{TwoWayEqualPercentage} \PYG{n}{val11}\PYG{p}{(}
+    \PYG{k+kr}{redeclare} \PYG{k+kr}{package} \PYG{n+nc}{Medium} \PYG{o}{=} \PYG{n}{MediumW}\PYG{p}{,}
+    \PYG{n}{allowFlowReversal}\PYG{o}{=}\PYG{k+kc}{false}\PYG{p}{,}
+    \PYG{n}{dpValve\PYGZus{}nominal}\PYG{p}{(}\PYG{n}{displayUnit}\PYG{o}{=}\PYG{l+s+s2}{\PYGZdq{}}\PYG{l+s+s2}{Pa}\PYG{l+s+s2}{\PYGZdq{}}\PYG{p}{)} \PYG{o}{=} \PYG{n}{dpVal\PYGZus{}nominal}\PYG{p}{,}
+    \PYG{n}{m\PYGZus{}flow\PYGZus{}nominal}\PYG{o}{=}\PYG{n}{mRad\PYGZus{}flow\PYGZus{}nominal}\PYG{o}{*}\PYG{p}{(}\PYG{n}{RoomVols}\PYG{p}{[}\PYG{l+m+mi}{11}\PYG{p}{]}\PYG{o}{/}\PYG{n}{TotRoomVols}\PYG{p}{),}
+    \PYG{n}{dpFixed\PYGZus{}nominal}\PYG{o}{=}\PYG{n}{dpRoo\PYGZus{}nominal}\PYG{p}{,}
+    \PYG{n}{from\PYGZus{}dp}\PYG{o}{=}\PYG{k+kc}{true}\PYG{p}{,}
+    \PYG{n}{use\PYGZus{}inputFilter}\PYG{o}{=}\PYG{k+kc}{false}\PYG{p}{)} \PYG{l+s+s2}{\PYGZdq{}}\PYG{l+s+s2}{Radiator valve}\PYG{l+s+s2}{\PYGZdq{}}
+    \PYG{p}{));}
+  \PYG{n}{Buildings}\PYG{o}{.}\PYG{n}{Fluid}\PYG{o}{.}\PYG{n}{HeatExchangers}\PYG{o}{.}\PYG{n}{Radiators}\PYG{o}{.}\PYG{n}{RadiatorEN442\PYGZus{}2} \PYG{n}{rad11}\PYG{p}{(}
+    \PYG{k+kr}{redeclare} \PYG{k+kr}{package} \PYG{n+nc}{Medium} \PYG{o}{=} \PYG{n}{MediumW}\PYG{p}{,}
+    \PYG{n}{allowFlowReversal}\PYG{o}{=}\PYG{k+kc}{false}\PYG{p}{,}
+    \PYG{n}{fraRad}\PYG{o}{=}\PYG{l+m+mi}{0}\PYG{p}{,}
+    \PYG{n}{Q\PYGZus{}flow\PYGZus{}nominal}\PYG{o}{=}\PYG{n}{scaFacRad}\PYG{o}{*}\PYG{n}{Q\PYGZus{}flow\PYGZus{}nominal}\PYG{o}{*}\PYG{p}{(}\PYG{n}{RoomVols}\PYG{p}{[}\PYG{l+m+mi}{11}\PYG{p}{]}\PYG{o}{/}\PYG{n}{TotRoomVols}\PYG{p}{),}
+    \PYG{n}{energyDynamics}\PYG{o}{=}\PYG{n}{Modelica}\PYG{o}{.}\PYG{n}{Fluid}\PYG{o}{.}\PYG{n}{Types}\PYG{o}{.}\PYG{n}{Dynamics}\PYG{o}{.}\PYG{n}{FixedInitial}\PYG{p}{,}
+    \PYG{n}{T\PYGZus{}a\PYGZus{}nominal}\PYG{o}{=}\PYG{l+m+mf}{323.15}\PYG{p}{,}
+    \PYG{n}{T\PYGZus{}b\PYGZus{}nominal}\PYG{o}{=}\PYG{l+m+mf}{313.15}\PYG{p}{,}
+    \PYG{n}{n}\PYG{o}{=}\PYG{l+m+mf}{1.3}\PYG{p}{)} \PYG{l+s+s2}{\PYGZdq{}}\PYG{l+s+s2}{Radiator}\PYG{l+s+s2}{\PYGZdq{}}
+    \PYG{p}{));}
+  \PYG{n}{Modelica}\PYG{o}{.}\PYG{n}{Thermal}\PYG{o}{.}\PYG{n}{HeatTransfer}\PYG{o}{.}\PYG{n}{Sensors}\PYG{o}{.}\PYG{n}{TemperatureSensor} \PYG{n}{TRoo11}
+    \PYG{p}{));}
+  \PYG{n}{Buildings}\PYG{o}{.}\PYG{n}{Controls}\PYG{o}{.}\PYG{n}{OBC}\PYG{o}{.}\PYG{n}{CDL}\PYG{o}{.}\PYG{n}{Continuous}\PYG{o}{.}\PYG{n}{PID} \PYG{n}{conRoo11}\PYG{p}{(}
+    \PYG{n}{yMax}\PYG{o}{=}\PYG{l+m+mi}{1}\PYG{p}{,}
+    \PYG{n}{yMin}\PYG{o}{=}\PYG{l+m+mi}{0}\PYG{p}{,}
+    \PYG{n}{Ti}\PYG{o}{=}\PYG{l+m+mi}{60}\PYG{p}{,}
+    \PYG{n}{Td}\PYG{o}{=}\PYG{l+m+mi}{60}\PYG{p}{,}
+    \PYG{n}{controllerType}\PYG{o}{=}\PYG{n}{Modelica}\PYG{o}{.}\PYG{n}{Blocks}\PYG{o}{.}\PYG{n}{Types}\PYG{o}{.}\PYG{n}{SimpleController}\PYG{o}{.}\PYG{n}{P}\PYG{p}{,}
+    \PYG{n}{k}\PYG{o}{=}\PYG{l+m+mf}{0.5}\PYG{p}{)} \PYG{l+s+s2}{\PYGZdq{}}\PYG{l+s+s2}{Controller for room temperature}\PYG{l+s+s2}{\PYGZdq{}}
+    \PYG{p}{));}
+  \PYG{n}{Buildings}\PYG{o}{.}\PYG{n}{Fluid}\PYG{o}{.}\PYG{n}{Actuators}\PYG{o}{.}\PYG{n}{Valves}\PYG{o}{.}\PYG{n}{TwoWayEqualPercentage} \PYG{n}{val12}\PYG{p}{(}
+    \PYG{k+kr}{redeclare} \PYG{k+kr}{package} \PYG{n+nc}{Medium} \PYG{o}{=} \PYG{n}{MediumW}\PYG{p}{,}
+    \PYG{n}{allowFlowReversal}\PYG{o}{=}\PYG{k+kc}{false}\PYG{p}{,}
+    \PYG{n}{dpValve\PYGZus{}nominal}\PYG{p}{(}\PYG{n}{displayUnit}\PYG{o}{=}\PYG{l+s+s2}{\PYGZdq{}}\PYG{l+s+s2}{Pa}\PYG{l+s+s2}{\PYGZdq{}}\PYG{p}{)} \PYG{o}{=} \PYG{n}{dpVal\PYGZus{}nominal}\PYG{p}{,}
+    \PYG{n}{m\PYGZus{}flow\PYGZus{}nominal}\PYG{o}{=}\PYG{n}{mRad\PYGZus{}flow\PYGZus{}nominal}\PYG{o}{*}\PYG{p}{(}\PYG{n}{RoomVols}\PYG{p}{[}\PYG{l+m+mi}{12}\PYG{p}{]}\PYG{o}{/}\PYG{n}{TotRoomVols}\PYG{p}{),}
+    \PYG{n}{dpFixed\PYGZus{}nominal}\PYG{o}{=}\PYG{n}{dpRoo\PYGZus{}nominal}\PYG{p}{,}
+    \PYG{n}{from\PYGZus{}dp}\PYG{o}{=}\PYG{k+kc}{true}\PYG{p}{,}
+    \PYG{n}{use\PYGZus{}inputFilter}\PYG{o}{=}\PYG{k+kc}{false}\PYG{p}{)} \PYG{l+s+s2}{\PYGZdq{}}\PYG{l+s+s2}{Radiator valve}\PYG{l+s+s2}{\PYGZdq{}}
+    \PYG{p}{));}
+  \PYG{n}{Buildings}\PYG{o}{.}\PYG{n}{Fluid}\PYG{o}{.}\PYG{n}{HeatExchangers}\PYG{o}{.}\PYG{n}{Radiators}\PYG{o}{.}\PYG{n}{RadiatorEN442\PYGZus{}2} \PYG{n}{rad12}\PYG{p}{(}
+    \PYG{k+kr}{redeclare} \PYG{k+kr}{package} \PYG{n+nc}{Medium} \PYG{o}{=} \PYG{n}{MediumW}\PYG{p}{,}
+    \PYG{n}{allowFlowReversal}\PYG{o}{=}\PYG{k+kc}{false}\PYG{p}{,}
+    \PYG{n}{fraRad}\PYG{o}{=}\PYG{l+m+mi}{0}\PYG{p}{,}
+    \PYG{n}{Q\PYGZus{}flow\PYGZus{}nominal}\PYG{o}{=}\PYG{n}{scaFacRad}\PYG{o}{*}\PYG{n}{Q\PYGZus{}flow\PYGZus{}nominal}\PYG{o}{*}\PYG{p}{(}\PYG{n}{RoomVols}\PYG{p}{[}\PYG{l+m+mi}{12}\PYG{p}{]}\PYG{o}{/}\PYG{n}{TotRoomVols}\PYG{p}{),}
+    \PYG{n}{energyDynamics}\PYG{o}{=}\PYG{n}{Modelica}\PYG{o}{.}\PYG{n}{Fluid}\PYG{o}{.}\PYG{n}{Types}\PYG{o}{.}\PYG{n}{Dynamics}\PYG{o}{.}\PYG{n}{FixedInitial}\PYG{p}{,}
+    \PYG{n}{T\PYGZus{}a\PYGZus{}nominal}\PYG{o}{=}\PYG{l+m+mf}{323.15}\PYG{p}{,}
+    \PYG{n}{T\PYGZus{}b\PYGZus{}nominal}\PYG{o}{=}\PYG{l+m+mf}{313.15}\PYG{p}{,}
+    \PYG{n}{n}\PYG{o}{=}\PYG{l+m+mf}{1.3}\PYG{p}{)} \PYG{l+s+s2}{\PYGZdq{}}\PYG{l+s+s2}{Radiator}\PYG{l+s+s2}{\PYGZdq{}}
+    \PYG{p}{));}
+  \PYG{n}{Modelica}\PYG{o}{.}\PYG{n}{Thermal}\PYG{o}{.}\PYG{n}{HeatTransfer}\PYG{o}{.}\PYG{n}{Sensors}\PYG{o}{.}\PYG{n}{TemperatureSensor} \PYG{n}{TRoo12}
+    \PYG{p}{));}
+  \PYG{n}{Buildings}\PYG{o}{.}\PYG{n}{Controls}\PYG{o}{.}\PYG{n}{OBC}\PYG{o}{.}\PYG{n}{CDL}\PYG{o}{.}\PYG{n}{Continuous}\PYG{o}{.}\PYG{n}{PID} \PYG{n}{conRoo12}\PYG{p}{(}
+    \PYG{n}{yMax}\PYG{o}{=}\PYG{l+m+mi}{1}\PYG{p}{,}
+    \PYG{n}{yMin}\PYG{o}{=}\PYG{l+m+mi}{0}\PYG{p}{,}
+    \PYG{n}{Ti}\PYG{o}{=}\PYG{l+m+mi}{60}\PYG{p}{,}
+    \PYG{n}{Td}\PYG{o}{=}\PYG{l+m+mi}{60}\PYG{p}{,}
+    \PYG{n}{controllerType}\PYG{o}{=}\PYG{n}{Modelica}\PYG{o}{.}\PYG{n}{Blocks}\PYG{o}{.}\PYG{n}{Types}\PYG{o}{.}\PYG{n}{SimpleController}\PYG{o}{.}\PYG{n}{P}\PYG{p}{,}
+    \PYG{n}{k}\PYG{o}{=}\PYG{l+m+mf}{0.5}\PYG{p}{)} \PYG{l+s+s2}{\PYGZdq{}}\PYG{l+s+s2}{Controller for room temperature}\PYG{l+s+s2}{\PYGZdq{}}
+    \PYG{p}{));}
+  \PYG{n}{Buildings}\PYG{o}{.}\PYG{n}{Fluid}\PYG{o}{.}\PYG{n}{FixedResistances}\PYG{o}{.}\PYG{n}{Junction} \PYG{n}{splVal19}\PYG{p}{(}
+    \PYG{n}{m\PYGZus{}flow\PYGZus{}nominal}\PYG{o}{=}\PYG{n}{mRad\PYGZus{}flow\PYGZus{}nominal}\PYG{o}{*}\PYG{p}{\PYGZob{}}\PYG{l+m+mi}{1}\PYG{p}{,}\PYG{o}{\PYGZhy{}}\PYG{l+m+mi}{1}\PYG{p}{,}\PYG{o}{\PYGZhy{}}\PYG{l+m+mi}{1}\PYG{p}{\PYGZcb{},}
+    \PYG{k+kr}{redeclare} \PYG{k+kr}{package} \PYG{n+nc}{Medium} \PYG{o}{=} \PYG{n}{MediumW}\PYG{p}{,}
+    \PYG{n}{dp\PYGZus{}nominal}\PYG{o}{=}\PYG{p}{\PYGZob{}}\PYG{l+m+mi}{0}\PYG{p}{,}\PYG{l+m+mi}{0}\PYG{p}{,}\PYG{l+m+mi}{0}\PYG{p}{\PYGZcb{},}
+    \PYG{n}{energyDynamics}\PYG{o}{=}\PYG{n}{Modelica}\PYG{o}{.}\PYG{n}{Fluid}\PYG{o}{.}\PYG{n}{Types}\PYG{o}{.}\PYG{n}{Dynamics}\PYG{o}{.}\PYG{n}{SteadyState}\PYG{p}{)}
+    \PYG{l+s+s2}{\PYGZdq{}}\PYG{l+s+s2}{Flow splitter}\PYG{l+s+s2}{\PYGZdq{}} \PYG{p}{));}  \PYG{n}{Buildings}\PYG{o}{.}\PYG{n}{Fluid}\PYG{o}{.}\PYG{n}{Actuators}\PYG{o}{.}\PYG{n}{Valves}\PYG{o}{.}\PYG{n}{TwoWayEqualPercentage} \PYG{n}{val13}\PYG{p}{(}
+    \PYG{k+kr}{redeclare} \PYG{k+kr}{package} \PYG{n+nc}{Medium} \PYG{o}{=} \PYG{n}{MediumW}\PYG{p}{,}
+    \PYG{n}{allowFlowReversal}\PYG{o}{=}\PYG{k+kc}{false}\PYG{p}{,}
+    \PYG{n}{dpValve\PYGZus{}nominal}\PYG{p}{(}\PYG{n}{displayUnit}\PYG{o}{=}\PYG{l+s+s2}{\PYGZdq{}}\PYG{l+s+s2}{Pa}\PYG{l+s+s2}{\PYGZdq{}}\PYG{p}{)} \PYG{o}{=} \PYG{n}{dpVal\PYGZus{}nominal}\PYG{p}{,}
+    \PYG{n}{m\PYGZus{}flow\PYGZus{}nominal}\PYG{o}{=}\PYG{n}{mRad\PYGZus{}flow\PYGZus{}nominal}\PYG{o}{*}\PYG{p}{(}\PYG{n}{RoomVols}\PYG{p}{[}\PYG{l+m+mi}{13}\PYG{p}{]}\PYG{o}{/}\PYG{n}{TotRoomVols}\PYG{p}{),}
+    \PYG{n}{dpFixed\PYGZus{}nominal}\PYG{o}{=}\PYG{n}{dpRoo\PYGZus{}nominal}\PYG{p}{,}
+    \PYG{n}{from\PYGZus{}dp}\PYG{o}{=}\PYG{k+kc}{true}\PYG{p}{,}
+    \PYG{n}{use\PYGZus{}inputFilter}\PYG{o}{=}\PYG{k+kc}{false}\PYG{p}{)} \PYG{l+s+s2}{\PYGZdq{}}\PYG{l+s+s2}{Radiator valve}\PYG{l+s+s2}{\PYGZdq{}}
+    \PYG{p}{));}
+  \PYG{n}{Buildings}\PYG{o}{.}\PYG{n}{Fluid}\PYG{o}{.}\PYG{n}{HeatExchangers}\PYG{o}{.}\PYG{n}{Radiators}\PYG{o}{.}\PYG{n}{RadiatorEN442\PYGZus{}2} \PYG{n}{rad13}\PYG{p}{(}
+    \PYG{k+kr}{redeclare} \PYG{k+kr}{package} \PYG{n+nc}{Medium} \PYG{o}{=} \PYG{n}{MediumW}\PYG{p}{,}
+    \PYG{n}{allowFlowReversal}\PYG{o}{=}\PYG{k+kc}{false}\PYG{p}{,}
+    \PYG{n}{fraRad}\PYG{o}{=}\PYG{l+m+mi}{0}\PYG{p}{,}
+    \PYG{n}{Q\PYGZus{}flow\PYGZus{}nominal}\PYG{o}{=}\PYG{n}{scaFacRad}\PYG{o}{*}\PYG{n}{Q\PYGZus{}flow\PYGZus{}nominal}\PYG{o}{*}\PYG{p}{(}\PYG{n}{RoomVols}\PYG{p}{[}\PYG{l+m+mi}{13}\PYG{p}{]}\PYG{o}{/}\PYG{n}{TotRoomVols}\PYG{p}{),}
+    \PYG{n}{energyDynamics}\PYG{o}{=}\PYG{n}{Modelica}\PYG{o}{.}\PYG{n}{Fluid}\PYG{o}{.}\PYG{n}{Types}\PYG{o}{.}\PYG{n}{Dynamics}\PYG{o}{.}\PYG{n}{FixedInitial}\PYG{p}{,}
+    \PYG{n}{T\PYGZus{}a\PYGZus{}nominal}\PYG{o}{=}\PYG{l+m+mf}{323.15}\PYG{p}{,}
+    \PYG{n}{T\PYGZus{}b\PYGZus{}nominal}\PYG{o}{=}\PYG{l+m+mf}{313.15}\PYG{p}{,}
+    \PYG{n}{n}\PYG{o}{=}\PYG{l+m+mf}{1.3}\PYG{p}{)} \PYG{l+s+s2}{\PYGZdq{}}\PYG{l+s+s2}{Radiator}\PYG{l+s+s2}{\PYGZdq{}}
+    \PYG{p}{));}
+  \PYG{n}{Modelica}\PYG{o}{.}\PYG{n}{Thermal}\PYG{o}{.}\PYG{n}{HeatTransfer}\PYG{o}{.}\PYG{n}{Sensors}\PYG{o}{.}\PYG{n}{TemperatureSensor} \PYG{n}{TRoo13}
+    \PYG{p}{));}
+  \PYG{n}{Buildings}\PYG{o}{.}\PYG{n}{Controls}\PYG{o}{.}\PYG{n}{OBC}\PYG{o}{.}\PYG{n}{CDL}\PYG{o}{.}\PYG{n}{Continuous}\PYG{o}{.}\PYG{n}{PID} \PYG{n}{conRoo13}\PYG{p}{(}
+    \PYG{n}{yMax}\PYG{o}{=}\PYG{l+m+mi}{1}\PYG{p}{,}
+    \PYG{n}{yMin}\PYG{o}{=}\PYG{l+m+mi}{0}\PYG{p}{,}
+    \PYG{n}{Ti}\PYG{o}{=}\PYG{l+m+mi}{60}\PYG{p}{,}
+    \PYG{n}{Td}\PYG{o}{=}\PYG{l+m+mi}{60}\PYG{p}{,}
+    \PYG{n}{controllerType}\PYG{o}{=}\PYG{n}{Modelica}\PYG{o}{.}\PYG{n}{Blocks}\PYG{o}{.}\PYG{n}{Types}\PYG{o}{.}\PYG{n}{SimpleController}\PYG{o}{.}\PYG{n}{P}\PYG{p}{,}
+    \PYG{n}{k}\PYG{o}{=}\PYG{l+m+mf}{0.5}\PYG{p}{)} \PYG{l+s+s2}{\PYGZdq{}}\PYG{l+s+s2}{Controller for room temperature}\PYG{l+s+s2}{\PYGZdq{}}
+    \PYG{p}{));}
+  \PYG{n}{Buildings}\PYG{o}{.}\PYG{n}{Fluid}\PYG{o}{.}\PYG{n}{FixedResistances}\PYG{o}{.}\PYG{n}{Junction} \PYG{n}{splVal21}\PYG{p}{(}
+    \PYG{n}{m\PYGZus{}flow\PYGZus{}nominal}\PYG{o}{=}\PYG{n}{mRad\PYGZus{}flow\PYGZus{}nominal}\PYG{o}{*}\PYG{p}{\PYGZob{}}\PYG{l+m+mi}{1}\PYG{p}{,}\PYG{o}{\PYGZhy{}}\PYG{l+m+mi}{1}\PYG{p}{,}\PYG{o}{\PYGZhy{}}\PYG{l+m+mi}{1}\PYG{p}{\PYGZcb{},}
+    \PYG{k+kr}{redeclare} \PYG{k+kr}{package} \PYG{n+nc}{Medium} \PYG{o}{=} \PYG{n}{MediumW}\PYG{p}{,}
+    \PYG{n}{dp\PYGZus{}nominal}\PYG{o}{=}\PYG{p}{\PYGZob{}}\PYG{l+m+mi}{0}\PYG{p}{,}\PYG{l+m+mi}{0}\PYG{p}{,}\PYG{l+m+mi}{0}\PYG{p}{\PYGZcb{},}
+    \PYG{n}{energyDynamics}\PYG{o}{=}\PYG{n}{Modelica}\PYG{o}{.}\PYG{n}{Fluid}\PYG{o}{.}\PYG{n}{Types}\PYG{o}{.}\PYG{n}{Dynamics}\PYG{o}{.}\PYG{n}{SteadyState}\PYG{p}{)}
+    \PYG{l+s+s2}{\PYGZdq{}}\PYG{l+s+s2}{Flow splitter}\PYG{l+s+s2}{\PYGZdq{}} \PYG{p}{));}  \PYG{n}{Buildings}\PYG{o}{.}\PYG{n}{Fluid}\PYG{o}{.}\PYG{n}{FixedResistances}\PYG{o}{.}\PYG{n}{Junction} \PYG{n}{splVal22}\PYG{p}{(}
+    \PYG{n}{m\PYGZus{}flow\PYGZus{}nominal}\PYG{o}{=}\PYG{n}{mRad\PYGZus{}flow\PYGZus{}nominal}\PYG{o}{*}\PYG{p}{\PYGZob{}}\PYG{l+m+mi}{1}\PYG{p}{,}\PYG{o}{\PYGZhy{}}\PYG{l+m+mi}{1}\PYG{p}{,}\PYG{o}{\PYGZhy{}}\PYG{l+m+mi}{1}\PYG{p}{\PYGZcb{},}
+    \PYG{k+kr}{redeclare} \PYG{k+kr}{package} \PYG{n+nc}{Medium} \PYG{o}{=} \PYG{n}{MediumW}\PYG{p}{,}
+    \PYG{n}{dp\PYGZus{}nominal}\PYG{o}{=}\PYG{p}{\PYGZob{}}\PYG{l+m+mi}{0}\PYG{p}{,}\PYG{l+m+mi}{0}\PYG{p}{,}\PYG{l+m+mi}{0}\PYG{p}{\PYGZcb{},}
+    \PYG{n}{energyDynamics}\PYG{o}{=}\PYG{n}{Modelica}\PYG{o}{.}\PYG{n}{Fluid}\PYG{o}{.}\PYG{n}{Types}\PYG{o}{.}\PYG{n}{Dynamics}\PYG{o}{.}\PYG{n}{SteadyState}\PYG{p}{)}
+    \PYG{l+s+s2}{\PYGZdq{}}\PYG{l+s+s2}{Flow splitter}\PYG{l+s+s2}{\PYGZdq{}} \PYG{p}{));}  \PYG{n}{Modelica}\PYG{o}{.}\PYG{n}{Blocks}\PYG{o}{.}\PYG{n}{Continuous}\PYG{o}{.}\PYG{n}{Integrator} \PYG{n}{TESQLossIntegrator}
+    \PYG{p}{));}
+  \PYG{n}{Modelica}\PYG{o}{.}\PYG{n}{Thermal}\PYG{o}{.}\PYG{n}{HeatTransfer}\PYG{o}{.}\PYG{n}{Sources}\PYG{o}{.}\PYG{n}{PrescribedTemperature} \PYG{n}{TReturn}
+    \PYG{p}{));}
+  \PYG{n}{Buildings}\PYG{o}{.}\PYG{n}{Controls}\PYG{o}{.}\PYG{n}{OBC}\PYG{o}{.}\PYG{n}{CDL}\PYG{o}{.}\PYG{n}{Continuous}\PYG{o}{.}\PYG{n}{Sources}\PYG{o}{.}\PYG{n}{Constant} \PYG{n}{HPOnSetpoint}\PYG{p}{(}\PYG{n}{k}\PYG{o}{=}
+        \PYG{n}{THPSup\PYGZus{}nominal} \PYG{o}{+} \PYG{l+m+mi}{5}\PYG{p}{)}
+ \PYG{l+s+s2}{\PYGZdq{}}\PYG{l+s+s2}{Setpoint HP}\PYG{l+s+s2}{\PYGZdq{}}
+    \PYG{p}{));}
+  \PYG{n}{Buildings}\PYG{o}{.}\PYG{n}{Controls}\PYG{o}{.}\PYG{n}{OBC}\PYG{o}{.}\PYG{n}{CDL}\PYG{o}{.}\PYG{n}{Continuous}\PYG{o}{.}\PYG{n}{Switch} \PYG{n}{swi2} \PYG{l+s+s2}{\PYGZdq{}}\PYG{l+s+s2}{Switch for HP setpoint}\PYG{l+s+s2}{\PYGZdq{}}
+    \PYG{p}{));}
+  \PYG{n}{Buildings}\PYG{o}{.}\PYG{n}{Controls}\PYG{o}{.}\PYG{n}{OBC}\PYG{o}{.}\PYG{n}{CDL}\PYG{o}{.}\PYG{n}{Continuous}\PYG{o}{.}\PYG{n}{Sources}\PYG{o}{.}\PYG{n}{Constant} \PYG{n}{HPOffSetpoint}\PYG{p}{(}\PYG{n}{k}\PYG{o}{=}\PYG{l+m+mf}{273.15} \PYG{o}{\PYGZhy{}}
+        \PYG{l+m+mi}{10}\PYG{p}{)} \PYG{l+s+s2}{\PYGZdq{}}\PYG{l+s+s2}{Setpoint HP}\PYG{l+s+s2}{\PYGZdq{}}
+    \PYG{p}{));}
+  \PYG{n}{Components}\PYG{o}{.}\PYG{n}{HP\PYGZus{}AirWater\PYGZus{}TSet} \PYG{n}{hP\PYGZus{}AirWater\PYGZus{}TSet}\PYG{p}{(}
+    \PYG{k+kr}{redeclare} \PYG{k+kr}{package} \PYG{n+nc}{Medium} \PYG{o}{=} \PYG{n}{MediumW}\PYG{p}{,}
+    \PYG{n}{QNom}\PYG{o}{=}\PYG{l+m+mi}{7000}\PYG{p}{,}
+    \PYG{n}{tauHeatLoss}\PYG{o}{=}\PYG{l+m+mi}{3600}\PYG{p}{,}
+    \PYG{n}{mWater}\PYG{o}{=}\PYG{l+m+mi}{3}\PYG{p}{,}
+    \PYG{n}{cDry}\PYG{o}{=}\PYG{l+m+mi}{4000}\PYG{p}{,}
+    \PYG{n}{m\PYGZus{}flow\PYGZus{}nominal}\PYG{o}{=}\PYG{n}{mBoi\PYGZus{}flow\PYGZus{}nominal}\PYG{p}{,}
+    \PYG{n}{betaFactor}\PYG{o}{=}\PYG{l+m+mf}{0.65}\PYG{p}{,}
+    \PYG{n}{modulation\PYGZus{}min}\PYG{o}{=}\PYG{l+m+mi}{5}\PYG{p}{,}
+    \PYG{n}{modulation\PYGZus{}start}\PYG{o}{=}\PYG{l+m+mf}{12.5}\PYG{p}{)}
+    \PYG{p}{));}  \PYG{k+kr}{inner} \PYG{n}{IDEAS}\PYG{o}{.}\PYG{n}{BoundaryConditions}\PYG{o}{.}\PYG{n}{SimInfoManager} \PYG{n}{sim}\PYG{p}{(}\PYG{n}{filNam}\PYG{o}{=}\PYG{l+s+s2}{\PYGZdq{}}\PYG{l+s+s2}{E:/Documents/ThesisNumericalSim/Weather/Clones/IRL\PYGZus{}Clones.039740\PYGZus{}IWEC\PYGZus{}Attempt2.mos}\PYG{l+s+s2}{\PYGZdq{}}\PYG{p}{)}
+    \PYG{p}{));}
+  \PYG{n}{Buildings}\PYG{o}{.}\PYG{n}{Fluid}\PYG{o}{.}\PYG{n}{Sensors}\PYG{o}{.}\PYG{n}{TemperatureTwoPort} \PYG{n}{TempPreHP}\PYG{p}{(}\PYG{k+kr}{redeclare} \PYG{k+kr}{package} \PYG{n+nc}{Medium}
+      \PYG{o}{=} \PYG{n}{MediumW}\PYG{p}{,}
+    \PYG{n}{allowFlowReversal}\PYG{o}{=}\PYG{k+kc}{false}\PYG{p}{,}
+      \PYG{n}{m\PYGZus{}flow\PYGZus{}nominal}\PYG{o}{=}\PYG{n}{mBoi\PYGZus{}flow\PYGZus{}nominal}\PYG{p}{)} \PYG{p}{));}  \PYG{n}{Buildings}\PYG{o}{.}\PYG{n}{Fluid}\PYG{o}{.}\PYG{n}{Sensors}\PYG{o}{.}\PYG{n}{TemperatureTwoPort} \PYG{n}{TemPostHP}\PYG{p}{(}\PYG{k+kr}{redeclare} \PYG{k+kr}{package} \PYG{n+nc}{Medium}
+      \PYG{o}{=} \PYG{n}{MediumW}\PYG{p}{,}
+    \PYG{n}{allowFlowReversal}\PYG{o}{=}\PYG{k+kc}{false}\PYG{p}{,}
+      \PYG{n}{m\PYGZus{}flow\PYGZus{}nominal}\PYG{o}{=}\PYG{n}{mBoi\PYGZus{}flow\PYGZus{}nominal}\PYG{p}{)} \PYG{p}{));}  \PYG{n}{Modelica}\PYG{o}{.}\PYG{n}{Blocks}\PYG{o}{.}\PYG{n}{Logical}\PYG{o}{.}\PYG{n}{LessThreshold} \PYG{n}{lesThrTOut}\PYG{p}{(}\PYG{n}{threshold}\PYG{o}{=}\PYG{n}{TempBlockBoi}\PYG{p}{)}
+    \PYG{l+s+s2}{\PYGZdq{}}\PYG{l+s+s2}{Test to block boiler if TOut \PYGZgt{} 7C}\PYG{l+s+s2}{\PYGZdq{}}
+    \PYG{p}{));}
+  \PYG{n}{Modelica}\PYG{o}{.}\PYG{n}{StateGraph}\PYG{o}{.}\PYG{n}{TransitionWithSignal} \PYG{n}{T3}\PYG{p}{(}\PYG{n}{enableTimer}\PYG{o}{=}\PYG{k+kc}{true}\PYG{p}{,} \PYG{n}{waitTime}\PYG{o}{=}\PYG{l+m+mi}{10}\PYG{p}{)}
+    \PYG{l+s+s2}{\PYGZdq{}}\PYG{l+s+s2}{Transition to boiler on}\PYG{l+s+s2}{\PYGZdq{}}
+    \PYG{p}{));}
+  \PYG{n}{Modelica}\PYG{o}{.}\PYG{n}{Blocks}\PYG{o}{.}\PYG{n}{Logical}\PYG{o}{.}\PYG{n}{GreaterThreshold} \PYG{n}{greaterThreshold}\PYG{p}{(}\PYG{n}{threshold}\PYG{o}{=}
+        \PYG{n}{TempBlockHP}\PYG{p}{)}
+    \PYG{l+s+s2}{\PYGZdq{}}\PYG{l+s+s2}{Block HP if TOut is less than 2C}\PYG{l+s+s2}{\PYGZdq{}}
+    \PYG{p}{));}
+  \PYG{n}{Buildings}\PYG{o}{.}\PYG{n}{Controls}\PYG{o}{.}\PYG{n}{OBC}\PYG{o}{.}\PYG{n}{CDL}\PYG{o}{.}\PYG{n}{Continuous}\PYG{o}{.}\PYG{n}{Switch} \PYG{n}{swi3}
+    \PYG{l+s+s2}{\PYGZdq{}}\PYG{l+s+s2}{Switch for Supply Temp setpoint}\PYG{l+s+s2}{\PYGZdq{}}
+    \PYG{p}{));}
+  \PYG{n}{Buildings}\PYG{o}{.}\PYG{n}{Controls}\PYG{o}{.}\PYG{n}{SetPoints}\PYG{o}{.}\PYG{n}{SupplyReturnTemperatureReset} \PYG{n}{heaChaHP}\PYG{p}{(}
+    \PYG{n}{TRoo\PYGZus{}nominal}\PYG{o}{=}\PYG{l+m+mf}{296.15}\PYG{p}{,}
+    \PYG{n}{dTOutHeaBal}\PYG{o}{=}\PYG{l+m+mi}{6}\PYG{p}{,}
+    \PYG{n}{use\PYGZus{}TRoo\PYGZus{}in}\PYG{o}{=}\PYG{k+kc}{true}\PYG{p}{,}
+    \PYG{n}{TSup\PYGZus{}nominal}\PYG{o}{=}\PYG{n}{THPSup\PYGZus{}nominal}\PYG{p}{,}
+    \PYG{n}{TRet\PYGZus{}nominal}\PYG{o}{=}\PYG{n}{THPRet\PYGZus{}nominal}\PYG{p}{,}
+    \PYG{n}{TOut\PYGZus{}nominal}\PYG{o}{=}\PYG{l+m+mf}{268.15}\PYG{p}{)} \PYG{l+s+s2}{\PYGZdq{}}\PYG{l+s+s2}{Supply Temp Calc for HP}\PYG{l+s+s2}{\PYGZdq{}}
+    \PYG{p}{));}
+  \PYG{n}{Modelica}\PYG{o}{.}\PYG{n}{StateGraph}\PYG{o}{.}\PYG{n}{StepWithSignal} \PYG{n}{HPOn}\PYG{p}{(}\PYG{n}{nIn}\PYG{o}{=}\PYG{l+m+mi}{1}\PYG{p}{,} \PYG{n}{nOut}\PYG{o}{=}\PYG{l+m+mi}{1}\PYG{p}{)} \PYG{l+s+s2}{\PYGZdq{}}\PYG{l+s+s2}{HP on}\PYG{l+s+s2}{\PYGZdq{}}
+    \PYG{p}{));}
+  \PYG{n}{Modelica}\PYG{o}{.}\PYG{n}{StateGraph}\PYG{o}{.}\PYG{n}{TransitionWithSignal} \PYG{n}{T5}\PYG{p}{(}\PYG{n}{enableTimer}\PYG{o}{=}\PYG{k+kc}{true}\PYG{p}{,} \PYG{n}{waitTime}\PYG{o}{=}\PYG{l+m+mi}{10}\PYG{p}{)}
+    \PYG{l+s+s2}{\PYGZdq{}}\PYG{l+s+s2}{Transition to HP on}\PYG{l+s+s2}{\PYGZdq{}}
+    \PYG{p}{));}
+  \PYG{n}{Buildings}\PYG{o}{.}\PYG{n}{Controls}\PYG{o}{.}\PYG{n}{OBC}\PYG{o}{.}\PYG{n}{CDL}\PYG{o}{.}\PYG{n}{Logical}\PYG{o}{.}\PYG{n}{Switch} \PYG{n}{logSwi}
+    \PYG{p}{));}
+  \PYG{n}{Buildings}\PYG{o}{.}\PYG{n}{Controls}\PYG{o}{.}\PYG{n}{OBC}\PYG{o}{.}\PYG{n}{CDL}\PYG{o}{.}\PYG{n}{Continuous}\PYG{o}{.}\PYG{n}{GreaterThreshold} \PYG{n}{greThrHP}\PYG{p}{(}\PYG{n}{t}\PYG{o}{=}
+        \PYG{n}{THPSup\PYGZus{}nominal} \PYG{o}{+} \PYG{l+m+mi}{3}\PYG{p}{)}
+  \PYG{l+s+s2}{\PYGZdq{}}\PYG{l+s+s2}{Check for temperature at the bottom of the tank}\PYG{l+s+s2}{\PYGZdq{}}
+    \PYG{p}{));}
+  \PYG{n}{Modelica}\PYG{o}{.}\PYG{n}{StateGraph}\PYG{o}{.}\PYG{n}{TransitionWithSignal} \PYG{n}{T6}\PYG{p}{(}\PYG{n}{enableTimer}\PYG{o}{=}\PYG{k+kc}{false}\PYG{p}{,} \PYG{n}{waitTime}\PYG{o}{=}\PYG{l+m+mi}{300}\PYG{p}{)}
+    \PYG{l+s+s2}{\PYGZdq{}}\PYG{l+s+s2}{Transition that switches boiler off}\PYG{l+s+s2}{\PYGZdq{}}
+    \PYG{p}{));}
+  \PYG{n}{Modelica}\PYG{o}{.}\PYG{n}{StateGraph}\PYG{o}{.}\PYG{n}{StepWithSignal} \PYG{n}{pumOn1}\PYG{p}{(}\PYG{n}{nIn}\PYG{o}{=}\PYG{l+m+mi}{1}\PYG{p}{,} \PYG{n}{nOut}\PYG{o}{=}\PYG{l+m+mi}{1}\PYG{p}{)}
+  \PYG{l+s+s2}{\PYGZdq{}}\PYG{l+s+s2}{Pump on}\PYG{l+s+s2}{\PYGZdq{}}
+    \PYG{p}{));}
+  \PYG{n}{Modelica}\PYG{o}{.}\PYG{n}{StateGraph}\PYG{o}{.}\PYG{n}{StepWithSignal} \PYG{n}{pumOn3}\PYG{p}{(}\PYG{n}{nOut}\PYG{o}{=}\PYG{l+m+mi}{1}\PYG{p}{,} \PYG{n}{nIn}\PYG{o}{=}\PYG{l+m+mi}{1}\PYG{p}{)}
+ \PYG{l+s+s2}{\PYGZdq{}}\PYG{l+s+s2}{Pump on}\PYG{l+s+s2}{\PYGZdq{}}
+    \PYG{p}{));}
+  \PYG{n}{Modelica}\PYG{o}{.}\PYG{n}{StateGraph}\PYG{o}{.}\PYG{n}{Transition} \PYG{n}{T7}\PYG{p}{(}\PYG{n}{enableTimer}\PYG{o}{=}\PYG{k+kc}{true}\PYG{p}{,} \PYG{n}{waitTime}\PYG{o}{=}\PYG{l+m+mi}{10}\PYG{p}{)}
+    \PYG{l+s+s2}{\PYGZdq{}}\PYG{l+s+s2}{Transition to boiler on}\PYG{l+s+s2}{\PYGZdq{}}
+    \PYG{p}{));}
+  \PYG{n}{Modelica}\PYG{o}{.}\PYG{n}{StateGraph}\PYG{o}{.}\PYG{n}{TransitionWithSignal} \PYG{n}{T8} \PYG{l+s+s2}{\PYGZdq{}}\PYG{l+s+s2}{Transition to pump on}\PYG{l+s+s2}{\PYGZdq{}}
+    \PYG{p}{));}
+  \PYG{n}{Buildings}\PYG{o}{.}\PYG{n}{Controls}\PYG{o}{.}\PYG{n}{OBC}\PYG{o}{.}\PYG{n}{CDL}\PYG{o}{.}\PYG{n}{Continuous}\PYG{o}{.}\PYG{n}{Less} \PYG{n}{les}
+    \PYG{p}{));}
+  \PYG{n}{Buildings}\PYG{o}{.}\PYG{n}{Controls}\PYG{o}{.}\PYG{n}{OBC}\PYG{o}{.}\PYG{n}{CDL}\PYG{o}{.}\PYG{n}{Logical}\PYG{o}{.}\PYG{n}{And} \PYG{n}{and2}
+    \PYG{l+s+s2}{\PYGZdq{}}\PYG{l+s+s2}{Boiler on if }\PYG{l+s+s2}{\PYGZlt{}}\PYG{l+s+s2}{7C \PYGZam{} TPostHP \PYGZgt{} TSupplySetpoint}\PYG{l+s+s2}{\PYGZdq{}}
+    \PYG{p}{));}  \PYG{n}{Modelica}\PYG{o}{.}\PYG{n}{StateGraph}\PYG{o}{.}\PYG{n}{InitialStepWithSignal} \PYG{n}{off}\PYG{p}{(}\PYG{n}{nOut}\PYG{o}{=}\PYG{l+m+mi}{1}\PYG{p}{,} \PYG{n}{nIn}\PYG{o}{=}\PYG{l+m+mi}{1}\PYG{p}{)}
+    \PYG{l+s+s2}{\PYGZdq{}}\PYG{l+s+s2}{Pump and furnace off}\PYG{l+s+s2}{\PYGZdq{}}
+    \PYG{p}{));}
+  \PYG{n}{Modelica}\PYG{o}{.}\PYG{n}{StateGraph}\PYG{o}{.}\PYG{n}{InitialStepWithSignal} \PYG{n}{off1}\PYG{p}{(}\PYG{n}{nOut}\PYG{o}{=}\PYG{l+m+mi}{1}\PYG{p}{,} \PYG{n}{nIn}\PYG{o}{=}\PYG{l+m+mi}{1}\PYG{p}{)}
+    \PYG{l+s+s2}{\PYGZdq{}}\PYG{l+s+s2}{Pump and furnace off}\PYG{l+s+s2}{\PYGZdq{}}
+    \PYG{p}{));}
+  \PYG{n}{Buildings}\PYG{o}{.}\PYG{n}{Controls}\PYG{o}{.}\PYG{n}{OBC}\PYG{o}{.}\PYG{n}{CDL}\PYG{o}{.}\PYG{n}{Logical}\PYG{o}{.}\PYG{n}{Nor} \PYG{n}{Nor}
+    \PYG{p}{));}
+  \PYG{n}{Buildings}\PYG{o}{.}\PYG{n}{Controls}\PYG{o}{.}\PYG{n}{OBC}\PYG{o}{.}\PYG{n}{CDL}\PYG{o}{.}\PYG{n}{Logical}\PYG{o}{.}\PYG{n}{And} \PYG{n}{and3}
+    \PYG{p}{));}
+  \PYG{n}{Buildings}\PYG{o}{.}\PYG{n}{Utilities}\PYG{o}{.}\PYG{n}{Math}\PYG{o}{.}\PYG{n}{Average} \PYG{n}{roomAvgTemp}\PYG{p}{(}\PYG{n}{nin}\PYG{o}{=}\PYG{l+m+mi}{11}\PYG{p}{)}
+     \PYG{p}{));}  \PYG{n}{Modelica}\PYG{o}{.}\PYG{n}{Blocks}\PYG{o}{.}\PYG{n}{MathBoolean}\PYG{o}{.}\PYG{n}{Or} \PYG{n}{pumOnSig1}\PYG{p}{(}\PYG{n}{nu}\PYG{o}{=}\PYG{l+m+mi}{3}\PYG{p}{)}
+      \PYG{l+s+s2}{\PYGZdq{}}\PYG{l+s+s2}{Signal for pump being on}\PYG{l+s+s2}{\PYGZdq{}}
+    \PYG{p}{));}
+  \PYG{n}{Modelica}\PYG{o}{.}\PYG{n}{Blocks}\PYG{o}{.}\PYG{n}{Logical}\PYG{o}{.}\PYG{n}{GreaterThreshold} \PYG{n}{greaterThreshold1}\PYG{p}{(}\PYG{n}{threshold}\PYG{o}{=}
+        \PYG{n}{TempBlockBoi}\PYG{p}{)}
+    \PYG{l+s+s2}{\PYGZdq{}}\PYG{l+s+s2}{Block HP if TOut is less than 2C}\PYG{l+s+s2}{\PYGZdq{}}
+    \PYG{p}{));}
+  \PYG{n}{Buildings}\PYG{o}{.}\PYG{n}{Controls}\PYG{o}{.}\PYG{n}{OBC}\PYG{o}{.}\PYG{n}{CDL}\PYG{o}{.}\PYG{n}{Continuous}\PYG{o}{.}\PYG{n}{GreaterThreshold} \PYG{n}{greThr}\PYG{p}{(}\PYG{n}{t}\PYG{o}{=}\PYG{l+m+mf}{0.1}\PYG{p}{)}
+    \PYG{p}{));}  \PYG{n}{Buildings}\PYG{o}{.}\PYG{n}{Controls}\PYG{o}{.}\PYG{n}{OBC}\PYG{o}{.}\PYG{n}{CDL}\PYG{o}{.}\PYG{n}{Continuous}\PYG{o}{.}\PYG{n}{LessThreshold} \PYG{n}{lesThr1}\PYG{p}{(}\PYG{n}{t}\PYG{o}{=}\PYG{l+m+mf}{273.15} \PYG{o}{+} \PYG{l+m+mi}{2}\PYG{p}{)}
+    \PYG{p}{));}  \PYG{n}{Buildings}\PYG{o}{.}\PYG{n}{Controls}\PYG{o}{.}\PYG{n}{OBC}\PYG{o}{.}\PYG{n}{CDL}\PYG{o}{.}\PYG{n}{Logical}\PYG{o}{.}\PYG{n}{And} \PYG{n}{and4} \PYG{p}{));}  \PYG{n}{Buildings}\PYG{o}{.}\PYG{n}{Controls}\PYG{o}{.}\PYG{n}{OBC}\PYG{o}{.}\PYG{n}{CDL}\PYG{o}{.}\PYG{n}{Logical}\PYG{o}{.}\PYG{n}{TimerAccumulating} \PYG{n}{accTim}\PYG{p}{(}\PYG{n}{t}\PYG{o}{=}\PYG{l+m+mi}{60}\PYG{o}{*}\PYG{l+m+mi}{60}\PYG{p}{)}
+    \PYG{p}{));}  \PYG{n}{Buildings}\PYG{o}{.}\PYG{n}{Controls}\PYG{o}{.}\PYG{n}{OBC}\PYG{o}{.}\PYG{n}{CDL}\PYG{o}{.}\PYG{n}{Logical}\PYG{o}{.}\PYG{n}{Timer} \PYG{n}{tim}\PYG{p}{(}\PYG{n}{t}\PYG{o}{=}\PYG{l+m+mi}{5}\PYG{o}{*}\PYG{l+m+mi}{60}\PYG{p}{)}  \PYG{p}{));}  \PYG{n}{Buildings}\PYG{o}{.}\PYG{n}{Controls}\PYG{o}{.}\PYG{n}{OBC}\PYG{o}{.}\PYG{n}{CDL}\PYG{o}{.}\PYG{n}{Continuous}\PYG{o}{.}\PYG{n}{GreaterThreshold} \PYG{n}{greThr1}\PYG{p}{(}\PYG{n}{t}\PYG{o}{=}\PYG{l+m+mf}{273.15} \PYG{o}{+} \PYG{l+m+mi}{3}\PYG{p}{)}
+    \PYG{p}{));}  \PYG{n}{Buildings}\PYG{o}{.}\PYG{n}{Controls}\PYG{o}{.}\PYG{n}{OBC}\PYG{o}{.}\PYG{n}{CDL}\PYG{o}{.}\PYG{n}{Logical}\PYG{o}{.}\PYG{n}{TrueHoldWithReset} \PYG{n}{truHol}\PYG{p}{(}\PYG{n}{duration}\PYG{o}{=}\PYG{l+m+mi}{10}\PYG{o}{*}\PYG{l+m+mi}{60}\PYG{p}{)}
+    \PYG{p}{));}
+  \PYG{n}{Buildings}\PYG{o}{.}\PYG{n}{Controls}\PYG{o}{.}\PYG{n}{OBC}\PYG{o}{.}\PYG{n}{CDL}\PYG{o}{.}\PYG{n}{Logical}\PYG{o}{.}\PYG{n}{Not} \PYG{n}{not1}
+    \PYG{p}{));}
+  \PYG{n}{Buildings}\PYG{o}{.}\PYG{n}{Controls}\PYG{o}{.}\PYG{n}{OBC}\PYG{o}{.}\PYG{n}{CDL}\PYG{o}{.}\PYG{n}{Logical}\PYG{o}{.}\PYG{n}{And} \PYG{n}{and5}
+    \PYG{p}{));}
+  \PYG{n}{Buildings}\PYG{o}{.}\PYG{n}{Controls}\PYG{o}{.}\PYG{n}{OBC}\PYG{o}{.}\PYG{n}{CDL}\PYG{o}{.}\PYG{n}{Continuous}\PYG{o}{.}\PYG{n}{PID} \PYG{n}{BoiPI}\PYG{p}{(}
+    \PYG{n}{yMax}\PYG{o}{=}\PYG{l+m+mi}{1}\PYG{p}{,}
+    \PYG{n}{yMin}\PYG{o}{=}\PYG{l+m+mi}{0}\PYG{p}{,}
+    \PYG{n}{Ti}\PYG{o}{=}\PYG{l+m+mi}{60}\PYG{p}{,}
+    \PYG{n}{Td}\PYG{o}{=}\PYG{l+m+mi}{60}\PYG{p}{,}
+    \PYG{n}{controllerType}\PYG{o}{=}\PYG{n}{Buildings}\PYG{o}{.}\PYG{n}{Controls}\PYG{o}{.}\PYG{n}{OBC}\PYG{o}{.}\PYG{n}{CDL}\PYG{o}{.}\PYG{n}{Types}\PYG{o}{.}\PYG{n}{SimpleController}\PYG{o}{.}\PYG{n}{PID}\PYG{p}{,}
+    \PYG{n}{k}\PYG{o}{=}\PYG{l+m+mf}{0.25}\PYG{p}{)}
+\PYG{l+s+s2}{\PYGZdq{}}\PYG{l+s+s2}{Controller for room temperature}\PYG{l+s+s2}{\PYGZdq{}}
+    \PYG{p}{));}
+  \PYG{n}{Buildings}\PYG{o}{.}\PYG{n}{Controls}\PYG{o}{.}\PYG{n}{OBC}\PYG{o}{.}\PYG{n}{CDL}\PYG{o}{.}\PYG{n}{Continuous}\PYG{o}{.}\PYG{n}{Switch} \PYG{n}{swi4}
+    \PYG{p}{));}
+  \PYG{n}{Buildings}\PYG{o}{.}\PYG{n}{Controls}\PYG{o}{.}\PYG{n}{OBC}\PYG{o}{.}\PYG{n}{CDL}\PYG{o}{.}\PYG{n}{Continuous}\PYG{o}{.}\PYG{n}{Sources}\PYG{o}{.}\PYG{n}{Constant} \PYG{n}{dTThr1}\PYG{p}{(}\PYG{n}{k}\PYG{o}{=}\PYG{l+m+mi}{0}\PYG{p}{)}
+    \PYG{l+s+s2}{\PYGZdq{}}\PYG{l+s+s2}{Threshold to switch boiler off}\PYG{l+s+s2}{\PYGZdq{}}
+    \PYG{p}{));}
+  \PYG{n}{Buildings}\PYG{o}{.}\PYG{n}{Controls}\PYG{o}{.}\PYG{n}{OBC}\PYG{o}{.}\PYG{n}{CDL}\PYG{o}{.}\PYG{n}{Logical}\PYG{o}{.}\PYG{n}{Pre} \PYG{n+nb}{pre}
+    \PYG{p}{));}
+  \PYG{n}{Buildings}\PYG{o}{.}\PYG{n}{Controls}\PYG{o}{.}\PYG{n}{OBC}\PYG{o}{.}\PYG{n}{CDL}\PYG{o}{.}\PYG{n}{Logical}\PYG{o}{.}\PYG{n}{Or} \PYG{n}{or2}
+    \PYG{p}{));}
+  \PYG{n}{Buildings}\PYG{o}{.}\PYG{n}{Fluid}\PYG{o}{.}\PYG{n}{Boilers}\PYG{o}{.}\PYG{n}{BoilerPolynomial} \PYG{n}{boi1}\PYG{p}{(}
+    \PYG{n}{allowFlowReversal}\PYG{o}{=}\PYG{k+kc}{false}\PYG{p}{,}
+    \PYG{n}{a}\PYG{o}{=}\PYG{p}{\PYGZob{}}\PYG{l+m+mf}{0.93}\PYG{p}{\PYGZcb{},}
+    \PYG{n}{effCur}\PYG{o}{=}\PYG{n}{Buildings}\PYG{o}{.}\PYG{n}{Fluid}\PYG{o}{.}\PYG{n}{Types}\PYG{o}{.}\PYG{n}{EfficiencyCurves}\PYG{o}{.}\PYG{n}{Constant}\PYG{p}{,}
+    \PYG{k+kr}{redeclare} \PYG{k+kr}{package} \PYG{n+nc}{Medium} \PYG{o}{=} \PYG{n}{MediumW}\PYG{p}{,}
+    \PYG{n}{Q\PYGZus{}flow\PYGZus{}nominal}\PYG{o}{=}\PYG{l+m+mi}{832}\PYG{p}{,}
+    \PYG{n}{m\PYGZus{}flow\PYGZus{}nominal}\PYG{o}{=}\PYG{n}{mBoi\PYGZus{}flow\PYGZus{}nominal}\PYG{p}{,}
+    \PYG{n}{fue}\PYG{o}{=}\PYG{n}{Buildings}\PYG{o}{.}\PYG{n}{Fluid}\PYG{o}{.}\PYG{n}{Data}\PYG{o}{.}\PYG{n}{Fuels}\PYG{o}{.}\PYG{n}{HeatingOilLowerHeatingValue}\PYG{p}{(),}
+    \PYG{n}{dp\PYGZus{}nominal}\PYG{o}{=}\PYG{l+m+mi}{3000} \PYG{o}{+} \PYG{l+m+mi}{2000}\PYG{p}{,}
+    \PYG{n}{energyDynamics}\PYG{o}{=}\PYG{n}{Modelica}\PYG{o}{.}\PYG{n}{Fluid}\PYG{o}{.}\PYG{n}{Types}\PYG{o}{.}\PYG{n}{Dynamics}\PYG{o}{.}\PYG{n}{FixedInitial}\PYG{p}{,}
+    \PYG{n}{T\PYGZus{}start}\PYG{o}{=}\PYG{l+m+mf}{293.15}\PYG{p}{)} \PYG{l+s+s2}{\PYGZdq{}}\PYG{l+s+s2}{Boiler}\PYG{l+s+s2}{\PYGZdq{}}
+    \PYG{p}{));}
+  \PYG{n}{Buildings}\PYG{o}{.}\PYG{n}{Controls}\PYG{o}{.}\PYG{n}{OBC}\PYG{o}{.}\PYG{n}{CDL}\PYG{o}{.}\PYG{n}{Conversions}\PYG{o}{.}\PYG{n}{BooleanToReal} \PYG{n}{booToReaPum1}
+   \PYG{l+s+s2}{\PYGZdq{}}\PYG{l+s+s2}{Signal converter for pump}\PYG{l+s+s2}{\PYGZdq{}}
+    \PYG{p}{));}
+  \PYG{n}{Buildings}\PYG{o}{.}\PYG{n}{Fluid}\PYG{o}{.}\PYG{n}{Sources}\PYG{o}{.}\PYG{n}{Boundary\PYGZus{}pT} \PYG{n}{bou2}\PYG{p}{(}
+    \PYG{n}{T}\PYG{o}{=}\PYG{l+m+mf}{288.15}\PYG{p}{,}
+    \PYG{n}{nPorts}\PYG{o}{=}\PYG{l+m+mi}{1}\PYG{p}{,}
+    \PYG{k+kr}{redeclare} \PYG{k+kr}{package} \PYG{n+nc}{Medium} \PYG{o}{=} \PYG{n}{MediumW}\PYG{p}{)}
+    \PYG{l+s+s2}{\PYGZdq{}}\PYG{l+s+s2}{Fixed boundary condition, needed to provide a pressure in the system}\PYG{l+s+s2}{\PYGZdq{}}
+    \PYG{p}{));}
+  \PYG{n}{Buildings}\PYG{o}{.}\PYG{n}{Fluid}\PYG{o}{.}\PYG{n}{Sources}\PYG{o}{.}\PYG{n}{Boundary\PYGZus{}pT} \PYG{n}{bou3}\PYG{p}{(}
+    \PYG{n}{T}\PYG{o}{=}\PYG{l+m+mf}{288.15}\PYG{p}{,}
+    \PYG{n}{nPorts}\PYG{o}{=}\PYG{l+m+mi}{1}\PYG{p}{,}
+    \PYG{k+kr}{redeclare} \PYG{k+kr}{package} \PYG{n+nc}{Medium} \PYG{o}{=} \PYG{n}{MediumW}\PYG{p}{)}
+    \PYG{l+s+s2}{\PYGZdq{}}\PYG{l+s+s2}{Fixed boundary condition, needed to provide a pressure in the system}\PYG{l+s+s2}{\PYGZdq{}}
+    \PYG{p}{));}
+  \PYG{n}{Buildings}\PYG{o}{.}\PYG{n}{Fluid}\PYG{o}{.}\PYG{n}{Movers}\PYG{o}{.}\PYG{n}{SpeedControlled\PYGZus{}y} \PYG{n}{pumBoi1}\PYG{p}{(}
+    \PYG{k+kr}{redeclare} \PYG{k+kr}{package} \PYG{n+nc}{Medium} \PYG{o}{=} \PYG{n}{MediumW}\PYG{p}{,}
+    \PYG{n}{per}\PYG{p}{(}\PYG{n}{pressure}\PYG{p}{(}\PYG{n}{V\PYGZus{}flow}\PYG{o}{=}\PYG{n}{mBoi\PYGZus{}flow\PYGZus{}nominal}\PYG{o}{/}\PYG{l+m+mi}{1000}\PYG{o}{*}\PYG{p}{\PYGZob{}}\PYG{l+m+mf}{0.5}\PYG{p}{,}\PYG{l+m+mi}{1}\PYG{p}{\PYGZcb{},} \PYG{n}{dp}\PYG{o}{=}\PYG{p}{(}\PYG{l+m+mi}{3000} \PYG{o}{+} \PYG{l+m+mi}{2000}\PYG{p}{)}\PYG{o}{*}\PYG{p}{\PYGZob{}}\PYG{l+m+mi}{2}\PYG{p}{,}\PYG{l+m+mi}{1}\PYG{p}{\PYGZcb{})),}
+
+    \PYG{n}{use\PYGZus{}inputFilter}\PYG{o}{=}\PYG{k+kc}{false}\PYG{p}{,}
+    \PYG{n}{energyDynamics}\PYG{o}{=}\PYG{n}{Modelica}\PYG{o}{.}\PYG{n}{Fluid}\PYG{o}{.}\PYG{n}{Types}\PYG{o}{.}\PYG{n}{Dynamics}\PYG{o}{.}\PYG{n}{SteadyState}\PYG{p}{)}
+    \PYG{l+s+s2}{\PYGZdq{}}\PYG{l+s+s2}{Pump for boiler circuit}\PYG{l+s+s2}{\PYGZdq{}} \PYG{p}{));}  \PYG{k+kr}{connect}\PYG{p}{(}\PYG{n}{pumRad}\PYG{o}{.}\PYG{n}{port\PYGZus{}b}\PYG{p}{,} \PYG{n}{dpSen}\PYG{o}{.}\PYG{n}{port\PYGZus{}a}\PYG{p}{)}
+    \PYG{p}{));}      \PYG{n+nb}{smooth}\PYG{o}{=}\PYG{n}{Smooth}\PYG{o}{.}\PYG{n}{None}\PYG{p}{));}
+  \PYG{k+kr}{connect}\PYG{p}{(}\PYG{n}{dpSen}\PYG{o}{.}\PYG{n}{port\PYGZus{}b}\PYG{p}{,} \PYG{n}{pumRad}\PYG{o}{.}\PYG{n}{port\PYGZus{}a}\PYG{p}{)}
+    \PYG{p}{));}      \PYG{n+nb}{smooth}\PYG{o}{=}\PYG{n}{Smooth}\PYG{o}{.}\PYG{n}{None}\PYG{p}{));}
+  \PYG{k+kr}{connect}\PYG{p}{(}\PYG{n}{val2}\PYG{o}{.}\PYG{n}{port\PYGZus{}b}\PYG{p}{,} \PYG{n}{rad2}\PYG{o}{.}\PYG{n}{port\PYGZus{}a}\PYG{p}{)} \PYG{p}{));}      \PYG{n+nb}{smooth}\PYG{o}{=}\PYG{n}{Smooth}\PYG{o}{.}\PYG{n}{None}\PYG{p}{));}
+  \PYG{k+kr}{connect}\PYG{p}{(}\PYG{n}{val1}\PYG{o}{.}\PYG{n}{port\PYGZus{}b}\PYG{p}{,}\PYG{n}{rad1}\PYG{o}{.} \PYG{n}{port\PYGZus{}a}\PYG{p}{)} \PYG{p}{));}      \PYG{n+nb}{smooth}\PYG{o}{=}\PYG{n}{Smooth}\PYG{o}{.}\PYG{n}{None}\PYG{p}{));}
+  \PYG{k+kr}{connect}\PYG{p}{(}\PYG{n}{conRoo2}\PYG{o}{.}\PYG{n}{y}\PYG{p}{,} \PYG{n}{val2}\PYG{o}{.}\PYG{n}{y}\PYG{p}{)} \PYG{p}{));}      \PYG{n+nb}{smooth}\PYG{o}{=}\PYG{n}{Smooth}\PYG{o}{.}\PYG{n}{None}\PYG{p}{));}
+  \PYG{k+kr}{connect}\PYG{p}{(}\PYG{n}{conRoo1}\PYG{o}{.}\PYG{n}{y}\PYG{p}{,} \PYG{n}{val1}\PYG{o}{.}\PYG{n}{y}\PYG{p}{)} \PYG{p}{));}      \PYG{n+nb}{smooth}\PYG{o}{=}\PYG{n}{Smooth}\PYG{o}{.}\PYG{n}{None}\PYG{p}{));}
+  \PYG{k+kr}{connect}\PYG{p}{(}\PYG{n}{pumRad}\PYG{o}{.}\PYG{n}{port\PYGZus{}a}\PYG{p}{,} \PYG{n}{thrWayVal}\PYG{o}{.}\PYG{n}{port\PYGZus{}2}\PYG{p}{)}
+        \PYG{p}{));}      \PYG{n+nb}{smooth}\PYG{o}{=}\PYG{n}{Smooth}\PYG{o}{.}\PYG{n}{None}\PYG{p}{));}
+  \PYG{k+kr}{connect}\PYG{p}{(}\PYG{n}{boi}\PYG{o}{.}\PYG{n}{port\PYGZus{}b}\PYG{p}{,}\PYG{n}{pumBoi}\PYG{o}{.} \PYG{n}{port\PYGZus{}a}\PYG{p}{)} \PYG{p}{));}      \PYG{n+nb}{smooth}\PYG{o}{=}\PYG{n}{Smooth}\PYG{o}{.}\PYG{n}{None}\PYG{p}{));}
+  \PYG{k+kr}{connect}\PYG{p}{(}\PYG{n+nb}{tan}\PYG{o}{.}\PYG{n}{heaPorVol}\PYG{p}{[}\PYG{l+m+mi}{1}\PYG{p}{],} \PYG{n}{tanTemTop}\PYG{o}{.}\PYG{n}{port}\PYG{p}{)} \PYG{p}{));}      \PYG{n}{points}\PYG{o}{=}\PYG{p}{\PYGZob{}\PYGZob{}}\PYG{l+m+mi}{228}\PYG{p}{,}\PYG{o}{\PYGZhy{}}\PYG{l+m+mf}{171.08}\PYG{p}{\PYGZcb{},\PYGZob{}}\PYG{l+m+mi}{256}\PYG{p}{,}\PYG{o}{\PYGZhy{}}\PYG{l+m+mf}{171.08}\PYG{p}{\PYGZcb{},\PYGZob{}}\PYG{l+m+mi}{256}\PYG{p}{,}\PYG{o}{\PYGZhy{}}\PYG{l+m+mi}{170}\PYG{p}{\PYGZcb{},\PYGZob{}}\PYG{l+m+mi}{282}\PYG{p}{,}\PYG{o}{\PYGZhy{}}\PYG{l+m+mi}{170}\PYG{p}{\PYGZcb{}\PYGZcb{},}
+      \PYG{n}{color}\PYG{o}{=}\PYG{p}{\PYGZob{}}\PYG{l+m+mi}{191}\PYG{p}{,}\PYG{l+m+mi}{0}\PYG{p}{,}\PYG{l+m+mi}{0}\PYG{p}{\PYGZcb{},}
+      \PYG{n+nb}{smooth}\PYG{o}{=}\PYG{n}{Smooth}\PYG{o}{.}\PYG{n}{None}\PYG{p}{));}
+  \PYG{k+kr}{connect}\PYG{p}{(}\PYG{n}{tanTemBot}\PYG{o}{.}\PYG{n}{port}\PYG{p}{,} \PYG{n+nb}{tan}\PYG{o}{.}\PYG{n}{heaPorVol}\PYG{p}{[}\PYG{n+nb}{tan}\PYG{o}{.}\PYG{n}{nSeg}\PYG{p}{])} \PYG{p}{));}      \PYG{n+nb}{smooth}\PYG{o}{=}\PYG{n}{Smooth}\PYG{o}{.}\PYG{n}{None}\PYG{p}{));}
+  \PYG{k+kr}{connect}\PYG{p}{(}\PYG{n}{temSup}\PYG{o}{.}\PYG{n}{T}\PYG{p}{,} \PYG{n}{conVal}\PYG{o}{.}\PYG{n}{u\PYGZus{}m}\PYG{p}{)} \PYG{p}{));}      \PYG{n+nb}{smooth}\PYG{o}{=}\PYG{n}{Smooth}\PYG{o}{.}\PYG{n}{None}\PYG{p}{));}
+  \PYG{k+kr}{connect}\PYG{p}{(}\PYG{n}{mulMax}\PYG{o}{.}\PYG{n}{y}\PYG{p}{,} \PYG{n}{hysPum}\PYG{o}{.}\PYG{n}{u}\PYG{p}{)} \PYG{p}{));}      \PYG{n+nb}{smooth}\PYG{o}{=}\PYG{n}{Smooth}\PYG{o}{.}\PYG{n}{None}\PYG{p}{));}
+  \PYG{k+kr}{connect}\PYG{p}{(}\PYG{n}{conRoo2}\PYG{o}{.}\PYG{n}{y}\PYG{p}{,} \PYG{n}{mulMax}\PYG{o}{.}\PYG{n}{u}\PYG{p}{[}\PYG{l+m+mi}{1}\PYG{p}{])} \PYG{p}{));}      \PYG{n}{points}\PYG{o}{=}\PYG{p}{\PYGZob{}\PYGZob{}}\PYG{l+m+mi}{560}\PYG{p}{,}\PYG{l+m+mi}{358}\PYG{p}{\PYGZcb{},\PYGZob{}}\PYG{l+m+mi}{560}\PYG{p}{,}\PYG{l+m+mi}{352}\PYG{p}{\PYGZcb{},\PYGZob{}}\PYG{l+m+mi}{576}\PYG{p}{,}\PYG{l+m+mi}{352}\PYG{p}{\PYGZcb{},\PYGZob{}}\PYG{l+m+mi}{576}\PYG{p}{,}\PYG{l+m+mi}{376}\PYG{p}{\PYGZcb{},\PYGZob{}}\PYG{o}{\PYGZhy{}}\PYG{l+m+mi}{26}\PYG{p}{,}\PYG{l+m+mi}{376}\PYG{p}{\PYGZcb{},\PYGZob{}}\PYG{o}{\PYGZhy{}}\PYG{l+m+mi}{26}\PYG{p}{,}\PYG{l+m+mf}{71.8333}\PYG{p}{\PYGZcb{},\PYGZob{}}
+          \PYG{o}{\PYGZhy{}}\PYG{l+m+mi}{2}\PYG{p}{,}\PYG{l+m+mf}{71.8333}\PYG{p}{\PYGZcb{}\PYGZcb{},}
+      \PYG{n}{color}\PYG{o}{=}\PYG{p}{\PYGZob{}}\PYG{l+m+mi}{0}\PYG{p}{,}\PYG{l+m+mi}{0}\PYG{p}{,}\PYG{l+m+mi}{127}\PYG{p}{\PYGZcb{},}
+      \PYG{n+nb}{smooth}\PYG{o}{=}\PYG{n}{Smooth}\PYG{o}{.}\PYG{n}{None}\PYG{p}{));}
+  \PYG{k+kr}{connect}\PYG{p}{(}\PYG{n}{conRoo1}\PYG{o}{.}\PYG{n}{y}\PYG{p}{,} \PYG{n}{mulMax}\PYG{o}{.}\PYG{n}{u}\PYG{p}{[}\PYG{l+m+mi}{2}\PYG{p}{])} \PYG{p}{));}      \PYG{n}{points}\PYG{o}{=}\PYG{p}{\PYGZob{}\PYGZob{}}\PYG{l+m+mi}{562}\PYG{p}{,}\PYG{l+m+mi}{250}\PYG{p}{\PYGZcb{},\PYGZob{}}\PYG{l+m+mi}{562}\PYG{p}{,}\PYG{l+m+mi}{280}\PYG{p}{\PYGZcb{},\PYGZob{}}\PYG{o}{\PYGZhy{}}\PYG{l+m+mi}{26}\PYG{p}{,}\PYG{l+m+mi}{280}\PYG{p}{\PYGZcb{},\PYGZob{}}\PYG{o}{\PYGZhy{}}\PYG{l+m+mi}{26}\PYG{p}{,}\PYG{l+m+mf}{71.5}\PYG{p}{\PYGZcb{},\PYGZob{}}\PYG{o}{\PYGZhy{}}\PYG{l+m+mi}{2}\PYG{p}{,}\PYG{l+m+mf}{71.5}\PYG{p}{\PYGZcb{}\PYGZcb{},}
+      \PYG{n}{color}\PYG{o}{=}\PYG{p}{\PYGZob{}}\PYG{l+m+mi}{0}\PYG{p}{,}\PYG{l+m+mi}{0}\PYG{p}{,}\PYG{l+m+mi}{127}\PYG{p}{\PYGZcb{},}
+      \PYG{n+nb}{smooth}\PYG{o}{=}\PYG{n}{Smooth}\PYG{o}{.}\PYG{n}{None}\PYG{p}{));}
+  \PYG{k+kr}{connect}\PYG{p}{(}\PYG{n}{conVal}\PYG{o}{.}\PYG{n}{y}\PYG{p}{,} \PYG{n}{thrWayVal}\PYG{o}{.}\PYG{n}{y}\PYG{p}{)} \PYG{p}{));}      \PYG{n+nb}{smooth}\PYG{o}{=}\PYG{n}{Smooth}\PYG{o}{.}\PYG{n}{None}\PYG{p}{));}
+  \PYG{k+kr}{connect}\PYG{p}{(}\PYG{n}{booToReaPum}\PYG{o}{.}\PYG{n}{y}\PYG{p}{,} \PYG{n}{pumBoi}\PYG{o}{.}\PYG{n}{y}\PYG{p}{)}
+          \PYG{p}{));}      \PYG{n+nb}{smooth}\PYG{o}{=}\PYG{n}{Smooth}\PYG{o}{.}\PYG{n}{None}\PYG{p}{));}
+  \PYG{k+kr}{connect}\PYG{p}{(}\PYG{n}{swi}\PYG{o}{.}\PYG{n}{y}\PYG{p}{,} \PYG{n}{heaChaBoi}\PYG{o}{.}\PYG{n}{TRoo\PYGZus{}in}\PYG{p}{)} \PYG{p}{));}          \PYG{p}{\PYGZob{}}\PYG{l+m+mf}{24.1}\PYG{p}{,}\PYG{o}{\PYGZhy{}}\PYG{l+m+mi}{44}\PYG{p}{\PYGZcb{}\PYGZcb{},}
+      \PYG{n}{color}\PYG{o}{=}\PYG{p}{\PYGZob{}}\PYG{l+m+mi}{0}\PYG{p}{,}\PYG{l+m+mi}{0}\PYG{p}{,}\PYG{l+m+mi}{127}\PYG{p}{\PYGZcb{},}
+      \PYG{n+nb}{smooth}\PYG{o}{=}\PYG{n}{Smooth}\PYG{o}{.}\PYG{n}{None}\PYG{p}{));}
+  \PYG{k+kr}{connect}\PYG{p}{(}\PYG{n}{pumRad}\PYG{o}{.}\PYG{n}{port\PYGZus{}b}\PYG{p}{,} \PYG{n}{temSup}\PYG{o}{.}\PYG{n}{port\PYGZus{}a}\PYG{p}{)} \PYG{p}{));}      \PYG{n+nb}{smooth}\PYG{o}{=}\PYG{n}{Smooth}\PYG{o}{.}\PYG{n}{None}\PYG{p}{));}
+  \PYG{k+kr}{connect}\PYG{p}{(}\PYG{n}{sub1}\PYG{o}{.}\PYG{n}{y}\PYG{p}{,} \PYG{n}{lesThr}\PYG{o}{.}\PYG{n}{u2}\PYG{p}{)} \PYG{p}{));}      \PYG{n+nb}{smooth}\PYG{o}{=}\PYG{n}{Smooth}\PYG{o}{.}\PYG{n}{None}\PYG{p}{));}
+  \PYG{k+kr}{connect}\PYG{p}{(}\PYG{n}{tanTemTop}\PYG{o}{.}\PYG{n}{T}\PYG{p}{,} \PYG{n}{sub1}\PYG{o}{.}\PYG{n}{u1}\PYG{p}{)} \PYG{p}{));}      \PYG{n+nb}{smooth}\PYG{o}{=}\PYG{n}{Smooth}\PYG{o}{.}\PYG{n}{None}\PYG{p}{));}
+  \PYG{k+kr}{connect}\PYG{p}{(}\PYG{n}{dTThr}\PYG{o}{.}\PYG{n}{y}\PYG{p}{,} \PYG{n}{sub1}\PYG{o}{.}\PYG{n}{u2}\PYG{p}{)} \PYG{p}{));}      \PYG{n+nb}{smooth}\PYG{o}{=}\PYG{n}{Smooth}\PYG{o}{.}\PYG{n}{None}\PYG{p}{));}
+  \PYG{k+kr}{connect}\PYG{p}{(}\PYG{n}{tanTemBot}\PYG{o}{.}\PYG{n}{T}\PYG{p}{,} \PYG{n}{greThrBoi}\PYG{o}{.}\PYG{n}{u}\PYG{p}{)} \PYG{p}{));}      \PYG{n+nb}{smooth}\PYG{o}{=}\PYG{n}{Smooth}\PYG{o}{.}\PYG{n}{None}\PYG{p}{));}
+  \PYG{k+kr}{connect}\PYG{p}{(}\PYG{n}{TRooSet}\PYG{o}{.}\PYG{n}{y}\PYG{p}{,} \PYG{n}{swi1}\PYG{o}{.}\PYG{n}{u1}\PYG{p}{)} \PYG{p}{));}      \PYG{n+nb}{smooth}\PYG{o}{=}\PYG{n}{Smooth}\PYG{o}{.}\PYG{n}{None}\PYG{p}{));}
+  \PYG{k+kr}{connect}\PYG{p}{(}\PYG{n}{swi1}\PYG{o}{.}\PYG{n}{u2}\PYG{p}{,} \PYG{n}{occSch}\PYG{o}{.}\PYG{n}{occupied}\PYG{p}{)} \PYG{p}{));}      \PYG{n+nb}{smooth}\PYG{o}{=}\PYG{n}{Smooth}\PYG{o}{.}\PYG{n}{None}\PYG{p}{));}
+  \PYG{k+kr}{connect}\PYG{p}{(}\PYG{n}{TRooNig}\PYG{o}{.}\PYG{n}{y}\PYG{p}{,} \PYG{n}{swi1}\PYG{o}{.}\PYG{n}{u3}\PYG{p}{)} \PYG{p}{));}      \PYG{n+nb}{smooth}\PYG{o}{=}\PYG{n}{Smooth}\PYG{o}{.}\PYG{n}{None}\PYG{p}{));}
+  \PYG{k+kr}{connect}\PYG{p}{(}\PYG{n}{TOutSwi}\PYG{o}{.}\PYG{n}{y}\PYG{p}{,} \PYG{n}{onOff}\PYG{o}{.}\PYG{n}{reference}\PYG{p}{)} \PYG{p}{));}      \PYG{n+nb}{smooth}\PYG{o}{=}\PYG{n}{Smooth}\PYG{o}{.}\PYG{n}{None}\PYG{p}{));}
+  \PYG{k+kr}{connect}\PYG{p}{(}\PYG{n}{swi1}\PYG{o}{.}\PYG{n}{y}\PYG{p}{,} \PYG{n}{swi}\PYG{o}{.}\PYG{n}{u1}\PYG{p}{)} \PYG{p}{));}      \PYG{n+nb}{smooth}\PYG{o}{=}\PYG{n}{Smooth}\PYG{o}{.}\PYG{n}{None}\PYG{p}{));}
+  \PYG{k+kr}{connect}\PYG{p}{(}\PYG{n}{onOff}\PYG{o}{.}\PYG{n}{y}\PYG{p}{,} \PYG{n}{swi}\PYG{o}{.}\PYG{n}{u2}\PYG{p}{)} \PYG{p}{));}      \PYG{n+nb}{smooth}\PYG{o}{=}\PYG{n}{Smooth}\PYG{o}{.}\PYG{n}{None}\PYG{p}{));}
+  \PYG{k+kr}{connect}\PYG{p}{(}\PYG{n}{TRooOff}\PYG{o}{.}\PYG{n}{y}\PYG{p}{,} \PYG{n}{swi}\PYG{o}{.}\PYG{n}{u3}\PYG{p}{)} \PYG{p}{));}      \PYG{n+nb}{smooth}\PYG{o}{=}\PYG{n}{Smooth}\PYG{o}{.}\PYG{n}{None}\PYG{p}{));}
+  \PYG{k+kr}{connect}\PYG{p}{(}\PYG{n}{conPum}\PYG{o}{.}\PYG{n}{y}\PYG{p}{,} \PYG{n}{pumRad}\PYG{o}{.}\PYG{n}{y}\PYG{p}{)} \PYG{p}{));}      \PYG{n+nb}{smooth}\PYG{o}{=}\PYG{n}{Smooth}\PYG{o}{.}\PYG{n}{None}\PYG{p}{));}
+  \PYG{k+kr}{connect}\PYG{p}{(}\PYG{n}{TRoo2}\PYG{o}{.}\PYG{n}{T}\PYG{p}{,}\PYG{n}{conRoo2}\PYG{o}{.} \PYG{n}{u\PYGZus{}m}\PYG{p}{)} \PYG{p}{));}      \PYG{n+nb}{smooth}\PYG{o}{=}\PYG{n}{Smooth}\PYG{o}{.}\PYG{n}{None}\PYG{p}{));}
+  \PYG{k+kr}{connect}\PYG{p}{(}\PYG{n}{TRoo1}\PYG{o}{.}\PYG{n}{T}\PYG{p}{,} \PYG{n}{conRoo1}\PYG{o}{.}\PYG{n}{u\PYGZus{}m}\PYG{p}{)} \PYG{p}{));}      \PYG{n+nb}{smooth}\PYG{o}{=}\PYG{n}{Smooth}\PYG{o}{.}\PYG{n}{None}\PYG{p}{));}
+  \PYG{k+kr}{connect}\PYG{p}{(}\PYG{n}{bou1}\PYG{o}{.}\PYG{n}{ports}\PYG{p}{[}\PYG{l+m+mi}{1}\PYG{p}{],} \PYG{n}{boi}\PYG{o}{.}\PYG{n}{port\PYGZus{}a}\PYG{p}{)} \PYG{p}{));}      \PYG{n+nb}{smooth}\PYG{o}{=}\PYG{n}{Smooth}\PYG{o}{.}\PYG{n}{None}\PYG{p}{));}
+  \PYG{k+kr}{connect}\PYG{p}{(}\PYG{n}{gain}\PYG{o}{.}\PYG{n}{u}\PYG{p}{,} \PYG{n}{dpSen}\PYG{o}{.}\PYG{n}{p\PYGZus{}rel}\PYG{p}{)} \PYG{p}{));}      \PYG{n+nb}{smooth}\PYG{o}{=}\PYG{n}{Smooth}\PYG{o}{.}\PYG{n}{None}\PYG{p}{));}
+  \PYG{k+kr}{connect}\PYG{p}{(}\PYG{n}{gain}\PYG{o}{.}\PYG{n}{y}\PYG{p}{,} \PYG{n}{conPum}\PYG{o}{.}\PYG{n}{u\PYGZus{}m}\PYG{p}{)} \PYG{p}{));}      \PYG{n+nb}{smooth}\PYG{o}{=}\PYG{n}{Smooth}\PYG{o}{.}\PYG{n}{None}\PYG{p}{));}
+  \PYG{k+kr}{connect}\PYG{p}{(}\PYG{n}{pumBoi}\PYG{o}{.}\PYG{n}{port\PYGZus{}b}\PYG{p}{,} \PYG{n+nb}{tan}\PYG{o}{.}\PYG{n}{port\PYGZus{}a}\PYG{p}{)} \PYG{p}{));}      \PYG{n+nb}{smooth}\PYG{o}{=}\PYG{n}{Smooth}\PYG{o}{.}\PYG{n}{None}\PYG{p}{));}
+  \PYG{k+kr}{connect}\PYG{p}{(}\PYG{n}{pumBoi}\PYG{o}{.}\PYG{n}{port\PYGZus{}b}\PYG{p}{,} \PYG{n}{thrWayVal}\PYG{o}{.}\PYG{n}{port\PYGZus{}1}\PYG{p}{)} \PYG{p}{));}      \PYG{n+nb}{smooth}\PYG{o}{=}\PYG{n}{Smooth}\PYG{o}{.}\PYG{n}{None}\PYG{p}{));}
+  \PYG{k+kr}{connect}\PYG{p}{(}\PYG{n}{temRet}\PYG{o}{.}\PYG{n}{port\PYGZus{}b}\PYG{p}{,} \PYG{n}{splVal}\PYG{o}{.}\PYG{n}{port\PYGZus{}1}\PYG{p}{)} \PYG{p}{));}      \PYG{n+nb}{smooth}\PYG{o}{=}\PYG{n}{Smooth}\PYG{o}{.}\PYG{n}{None}\PYG{p}{));}
+  \PYG{k+kr}{connect}\PYG{p}{(}\PYG{n}{thrWayVal}\PYG{o}{.}\PYG{n}{port\PYGZus{}3}\PYG{p}{,} \PYG{n}{splVal}\PYG{o}{.}\PYG{n}{port\PYGZus{}3}\PYG{p}{)} \PYG{p}{));}      \PYG{n+nb}{smooth}\PYG{o}{=}\PYG{n}{Smooth}\PYG{o}{.}\PYG{n}{None}\PYG{p}{));}
+  \PYG{k+kr}{connect}\PYG{p}{(}\PYG{n}{splVal}\PYG{o}{.}\PYG{n}{port\PYGZus{}2}\PYG{p}{,} \PYG{n+nb}{tan}\PYG{o}{.}\PYG{n}{port\PYGZus{}b}\PYG{p}{)} \PYG{p}{));}      \PYG{n+nb}{smooth}\PYG{o}{=}\PYG{n}{Smooth}\PYG{o}{.}\PYG{n}{None}\PYG{p}{));}
+  \PYG{k+kr}{connect}\PYG{p}{(}\PYG{n}{splVal1}\PYG{o}{.}\PYG{n}{port\PYGZus{}3}\PYG{p}{,}\PYG{n}{val1}\PYG{o}{.} \PYG{n}{port\PYGZus{}a}\PYG{p}{)} \PYG{p}{));}      \PYG{n+nb}{smooth}\PYG{o}{=}\PYG{n}{Smooth}\PYG{o}{.}\PYG{n}{None}\PYG{p}{));}
+  \PYG{k+kr}{connect}\PYG{p}{(}\PYG{n}{splVal1}\PYG{o}{.}\PYG{n}{port\PYGZus{}1}\PYG{p}{,} \PYG{n}{temSup}\PYG{o}{.}\PYG{n}{port\PYGZus{}b}\PYG{p}{)} \PYG{p}{));}      \PYG{n+nb}{smooth}\PYG{o}{=}\PYG{n}{Smooth}\PYG{o}{.}\PYG{n}{None}\PYG{p}{));}
+  \PYG{k+kr}{connect}\PYG{p}{(}\PYG{n}{temRet}\PYG{o}{.}\PYG{n}{port\PYGZus{}a}\PYG{p}{,} \PYG{n}{splVal2}\PYG{o}{.}\PYG{n}{port\PYGZus{}1}\PYG{p}{)} \PYG{p}{));}      \PYG{n+nb}{smooth}\PYG{o}{=}\PYG{n}{Smooth}\PYG{o}{.}\PYG{n}{None}\PYG{p}{));}
+  \PYG{k+kr}{connect}\PYG{p}{(}\PYG{n}{splVal2}\PYG{o}{.}\PYG{n}{port\PYGZus{}3}\PYG{p}{,}\PYG{n}{rad1}\PYG{o}{.} \PYG{n}{port\PYGZus{}b}\PYG{p}{)} \PYG{p}{));}      \PYG{n+nb}{smooth}\PYG{o}{=}\PYG{n}{Smooth}\PYG{o}{.}\PYG{n}{None}\PYG{p}{));}
+
+  \PYG{k+kr}{connect}\PYG{p}{(}\PYG{n}{lesThr}\PYG{o}{.}\PYG{n}{y}\PYG{p}{,} \PYG{n}{and1}\PYG{o}{.}\PYG{n}{u2}\PYG{p}{)} \PYG{p}{));}      \PYG{n+nb}{smooth}\PYG{o}{=}\PYG{n}{Smooth}\PYG{o}{.}\PYG{n}{None}\PYG{p}{));}
+  \PYG{k+kr}{connect}\PYG{p}{(}\PYG{n}{lesThrTRoo}\PYG{o}{.}\PYG{n}{y}\PYG{p}{,} \PYG{n}{and1}\PYG{o}{.}\PYG{n}{u1}\PYG{p}{)} \PYG{p}{));}      \PYG{n+nb}{smooth}\PYG{o}{=}\PYG{n}{Smooth}\PYG{o}{.}\PYG{n}{None}\PYG{p}{));}
+  \PYG{k+kr}{connect}\PYG{p}{(}\PYG{n}{and1}\PYG{o}{.}\PYG{n}{y}\PYG{p}{,} \PYG{n}{T1}\PYG{o}{.}\PYG{n}{condition}\PYG{p}{)} \PYG{p}{));}  \PYG{k+kr}{connect}\PYG{p}{(}\PYG{n}{pumOn2}\PYG{o}{.}\PYG{n}{active}\PYG{p}{,} \PYG{n}{pumOnSig}\PYG{o}{.}\PYG{n}{u}\PYG{p}{[}\PYG{l+m+mi}{1}\PYG{p}{])} \PYG{p}{));}          \PYG{p}{\PYGZob{}}\PYG{l+m+mi}{654}\PYG{p}{,}\PYG{o}{\PYGZhy{}}\PYG{l+m+mi}{4}\PYG{p}{\PYGZcb{},\PYGZob{}}\PYG{l+m+mi}{654}\PYG{p}{,}\PYG{o}{\PYGZhy{}}\PYG{l+m+mf}{84.75}\PYG{p}{\PYGZcb{},\PYGZob{}}\PYG{l+m+mi}{660}\PYG{p}{,}\PYG{o}{\PYGZhy{}}\PYG{l+m+mf}{84.75}\PYG{p}{\PYGZcb{}\PYGZcb{},}
+     \PYG{n}{color}\PYG{o}{=}\PYG{p}{\PYGZob{}}\PYG{l+m+mi}{255}\PYG{p}{,}\PYG{l+m+mi}{0}\PYG{p}{,}\PYG{l+m+mi}{255}\PYG{p}{\PYGZcb{}));}
+  \PYG{k+kr}{connect}\PYG{p}{(}\PYG{n}{pumOn}\PYG{o}{.}\PYG{n}{active}\PYG{p}{,} \PYG{n}{pumOnSig}\PYG{o}{.}\PYG{n}{u}\PYG{p}{[}\PYG{l+m+mi}{2}\PYG{p}{])} \PYG{p}{));}          \PYG{p}{\PYGZob{}}\PYG{l+m+mi}{654}\PYG{p}{,}\PYG{o}{\PYGZhy{}}\PYG{l+m+mi}{4}\PYG{p}{\PYGZcb{},\PYGZob{}}\PYG{l+m+mi}{654}\PYG{p}{,}\PYG{o}{\PYGZhy{}}\PYG{l+m+mf}{88.25}\PYG{p}{\PYGZcb{},\PYGZob{}}\PYG{l+m+mi}{660}\PYG{p}{,}\PYG{o}{\PYGZhy{}}\PYG{l+m+mf}{88.25}\PYG{p}{\PYGZcb{}\PYGZcb{},}
+     \PYG{n}{color}\PYG{o}{=}\PYG{p}{\PYGZob{}}\PYG{l+m+mi}{255}\PYG{p}{,}\PYG{l+m+mi}{0}\PYG{p}{,}\PYG{l+m+mi}{255}\PYG{p}{\PYGZcb{}));}
+  \PYG{k+kr}{connect}\PYG{p}{(}\PYG{n}{hysPum}\PYG{o}{.}\PYG{n}{y}\PYG{p}{,} \PYG{n}{conPum}\PYG{o}{.}\PYG{n}{trigger}\PYG{p}{)} \PYG{p}{));}  \PYG{k+kr}{connect}\PYG{p}{(}\PYG{n}{hysPum}\PYG{o}{.}\PYG{n}{y}\PYG{p}{,} \PYG{n}{booToRea}\PYG{o}{.}\PYG{n}{u}\PYG{p}{)}
+    \PYG{p}{);}
+  \PYG{k+kr}{connect}\PYG{p}{(}\PYG{n}{booToRea}\PYG{o}{.}\PYG{n}{y}\PYG{p}{,} \PYG{n}{conPum}\PYG{o}{.}\PYG{n}{u\PYGZus{}s}\PYG{p}{)}
+    \PYG{p}{);}
+  \PYG{k+kr}{connect}\PYG{p}{(}\PYG{n}{conVal}\PYG{o}{.}\PYG{n}{trigger}\PYG{p}{,} \PYG{n}{hysPum}\PYG{o}{.}\PYG{n}{y}\PYG{p}{)} \PYG{p}{));}  \PYG{k+kr}{connect}\PYG{p}{(}\PYG{n}{onOff}\PYG{o}{.}\PYG{n}{u}\PYG{p}{,} \PYG{n}{aveTOut}\PYG{o}{.}\PYG{n}{y}\PYG{p}{)} \PYG{p}{));}  \PYG{k+kr}{connect}\PYG{p}{(}\PYG{n}{weaBus}\PYG{p}{,}\PYG{n}{building}\PYG{o}{.} \PYG{n}{weaBus}\PYG{p}{)} \PYG{p}{));}      \PYG{n}{thickness}\PYG{o}{=}\PYG{l+m+mf}{0.5}\PYG{p}{));}
+  \PYG{k+kr}{connect}\PYG{p}{(}\PYG{n}{weaBus}\PYG{o}{.}\PYG{n}{TDryBul}\PYG{p}{,}\PYG{n}{aveTOut}\PYG{o}{.} \PYG{n}{u}\PYG{p}{)} \PYG{p}{));}      \PYG{n}{thickness}\PYG{o}{=}\PYG{l+m+mf}{0.5}\PYG{p}{),} \PYG{n}{Text}\PYG{p}{(}
+      \PYG{n}{string}\PYG{o}{=}\PYG{l+s+s2}{\PYGZdq{}}\PYG{l+s+s2}{\PYGZpc{}first}\PYG{l+s+s2}{\PYGZdq{}}\PYG{p}{,}
+      \PYG{n}{index}\PYG{o}{=}\PYG{o}{\PYGZhy{}}\PYG{l+m+mi}{1}\PYG{p}{,}
+      \PYG{n}{extent}\PYG{o}{=}\PYG{p}{\PYGZob{}\PYGZob{}}\PYG{o}{\PYGZhy{}}\PYG{l+m+mi}{6}\PYG{p}{,}\PYG{l+m+mi}{3}\PYG{p}{\PYGZcb{},\PYGZob{}}\PYG{o}{\PYGZhy{}}\PYG{l+m+mi}{6}\PYG{p}{,}\PYG{l+m+mi}{3}\PYG{p}{\PYGZcb{}\PYGZcb{},}
+      \PYG{n}{horizontalAlignment}\PYG{o}{=}\PYG{n}{TextAlignment}\PYG{o}{.}\PYG{n}{Right}\PYG{p}{));}
+  \PYG{k+kr}{connect}\PYG{p}{(}\PYG{n}{weaBus}\PYG{o}{.}\PYG{n}{TDryBul}\PYG{p}{,} \PYG{n}{heaChaBoi}\PYG{o}{.}\PYG{n}{TOut}\PYG{p}{)} \PYG{p}{));}      \PYG{n}{thickness}\PYG{o}{=}\PYG{l+m+mf}{0.5}\PYG{p}{,}
+      \PYG{n+nb}{smooth}\PYG{o}{=}\PYG{n}{Smooth}\PYG{o}{.}\PYG{n}{None}\PYG{p}{));}
+  \PYG{k+kr}{connect}\PYG{p}{(}\PYG{n}{weaBus}\PYG{p}{,} \PYG{n}{bou}\PYG{p}{[}\PYG{l+m+mi}{1}\PYG{p}{]}\PYG{o}{.}\PYG{n}{weaBus}\PYG{p}{)} \PYG{p}{));}      \PYG{n}{points}\PYG{o}{=}\PYG{p}{\PYGZob{}\PYGZob{}}\PYG{o}{\PYGZhy{}}\PYG{l+m+mi}{55}\PYG{p}{,}\PYG{l+m+mi}{157}\PYG{p}{\PYGZcb{},\PYGZob{}}\PYG{o}{\PYGZhy{}}\PYG{l+m+mi}{55}\PYG{p}{,}\PYG{l+m+mf}{156.2}\PYG{p}{\PYGZcb{},\PYGZob{}}\PYG{l+m+mi}{66}\PYG{p}{,}\PYG{l+m+mf}{156.2}\PYG{p}{\PYGZcb{}\PYGZcb{},}
+      \PYG{n}{color}\PYG{o}{=}\PYG{p}{\PYGZob{}}\PYG{l+m+mi}{255}\PYG{p}{,}\PYG{l+m+mi}{204}\PYG{p}{,}\PYG{l+m+mi}{51}\PYG{p}{\PYGZcb{},}
+      \PYG{n}{thickness}\PYG{o}{=}\PYG{l+m+mf}{0.5}\PYG{p}{),} \PYG{n}{Text}\PYG{p}{(}
+      \PYG{n}{string}\PYG{o}{=}\PYG{l+s+s2}{\PYGZdq{}}\PYG{l+s+s2}{\PYGZpc{}second}\PYG{l+s+s2}{\PYGZdq{}}\PYG{p}{,}
+      \PYG{n}{index}\PYG{o}{=}\PYG{l+m+mi}{1}\PYG{p}{,}
+      \PYG{n}{extent}\PYG{o}{=}\PYG{p}{\PYGZob{}\PYGZob{}}\PYG{o}{\PYGZhy{}}\PYG{l+m+mi}{6}\PYG{p}{,}\PYG{l+m+mi}{3}\PYG{p}{\PYGZcb{},\PYGZob{}}\PYG{o}{\PYGZhy{}}\PYG{l+m+mi}{6}\PYG{p}{,}\PYG{l+m+mi}{3}\PYG{p}{\PYGZcb{}\PYGZcb{},}
+      \PYG{n}{horizontalAlignment}\PYG{o}{=}\PYG{n}{TextAlignment}\PYG{o}{.}\PYG{n}{Right}\PYG{p}{));}
+  \PYG{k+kr}{connect}\PYG{p}{(}\PYG{n}{weaBus}\PYG{p}{,} \PYG{n}{bou}\PYG{p}{[}\PYG{l+m+mi}{2}\PYG{p}{]}\PYG{o}{.}\PYG{n}{weaBus}\PYG{p}{);}
+  \PYG{k+kr}{connect}\PYG{p}{(}\PYG{n}{weaBus}\PYG{p}{,} \PYG{n}{bou}\PYG{p}{[}\PYG{l+m+mi}{3}\PYG{p}{]}\PYG{o}{.}\PYG{n}{weaBus}\PYG{p}{);}
+  \PYG{k+kr}{connect}\PYG{p}{(}\PYG{n}{weaBus}\PYG{p}{,} \PYG{n}{bou}\PYG{p}{[}\PYG{l+m+mi}{4}\PYG{p}{]}\PYG{o}{.}\PYG{n}{weaBus}\PYG{p}{);}
+  \PYG{k+kr}{connect}\PYG{p}{(}\PYG{n}{weaBus}\PYG{p}{,} \PYG{n}{bou}\PYG{p}{[}\PYG{l+m+mi}{5}\PYG{p}{]}\PYG{o}{.}\PYG{n}{weaBus}\PYG{p}{);}
+  \PYG{k+kr}{connect}\PYG{p}{(}\PYG{n}{weaBus}\PYG{p}{,} \PYG{n}{bou}\PYG{p}{[}\PYG{l+m+mi}{6}\PYG{p}{]}\PYG{o}{.}\PYG{n}{weaBus}\PYG{p}{);}
+  \PYG{k+kr}{connect}\PYG{p}{(}\PYG{n}{weaBus}\PYG{p}{,} \PYG{n}{bou}\PYG{p}{[}\PYG{l+m+mi}{7}\PYG{p}{]}\PYG{o}{.}\PYG{n}{weaBus}\PYG{p}{);}
+  \PYG{k+kr}{connect}\PYG{p}{(}\PYG{n}{weaBus}\PYG{p}{,} \PYG{n}{bou}\PYG{p}{[}\PYG{l+m+mi}{8}\PYG{p}{]}\PYG{o}{.}\PYG{n}{weaBus}\PYG{p}{);}
+  \PYG{k+kr}{connect}\PYG{p}{(}\PYG{n}{weaBus}\PYG{p}{,} \PYG{n}{bou}\PYG{p}{[}\PYG{l+m+mi}{9}\PYG{p}{]}\PYG{o}{.}\PYG{n}{weaBus}\PYG{p}{);}
+  \PYG{k+kr}{connect}\PYG{p}{(}\PYG{n}{weaBus}\PYG{p}{,} \PYG{n}{bou}\PYG{p}{[}\PYG{l+m+mi}{10}\PYG{p}{]}\PYG{o}{.}\PYG{n}{weaBus}\PYG{p}{);}
+  \PYG{k+kr}{connect}\PYG{p}{(}\PYG{n}{weaBus}\PYG{p}{,} \PYG{n}{bou}\PYG{p}{[}\PYG{l+m+mi}{11}\PYG{p}{]}\PYG{o}{.}\PYG{n}{weaBus}\PYG{p}{);}
+  \PYG{k+kr}{connect}\PYG{p}{(}\PYG{n}{weaBus}\PYG{p}{,} \PYG{n}{bou}\PYG{p}{[}\PYG{l+m+mi}{12}\PYG{p}{]}\PYG{o}{.}\PYG{n}{weaBus}\PYG{p}{);}
+  \PYG{k+kr}{connect}\PYG{p}{(}\PYG{n}{weaBus}\PYG{p}{,} \PYG{n}{bou}\PYG{p}{[}\PYG{l+m+mi}{13}\PYG{p}{]}\PYG{o}{.}\PYG{n}{weaBus}\PYG{p}{);}
+  \PYG{k+kr}{connect}\PYG{p}{(}\PYG{n}{irishReferenceHouse}\PYG{o}{.}\PYG{n}{port\PYGZus{}a}\PYG{p}{,} \PYG{n}{bou}\PYG{o}{.}\PYG{n}{ports}\PYG{p}{[}\PYG{l+m+mi}{1}\PYG{p}{]));}
+  \PYG{k+kr}{connect}\PYG{p}{(}\PYG{n}{irishReferenceHouse}\PYG{o}{.}\PYG{n}{port\PYGZus{}b}\PYG{p}{,} \PYG{n}{out}\PYG{o}{.}\PYG{n}{ports}\PYG{p}{[}\PYG{l+m+mi}{1}\PYG{p}{]));}
+  \PYG{k+kr}{connect}\PYG{p}{(}\PYG{n}{out}\PYG{o}{.}\PYG{n}{weaBus}\PYG{p}{,} \PYG{n}{weaBus}\PYG{p}{)} \PYG{p}{));}      \PYG{n}{points}\PYG{o}{=}\PYG{p}{\PYGZob{}\PYGZob{}}\PYG{l+m+mi}{64}\PYG{p}{,}\PYG{l+m+mf}{138.2}\PYG{p}{\PYGZcb{},\PYGZob{}}\PYG{l+m+mi}{0}\PYG{p}{,}\PYG{l+m+mf}{138.2}\PYG{p}{\PYGZcb{},\PYGZob{}}\PYG{l+m+mi}{0}\PYG{p}{,}\PYG{l+m+mi}{156}\PYG{p}{\PYGZcb{},\PYGZob{}}\PYG{o}{\PYGZhy{}}\PYG{l+m+mi}{28}\PYG{p}{,}\PYG{l+m+mi}{156}\PYG{p}{\PYGZcb{},\PYGZob{}}\PYG{o}{\PYGZhy{}}\PYG{l+m+mi}{28}\PYG{p}{,}\PYG{l+m+mi}{157}\PYG{p}{\PYGZcb{},\PYGZob{}}\PYG{o}{\PYGZhy{}}\PYG{l+m+mi}{55}\PYG{p}{,}\PYG{l+m+mi}{157}\PYG{p}{\PYGZcb{}\PYGZcb{},}
+      \PYG{n}{color}\PYG{o}{=}\PYG{p}{\PYGZob{}}\PYG{l+m+mi}{255}\PYG{p}{,}\PYG{l+m+mi}{204}\PYG{p}{,}\PYG{l+m+mi}{51}\PYG{p}{\PYGZcb{},}
+      \PYG{n}{thickness}\PYG{o}{=}\PYG{l+m+mf}{0.5}\PYG{p}{));}
+  \PYG{k+kr}{connect}\PYG{p}{(}\PYG{n}{rad2}\PYG{o}{.}\PYG{n}{heatPortCon}\PYG{p}{,} \PYG{n}{irishReferenceHouse}\PYG{o}{.}\PYG{n}{heat\PYGZus{}port\PYGZus{}a}\PYG{p}{[}\PYG{l+m+mi}{2}\PYG{p}{])} \PYG{p}{));}      \PYG{n}{Line}\PYG{p}{(}\PYG{n}{points}\PYG{o}{=}\PYG{p}{\PYGZob{}\PYGZob{}}\PYG{l+m+mi}{360}\PYG{p}{,}\PYG{l+m+mf}{331.2}\PYG{p}{\PYGZcb{},\PYGZob{}}\PYG{l+m+mi}{360}\PYG{p}{,}\PYG{l+m+mi}{348}\PYG{p}{\PYGZcb{},\PYGZob{}}\PYG{l+m+mi}{436}\PYG{p}{,}\PYG{l+m+mi}{348}\PYG{p}{\PYGZcb{},\PYGZob{}}\PYG{l+m+mi}{436}\PYG{p}{,}\PYG{l+m+mf}{106.931}\PYG{p}{\PYGZcb{},\PYGZob{}}\PYG{l+m+mf}{366.3}\PYG{p}{,}\PYG{l+m+mf}{106.931}\PYG{p}{\PYGZcb{}\PYGZcb{},}
+        \PYG{n}{color}\PYG{o}{=}\PYG{p}{\PYGZob{}}\PYG{l+m+mi}{191}\PYG{p}{,}\PYG{l+m+mi}{0}\PYG{p}{,}\PYG{l+m+mi}{0}\PYG{p}{\PYGZcb{}));}
+  \PYG{k+kr}{connect}\PYG{p}{(}\PYG{n}{rad1}\PYG{o}{.}\PYG{n}{heatPortCon}\PYG{p}{,} \PYG{n}{irishReferenceHouse}\PYG{o}{.}\PYG{n}{heat\PYGZus{}port\PYGZus{}a}\PYG{p}{[}\PYG{l+m+mi}{1}\PYG{p}{])} \PYG{p}{));}      \PYG{n}{Line}\PYG{p}{(}\PYG{n}{points}\PYG{o}{=}\PYG{p}{\PYGZob{}\PYGZob{}}\PYG{l+m+mi}{378}\PYG{p}{,}\PYG{l+m+mf}{221.2}\PYG{p}{\PYGZcb{},\PYGZob{}}\PYG{l+m+mi}{378}\PYG{p}{,}\PYG{l+m+mi}{230}\PYG{p}{\PYGZcb{},\PYGZob{}}\PYG{l+m+mi}{436}\PYG{p}{,}\PYG{l+m+mi}{230}\PYG{p}{\PYGZcb{},\PYGZob{}}\PYG{l+m+mi}{436}\PYG{p}{,}\PYG{l+m+mi}{108}\PYG{p}{\PYGZcb{},\PYGZob{}}\PYG{l+m+mi}{402}\PYG{p}{,}\PYG{l+m+mi}{108}\PYG{p}{\PYGZcb{},\PYGZob{}}\PYG{l+m+mi}{402}\PYG{p}{,}
+          \PYG{l+m+mf}{106.577}\PYG{p}{\PYGZcb{},\PYGZob{}}\PYG{l+m+mf}{366.3}\PYG{p}{,}\PYG{l+m+mf}{106.577}\PYG{p}{\PYGZcb{}\PYGZcb{},}
+        \PYG{n}{color}\PYG{o}{=}\PYG{p}{\PYGZob{}}\PYG{l+m+mi}{191}\PYG{p}{,}\PYG{l+m+mi}{0}\PYG{p}{,}\PYG{l+m+mi}{0}\PYG{p}{\PYGZcb{}));}
+  \PYG{k+kr}{connect}\PYG{p}{(}\PYG{n}{TRoo1}\PYG{o}{.}\PYG{n}{port}\PYG{p}{,} \PYG{n}{irishReferenceHouse}\PYG{o}{.}\PYG{n}{heat\PYGZus{}port\PYGZus{}a}\PYG{p}{[}\PYG{l+m+mi}{1}\PYG{p}{])} \PYG{p}{));}        \PYG{n}{points}\PYG{o}{=}\PYG{p}{\PYGZob{}\PYGZob{}}\PYG{l+m+mi}{478}\PYG{p}{,}\PYG{l+m+mi}{230}\PYG{p}{\PYGZcb{},\PYGZob{}}\PYG{l+m+mi}{436}\PYG{p}{,}\PYG{l+m+mi}{230}\PYG{p}{\PYGZcb{},\PYGZob{}}\PYG{l+m+mi}{436}\PYG{p}{,}\PYG{l+m+mi}{108}\PYG{p}{\PYGZcb{},\PYGZob{}}\PYG{l+m+mi}{402}\PYG{p}{,}\PYG{l+m+mi}{108}\PYG{p}{\PYGZcb{},\PYGZob{}}\PYG{l+m+mi}{402}\PYG{p}{,}\PYG{l+m+mf}{106.577}\PYG{p}{\PYGZcb{},\PYGZob{}}\PYG{l+m+mf}{366.3}\PYG{p}{,}
+          \PYG{l+m+mf}{106.577}\PYG{p}{\PYGZcb{}\PYGZcb{},}
+        \PYG{n}{color}\PYG{o}{=}\PYG{p}{\PYGZob{}}\PYG{l+m+mi}{191}\PYG{p}{,}\PYG{l+m+mi}{0}\PYG{p}{,}\PYG{l+m+mi}{0}\PYG{p}{\PYGZcb{}));}
+  \PYG{k+kr}{connect}\PYG{p}{(}\PYG{n}{TRoo2}\PYG{o}{.}\PYG{n}{port}\PYG{p}{,} \PYG{n}{irishReferenceHouse}\PYG{o}{.}\PYG{n}{heat\PYGZus{}port\PYGZus{}a}\PYG{p}{[}\PYG{l+m+mi}{2}\PYG{p}{])} \PYG{p}{));}        \PYG{n}{points}\PYG{o}{=}\PYG{p}{\PYGZob{}\PYGZob{}}\PYG{l+m+mi}{468}\PYG{p}{,}\PYG{l+m+mi}{332}\PYG{p}{\PYGZcb{},\PYGZob{}}\PYG{l+m+mi}{436}\PYG{p}{,}\PYG{l+m+mi}{332}\PYG{p}{\PYGZcb{},\PYGZob{}}\PYG{l+m+mi}{436}\PYG{p}{,}\PYG{l+m+mf}{106.931}\PYG{p}{\PYGZcb{},\PYGZob{}}\PYG{l+m+mf}{366.3}\PYG{p}{,}\PYG{l+m+mf}{106.931}\PYG{p}{\PYGZcb{}\PYGZcb{},}
+\PYG{n}{color}\PYG{o}{=}\PYG{p}{\PYGZob{}}\PYG{l+m+mi}{191}\PYG{p}{,}\PYG{l+m+mi}{0}\PYG{p}{,}\PYG{l+m+mi}{0}\PYG{p}{\PYGZcb{}));}
+  \PYG{k+kr}{connect}\PYG{p}{(}\PYG{n}{fromKelvin}\PYG{o}{.}\PYG{n}{Kelvin}\PYG{p}{,} \PYG{n}{irishReferenceHouse}\PYG{o}{.}\PYG{n}{TAir}\PYG{p}{[}\PYG{l+m+mi}{3}\PYG{p}{])} \PYG{p}{));}          \PYG{l+m+mi}{376}\PYG{p}{,}\PYG{l+m+mi}{130}\PYG{p}{\PYGZcb{},\PYGZob{}}\PYG{l+m+mf}{366.2}\PYG{p}{,}\PYG{l+m+mi}{130}\PYG{p}{\PYGZcb{},\PYGZob{}}\PYG{l+m+mf}{366.2}\PYG{p}{,}\PYG{l+m+mf}{129.585}\PYG{p}{\PYGZcb{}\PYGZcb{},}
+      \PYG{n}{color}\PYG{o}{=}\PYG{p}{\PYGZob{}}\PYG{l+m+mi}{0}\PYG{p}{,}\PYG{l+m+mi}{0}\PYG{p}{,}\PYG{l+m+mi}{127}\PYG{p}{\PYGZcb{}));}
+  \PYG{k+kr}{connect}\PYG{p}{(}\PYG{n}{fromKelvin}\PYG{o}{.}\PYG{n}{Celsius}\PYG{p}{,} \PYG{n}{prescribedTemperature}\PYG{o}{.}\PYG{n}{T}\PYG{p}{)}
+    \PYG{p}{);}
+  \PYG{k+kr}{connect}\PYG{p}{(}\PYG{n}{prescribedTemperature}\PYG{o}{.}\PYG{n}{port}\PYG{p}{,} \PYG{n}{boi}\PYG{o}{.}\PYG{n}{heatPort}\PYG{p}{)} \PYG{p}{));}          \PYG{o}{\PYGZhy{}}\PYG{l+m+mi}{138}\PYG{p}{\PYGZcb{},\PYGZob{}}\PYG{l+m+mi}{26}\PYG{p}{,}\PYG{o}{\PYGZhy{}}\PYG{l+m+mi}{138}\PYG{p}{\PYGZcb{},\PYGZob{}}\PYG{l+m+mi}{26}\PYG{p}{,}\PYG{o}{\PYGZhy{}}\PYG{l+m+mi}{150}\PYG{p}{\PYGZcb{},\PYGZob{}}\PYG{l+m+mi}{12}\PYG{p}{,}\PYG{o}{\PYGZhy{}}\PYG{l+m+mi}{150}\PYG{p}{\PYGZcb{},\PYGZob{}}\PYG{l+m+mi}{12}\PYG{p}{,}\PYG{o}{\PYGZhy{}}\PYG{l+m+mf}{162.8}\PYG{p}{\PYGZcb{}\PYGZcb{},} \PYG{n}{color}\PYG{o}{=}\PYG{p}{\PYGZob{}}\PYG{l+m+mi}{191}\PYG{p}{,}\PYG{l+m+mi}{0}\PYG{p}{,}\PYG{l+m+mi}{0}\PYG{p}{\PYGZcb{}));}
+  \PYG{k+kr}{connect}\PYG{p}{(}\PYG{n}{prescribedTemperature}\PYG{o}{.}\PYG{n}{port}\PYG{p}{,} \PYG{n+nb}{tan}\PYG{o}{.}\PYG{n}{heaPorTop}\PYG{p}{)} \PYG{p}{));}          \PYG{o}{\PYGZhy{}}\PYG{l+m+mi}{138}\PYG{p}{\PYGZcb{},\PYGZob{}}\PYG{l+m+mi}{230}\PYG{p}{,}\PYG{o}{\PYGZhy{}}\PYG{l+m+mi}{138}\PYG{p}{\PYGZcb{},\PYGZob{}}\PYG{l+m+mi}{230}\PYG{p}{,}\PYG{o}{\PYGZhy{}}\PYG{l+m+mf}{155.2}\PYG{p}{\PYGZcb{},\PYGZob{}}\PYG{l+m+mi}{232}\PYG{p}{,}\PYG{o}{\PYGZhy{}}\PYG{l+m+mf}{155.2}\PYG{p}{\PYGZcb{}\PYGZcb{},} \PYG{n}{color}\PYG{o}{=}\PYG{p}{\PYGZob{}}\PYG{l+m+mi}{191}\PYG{p}{,}\PYG{l+m+mi}{0}\PYG{p}{,}\PYG{l+m+mi}{0}\PYG{p}{\PYGZcb{}));}
+  \PYG{k+kr}{connect}\PYG{p}{(}\PYG{n}{prescribedTemperature}\PYG{o}{.}\PYG{n}{port}\PYG{p}{,} \PYG{n+nb}{tan}\PYG{o}{.}\PYG{n}{heaPorBot}\PYG{p}{)} \PYG{p}{));}          \PYG{o}{\PYGZhy{}}\PYG{l+m+mi}{138}\PYG{p}{\PYGZcb{},\PYGZob{}}\PYG{l+m+mi}{242}\PYG{p}{,}\PYG{o}{\PYGZhy{}}\PYG{l+m+mi}{138}\PYG{p}{\PYGZcb{},\PYGZob{}}\PYG{l+m+mi}{242}\PYG{p}{,}\PYG{o}{\PYGZhy{}}\PYG{l+m+mi}{192}\PYG{p}{\PYGZcb{},\PYGZob{}}\PYG{l+m+mi}{232}\PYG{p}{,}\PYG{o}{\PYGZhy{}}\PYG{l+m+mi}{192}\PYG{p}{\PYGZcb{},\PYGZob{}}\PYG{l+m+mi}{232}\PYG{p}{,}\PYG{o}{\PYGZhy{}}\PYG{l+m+mf}{184.8}\PYG{p}{\PYGZcb{}\PYGZcb{},} \PYG{n}{color}\PYG{o}{=}\PYG{p}{\PYGZob{}}\PYG{l+m+mi}{191}\PYG{p}{,}\PYG{l+m+mi}{0}\PYG{p}{,}\PYG{l+m+mi}{0}\PYG{p}{\PYGZcb{}));}
+  \PYG{k+kr}{connect}\PYG{p}{(}\PYG{n}{prescribedTemperature}\PYG{o}{.}\PYG{n}{port}\PYG{p}{,} \PYG{n+nb}{tan}\PYG{o}{.}\PYG{n}{heaPorSid}\PYG{p}{)} \PYG{p}{));}          \PYG{o}{\PYGZhy{}}\PYG{l+m+mi}{138}\PYG{p}{\PYGZcb{},\PYGZob{}}\PYG{l+m+mi}{242}\PYG{p}{,}\PYG{o}{\PYGZhy{}}\PYG{l+m+mi}{138}\PYG{p}{\PYGZcb{},\PYGZob{}}\PYG{l+m+mi}{242}\PYG{p}{,}\PYG{o}{\PYGZhy{}}\PYG{l+m+mi}{170}\PYG{p}{\PYGZcb{},\PYGZob{}}\PYG{l+m+mf}{239.2}\PYG{p}{,}\PYG{o}{\PYGZhy{}}\PYG{l+m+mi}{170}\PYG{p}{\PYGZcb{}\PYGZcb{},} \PYG{n}{color}\PYG{o}{=}\PYG{p}{\PYGZob{}}\PYG{l+m+mi}{191}\PYG{p}{,}\PYG{l+m+mi}{0}\PYG{p}{,}\PYG{l+m+mi}{0}\PYG{p}{\PYGZcb{}));}
+  \PYG{k+kr}{connect}\PYG{p}{(}\PYG{n}{splVal1}\PYG{o}{.}\PYG{n}{port\PYGZus{}2}\PYG{p}{,} \PYG{n}{splVal3}\PYG{o}{.}\PYG{n}{port\PYGZus{}1}\PYG{p}{)}
+    \PYG{p}{);}
+  \PYG{k+kr}{connect}\PYG{p}{(}\PYG{n}{splVal3}\PYG{o}{.}\PYG{n}{port\PYGZus{}3}\PYG{p}{,} \PYG{n}{val2}\PYG{o}{.}\PYG{n}{port\PYGZus{}a}\PYG{p}{)} \PYG{p}{));}      \PYG{n+nb}{smooth}\PYG{o}{=}\PYG{n}{Smooth}\PYG{o}{.}\PYG{n}{Bezier}\PYG{p}{));}
+  \PYG{k+kr}{connect}\PYG{p}{(}\PYG{n}{splVal3}\PYG{o}{.}\PYG{n}{port\PYGZus{}2}\PYG{p}{,} \PYG{n}{splVal5}\PYG{o}{.}\PYG{n}{port\PYGZus{}1}\PYG{p}{)}
+    \PYG{p}{);}
+  \PYG{k+kr}{connect}\PYG{p}{(}\PYG{n}{splVal5}\PYG{o}{.}\PYG{n}{port\PYGZus{}3}\PYG{p}{,} \PYG{n}{val4}\PYG{o}{.}\PYG{n}{port\PYGZus{}a}\PYG{p}{)}
+    \PYG{p}{);}
+  \PYG{k+kr}{connect}\PYG{p}{(}\PYG{n}{val4}\PYG{o}{.}\PYG{n}{port\PYGZus{}b}\PYG{p}{,} \PYG{n}{rad4}\PYG{o}{.}\PYG{n}{port\PYGZus{}a}\PYG{p}{)} \PYG{p}{);}
+  \PYG{k+kr}{connect}\PYG{p}{(}\PYG{n}{splVal2}\PYG{o}{.}\PYG{n}{port\PYGZus{}2}\PYG{p}{,}\PYG{n}{splVal4}\PYG{o}{.} \PYG{n}{port\PYGZus{}1}\PYG{p}{)} \PYG{p}{));}  \PYG{k+kr}{connect}\PYG{p}{(}\PYG{n}{rad2}\PYG{o}{.}\PYG{n}{port\PYGZus{}b}\PYG{p}{,}\PYG{n}{splVal4}\PYG{o}{.} \PYG{n}{port\PYGZus{}3}\PYG{p}{)} \PYG{p}{));}  \PYG{k+kr}{connect}\PYG{p}{(}\PYG{n}{rad4}\PYG{o}{.}\PYG{n}{port\PYGZus{}b}\PYG{p}{,} \PYG{n}{splVal6}\PYG{o}{.}\PYG{n}{port\PYGZus{}3}\PYG{p}{)} \PYG{p}{));}  \PYG{k+kr}{connect}\PYG{p}{(}\PYG{n}{splVal6}\PYG{o}{.}\PYG{n}{port\PYGZus{}1}\PYG{p}{,}\PYG{n}{splVal4}\PYG{o}{.} \PYG{n}{port\PYGZus{}2}\PYG{p}{)} \PYG{p}{);}
+  \PYG{k+kr}{connect}\PYG{p}{(}\PYG{n}{TRoo4}\PYG{o}{.}\PYG{n}{port}\PYG{p}{,} \PYG{n}{irishReferenceHouse}\PYG{o}{.}\PYG{n}{heat\PYGZus{}port\PYGZus{}a}\PYG{p}{[}\PYG{l+m+mi}{4}\PYG{p}{])} \PYG{p}{));}        \PYG{n}{points}\PYG{o}{=}\PYG{p}{\PYGZob{}\PYGZob{}}\PYG{l+m+mi}{466}\PYG{p}{,}\PYG{l+m+mi}{426}\PYG{p}{\PYGZcb{},\PYGZob{}}\PYG{l+m+mi}{436}\PYG{p}{,}\PYG{l+m+mi}{426}\PYG{p}{\PYGZcb{},\PYGZob{}}\PYG{l+m+mi}{436}\PYG{p}{,}\PYG{l+m+mf}{107.638}\PYG{p}{\PYGZcb{},\PYGZob{}}\PYG{l+m+mf}{366.3}\PYG{p}{,}\PYG{l+m+mf}{107.638}\PYG{p}{\PYGZcb{}\PYGZcb{},} \PYG{n}{color}\PYG{o}{=}\PYG{p}{\PYGZob{}}\PYG{l+m+mi}{191}\PYG{p}{,}\PYG{l+m+mi}{0}\PYG{p}{,}
+          \PYG{l+m+mi}{0}\PYG{p}{\PYGZcb{}));}
+  \PYG{k+kr}{connect}\PYG{p}{(}\PYG{n}{TRoo4}\PYG{o}{.}\PYG{n}{T}\PYG{p}{,} \PYG{n}{conRoo4}\PYG{o}{.}\PYG{n}{u\PYGZus{}m}\PYG{p}{)} \PYG{p}{);}
+  \PYG{k+kr}{connect}\PYG{p}{(}\PYG{n}{swi}\PYG{o}{.}\PYG{n}{y}\PYG{p}{,} \PYG{n}{conRoo4}\PYG{o}{.}\PYG{n}{u\PYGZus{}s}\PYG{p}{)} \PYG{p}{));}  \PYG{k+kr}{connect}\PYG{p}{(}\PYG{n}{conRoo4}\PYG{o}{.}\PYG{n}{y}\PYG{p}{,} \PYG{n}{val4}\PYG{o}{.}\PYG{n}{y}\PYG{p}{)} \PYG{p}{));}  \PYG{k+kr}{connect}\PYG{p}{(}\PYG{n}{conRoo4}\PYG{o}{.}\PYG{n}{y}\PYG{p}{,} \PYG{n}{mulMax}\PYG{o}{.}\PYG{n}{u}\PYG{p}{[}\PYG{l+m+mi}{3}\PYG{p}{])} \PYG{p}{));}          \PYG{p}{\PYGZob{}}\PYG{l+m+mi}{570}\PYG{p}{,}\PYG{l+m+mi}{470}\PYG{p}{\PYGZcb{},\PYGZob{}}\PYG{o}{\PYGZhy{}}\PYG{l+m+mi}{26}\PYG{p}{,}\PYG{l+m+mi}{470}\PYG{p}{\PYGZcb{},\PYGZob{}}\PYG{o}{\PYGZhy{}}\PYG{l+m+mi}{26}\PYG{p}{,}\PYG{l+m+mf}{71.1667}\PYG{p}{\PYGZcb{},\PYGZob{}}\PYG{o}{\PYGZhy{}}\PYG{l+m+mi}{2}\PYG{p}{,}\PYG{l+m+mf}{71.1667}\PYG{p}{\PYGZcb{}\PYGZcb{},}
+          \PYG{n}{color}\PYG{o}{=}\PYG{p}{\PYGZob{}}\PYG{l+m+mi}{0}\PYG{p}{,}\PYG{l+m+mi}{0}\PYG{p}{,}\PYG{l+m+mi}{127}\PYG{p}{\PYGZcb{}));}
+  \PYG{k+kr}{connect}\PYG{p}{(}\PYG{n}{rad4}\PYG{o}{.}\PYG{n}{heatPortCon}\PYG{p}{,} \PYG{n}{irishReferenceHouse}\PYG{o}{.}\PYG{n}{heat\PYGZus{}port\PYGZus{}a}\PYG{p}{[}\PYG{l+m+mi}{4}\PYG{p}{])} \PYG{p}{));}      \PYG{n}{Line}\PYG{p}{(}\PYG{n}{points}\PYG{o}{=}\PYG{p}{\PYGZob{}\PYGZob{}}\PYG{l+m+mi}{358}\PYG{p}{,}\PYG{l+m+mf}{439.2}\PYG{p}{\PYGZcb{},\PYGZob{}}\PYG{l+m+mi}{358}\PYG{p}{,}\PYG{l+m+mi}{444}\PYG{p}{\PYGZcb{},\PYGZob{}}\PYG{l+m+mi}{436}\PYG{p}{,}\PYG{l+m+mi}{444}\PYG{p}{\PYGZcb{},\PYGZob{}}\PYG{l+m+mi}{436}\PYG{p}{,}\PYG{l+m+mi}{108}\PYG{p}{\PYGZcb{},\PYGZob{}}\PYG{l+m+mi}{382}\PYG{p}{,}\PYG{l+m+mi}{108}\PYG{p}{\PYGZcb{},\PYGZob{}}\PYG{l+m+mi}{382}\PYG{p}{,}
+          \PYG{l+m+mf}{107.638}\PYG{p}{\PYGZcb{},\PYGZob{}}\PYG{l+m+mf}{366.3}\PYG{p}{,}\PYG{l+m+mf}{107.638}\PYG{p}{\PYGZcb{}\PYGZcb{},}
+      \PYG{n}{color}\PYG{o}{=}\PYG{p}{\PYGZob{}}\PYG{l+m+mi}{191}\PYG{p}{,}\PYG{l+m+mi}{0}\PYG{p}{,}\PYG{l+m+mi}{0}\PYG{p}{\PYGZcb{}));}
+  \PYG{k+kr}{connect}\PYG{p}{(}\PYG{n}{swi}\PYG{o}{.}\PYG{n}{y}\PYG{p}{,} \PYG{n}{conRoo2}\PYG{o}{.}\PYG{n}{u\PYGZus{}s}\PYG{p}{)} \PYG{p}{));}  \PYG{k+kr}{connect}\PYG{p}{(}\PYG{n}{swi}\PYG{o}{.}\PYG{n}{y}\PYG{p}{,} \PYG{n}{conRoo1}\PYG{o}{.}\PYG{n}{u\PYGZus{}s}\PYG{p}{)} \PYG{p}{));}  \PYG{k+kr}{connect}\PYG{p}{(}\PYG{n}{splVal8}\PYG{o}{.}\PYG{n}{port\PYGZus{}1}\PYG{p}{,} \PYG{n}{splVal6}\PYG{o}{.}\PYG{n}{port\PYGZus{}2}\PYG{p}{)} \PYG{p}{);}
+  \PYG{k+kr}{connect}\PYG{p}{(}\PYG{n}{splVal5}\PYG{o}{.}\PYG{n}{port\PYGZus{}2}\PYG{p}{,} \PYG{n}{splVal7}\PYG{o}{.}\PYG{n}{port\PYGZus{}1}\PYG{p}{)} \PYG{p}{);}
+  \PYG{k+kr}{connect}\PYG{p}{(}\PYG{n}{splVal7}\PYG{o}{.}\PYG{n}{port\PYGZus{}3}\PYG{p}{,} \PYG{n}{val5}\PYG{o}{.}\PYG{n}{port\PYGZus{}a}\PYG{p}{)} \PYG{p}{);}
+
+  \PYG{k+kr}{connect}\PYG{p}{(}\PYG{n}{val5}\PYG{o}{.}\PYG{n}{port\PYGZus{}b}\PYG{p}{,} \PYG{n}{rad5}\PYG{o}{.}\PYG{n}{port\PYGZus{}a}\PYG{p}{)} \PYG{p}{);}
+  \PYG{k+kr}{connect}\PYG{p}{(}\PYG{n}{rad5}\PYG{o}{.}\PYG{n}{port\PYGZus{}b}\PYG{p}{,} \PYG{n}{splVal8}\PYG{o}{.}\PYG{n}{port\PYGZus{}3}\PYG{p}{)} \PYG{p}{));}  \PYG{k+kr}{connect}\PYG{p}{(}\PYG{n}{TRoo5}\PYG{o}{.}\PYG{n}{T}\PYG{p}{,} \PYG{n}{conRoo5}\PYG{o}{.}\PYG{n}{u\PYGZus{}m}\PYG{p}{)} \PYG{p}{);}
+  \PYG{k+kr}{connect}\PYG{p}{(}\PYG{n}{conRoo5}\PYG{o}{.}\PYG{n}{y}\PYG{p}{,} \PYG{n}{val5}\PYG{o}{.}\PYG{n}{y}\PYG{p}{)} \PYG{p}{));}  \PYG{k+kr}{connect}\PYG{p}{(}\PYG{n}{TRoo5}\PYG{o}{.}\PYG{n}{port}\PYG{p}{,} \PYG{n}{irishReferenceHouse}\PYG{o}{.}\PYG{n}{heat\PYGZus{}port\PYGZus{}a}\PYG{p}{[}\PYG{l+m+mi}{5}\PYG{p}{])} \PYG{p}{));}        \PYG{n}{points}\PYG{o}{=}\PYG{p}{\PYGZob{}\PYGZob{}}\PYG{l+m+mi}{460}\PYG{p}{,}\PYG{l+m+mi}{546}\PYG{p}{\PYGZcb{},\PYGZob{}}\PYG{l+m+mi}{436}\PYG{p}{,}\PYG{l+m+mi}{546}\PYG{p}{\PYGZcb{},\PYGZob{}}\PYG{l+m+mi}{436}\PYG{p}{,}\PYG{l+m+mi}{108}\PYG{p}{\PYGZcb{},\PYGZob{}}\PYG{l+m+mi}{402}\PYG{p}{,}\PYG{l+m+mi}{108}\PYG{p}{\PYGZcb{},\PYGZob{}}\PYG{l+m+mi}{402}\PYG{p}{,}\PYG{l+m+mf}{107.992}\PYG{p}{\PYGZcb{},\PYGZob{}}\PYG{l+m+mf}{366.3}\PYG{p}{,}
+          \PYG{l+m+mf}{107.992}\PYG{p}{\PYGZcb{}\PYGZcb{},}
+        \PYG{n}{color}\PYG{o}{=}\PYG{p}{\PYGZob{}}\PYG{l+m+mi}{191}\PYG{p}{,}\PYG{l+m+mi}{0}\PYG{p}{,}\PYG{l+m+mi}{0}\PYG{p}{\PYGZcb{}));}
+  \PYG{k+kr}{connect}\PYG{p}{(}\PYG{n}{rad5}\PYG{o}{.}\PYG{n}{heatPortCon}\PYG{p}{,} \PYG{n}{irishReferenceHouse}\PYG{o}{.}\PYG{n}{heat\PYGZus{}port\PYGZus{}a}\PYG{p}{[}\PYG{l+m+mi}{5}\PYG{p}{])} \PYG{p}{));}      \PYG{n}{Line}\PYG{p}{(}\PYG{n}{points}\PYG{o}{=}\PYG{p}{\PYGZob{}\PYGZob{}}\PYG{l+m+mi}{364}\PYG{p}{,}\PYG{l+m+mf}{551.2}\PYG{p}{\PYGZcb{},\PYGZob{}}\PYG{l+m+mi}{364}\PYG{p}{,}\PYG{l+m+mi}{560}\PYG{p}{\PYGZcb{},\PYGZob{}}\PYG{l+m+mi}{436}\PYG{p}{,}\PYG{l+m+mi}{560}\PYG{p}{\PYGZcb{},\PYGZob{}}\PYG{l+m+mi}{436}\PYG{p}{,}\PYG{l+m+mi}{108}\PYG{p}{\PYGZcb{},\PYGZob{}}\PYG{l+m+mi}{402}\PYG{p}{,}\PYG{l+m+mi}{108}\PYG{p}{\PYGZcb{},\PYGZob{}}\PYG{l+m+mi}{402}\PYG{p}{,}
+          \PYG{l+m+mf}{107.992}\PYG{p}{\PYGZcb{},\PYGZob{}}\PYG{l+m+mf}{366.3}\PYG{p}{,}\PYG{l+m+mf}{107.992}\PYG{p}{\PYGZcb{}\PYGZcb{},}
+      \PYG{n}{color}\PYG{o}{=}\PYG{p}{\PYGZob{}}\PYG{l+m+mi}{191}\PYG{p}{,}\PYG{l+m+mi}{0}\PYG{p}{,}\PYG{l+m+mi}{0}\PYG{p}{\PYGZcb{}));}
+  \PYG{k+kr}{connect}\PYG{p}{(}\PYG{n}{conRoo5}\PYG{o}{.}\PYG{n}{u\PYGZus{}s}\PYG{p}{,} \PYG{n}{swi}\PYG{o}{.}\PYG{n}{y}\PYG{p}{)} \PYG{p}{));}  \PYG{k+kr}{connect}\PYG{p}{(}\PYG{n}{conRoo5}\PYG{o}{.}\PYG{n}{y}\PYG{p}{,} \PYG{n}{mulMax}\PYG{o}{.}\PYG{n}{u}\PYG{p}{[}\PYG{l+m+mi}{4}\PYG{p}{])} \PYG{p}{));}          \PYG{p}{\PYGZob{}}\PYG{l+m+mi}{568}\PYG{p}{,}\PYG{l+m+mi}{594}\PYG{p}{\PYGZcb{},\PYGZob{}}\PYG{o}{\PYGZhy{}}\PYG{l+m+mi}{26}\PYG{p}{,}\PYG{l+m+mi}{594}\PYG{p}{\PYGZcb{},\PYGZob{}}\PYG{o}{\PYGZhy{}}\PYG{l+m+mi}{26}\PYG{p}{,}\PYG{l+m+mf}{70.8333}\PYG{p}{\PYGZcb{},\PYGZob{}}\PYG{o}{\PYGZhy{}}\PYG{l+m+mi}{2}\PYG{p}{,}\PYG{l+m+mf}{70.8333}\PYG{p}{\PYGZcb{}\PYGZcb{},}
+          \PYG{n}{color}\PYG{o}{=}\PYG{p}{\PYGZob{}}\PYG{l+m+mi}{0}\PYG{p}{,}\PYG{l+m+mi}{0}\PYG{p}{,}\PYG{l+m+mi}{127}\PYG{p}{\PYGZcb{}));}
+
+  \PYG{k+kr}{connect}\PYG{p}{(}\PYG{n}{conRoo6}\PYG{o}{.}\PYG{n}{y}\PYG{p}{,} \PYG{n}{val6}\PYG{o}{.}\PYG{n}{y}\PYG{p}{);}
+  \PYG{k+kr}{connect}\PYG{p}{(}\PYG{n}{TRoo6}\PYG{o}{.}\PYG{n}{port}\PYG{p}{,} \PYG{n}{irishReferenceHouse}\PYG{o}{.}\PYG{n}{heat\PYGZus{}port\PYGZus{}a}\PYG{p}{[}\PYG{l+m+mi}{6}\PYG{p}{]);}
+  \PYG{k+kr}{connect}\PYG{p}{(}\PYG{n}{rad6}\PYG{o}{.}\PYG{n}{heatPortCon}\PYG{p}{,} \PYG{n}{irishReferenceHouse}\PYG{o}{.}\PYG{n}{heat\PYGZus{}port\PYGZus{}a}\PYG{p}{[}\PYG{l+m+mi}{6}\PYG{p}{]);}
+  \PYG{k+kr}{connect}\PYG{p}{(}\PYG{n}{conRoo6}\PYG{o}{.}\PYG{n}{u\PYGZus{}s}\PYG{p}{,} \PYG{n}{swi}\PYG{o}{.}\PYG{n}{y}\PYG{p}{);}
+  \PYG{k+kr}{connect}\PYG{p}{(}\PYG{n}{conRoo6}\PYG{o}{.}\PYG{n}{y}\PYG{p}{,} \PYG{n}{mulMax}\PYG{o}{.}\PYG{n}{u}\PYG{p}{[}\PYG{l+m+mi}{5}\PYG{p}{]);}
+  \PYG{k+kr}{connect}\PYG{p}{(}\PYG{n}{val6}\PYG{o}{.}\PYG{n}{port\PYGZus{}b}\PYG{p}{,} \PYG{n}{rad6}\PYG{o}{.}\PYG{n}{port\PYGZus{}a}\PYG{p}{);}
+  \PYG{k+kr}{connect}\PYG{p}{(}\PYG{n}{TRoo6}\PYG{o}{.}\PYG{n}{T}\PYG{p}{,} \PYG{n}{conRoo6}\PYG{o}{.}\PYG{n}{u\PYGZus{}m}\PYG{p}{);}
+
+  \PYG{k+kr}{connect}\PYG{p}{(}\PYG{n}{conRoo7}\PYG{o}{.}\PYG{n}{y}\PYG{p}{,} \PYG{n}{val7}\PYG{o}{.}\PYG{n}{y}\PYG{p}{);}
+  \PYG{k+kr}{connect}\PYG{p}{(}\PYG{n}{TRoo7}\PYG{o}{.}\PYG{n}{port}\PYG{p}{,} \PYG{n}{irishReferenceHouse}\PYG{o}{.}\PYG{n}{heat\PYGZus{}port\PYGZus{}a}\PYG{p}{[}\PYG{l+m+mi}{7}\PYG{p}{]);}
+  \PYG{k+kr}{connect}\PYG{p}{(}\PYG{n}{rad7}\PYG{o}{.}\PYG{n}{heatPortCon}\PYG{p}{,} \PYG{n}{irishReferenceHouse}\PYG{o}{.}\PYG{n}{heat\PYGZus{}port\PYGZus{}a}\PYG{p}{[}\PYG{l+m+mi}{7}\PYG{p}{]);}
+  \PYG{k+kr}{connect}\PYG{p}{(}\PYG{n}{conRoo7}\PYG{o}{.}\PYG{n}{u\PYGZus{}s}\PYG{p}{,} \PYG{n}{swi}\PYG{o}{.}\PYG{n}{y}\PYG{p}{);}
+  \PYG{k+kr}{connect}\PYG{p}{(}\PYG{n}{conRoo7}\PYG{o}{.}\PYG{n}{y}\PYG{p}{,} \PYG{n}{mulMax}\PYG{o}{.}\PYG{n}{u}\PYG{p}{[}\PYG{l+m+mi}{6}\PYG{p}{]);}
+  \PYG{k+kr}{connect}\PYG{p}{(}\PYG{n}{val7}\PYG{o}{.}\PYG{n}{port\PYGZus{}b}\PYG{p}{,} \PYG{n}{rad7}\PYG{o}{.}\PYG{n}{port\PYGZus{}a}\PYG{p}{);}
+  \PYG{k+kr}{connect}\PYG{p}{(}\PYG{n}{TRoo7}\PYG{o}{.}\PYG{n}{T}\PYG{p}{,} \PYG{n}{conRoo7}\PYG{o}{.}\PYG{n}{u\PYGZus{}m}\PYG{p}{);}
+
+  \PYG{k+kr}{connect}\PYG{p}{(}\PYG{n}{conRoo8}\PYG{o}{.}\PYG{n}{y}\PYG{p}{,} \PYG{n}{val8}\PYG{o}{.}\PYG{n}{y}\PYG{p}{);}
+  \PYG{k+kr}{connect}\PYG{p}{(}\PYG{n}{TRoo8}\PYG{o}{.}\PYG{n}{port}\PYG{p}{,} \PYG{n}{irishReferenceHouse}\PYG{o}{.}\PYG{n}{heat\PYGZus{}port\PYGZus{}a}\PYG{p}{[}\PYG{l+m+mi}{8}\PYG{p}{]);}
+  \PYG{k+kr}{connect}\PYG{p}{(}\PYG{n}{rad8}\PYG{o}{.}\PYG{n}{heatPortCon}\PYG{p}{,} \PYG{n}{irishReferenceHouse}\PYG{o}{.}\PYG{n}{heat\PYGZus{}port\PYGZus{}a}\PYG{p}{[}\PYG{l+m+mi}{8}\PYG{p}{]);}
+  \PYG{k+kr}{connect}\PYG{p}{(}\PYG{n}{conRoo8}\PYG{o}{.}\PYG{n}{u\PYGZus{}s}\PYG{p}{,} \PYG{n}{swi}\PYG{o}{.}\PYG{n}{y}\PYG{p}{);}
+  \PYG{k+kr}{connect}\PYG{p}{(}\PYG{n}{conRoo8}\PYG{o}{.}\PYG{n}{y}\PYG{p}{,} \PYG{n}{mulMax}\PYG{o}{.}\PYG{n}{u}\PYG{p}{[}\PYG{l+m+mi}{7}\PYG{p}{]);}
+  \PYG{k+kr}{connect}\PYG{p}{(}\PYG{n}{val8}\PYG{o}{.}\PYG{n}{port\PYGZus{}b}\PYG{p}{,} \PYG{n}{rad8}\PYG{o}{.}\PYG{n}{port\PYGZus{}a}\PYG{p}{);}
+  \PYG{k+kr}{connect}\PYG{p}{(}\PYG{n}{TRoo8}\PYG{o}{.}\PYG{n}{T}\PYG{p}{,} \PYG{n}{conRoo8}\PYG{o}{.}\PYG{n}{u\PYGZus{}m}\PYG{p}{);}
+
+  \PYG{k+kr}{connect}\PYG{p}{(}\PYG{n}{conRoo9}\PYG{o}{.}\PYG{n}{y}\PYG{p}{,} \PYG{n}{val9}\PYG{o}{.}\PYG{n}{y}\PYG{p}{);}
+  \PYG{k+kr}{connect}\PYG{p}{(}\PYG{n}{TRoo9}\PYG{o}{.}\PYG{n}{port}\PYG{p}{,} \PYG{n}{irishReferenceHouse}\PYG{o}{.}\PYG{n}{heat\PYGZus{}port\PYGZus{}a}\PYG{p}{[}\PYG{l+m+mi}{9}\PYG{p}{]);}
+  \PYG{k+kr}{connect}\PYG{p}{(}\PYG{n}{rad9}\PYG{o}{.}\PYG{n}{heatPortCon}\PYG{p}{,} \PYG{n}{irishReferenceHouse}\PYG{o}{.}\PYG{n}{heat\PYGZus{}port\PYGZus{}a}\PYG{p}{[}\PYG{l+m+mi}{9}\PYG{p}{]);}
+  \PYG{k+kr}{connect}\PYG{p}{(}\PYG{n}{conRoo9}\PYG{o}{.}\PYG{n}{u\PYGZus{}s}\PYG{p}{,} \PYG{n}{swi}\PYG{o}{.}\PYG{n}{y}\PYG{p}{);}
+  \PYG{k+kr}{connect}\PYG{p}{(}\PYG{n}{conRoo9}\PYG{o}{.}\PYG{n}{y}\PYG{p}{,} \PYG{n}{mulMax}\PYG{o}{.}\PYG{n}{u}\PYG{p}{[}\PYG{l+m+mi}{8}\PYG{p}{]);}
+  \PYG{k+kr}{connect}\PYG{p}{(}\PYG{n}{val9}\PYG{o}{.}\PYG{n}{port\PYGZus{}b}\PYG{p}{,} \PYG{n}{rad9}\PYG{o}{.}\PYG{n}{port\PYGZus{}a}\PYG{p}{);}
+  \PYG{k+kr}{connect}\PYG{p}{(}\PYG{n}{TRoo9}\PYG{o}{.}\PYG{n}{T}\PYG{p}{,} \PYG{n}{conRoo9}\PYG{o}{.}\PYG{n}{u\PYGZus{}m}\PYG{p}{);}
+
+  \PYG{k+kr}{connect}\PYG{p}{(}\PYG{n}{conRoo10}\PYG{o}{.}\PYG{n}{y}\PYG{p}{,} \PYG{n}{val10}\PYG{o}{.}\PYG{n}{y}\PYG{p}{);}
+  \PYG{k+kr}{connect}\PYG{p}{(}\PYG{n}{TRoo10}\PYG{o}{.}\PYG{n}{port}\PYG{p}{,} \PYG{n}{irishReferenceHouse}\PYG{o}{.}\PYG{n}{heat\PYGZus{}port\PYGZus{}a}\PYG{p}{[}\PYG{l+m+mi}{10}\PYG{p}{]);}
+  \PYG{k+kr}{connect}\PYG{p}{(}\PYG{n}{rad10}\PYG{o}{.}\PYG{n}{heatPortCon}\PYG{p}{,} \PYG{n}{irishReferenceHouse}\PYG{o}{.}\PYG{n}{heat\PYGZus{}port\PYGZus{}a}\PYG{p}{[}\PYG{l+m+mi}{10}\PYG{p}{]);}
+  \PYG{k+kr}{connect}\PYG{p}{(}\PYG{n}{conRoo10}\PYG{o}{.}\PYG{n}{u\PYGZus{}s}\PYG{p}{,} \PYG{n}{swi}\PYG{o}{.}\PYG{n}{y}\PYG{p}{);}
+  \PYG{k+kr}{connect}\PYG{p}{(}\PYG{n}{conRoo10}\PYG{o}{.}\PYG{n}{y}\PYG{p}{,} \PYG{n}{mulMax}\PYG{o}{.}\PYG{n}{u}\PYG{p}{[}\PYG{l+m+mi}{9}\PYG{p}{]);}
+  \PYG{k+kr}{connect}\PYG{p}{(}\PYG{n}{val10}\PYG{o}{.}\PYG{n}{port\PYGZus{}b}\PYG{p}{,} \PYG{n}{rad10}\PYG{o}{.}\PYG{n}{port\PYGZus{}a}\PYG{p}{);}
+  \PYG{k+kr}{connect}\PYG{p}{(}\PYG{n}{TRoo10}\PYG{o}{.}\PYG{n}{T}\PYG{p}{,} \PYG{n}{conRoo10}\PYG{o}{.}\PYG{n}{u\PYGZus{}m}\PYG{p}{);}
+
+  \PYG{k+kr}{connect}\PYG{p}{(}\PYG{n}{conRoo11}\PYG{o}{.}\PYG{n}{y}\PYG{p}{,} \PYG{n}{val11}\PYG{o}{.}\PYG{n}{y}\PYG{p}{);}
+  \PYG{k+kr}{connect}\PYG{p}{(}\PYG{n}{TRoo11}\PYG{o}{.}\PYG{n}{port}\PYG{p}{,} \PYG{n}{irishReferenceHouse}\PYG{o}{.}\PYG{n}{heat\PYGZus{}port\PYGZus{}a}\PYG{p}{[}\PYG{l+m+mi}{11}\PYG{p}{]);}
+  \PYG{k+kr}{connect}\PYG{p}{(}\PYG{n}{rad11}\PYG{o}{.}\PYG{n}{heatPortCon}\PYG{p}{,} \PYG{n}{irishReferenceHouse}\PYG{o}{.}\PYG{n}{heat\PYGZus{}port\PYGZus{}a}\PYG{p}{[}\PYG{l+m+mi}{11}\PYG{p}{]);}
+  \PYG{k+kr}{connect}\PYG{p}{(}\PYG{n}{conRoo11}\PYG{o}{.}\PYG{n}{u\PYGZus{}s}\PYG{p}{,} \PYG{n}{swi}\PYG{o}{.}\PYG{n}{y}\PYG{p}{);}
+  \PYG{k+kr}{connect}\PYG{p}{(}\PYG{n}{conRoo11}\PYG{o}{.}\PYG{n}{y}\PYG{p}{,} \PYG{n}{mulMax}\PYG{o}{.}\PYG{n}{u}\PYG{p}{[}\PYG{l+m+mi}{10}\PYG{p}{]);}
+  \PYG{k+kr}{connect}\PYG{p}{(}\PYG{n}{val11}\PYG{o}{.}\PYG{n}{port\PYGZus{}b}\PYG{p}{,} \PYG{n}{rad11}\PYG{o}{.}\PYG{n}{port\PYGZus{}a}\PYG{p}{);}
+  \PYG{k+kr}{connect}\PYG{p}{(}\PYG{n}{TRoo11}\PYG{o}{.}\PYG{n}{T}\PYG{p}{,} \PYG{n}{conRoo11}\PYG{o}{.}\PYG{n}{u\PYGZus{}m}\PYG{p}{);}
+
+  \PYG{k+kr}{connect}\PYG{p}{(}\PYG{n}{conRoo12}\PYG{o}{.}\PYG{n}{y}\PYG{p}{,} \PYG{n}{val12}\PYG{o}{.}\PYG{n}{y}\PYG{p}{);}
+  \PYG{k+kr}{connect}\PYG{p}{(}\PYG{n}{TRoo12}\PYG{o}{.}\PYG{n}{port}\PYG{p}{,} \PYG{n}{irishReferenceHouse}\PYG{o}{.}\PYG{n}{heat\PYGZus{}port\PYGZus{}a}\PYG{p}{[}\PYG{l+m+mi}{12}\PYG{p}{]);}
+  \PYG{k+kr}{connect}\PYG{p}{(}\PYG{n}{rad12}\PYG{o}{.}\PYG{n}{heatPortCon}\PYG{p}{,} \PYG{n}{irishReferenceHouse}\PYG{o}{.}\PYG{n}{heat\PYGZus{}port\PYGZus{}a}\PYG{p}{[}\PYG{l+m+mi}{12}\PYG{p}{]);}
+  \PYG{k+kr}{connect}\PYG{p}{(}\PYG{n}{conRoo12}\PYG{o}{.}\PYG{n}{u\PYGZus{}s}\PYG{p}{,} \PYG{n}{swi}\PYG{o}{.}\PYG{n}{y}\PYG{p}{);}
+  \PYG{k+kr}{connect}\PYG{p}{(}\PYG{n}{conRoo12}\PYG{o}{.}\PYG{n}{y}\PYG{p}{,} \PYG{n}{mulMax}\PYG{o}{.}\PYG{n}{u}\PYG{p}{[}\PYG{l+m+mi}{11}\PYG{p}{]);}
+  \PYG{k+kr}{connect}\PYG{p}{(}\PYG{n}{val12}\PYG{o}{.}\PYG{n}{port\PYGZus{}b}\PYG{p}{,} \PYG{n}{rad12}\PYG{o}{.}\PYG{n}{port\PYGZus{}a}\PYG{p}{);}
+  \PYG{k+kr}{connect}\PYG{p}{(}\PYG{n}{TRoo12}\PYG{o}{.}\PYG{n}{T}\PYG{p}{,} \PYG{n}{conRoo12}\PYG{o}{.}\PYG{n}{u\PYGZus{}m}\PYG{p}{);}
+
+  \PYG{k+kr}{connect}\PYG{p}{(}\PYG{n}{conRoo13}\PYG{o}{.}\PYG{n}{y}\PYG{p}{,} \PYG{n}{val13}\PYG{o}{.}\PYG{n}{y}\PYG{p}{);}
+  \PYG{k+kr}{connect}\PYG{p}{(}\PYG{n}{TRoo13}\PYG{o}{.}\PYG{n}{port}\PYG{p}{,} \PYG{n}{irishReferenceHouse}\PYG{o}{.}\PYG{n}{heat\PYGZus{}port\PYGZus{}a}\PYG{p}{[}\PYG{l+m+mi}{13}\PYG{p}{]);}
+  \PYG{k+kr}{connect}\PYG{p}{(}\PYG{n}{rad13}\PYG{o}{.}\PYG{n}{heatPortCon}\PYG{p}{,} \PYG{n}{irishReferenceHouse}\PYG{o}{.}\PYG{n}{heat\PYGZus{}port\PYGZus{}a}\PYG{p}{[}\PYG{l+m+mi}{13}\PYG{p}{]);}
+  \PYG{k+kr}{connect}\PYG{p}{(}\PYG{n}{conRoo13}\PYG{o}{.}\PYG{n}{u\PYGZus{}s}\PYG{p}{,} \PYG{n}{swi}\PYG{o}{.}\PYG{n}{y}\PYG{p}{);}
+  \PYG{k+kr}{connect}\PYG{p}{(}\PYG{n}{conRoo13}\PYG{o}{.}\PYG{n}{y}\PYG{p}{,} \PYG{n}{mulMax}\PYG{o}{.}\PYG{n}{u}\PYG{p}{[}\PYG{l+m+mi}{12}\PYG{p}{]);}
+  \PYG{k+kr}{connect}\PYG{p}{(}\PYG{n}{val13}\PYG{o}{.}\PYG{n}{port\PYGZus{}b}\PYG{p}{,} \PYG{n}{rad13}\PYG{o}{.}\PYG{n}{port\PYGZus{}a}\PYG{p}{);}
+  \PYG{k+kr}{connect}\PYG{p}{(}\PYG{n}{TRoo13}\PYG{o}{.}\PYG{n}{T}\PYG{p}{,} \PYG{n}{conRoo13}\PYG{o}{.}\PYG{n}{u\PYGZus{}m}\PYG{p}{);}
+
+  \PYG{k+kr}{connect}\PYG{p}{(}\PYG{n}{splVal8}\PYG{o}{.}\PYG{n}{port\PYGZus{}2}\PYG{p}{,} \PYG{n}{splVal10}\PYG{o}{.}\PYG{n}{port\PYGZus{}1}\PYG{p}{)} \PYG{p}{);}
+  \PYG{k+kr}{connect}\PYG{p}{(}\PYG{n}{splVal10}\PYG{o}{.}\PYG{n}{port\PYGZus{}2}\PYG{p}{,} \PYG{n}{splVal12}\PYG{o}{.}\PYG{n}{port\PYGZus{}1}\PYG{p}{)} \PYG{p}{));}  \PYG{k+kr}{connect}\PYG{p}{(}\PYG{n}{splVal12}\PYG{o}{.}\PYG{n}{port\PYGZus{}2}\PYG{p}{,} \PYG{n}{splVal14}\PYG{o}{.}\PYG{n}{port\PYGZus{}1}\PYG{p}{)} \PYG{p}{));}  \PYG{k+kr}{connect}\PYG{p}{(}\PYG{n}{splVal14}\PYG{o}{.}\PYG{n}{port\PYGZus{}2}\PYG{p}{,} \PYG{n}{splVal16}\PYG{o}{.}\PYG{n}{port\PYGZus{}1}\PYG{p}{)} \PYG{p}{);}
+  \PYG{k+kr}{connect}\PYG{p}{(}\PYG{n}{splVal16}\PYG{o}{.}\PYG{n}{port\PYGZus{}2}\PYG{p}{,} \PYG{n}{splVal18}\PYG{o}{.}\PYG{n}{port\PYGZus{}1}\PYG{p}{)} \PYG{p}{));}  \PYG{k+kr}{connect}\PYG{p}{(}\PYG{n}{splVal18}\PYG{o}{.}\PYG{n}{port\PYGZus{}2}\PYG{p}{,} \PYG{n}{splVal20}\PYG{o}{.}\PYG{n}{port\PYGZus{}1}\PYG{p}{)} \PYG{p}{));}  \PYG{k+kr}{connect}\PYG{p}{(}\PYG{n}{splVal7}\PYG{o}{.}\PYG{n}{port\PYGZus{}2}\PYG{p}{,} \PYG{n}{splVal9}\PYG{o}{.}\PYG{n}{port\PYGZus{}1}\PYG{p}{)} \PYG{p}{));}  \PYG{k+kr}{connect}\PYG{p}{(}\PYG{n}{splVal9}\PYG{o}{.}\PYG{n}{port\PYGZus{}2}\PYG{p}{,} \PYG{n}{splVal11}\PYG{o}{.}\PYG{n}{port\PYGZus{}1}\PYG{p}{)} \PYG{p}{));}  \PYG{k+kr}{connect}\PYG{p}{(}\PYG{n}{splVal11}\PYG{o}{.}\PYG{n}{port\PYGZus{}2}\PYG{p}{,} \PYG{n}{splVal13}\PYG{o}{.}\PYG{n}{port\PYGZus{}1}\PYG{p}{)} \PYG{p}{));}  \PYG{k+kr}{connect}\PYG{p}{(}\PYG{n}{splVal13}\PYG{o}{.}\PYG{n}{port\PYGZus{}2}\PYG{p}{,} \PYG{n}{splVal15}\PYG{o}{.}\PYG{n}{port\PYGZus{}1}\PYG{p}{)} \PYG{p}{));}  \PYG{k+kr}{connect}\PYG{p}{(}\PYG{n}{splVal15}\PYG{o}{.}\PYG{n}{port\PYGZus{}2}\PYG{p}{,} \PYG{n}{splVal17}\PYG{o}{.}\PYG{n}{port\PYGZus{}1}\PYG{p}{)} \PYG{p}{));}  \PYG{k+kr}{connect}\PYG{p}{(}\PYG{n}{rad11}\PYG{o}{.}\PYG{n}{port\PYGZus{}b}\PYG{p}{,} \PYG{n}{splVal20}\PYG{o}{.}\PYG{n}{port\PYGZus{}3}\PYG{p}{)} \PYG{p}{));}  \PYG{k+kr}{connect}\PYG{p}{(}\PYG{n}{rad10}\PYG{o}{.}\PYG{n}{port\PYGZus{}b}\PYG{p}{,} \PYG{n}{splVal18}\PYG{o}{.}\PYG{n}{port\PYGZus{}3}\PYG{p}{)} \PYG{p}{));}  \PYG{k+kr}{connect}\PYG{p}{(}\PYG{n}{rad9}\PYG{o}{.}\PYG{n}{port\PYGZus{}b}\PYG{p}{,} \PYG{n}{splVal16}\PYG{o}{.}\PYG{n}{port\PYGZus{}3}\PYG{p}{)} \PYG{p}{));}  \PYG{k+kr}{connect}\PYG{p}{(}\PYG{n}{rad8}\PYG{o}{.}\PYG{n}{port\PYGZus{}b}\PYG{p}{,} \PYG{n}{splVal14}\PYG{o}{.}\PYG{n}{port\PYGZus{}3}\PYG{p}{)} \PYG{p}{));}  \PYG{k+kr}{connect}\PYG{p}{(}\PYG{n}{rad7}\PYG{o}{.}\PYG{n}{port\PYGZus{}b}\PYG{p}{,} \PYG{n}{splVal12}\PYG{o}{.}\PYG{n}{port\PYGZus{}3}\PYG{p}{)} \PYG{p}{));}  \PYG{k+kr}{connect}\PYG{p}{(}\PYG{n}{rad6}\PYG{o}{.}\PYG{n}{port\PYGZus{}b}\PYG{p}{,} \PYG{n}{splVal10}\PYG{o}{.}\PYG{n}{port\PYGZus{}3}\PYG{p}{)} \PYG{p}{));}  \PYG{k+kr}{connect}\PYG{p}{(}\PYG{n}{splVal9}\PYG{o}{.}\PYG{n}{port\PYGZus{}3}\PYG{p}{,} \PYG{n}{val6}\PYG{o}{.}\PYG{n}{port\PYGZus{}a}\PYG{p}{)} \PYG{p}{));}  \PYG{k+kr}{connect}\PYG{p}{(}\PYG{n}{splVal11}\PYG{o}{.}\PYG{n}{port\PYGZus{}3}\PYG{p}{,} \PYG{n}{val7}\PYG{o}{.}\PYG{n}{port\PYGZus{}a}\PYG{p}{)} \PYG{p}{));}  \PYG{k+kr}{connect}\PYG{p}{(}\PYG{n}{splVal13}\PYG{o}{.}\PYG{n}{port\PYGZus{}3}\PYG{p}{,} \PYG{n}{val8}\PYG{o}{.}\PYG{n}{port\PYGZus{}a}\PYG{p}{)} \PYG{p}{));}  \PYG{k+kr}{connect}\PYG{p}{(}\PYG{n}{splVal15}\PYG{o}{.}\PYG{n}{port\PYGZus{}3}\PYG{p}{,} \PYG{n}{val9}\PYG{o}{.}\PYG{n}{port\PYGZus{}a}\PYG{p}{)} \PYG{p}{));}  \PYG{k+kr}{connect}\PYG{p}{(}\PYG{n}{splVal17}\PYG{o}{.}\PYG{n}{port\PYGZus{}3}\PYG{p}{,} \PYG{n}{val10}\PYG{o}{.}\PYG{n}{port\PYGZus{}a}\PYG{p}{)} \PYG{p}{));}  \PYG{k+kr}{connect}\PYG{p}{(}\PYG{n}{splVal17}\PYG{o}{.}\PYG{n}{port\PYGZus{}2}\PYG{p}{,} \PYG{n}{splVal19}\PYG{o}{.}\PYG{n}{port\PYGZus{}1}\PYG{p}{)} \PYG{p}{);}
+  \PYG{k+kr}{connect}\PYG{p}{(}\PYG{n}{splVal19}\PYG{o}{.}\PYG{n}{port\PYGZus{}3}\PYG{p}{,} \PYG{n}{val11}\PYG{o}{.}\PYG{n}{port\PYGZus{}a}\PYG{p}{)} \PYG{p}{));}  \PYG{k+kr}{connect}\PYG{p}{(}\PYG{n}{splVal20}\PYG{o}{.}\PYG{n}{port\PYGZus{}2}\PYG{p}{,} \PYG{n}{splVal22}\PYG{o}{.}\PYG{n}{port\PYGZus{}1}\PYG{p}{)} \PYG{p}{));}  \PYG{k+kr}{connect}\PYG{p}{(}\PYG{n}{splVal19}\PYG{o}{.}\PYG{n}{port\PYGZus{}2}\PYG{p}{,} \PYG{n}{splVal21}\PYG{o}{.}\PYG{n}{port\PYGZus{}1}\PYG{p}{)} \PYG{p}{));}  \PYG{k+kr}{connect}\PYG{p}{(}\PYG{n}{splVal21}\PYG{o}{.}\PYG{n}{port\PYGZus{}2}\PYG{p}{,} \PYG{n}{val13}\PYG{o}{.}\PYG{n}{port\PYGZus{}a}\PYG{p}{)} \PYG{p}{));}  \PYG{k+kr}{connect}\PYG{p}{(}\PYG{n}{splVal22}\PYG{o}{.}\PYG{n}{port\PYGZus{}2}\PYG{p}{,} \PYG{n}{rad13}\PYG{o}{.}\PYG{n}{port\PYGZus{}b}\PYG{p}{)} \PYG{p}{));}  \PYG{k+kr}{connect}\PYG{p}{(}\PYG{n}{splVal21}\PYG{o}{.}\PYG{n}{port\PYGZus{}3}\PYG{p}{,} \PYG{n}{val12}\PYG{o}{.}\PYG{n}{port\PYGZus{}a}\PYG{p}{)} \PYG{p}{));}  \PYG{k+kr}{connect}\PYG{p}{(}\PYG{n}{rad12}\PYG{o}{.}\PYG{n}{port\PYGZus{}b}\PYG{p}{,} \PYG{n}{splVal22}\PYG{o}{.}\PYG{n}{port\PYGZus{}3}\PYG{p}{)} \PYG{p}{));}  \PYG{k+kr}{connect}\PYG{p}{(}\PYG{n}{TESQLossIntegrator}\PYG{o}{.}\PYG{n}{u}\PYG{p}{,} \PYG{n+nb}{tan}\PYG{o}{.}\PYG{n}{Ql\PYGZus{}flow}\PYG{p}{)} \PYG{p}{));}          \PYG{p}{\PYGZob{}}\PYG{l+m+mi}{278}\PYG{p}{,}\PYG{o}{\PYGZhy{}}\PYG{l+m+mf}{155.6}\PYG{p}{\PYGZcb{},\PYGZob{}}\PYG{l+m+mi}{250}\PYG{p}{,}\PYG{o}{\PYGZhy{}}\PYG{l+m+mf}{155.6}\PYG{p}{\PYGZcb{}\PYGZcb{},} \PYG{n}{color}\PYG{o}{=}\PYG{p}{\PYGZob{}}\PYG{l+m+mi}{0}\PYG{p}{,}\PYG{l+m+mi}{0}\PYG{p}{,}\PYG{l+m+mi}{127}\PYG{p}{\PYGZcb{}));}
+  \PYG{k+kr}{connect}\PYG{p}{(}\PYG{n}{weaBus}\PYG{o}{.}\PYG{n}{TDryBul}\PYG{p}{,} \PYG{n}{TReturn}\PYG{o}{.}\PYG{n}{T}\PYG{p}{)} \PYG{p}{));}      \PYG{n}{thickness}\PYG{o}{=}\PYG{l+m+mf}{0.5}\PYG{p}{));}
+  \PYG{k+kr}{connect}\PYG{p}{(}\PYG{n}{HPOnSetpoint}\PYG{o}{.}\PYG{n}{y}\PYG{p}{,} \PYG{n}{swi2}\PYG{o}{.}\PYG{n}{u1}\PYG{p}{)} \PYG{p}{));}  \PYG{k+kr}{connect}\PYG{p}{(}\PYG{n}{HPOffSetpoint}\PYG{o}{.}\PYG{n}{y}\PYG{p}{,} \PYG{n}{swi2}\PYG{o}{.}\PYG{n}{u3}\PYG{p}{)} \PYG{p}{));}  \PYG{k+kr}{connect}\PYG{p}{(}\PYG{n}{swi2}\PYG{o}{.}\PYG{n}{y}\PYG{p}{,} \PYG{n}{hP\PYGZus{}AirWater\PYGZus{}TSet}\PYG{o}{.}\PYG{n}{TSet}\PYG{p}{)} \PYG{p}{));}  \PYG{k+kr}{connect}\PYG{p}{(}\PYG{n}{TReturn}\PYG{o}{.}\PYG{n}{port}\PYG{p}{,} \PYG{n}{hP\PYGZus{}AirWater\PYGZus{}TSet}\PYG{o}{.}\PYG{n}{heatPort}\PYG{p}{)} \PYG{p}{));}  \PYG{k+kr}{connect}\PYG{p}{(}\PYG{n}{hP\PYGZus{}AirWater\PYGZus{}TSet}\PYG{o}{.}\PYG{n}{port\PYGZus{}a}\PYG{p}{,} \PYG{n}{TempPreHP}\PYG{o}{.}\PYG{n}{port\PYGZus{}b}\PYG{p}{)}
+    \PYG{p}{);}
+  \PYG{k+kr}{connect}\PYG{p}{(}\PYG{n}{TempPreHP}\PYG{o}{.}\PYG{n}{port\PYGZus{}a}\PYG{p}{,} \PYG{n+nb}{tan}\PYG{o}{.}\PYG{n}{port\PYGZus{}b}\PYG{p}{)} \PYG{p}{));}  \PYG{k+kr}{connect}\PYG{p}{(}\PYG{n}{hP\PYGZus{}AirWater\PYGZus{}TSet}\PYG{o}{.}\PYG{n}{port\PYGZus{}b}\PYG{p}{,} \PYG{n}{TemPostHP}\PYG{o}{.}\PYG{n}{port\PYGZus{}a}\PYG{p}{)}
+    \PYG{p}{);}
+  \PYG{k+kr}{connect}\PYG{p}{(}\PYG{n}{TemPostHP}\PYG{o}{.}\PYG{n}{port\PYGZus{}b}\PYG{p}{,} \PYG{n}{boi}\PYG{o}{.}\PYG{n}{port\PYGZus{}a}\PYG{p}{)} \PYG{p}{));}  \PYG{k+kr}{connect}\PYG{p}{(}\PYG{n}{weaBus}\PYG{o}{.}\PYG{n}{TDryBul}\PYG{p}{,} \PYG{n}{lesThrTOut}\PYG{o}{.}\PYG{n}{u}\PYG{p}{)} \PYG{p}{));}      \PYG{n}{thickness}\PYG{o}{=}\PYG{l+m+mf}{0.5}\PYG{p}{));}
+  \PYG{k+kr}{connect}\PYG{p}{(}\PYG{n}{weaBus}\PYG{o}{.}\PYG{n}{TDryBul}\PYG{p}{,} \PYG{n}{greaterThreshold}\PYG{o}{.}\PYG{n}{u}\PYG{p}{)} \PYG{p}{));}      \PYG{n}{thickness}\PYG{o}{=}\PYG{l+m+mf}{0.5}\PYG{p}{));}
+  \PYG{k+kr}{connect}\PYG{p}{(}\PYG{n}{swi3}\PYG{o}{.}\PYG{n}{y}\PYG{p}{,} \PYG{n}{lesThr}\PYG{o}{.}\PYG{n}{u1}\PYG{p}{)} \PYG{p}{));}  \PYG{k+kr}{connect}\PYG{p}{(}\PYG{n}{swi}\PYG{o}{.}\PYG{n}{y}\PYG{p}{,} \PYG{n}{heaChaHP}\PYG{o}{.}\PYG{n}{TRoo\PYGZus{}in}\PYG{p}{)} \PYG{p}{));}          \PYG{p}{\PYGZob{}}\PYG{l+m+mi}{658}\PYG{p}{,}\PYG{l+m+mi}{46}\PYG{p}{\PYGZcb{},\PYGZob{}}\PYG{l+m+mi}{304}\PYG{p}{,}\PYG{l+m+mi}{46}\PYG{p}{\PYGZcb{},\PYGZob{}}\PYG{l+m+mi}{304}\PYG{p}{,}\PYG{o}{\PYGZhy{}}\PYG{l+m+mi}{16}\PYG{p}{\PYGZcb{},\PYGZob{}}\PYG{o}{\PYGZhy{}}\PYG{l+m+mi}{8}\PYG{p}{,}\PYG{o}{\PYGZhy{}}\PYG{l+m+mi}{16}\PYG{p}{\PYGZcb{},\PYGZob{}}\PYG{o}{\PYGZhy{}}\PYG{l+m+mi}{8}\PYG{p}{,}\PYG{o}{\PYGZhy{}}\PYG{l+m+mi}{82}\PYG{p}{\PYGZcb{},\PYGZob{}}\PYG{l+m+mf}{20.1}\PYG{p}{,}\PYG{o}{\PYGZhy{}}\PYG{l+m+mi}{82}\PYG{p}{\PYGZcb{}\PYGZcb{},}
+        \PYG{n}{color}\PYG{o}{=}\PYG{p}{\PYGZob{}}\PYG{l+m+mi}{0}\PYG{p}{,}\PYG{l+m+mi}{0}\PYG{p}{,}\PYG{l+m+mi}{127}\PYG{p}{\PYGZcb{}));}
+  \PYG{k+kr}{connect}\PYG{p}{(}\PYG{n}{weaBus}\PYG{o}{.}\PYG{n}{TDryBul}\PYG{p}{,} \PYG{n}{heaChaHP}\PYG{o}{.}\PYG{n}{TOut}\PYG{p}{)} \PYG{p}{));}      \PYG{n}{thickness}\PYG{o}{=}\PYG{l+m+mf}{0.5}\PYG{p}{));}
+  \PYG{k+kr}{connect}\PYG{p}{(}\PYG{n}{swi3}\PYG{o}{.}\PYG{n}{y}\PYG{p}{,} \PYG{n}{conVal}\PYG{o}{.}\PYG{n}{u\PYGZus{}s}\PYG{p}{)} \PYG{p}{));}  \PYG{k+kr}{connect}\PYG{p}{(}\PYG{n}{T5}\PYG{o}{.}\PYG{n}{outPort}\PYG{p}{,} \PYG{n}{HPOn}\PYG{o}{.}\PYG{n}{inPort}\PYG{p}{[}\PYG{l+m+mi}{1}\PYG{p}{])}
+    \PYG{p}{);}
+  \PYG{k+kr}{connect}\PYG{p}{(}\PYG{n}{greaterThreshold}\PYG{o}{.}\PYG{n}{y}\PYG{p}{,} \PYG{n}{T5}\PYG{o}{.}\PYG{n}{condition}\PYG{p}{)} \PYG{p}{));}  \PYG{k+kr}{connect}\PYG{p}{(}\PYG{n}{tanTemBot}\PYG{o}{.}\PYG{n}{T}\PYG{p}{,} \PYG{n}{greThrHP}\PYG{o}{.}\PYG{n}{u}\PYG{p}{)} \PYG{p}{));}  \PYG{k+kr}{connect}\PYG{p}{(}\PYG{n}{logSwi}\PYG{o}{.}\PYG{n}{y}\PYG{p}{,} \PYG{n}{T2}\PYG{o}{.}\PYG{n}{condition}\PYG{p}{)} \PYG{p}{));}  \PYG{k+kr}{connect}\PYG{p}{(}\PYG{n}{T3}\PYG{o}{.}\PYG{n}{outPort}\PYG{p}{,} \PYG{n}{boiOn}\PYG{o}{.}\PYG{n}{inPort}\PYG{p}{[}\PYG{l+m+mi}{1}\PYG{p}{])}
+    \PYG{p}{);}
+  \PYG{k+kr}{connect}\PYG{p}{(}\PYG{n}{T6}\PYG{o}{.}\PYG{n}{condition}\PYG{p}{,} \PYG{n}{logSwi}\PYG{o}{.}\PYG{n}{y}\PYG{p}{)} \PYG{p}{));}  \PYG{k+kr}{connect}\PYG{p}{(}\PYG{n}{boiOn}\PYG{o}{.}\PYG{n}{outPort}\PYG{p}{[}\PYG{l+m+mi}{1}\PYG{p}{],} \PYG{n}{T6}\PYG{o}{.}\PYG{n}{inPort}\PYG{p}{)}
+    \PYG{p}{);}
+  \PYG{k+kr}{connect}\PYG{p}{(}\PYG{n}{HPOn}\PYG{o}{.}\PYG{n}{outPort}\PYG{p}{[}\PYG{l+m+mi}{1}\PYG{p}{],} \PYG{n}{T2}\PYG{o}{.}\PYG{n}{inPort}\PYG{p}{)}
+    \PYG{p}{);}
+  \PYG{k+kr}{connect}\PYG{p}{(}\PYG{n}{pumOn1}\PYG{o}{.}\PYG{n}{active}\PYG{p}{,} \PYG{n}{pumOnSig}\PYG{o}{.}\PYG{n}{u}\PYG{p}{[}\PYG{l+m+mi}{3}\PYG{p}{])} \PYG{p}{));}          \PYG{o}{\PYGZhy{}}\PYG{l+m+mi}{44}\PYG{p}{\PYGZcb{},\PYGZob{}}\PYG{l+m+mi}{654}\PYG{p}{,}\PYG{o}{\PYGZhy{}}\PYG{l+m+mi}{44}\PYG{p}{\PYGZcb{},\PYGZob{}}\PYG{l+m+mi}{654}\PYG{p}{,}\PYG{o}{\PYGZhy{}}\PYG{l+m+mf}{91.75}\PYG{p}{\PYGZcb{},\PYGZob{}}\PYG{l+m+mi}{660}\PYG{p}{,}\PYG{o}{\PYGZhy{}}\PYG{l+m+mf}{91.75}\PYG{p}{\PYGZcb{}\PYGZcb{},}
+    \PYG{n}{color}\PYG{o}{=}\PYG{p}{\PYGZob{}}\PYG{l+m+mi}{255}\PYG{p}{,}\PYG{l+m+mi}{0}\PYG{p}{,}\PYG{l+m+mi}{255}\PYG{p}{\PYGZcb{}));}
+  \PYG{k+kr}{connect}\PYG{p}{(}\PYG{n}{T2}\PYG{o}{.}\PYG{n}{outPort}\PYG{p}{,} \PYG{n}{pumOn1}\PYG{o}{.}\PYG{n}{inPort}\PYG{p}{[}\PYG{l+m+mi}{1}\PYG{p}{])}
+    \PYG{p}{);}
+  \PYG{k+kr}{connect}\PYG{p}{(}\PYG{n}{pumOn}\PYG{o}{.}\PYG{n}{outPort}\PYG{p}{[}\PYG{l+m+mi}{1}\PYG{p}{],} \PYG{n}{T3}\PYG{o}{.}\PYG{n}{inPort}\PYG{p}{)}
+    \PYG{p}{);}
+  \PYG{k+kr}{connect}\PYG{p}{(}\PYG{n}{T6}\PYG{o}{.}\PYG{n}{outPort}\PYG{p}{,} \PYG{n}{pumOn2}\PYG{o}{.}\PYG{n}{inPort}\PYG{p}{[}\PYG{l+m+mi}{1}\PYG{p}{])}
+    \PYG{p}{);}
+  \PYG{k+kr}{connect}\PYG{p}{(}\PYG{n}{pumOn3}\PYG{o}{.}\PYG{n}{outPort}\PYG{p}{[}\PYG{l+m+mi}{1}\PYG{p}{],} \PYG{n}{T5}\PYG{o}{.}\PYG{n}{inPort}\PYG{p}{)}
+    \PYG{p}{);}
+  \PYG{k+kr}{connect}\PYG{p}{(}\PYG{n}{pumOn3}\PYG{o}{.}\PYG{n}{active}\PYG{p}{,} \PYG{n}{pumOnSig}\PYG{o}{.}\PYG{n}{u}\PYG{p}{[}\PYG{l+m+mi}{4}\PYG{p}{])} \PYG{p}{));}          \PYG{o}{\PYGZhy{}}\PYG{l+m+mi}{44}\PYG{p}{\PYGZcb{},\PYGZob{}}\PYG{l+m+mi}{654}\PYG{p}{,}\PYG{o}{\PYGZhy{}}\PYG{l+m+mi}{44}\PYG{p}{\PYGZcb{},\PYGZob{}}\PYG{l+m+mi}{654}\PYG{p}{,}\PYG{o}{\PYGZhy{}}\PYG{l+m+mf}{95.25}\PYG{p}{\PYGZcb{},\PYGZob{}}\PYG{l+m+mi}{660}\PYG{p}{,}\PYG{o}{\PYGZhy{}}\PYG{l+m+mf}{95.25}\PYG{p}{\PYGZcb{}\PYGZcb{},}
+         \PYG{n}{color}\PYG{o}{=}\PYG{p}{\PYGZob{}}\PYG{l+m+mi}{255}\PYG{p}{,}\PYG{l+m+mi}{0}\PYG{p}{,}\PYG{l+m+mi}{255}\PYG{p}{\PYGZcb{}));}
+  \PYG{k+kr}{connect}\PYG{p}{(}\PYG{n}{pumOn2}\PYG{o}{.}\PYG{n}{outPort}\PYG{p}{[}\PYG{l+m+mi}{1}\PYG{p}{],} \PYG{n}{T4}\PYG{o}{.}\PYG{n}{inPort}\PYG{p}{)}
+    \PYG{p}{);}
+  \PYG{k+kr}{connect}\PYG{p}{(}\PYG{n}{pumOn1}\PYG{o}{.}\PYG{n}{outPort}\PYG{p}{[}\PYG{l+m+mi}{1}\PYG{p}{],} \PYG{n}{T7}\PYG{o}{.}\PYG{n}{inPort}\PYG{p}{));}
+  \PYG{k+kr}{connect}\PYG{p}{(}\PYG{n}{T1}\PYG{o}{.}\PYG{n}{outPort}\PYG{p}{,} \PYG{n}{pumOn}\PYG{o}{.}\PYG{n}{inPort}\PYG{p}{[}\PYG{l+m+mi}{1}\PYG{p}{])}
+    \PYG{p}{);}
+  \PYG{k+kr}{connect}\PYG{p}{(}\PYG{n}{T8}\PYG{o}{.}\PYG{n}{outPort}\PYG{p}{,} \PYG{n}{pumOn3}\PYG{o}{.}\PYG{n}{inPort}\PYG{p}{[}\PYG{l+m+mi}{1}\PYG{p}{])}
+    \PYG{p}{);}
+  \PYG{k+kr}{connect}\PYG{p}{(}\PYG{n}{and1}\PYG{o}{.}\PYG{n}{y}\PYG{p}{,} \PYG{n}{T8}\PYG{o}{.}\PYG{n}{condition}\PYG{p}{)} \PYG{p}{));}  \PYG{k+kr}{connect}\PYG{p}{(}\PYG{n}{greaterThreshold}\PYG{o}{.}\PYG{n}{y}\PYG{p}{,} \PYG{n}{logSwi}\PYG{o}{.}\PYG{n}{u2}\PYG{p}{)} \PYG{p}{));}  \PYG{k+kr}{connect}\PYG{p}{(}\PYG{n}{greThrBoi}\PYG{o}{.}\PYG{n}{y}\PYG{p}{,} \PYG{n}{logSwi}\PYG{o}{.}\PYG{n}{u3}\PYG{p}{)} \PYG{p}{));}  \PYG{k+kr}{connect}\PYG{p}{(}\PYG{n}{heaChaHP}\PYG{o}{.}\PYG{n}{TSup}\PYG{p}{,} \PYG{n}{swi3}\PYG{o}{.}\PYG{n}{u1}\PYG{p}{)} \PYG{p}{));}  \PYG{k+kr}{connect}\PYG{p}{(}\PYG{n}{heaChaBoi}\PYG{o}{.}\PYG{n}{TSup}\PYG{p}{,} \PYG{n}{swi3}\PYG{o}{.}\PYG{n}{u3}\PYG{p}{)} \PYG{p}{));}  \PYG{k+kr}{connect}\PYG{p}{(}\PYG{n}{greThrHP}\PYG{o}{.}\PYG{n}{y}\PYG{p}{,} \PYG{n}{logSwi}\PYG{o}{.}\PYG{n}{u1}\PYG{p}{)} \PYG{p}{));}  \PYG{k+kr}{connect}\PYG{p}{(}\PYG{n}{les}\PYG{o}{.}\PYG{n}{u1}\PYG{p}{,} \PYG{n}{TemPostHP}\PYG{o}{.}\PYG{n}{T}\PYG{p}{)} \PYG{p}{));}  \PYG{k+kr}{connect}\PYG{p}{(}\PYG{n}{swi3}\PYG{o}{.}\PYG{n}{y}\PYG{p}{,} \PYG{n}{les}\PYG{o}{.}\PYG{n}{u2}\PYG{p}{)} \PYG{p}{));}  \PYG{k+kr}{connect}\PYG{p}{(}\PYG{n}{lesThrTOut}\PYG{o}{.}\PYG{n}{y}\PYG{p}{,} \PYG{n}{and2}\PYG{o}{.}\PYG{n}{u2}\PYG{p}{)} \PYG{p}{));}  \PYG{k+kr}{connect}\PYG{p}{(}\PYG{n}{les}\PYG{o}{.}\PYG{n}{y}\PYG{p}{,} \PYG{n}{and2}\PYG{o}{.}\PYG{n}{u1}\PYG{p}{)} \PYG{p}{));}  \PYG{k+kr}{connect}\PYG{p}{(}\PYG{n}{and2}\PYG{o}{.}\PYG{n}{y}\PYG{p}{,} \PYG{n}{T3}\PYG{o}{.}\PYG{n}{condition}\PYG{p}{)} \PYG{p}{));}  \PYG{k+kr}{connect}\PYG{p}{(}\PYG{n}{off}\PYG{o}{.}\PYG{n}{outPort}\PYG{p}{[}\PYG{l+m+mi}{1}\PYG{p}{],} \PYG{n}{T1}\PYG{o}{.}\PYG{n}{inPort}\PYG{p}{)}
+    \PYG{p}{);}
+  \PYG{k+kr}{connect}\PYG{p}{(}\PYG{n}{T4}\PYG{o}{.}\PYG{n}{outPort}\PYG{p}{,} \PYG{n}{off}\PYG{o}{.}\PYG{n}{inPort}\PYG{p}{[}\PYG{l+m+mi}{1}\PYG{p}{]));}
+  \PYG{k+kr}{connect}\PYG{p}{(}\PYG{n}{T8}\PYG{o}{.}\PYG{n}{inPort}\PYG{p}{,} \PYG{n}{off1}\PYG{o}{.}\PYG{n}{outPort}\PYG{p}{[}\PYG{l+m+mi}{1}\PYG{p}{])}
+    \PYG{p}{);}
+  \PYG{k+kr}{connect}\PYG{p}{(}\PYG{n}{T7}\PYG{o}{.}\PYG{n}{outPort}\PYG{p}{,} \PYG{n}{off1}\PYG{o}{.}\PYG{n}{inPort}\PYG{p}{[}\PYG{l+m+mi}{1}\PYG{p}{]));}
+  \PYG{k+kr}{connect}\PYG{p}{(}\PYG{n}{off}\PYG{o}{.}\PYG{n}{active}\PYG{p}{,} \PYG{n}{Nor}\PYG{o}{.}\PYG{n}{u1}\PYG{p}{)} \PYG{p}{));}  \PYG{k+kr}{connect}\PYG{p}{(}\PYG{n}{off1}\PYG{o}{.}\PYG{n}{active}\PYG{p}{,} \PYG{n}{Nor}\PYG{o}{.}\PYG{n}{u2}\PYG{p}{)} \PYG{p}{));}  \PYG{k+kr}{connect}\PYG{p}{(}\PYG{n}{and3}\PYG{o}{.}\PYG{n}{u1}\PYG{p}{,} \PYG{n}{pumOnSig}\PYG{o}{.}\PYG{n}{y}\PYG{p}{)} \PYG{p}{));}          \PYG{o}{\PYGZhy{}}\PYG{l+m+mi}{90}\PYG{p}{\PYGZcb{},\PYGZob{}}\PYG{l+m+mf}{681.5}\PYG{p}{,}\PYG{o}{\PYGZhy{}}\PYG{l+m+mi}{90}\PYG{p}{\PYGZcb{}\PYGZcb{},} \PYG{n}{color}\PYG{o}{=}\PYG{p}{\PYGZob{}}\PYG{l+m+mi}{255}\PYG{p}{,}\PYG{l+m+mi}{0}\PYG{p}{,}\PYG{l+m+mi}{255}\PYG{p}{\PYGZcb{}));}
+  \PYG{k+kr}{connect}\PYG{p}{(}\PYG{n}{Nor}\PYG{o}{.}\PYG{n}{y}\PYG{p}{,} \PYG{n}{and3}\PYG{o}{.}\PYG{n}{u2}\PYG{p}{)} \PYG{p}{));}  \PYG{k+kr}{connect}\PYG{p}{(}\PYG{n}{roomAvgTemp}\PYG{o}{.}\PYG{n}{y}\PYG{p}{,} \PYG{n}{lesThrTRoo}\PYG{o}{.}\PYG{n}{u}\PYG{p}{)} \PYG{p}{));}  \PYG{k+kr}{connect}\PYG{p}{(}\PYG{n}{TRoo1}\PYG{o}{.}\PYG{n}{T}\PYG{p}{,} \PYG{n}{roomAvgTemp}\PYG{o}{.}\PYG{n}{u}\PYG{p}{[}\PYG{l+m+mi}{1}\PYG{p}{])} \PYG{p}{));}          \PYG{l+m+mi}{230}\PYG{p}{\PYGZcb{},\PYGZob{}}\PYG{l+m+mi}{504}\PYG{p}{,}\PYG{l+m+mi}{176}\PYG{p}{\PYGZcb{},\PYGZob{}}\PYG{l+m+mi}{400}\PYG{p}{,}\PYG{l+m+mi}{176}\PYG{p}{\PYGZcb{},\PYGZob{}}\PYG{l+m+mi}{400}\PYG{p}{,}\PYG{l+m+mi}{66}\PYG{p}{\PYGZcb{},\PYGZob{}}\PYG{l+m+mf}{350.182}\PYG{p}{,}\PYG{l+m+mi}{66}\PYG{p}{\PYGZcb{},\PYGZob{}}\PYG{l+m+mf}{350.182}\PYG{p}{,}\PYG{l+m+mi}{8}\PYG{p}{\PYGZcb{}\PYGZcb{},}
+     \PYG{n}{color}\PYG{o}{=}\PYG{p}{\PYGZob{}}\PYG{l+m+mi}{0}\PYG{p}{,}\PYG{l+m+mi}{0}\PYG{p}{,}\PYG{l+m+mi}{127}\PYG{p}{\PYGZcb{}));}
+  \PYG{k+kr}{connect}\PYG{p}{(}\PYG{n}{TRoo2}\PYG{o}{.}\PYG{n}{T}\PYG{p}{,} \PYG{n}{roomAvgTemp}\PYG{o}{.}\PYG{n}{u}\PYG{p}{[}\PYG{l+m+mi}{2}\PYG{p}{]);}
+  \PYG{k+kr}{connect}\PYG{p}{(}\PYG{n}{TRoo4}\PYG{o}{.}\PYG{n}{T}\PYG{p}{,} \PYG{n}{roomAvgTemp}\PYG{o}{.}\PYG{n}{u}\PYG{p}{[}\PYG{l+m+mi}{3}\PYG{p}{]);}
+  \PYG{k+kr}{connect}\PYG{p}{(}\PYG{n}{TRoo5}\PYG{o}{.}\PYG{n}{T}\PYG{p}{,} \PYG{n}{roomAvgTemp}\PYG{o}{.}\PYG{n}{u}\PYG{p}{[}\PYG{l+m+mi}{4}\PYG{p}{]);}
+  \PYG{k+kr}{connect}\PYG{p}{(}\PYG{n}{TRoo6}\PYG{o}{.}\PYG{n}{T}\PYG{p}{,} \PYG{n}{roomAvgTemp}\PYG{o}{.}\PYG{n}{u}\PYG{p}{[}\PYG{l+m+mi}{5}\PYG{p}{]);}
+  \PYG{k+kr}{connect}\PYG{p}{(}\PYG{n}{TRoo7}\PYG{o}{.}\PYG{n}{T}\PYG{p}{,} \PYG{n}{roomAvgTemp}\PYG{o}{.}\PYG{n}{u}\PYG{p}{[}\PYG{l+m+mi}{6}\PYG{p}{]);}
+  \PYG{k+kr}{connect}\PYG{p}{(}\PYG{n}{TRoo8}\PYG{o}{.}\PYG{n}{T}\PYG{p}{,} \PYG{n}{roomAvgTemp}\PYG{o}{.}\PYG{n}{u}\PYG{p}{[}\PYG{l+m+mi}{7}\PYG{p}{]);}
+  \PYG{k+kr}{connect}\PYG{p}{(}\PYG{n}{TRoo9}\PYG{o}{.}\PYG{n}{T}\PYG{p}{,} \PYG{n}{roomAvgTemp}\PYG{o}{.}\PYG{n}{u}\PYG{p}{[}\PYG{l+m+mi}{8}\PYG{p}{]);}
+  \PYG{k+kr}{connect}\PYG{p}{(}\PYG{n}{TRoo10}\PYG{o}{.}\PYG{n}{T}\PYG{p}{,} \PYG{n}{roomAvgTemp}\PYG{o}{.}\PYG{n}{u}\PYG{p}{[}\PYG{l+m+mi}{9}\PYG{p}{]);}
+  \PYG{k+kr}{connect}\PYG{p}{(}\PYG{n}{TRoo11}\PYG{o}{.}\PYG{n}{T}\PYG{p}{,} \PYG{n}{roomAvgTemp}\PYG{o}{.}\PYG{n}{u}\PYG{p}{[}\PYG{l+m+mi}{10}\PYG{p}{]);}
+  \PYG{k+kr}{connect}\PYG{p}{(}\PYG{n}{TRoo12}\PYG{o}{.}\PYG{n}{T}\PYG{p}{,} \PYG{n}{roomAvgTemp}\PYG{o}{.}\PYG{n}{u}\PYG{p}{[}\PYG{l+m+mi}{11}\PYG{p}{]);}
+
+  \PYG{k+kr}{connect}\PYG{p}{(}\PYG{n}{pumOnSig1}\PYG{o}{.}\PYG{n}{y}\PYG{p}{,} \PYG{n}{booToReaPum}\PYG{o}{.}\PYG{n}{u}\PYG{p}{));}
+  \PYG{k+kr}{connect}\PYG{p}{(}\PYG{n}{pumOnSig1}\PYG{o}{.}\PYG{n}{u}\PYG{p}{[}\PYG{l+m+mi}{1}\PYG{p}{],} \PYG{n}{and3}\PYG{o}{.}\PYG{n}{y}\PYG{p}{));}
+  \PYG{k+kr}{connect}\PYG{p}{(}\PYG{n}{boiOn}\PYG{o}{.}\PYG{n}{active}\PYG{p}{,} \PYG{n}{pumOnSig1}\PYG{o}{.}\PYG{n}{u}\PYG{p}{[}\PYG{l+m+mi}{2}\PYG{p}{])} \PYG{p}{));}  \PYG{k+kr}{connect}\PYG{p}{(}\PYG{n}{weaBus}\PYG{o}{.}\PYG{n}{TDryBul}\PYG{p}{,} \PYG{n}{greaterThreshold1}\PYG{o}{.}\PYG{n}{u}\PYG{p}{)} \PYG{p}{));}      \PYG{n}{thickness}\PYG{o}{=}\PYG{l+m+mf}{0.5}\PYG{p}{));}
+  \PYG{k+kr}{connect}\PYG{p}{(}\PYG{n}{greaterThreshold1}\PYG{o}{.}\PYG{n}{y}\PYG{p}{,} \PYG{n}{swi3}\PYG{o}{.}\PYG{n}{u2}\PYG{p}{)} \PYG{p}{));}  \PYG{k+kr}{connect}\PYG{p}{(}\PYG{n}{hP\PYGZus{}AirWater\PYGZus{}TSet}\PYG{o}{.}\PYG{n}{HPCOP}\PYG{p}{,} \PYG{n}{greThr}\PYG{o}{.}\PYG{n}{u}\PYG{p}{));}
+  \PYG{k+kr}{connect}\PYG{p}{(}\PYG{n}{weaBus}\PYG{o}{.}\PYG{n}{TDryBul}\PYG{p}{,} \PYG{n}{lesThr1}\PYG{o}{.}\PYG{n}{u}\PYG{p}{)} \PYG{p}{));}      \PYG{n}{thickness}\PYG{o}{=}\PYG{l+m+mf}{0.5}\PYG{p}{),} \PYG{n}{Text}\PYG{p}{(}
+      \PYG{n}{string}\PYG{o}{=}\PYG{l+s+s2}{\PYGZdq{}}\PYG{l+s+s2}{\PYGZpc{}first}\PYG{l+s+s2}{\PYGZdq{}}\PYG{p}{,}
+      \PYG{n}{index}\PYG{o}{=}\PYG{o}{\PYGZhy{}}\PYG{l+m+mi}{1}\PYG{p}{,}
+      \PYG{n}{extent}\PYG{o}{=}\PYG{p}{\PYGZob{}\PYGZob{}}\PYG{o}{\PYGZhy{}}\PYG{l+m+mi}{3}\PYG{p}{,}\PYG{o}{\PYGZhy{}}\PYG{l+m+mi}{6}\PYG{p}{\PYGZcb{},\PYGZob{}}\PYG{o}{\PYGZhy{}}\PYG{l+m+mi}{3}\PYG{p}{,}\PYG{o}{\PYGZhy{}}\PYG{l+m+mi}{6}\PYG{p}{\PYGZcb{}\PYGZcb{},}
+      \PYG{n}{horizontalAlignment}\PYG{o}{=}\PYG{n}{TextAlignment}\PYG{o}{.}\PYG{n}{Right}\PYG{p}{));}
+
+  \PYG{k+kr}{connect}\PYG{p}{(}\PYG{n}{lesThr1}\PYG{o}{.}\PYG{n}{y}\PYG{p}{,} \PYG{n}{and4}\PYG{o}{.}\PYG{n}{u1}\PYG{p}{)} \PYG{p}{));}  \PYG{k+kr}{connect}\PYG{p}{(}\PYG{n}{greThr}\PYG{o}{.}\PYG{n}{y}\PYG{p}{,} \PYG{n}{and4}\PYG{o}{.}\PYG{n}{u2}\PYG{p}{)}
+    \PYG{p}{);}
+  \PYG{k+kr}{connect}\PYG{p}{(}\PYG{n}{and4}\PYG{o}{.}\PYG{n}{y}\PYG{p}{,} \PYG{n}{accTim}\PYG{o}{.}\PYG{n}{u}\PYG{p}{)}
+    \PYG{p}{);}
+  \PYG{k+kr}{connect}\PYG{p}{(}\PYG{n}{tim}\PYG{o}{.}\PYG{n}{u}\PYG{p}{,} \PYG{n}{greThr1}\PYG{o}{.}\PYG{n}{y}\PYG{p}{)}
+    \PYG{p}{);}
+  \PYG{k+kr}{connect}\PYG{p}{(}\PYG{n}{weaBus}\PYG{o}{.}\PYG{n}{TDryBul}\PYG{p}{,} \PYG{n}{greThr1}\PYG{o}{.}\PYG{n}{u}\PYG{p}{)} \PYG{p}{));}      \PYG{n}{thickness}\PYG{o}{=}\PYG{l+m+mf}{0.5}\PYG{p}{),} \PYG{n}{Text}\PYG{p}{(}
+      \PYG{n}{string}\PYG{o}{=}\PYG{l+s+s2}{\PYGZdq{}}\PYG{l+s+s2}{\PYGZpc{}first}\PYG{l+s+s2}{\PYGZdq{}}\PYG{p}{,}
+      \PYG{n}{index}\PYG{o}{=}\PYG{o}{\PYGZhy{}}\PYG{l+m+mi}{1}\PYG{p}{,}
+      \PYG{n}{extent}\PYG{o}{=}\PYG{p}{\PYGZob{}\PYGZob{}}\PYG{o}{\PYGZhy{}}\PYG{l+m+mi}{6}\PYG{p}{,}\PYG{l+m+mi}{3}\PYG{p}{\PYGZcb{},\PYGZob{}}\PYG{o}{\PYGZhy{}}\PYG{l+m+mi}{6}\PYG{p}{,}\PYG{l+m+mi}{3}\PYG{p}{\PYGZcb{}\PYGZcb{},}
+      \PYG{n}{horizontalAlignment}\PYG{o}{=}\PYG{n}{TextAlignment}\PYG{o}{.}\PYG{n}{Right}\PYG{p}{));}
+  \PYG{k+kr}{connect}\PYG{p}{(}\PYG{n}{accTim}\PYG{o}{.}\PYG{n}{passed}\PYG{p}{,} \PYG{n}{truHol}\PYG{o}{.}\PYG{n}{u}\PYG{p}{)}
+    \PYG{p}{);}
+  \PYG{k+kr}{connect}\PYG{p}{(}\PYG{n}{truHol}\PYG{o}{.}\PYG{n}{y}\PYG{p}{,} \PYG{n}{not1}\PYG{o}{.}\PYG{n}{u}\PYG{p}{)}
+    \PYG{p}{);}
+  \PYG{k+kr}{connect}\PYG{p}{(}\PYG{n}{not1}\PYG{o}{.}\PYG{n}{y}\PYG{p}{,} \PYG{n}{and5}\PYG{o}{.}\PYG{n}{u2}\PYG{p}{)} \PYG{p}{));}  \PYG{k+kr}{connect}\PYG{p}{(}\PYG{n}{HPOn}\PYG{o}{.}\PYG{n}{active}\PYG{p}{,} \PYG{n}{and5}\PYG{o}{.}\PYG{n}{u1}\PYG{p}{)} \PYG{p}{));}  \PYG{k+kr}{connect}\PYG{p}{(}\PYG{n}{and5}\PYG{o}{.}\PYG{n}{y}\PYG{p}{,} \PYG{n}{swi2}\PYG{o}{.}\PYG{n}{u2}\PYG{p}{)} \PYG{p}{));}  \PYG{k+kr}{connect}\PYG{p}{(}\PYG{n}{and5}\PYG{o}{.}\PYG{n}{y}\PYG{p}{,} \PYG{n}{pumOnSig1}\PYG{o}{.}\PYG{n}{u}\PYG{p}{[}\PYG{l+m+mi}{3}\PYG{p}{])} \PYG{p}{));}          \PYG{p}{\PYGZob{}}\PYG{l+m+mi}{90}\PYG{p}{,}\PYG{o}{\PYGZhy{}}\PYG{l+m+mi}{402}\PYG{p}{\PYGZcb{},\PYGZob{}}\PYG{l+m+mi}{236}\PYG{p}{,}\PYG{o}{\PYGZhy{}}\PYG{l+m+mi}{402}\PYG{p}{\PYGZcb{},\PYGZob{}}\PYG{l+m+mi}{236}\PYG{p}{,}\PYG{o}{\PYGZhy{}}\PYG{l+m+mi}{344}\PYG{p}{\PYGZcb{},\PYGZob{}}\PYG{l+m+mi}{578}\PYG{p}{,}\PYG{o}{\PYGZhy{}}\PYG{l+m+mi}{344}\PYG{p}{\PYGZcb{},\PYGZob{}}\PYG{l+m+mi}{578}\PYG{p}{,}\PYG{o}{\PYGZhy{}}\PYG{l+m+mf}{120.667}\PYG{p}{\PYGZcb{},\PYGZob{}}\PYG{l+m+mi}{566}\PYG{p}{,}
+          \PYG{o}{\PYGZhy{}}\PYG{l+m+mf}{120.667}\PYG{p}{\PYGZcb{}\PYGZcb{},}
+        \PYG{n}{color}\PYG{o}{=}\PYG{p}{\PYGZob{}}\PYG{l+m+mi}{255}\PYG{p}{,}\PYG{l+m+mi}{0}\PYG{p}{,}\PYG{l+m+mi}{255}\PYG{p}{\PYGZcb{}));}
+  \PYG{k+kr}{connect}\PYG{p}{(}\PYG{n}{TemPostHP}\PYG{o}{.}\PYG{n}{T}\PYG{p}{,} \PYG{n}{BoiPI}\PYG{o}{.}\PYG{n}{u\PYGZus{}m}\PYG{p}{)} \PYG{p}{));}  \PYG{k+kr}{connect}\PYG{p}{(}\PYG{n}{swi3}\PYG{o}{.}\PYG{n}{y}\PYG{p}{,} \PYG{n}{BoiPI}\PYG{o}{.}\PYG{n}{u\PYGZus{}s}\PYG{p}{)} \PYG{p}{));}  \PYG{k+kr}{connect}\PYG{p}{(}\PYG{n}{boiOn}\PYG{o}{.}\PYG{n}{active}\PYG{p}{,} \PYG{n}{swi4}\PYG{o}{.}\PYG{n}{u2}\PYG{p}{)} \PYG{p}{));}  \PYG{k+kr}{connect}\PYG{p}{(}\PYG{n}{BoiPI}\PYG{o}{.}\PYG{n}{y}\PYG{p}{,} \PYG{n}{swi4}\PYG{o}{.}\PYG{n}{u1}\PYG{p}{)} \PYG{p}{));}  \PYG{k+kr}{connect}\PYG{p}{(}\PYG{n}{swi4}\PYG{o}{.}\PYG{n}{u3}\PYG{p}{,} \PYG{n}{dTThr1}\PYG{o}{.}\PYG{n}{y}\PYG{p}{)} \PYG{p}{));}  \PYG{k+kr}{connect}\PYG{p}{(}\PYG{n}{accTim}\PYG{o}{.}\PYG{n}{passed}\PYG{p}{,} \PYG{n+nb}{pre}\PYG{o}{.}\PYG{n}{u}\PYG{p}{)} \PYG{p}{));}  \PYG{k+kr}{connect}\PYG{p}{(}\PYG{n}{tim}\PYG{o}{.}\PYG{n}{passed}\PYG{p}{,} \PYG{n}{or2}\PYG{o}{.}\PYG{n}{u1}\PYG{p}{)} \PYG{p}{));}  \PYG{k+kr}{connect}\PYG{p}{(}\PYG{n+nb}{pre}\PYG{o}{.}\PYG{n}{y}\PYG{p}{,} \PYG{n}{or2}\PYG{o}{.}\PYG{n}{u2}\PYG{p}{)} \PYG{p}{));}  \PYG{k+kr}{connect}\PYG{p}{(}\PYG{n}{or2}\PYG{o}{.}\PYG{n}{y}\PYG{p}{,} \PYG{n}{accTim}\PYG{o}{.}\PYG{n}{reset}\PYG{p}{));}
+  \PYG{k+kr}{connect}\PYG{p}{(}\PYG{n}{swi4}\PYG{o}{.}\PYG{n}{y}\PYG{p}{,} \PYG{n}{boi}\PYG{o}{.}\PYG{n}{y}\PYG{p}{)} \PYG{p}{));}  \PYG{k+kr}{connect}\PYG{p}{(}\PYG{n}{truHol}\PYG{o}{.}\PYG{n}{y}\PYG{p}{,} \PYG{n}{booToReaPum1}\PYG{o}{.}\PYG{n}{u}\PYG{p}{)} \PYG{p}{));}  \PYG{k+kr}{connect}\PYG{p}{(}\PYG{n}{booToReaPum1}\PYG{o}{.}\PYG{n}{y}\PYG{p}{,} \PYG{n}{boi1}\PYG{o}{.}\PYG{n}{y}\PYG{p}{)} \PYG{p}{));}  \PYG{k+kr}{connect}\PYG{p}{(}\PYG{n}{boi1}\PYG{o}{.}\PYG{n}{port\PYGZus{}b}\PYG{p}{,} \PYG{n}{bou3}\PYG{o}{.}\PYG{n}{ports}\PYG{p}{[}\PYG{l+m+mi}{1}\PYG{p}{])} \PYG{p}{));}  \PYG{k+kr}{connect}\PYG{p}{(}\PYG{n}{bou2}\PYG{o}{.}\PYG{n}{ports}\PYG{p}{[}\PYG{l+m+mi}{1}\PYG{p}{],} \PYG{n}{pumBoi1}\PYG{o}{.}\PYG{n}{port\PYGZus{}a}\PYG{p}{)} \PYG{p}{));}  \PYG{k+kr}{connect}\PYG{p}{(}\PYG{n}{pumBoi1}\PYG{o}{.}\PYG{n}{port\PYGZus{}b}\PYG{p}{,} \PYG{n}{boi1}\PYG{o}{.}\PYG{n}{port\PYGZus{}a}\PYG{p}{)} \PYG{p}{));}  \PYG{k+kr}{connect}\PYG{p}{(}\PYG{n}{booToReaPum1}\PYG{o}{.}\PYG{n}{y}\PYG{p}{,} \PYG{n}{pumBoi1}\PYG{o}{.}\PYG{n}{y}\PYG{p}{)} \PYG{p}{));}  \PYG{k+kr}{connect}\PYG{p}{(}\PYG{n}{prescribedTemperature}\PYG{o}{.}\PYG{n}{port}\PYG{p}{,} \PYG{n}{boi1}\PYG{o}{.}\PYG{n}{heatPort}\PYG{p}{)} \PYG{p}{));}          \PYG{o}{\PYGZhy{}}\PYG{l+m+mf}{422.8}\PYG{p}{\PYGZcb{},\PYGZob{}}\PYG{l+m+mi}{186}\PYG{p}{,}\PYG{o}{\PYGZhy{}}\PYG{l+m+mf}{422.8}\PYG{p}{\PYGZcb{}\PYGZcb{},} \PYG{n}{color}\PYG{o}{=}\PYG{p}{\PYGZob{}}\PYG{l+m+mi}{191}\PYG{p}{,}\PYG{l+m+mi}{0}\PYG{p}{,}\PYG{l+m+mi}{0}\PYG{p}{\PYGZcb{}));}
+  \PYG{p}{),} \PYG{n}{Icon}\PYG{p}{(}
+        \PYG{n}{coordinateSystem}\PYG{p}{(}\PYG{n}{extent}\PYG{o}{=}\PYG{p}{\PYGZob{}\PYGZob{}}\PYG{o}{\PYGZhy{}}\PYG{l+m+mi}{100}\PYG{p}{,}\PYG{o}{\PYGZhy{}}\PYG{l+m+mi}{360}\PYG{p}{\PYGZcb{},\PYGZob{}}\PYG{l+m+mi}{760}\PYG{p}{,}\PYG{l+m+mi}{1080}\PYG{p}{\PYGZcb{}\PYGZcb{})),}
+    \PYG{n}{experiment}\PYG{p}{(}
+      \PYG{n}{StopTime}\PYG{o}{=}\PYG{l+m+mi}{31536000}\PYG{p}{,}
+      \PYG{n}{Tolerance}\PYG{o}{=}\PYG{l+m+mf}{1e\PYGZhy{}06}\PYG{p}{,}
+      \PYG{n}{\PYGZus{}\PYGZus{}Dymola\PYGZus{}Algorithm}\PYG{o}{=}\PYG{l+s+s2}{\PYGZdq{}}\PYG{l+s+s2}{Radau}\PYG{l+s+s2}{\PYGZdq{}}\PYG{p}{),}
+    \PYG{n}{\PYGZus{}\PYGZus{}Dymola\PYGZus{}experimentFlags}\PYG{p}{(}
+      \PYG{n}{Advanced}\PYG{p}{(}\PYG{n}{GenerateVariableDependencies}\PYG{o}{=}\PYG{k+kc}{false}\PYG{p}{,} \PYG{n}{OutputModelicaCode}\PYG{o}{=}\PYG{k+kc}{false}\PYG{p}{),}
+      \PYG{n}{Evaluate}\PYG{o}{=}\PYG{k+kc}{false}\PYG{p}{,}
+      \PYG{n}{OutputCPUtime}\PYG{o}{=}\PYG{k+kc}{false}\PYG{p}{,}
+      \PYG{n}{OutputFlatModelica}\PYG{o}{=}\PYG{k+kc}{false}\PYG{p}{));}
+\PYG{k+kr}{end} \PYG{n+nc}{HHSElecGasUsageCalib}\PYG{p}{;}
+\end{Verbatim}

@@ -22,6 +22,16 @@
 %*******************************************************
 \input{tex/classicthesis-config}
 
+\newlength\plotwidth
+\setlength\plotwidth{\textwidth}
+\newlength\plotheight
+\setlength\plotheight{4cm}
+\newlength\firstrowheight
+\setlength\firstrowheight{4cm} %%% CHANGE ME
+\newlength\subplotlength
+\setlength\subplotlength{\plotwidth}
+\newlength\plotgroupshift
+\setlength\plotgroupshift{-4em}
 
 
 %********************************************************************
@@ -47,6 +57,9 @@
 %\newcolumntype{Z}{S[round-mode=places, round-precision=3,table-number-alignment = center] }
 \makeindex
 \begin{document}
+\pgfplotstableread{data/HPOnOff51.dat}{\HPfiveonetable}
+\pgfplotstableread{data/HPOnOff34.dat}{\HPthreefourtable}
+\pgfplotstableread{data/HPOnOff07.dat}{\HPzeroseventable}
 \frenchspacing
 \raggedbottom
 \selectlanguage{british} % american ngerman
@@ -116,6 +129,7 @@
 %\cleardoublepage
 %\part{Appendix}\label{pt:appx}
 \include{chapters/Chapter0A}
+\include{chapters/Chapter0B}
 %********************************************************************
 % Other Stuff in the Back
 %*******************************************************
