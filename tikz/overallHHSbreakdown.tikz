@@ -37,8 +37,8 @@ y={($0.1*(image.north west)$)}]
 
     \draw[very thick,green] (1.5,3.38) rectangle (9,10) 
     node[below left,black,fill=green]{\small 4};
-    
 
+    
     % \draw[latex-, very thick,red!50!blue] (5.5,4) edge (5.5,5.5)
     % (5.75,4.5) -- (5.5,5.5)
     % node[above,black,fill=white]{\small $R_L$ load};

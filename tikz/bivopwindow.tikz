@@ -4,7 +4,7 @@
 \draw[->] (0.5,0) -- (7.75,0);
 % the ticks and their labels
 \foreach \x  in {1,...,15}
-  \draw[xshift=\x*0.5 cm] (0pt,2pt) -- (0pt,-4pt) node[below,fill=white] {\the\numexpr\x -4\relax};
+  \draw[xshift=\x*0.5 cm] (0pt,2pt) -- (0pt,-4pt) node[below,fill=white] {$\the\numexpr\x -4\relax$};
 % the thicker segment
 %\draw[ultra thick] (4,0) -- (11,0);
 

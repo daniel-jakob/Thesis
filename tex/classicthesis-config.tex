@@ -94,6 +94,7 @@ backend=biber,bibencoding=utf8, %instead of bibtex
 %backend=bibtex8,bibencoding=ascii,%
 language=english,%
 style=numeric-comp,%
+giveninits,
 %style=authoryear-comp, % Author 1999, 2010
 %bibstyle=authoryear,dashed=false, % dashed: substitute rep. author with ---
 %sorting=nyt, % name, year, title
@@ -176,7 +177,7 @@ natbib=true % natbib compatibility mode (\citep and \citet still work)
 \usepackage{etoolbox}
 \renewcommand\nomgroup[1]{%
   \item[\bfseries
-  \ifstrequal{#1}{A}{Physics Constants}{%
+  \ifstrequal{#1}{A}{Abbreviations}{%
   \ifstrequal{#1}{B}{Subscripts}{%
   \ifstrequal{#1}{C}{Other Symbols}{}}}%
 ]}
@@ -313,6 +314,8 @@ natbib=true % natbib compatibility mode (\citep and \citet still work)
 \newcommand{\myfloatalign}{\centering} % to be used with each float for alignment
 %\usepackage{subfig}
 \usepackage[labelformat=simple]{subcaption}
+
+\usepackage{stackengine}
 
 %\usepackage{multirow} % to have multirow cells in tables
 
