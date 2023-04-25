@@ -7,14 +7,19 @@
 \section{Overview} \label{sec:methodoverview}
 This chapter presents the research methodologies employed in this thesis. \cref{sec:methodoverview} gives a general overview of the study, including a flow chart of the main steps. \cref{sec:methodrefbuild,sec:methodheatingsys} give an overview of the reference building being modelled and the implemented heating system respectively. \cref{sec:methodecoeco} gives an introduction to the ecological and economic models used to quantify the different hybrid operation temperature windows along with a brief overview of the market context. Finally \cref{sec:methodconclusion} provides a conclusion to the methodologies chapter.
 
-
+\begin{figure}[htb]
+    \centering
+    \input{tikz/flowchartmethod.tex}
+    \caption{Flowchart methodology}
+    \label{fig:flowchartmethod}
+\end{figure}
 
 
 
 \section{Experimental Reference Building}\label{sec:methodrefbuild}
-This thesis uses as reference a building model produced for and used by a Master's thesis by \citeauthor{keogh_technical_2018} \cite{keogh_technical_2018} and subsequently further works by \citeauthor{keogh_technical_2022}. The building itself will be described in detail in \cref{sec:location}. Briefly, it is a detached house located in a residential area of Belturbet, Co. Cavan. The building envelope was modelled and the data is stored in a \texttt{.idf}-file which is interpretable and parsable by \texttt{EnergyPlus} and subsequently through the use of the \texttt{Spawn of EnergyPlus} utility provided by the Buildings Library \cite{wetter_modelica_2014}, can be co-simulated in \modelica and \texttt{EnergyPlus} and described in \cite{wetter2021software}. The aforementioned data contained in the file consists of the geometry of the house; its walls, floors, ceilings, roofs, etc, the thermal envelope properties; material and insulation thicknesses, thermal properties (e.g., conductivity, heat capacity), various simulation specific parameters and keys, and finally the internal gains models including activity schedules and heat densities.  
+This thesis uses as reference a building model produced for and used by a Master's thesis by \citeauthor{keogh_technical_2018} \cite{keogh_technical_2018}. The building itself will be described in detail in \cref{sec:location}. Briefly, it is a detached house located in a residential area of Belturbet, Co. Cavan. The building envelope was modelled and the data is stored in a \texttt{.idf}-file which is interpretable and parsable by \texttt{EnergyPlus} and subsequently through the use of the \texttt{Spawn of EnergyPlus} utility provided by the Buildings Library \cite{wetter_modelica_2014}, can be co-simulated in \modelica and \texttt{EnergyPlus} \cite{wetter2021software}. The aforementioned data contained in the file consists of the geometry of the house; its walls, floors, ceilings, roofs, etc, the thermal envelope properties; material and insulation thicknesses, thermal properties (e.g., conductivity, heat capacity), various simulation specific parameters and keys, and finally the internal gains models including activity schedules and heat densities.  
 
-A brief history of the dwelling: in September 2014 a Daikin Altherma hybrid \HP system was installed in the house. The dwelling underwent a minimal retrofitting between December 2014 and February 2015. The insulation and air tightness of the building were improved and low temperature optimised aluminium radiators were fitted which allow for lower temperature supply water to effectively heat a room, ultimately allowing for higher \acp{COP} from the \HP. The improved thermal properties of the building resulted in a reduction of 475 watts per month in the heating load of the house. The average energy consumption decreased by 44.5\% \cite{keogh_technical_2018}. All comparisons between the model and the reference house will be carried out post-minimal retrofit as it is generally not recommended to run a \HP in poorly insulated/inefficient homes.
+A brief history of the dwelling: in September 2014 a Daikin Altherma integrated hybrid \HP system was installed in the house. The dwelling underwent a minimal retrofitting between December 2014 and February 2015. The insulation and air tightness of the building were improved and low temperature optimised aluminium radiators were fitted which allow for lower temperature supply water to effectively heat a room, ultimately allowing for higher \acp{COP} from the \HP. The infiltration rate was decreased to 0.5 \ac{ACPH}, however, for the sake of the \texttt{EnergyPlus} model, this was increased to 0.8 \ac{ACPH} to account for no interzonal air movement or door and window openings. The improved thermal properties of the building resulted in a reduction of 475 watts per month in the heating load of the house. The average energy consumption decreased by 44.5\% \cite{keogh_technical_2018}. All comparisons between the model and the reference house will be carried out post-minimal retrofit as it is generally not recommended to run a \HP in poorly insulated/inefficient homes.
 
 \subsection{Experimental Measurements} \label{subsec:expmeasure}
 Experimental measurements were carried out on the real-life dwelling pre-, during, and post-retrofit. Many data variables were logged, the main ones which this analysis is concerned with being: heating circuit water supply temperature and return temperature in celsius, volumetric flowrate of the heating circuit in cubic metres per hour, electricity power for \HP in watts, outdoor temperature in celsius and gas volume in cubic metres. The data was collected on at ten-minute intervals, but reduced to hourly resolution for the purposes of the data analytics. These measurements are used in the verification process in \cref{subsubsec:validation}.
@@ -32,16 +37,16 @@ The ubiquitous heat capacity equation was utilised in quantifying the irradiatio
     Q = mc\Delta T 
 \end{equation} 
 
-Where $Q$ is the heat energy in watts, $m$ is the mass of air in the room, $c$ is the specific heat capacity of air ($C_{v_\text{air}} = \qty{0.718}{\kilo\joule\per\kilo\gram\per\kelvin}$) and $\Delta T$ is the change in temperature of the air in the room (i.e., difference between temperature at a chosen time in hours leading up to the event, and the peak temperature after the bulk of the simulation day's irradiation). The mass of air in this room was found by taking the volume (\qty{31}{\meter\cubed}) and multiplying it by the density of air at a mean temperature (\sim \qty{1.204}{\kilo\gram\per\cubic\meter}). 
-The heat gained by the room with the large window was found to be \qty{420}{\joule} while with the small window it was found to be \qty{420}{\joule}. This is to be expected as a larger window would justly allow more irradiance to (semi-)directly into the room. 
+Where $Q$ is the heat energy in watts, $m$ is the mass of air in the room, $c$ is the specific heat capacity of air ($c_{v_\text{air}} = \qty{0.718}{\kilo\joule\per\kilo\gram\per\kelvin}$) and $\Delta T$ is the change in temperature of the air in the room (i.e., difference between temperature at a chosen time in hours leading up to the event, and the peak temperature after the bulk of the irradiation of the simulation day). The mass of air in this room was found by taking the volume (\qty{31}{\meter\cubed}) and multiplying it by the density of air at a mean temperature (\sim \qty{1.204}{\kilo\gram\per\cubic\meter}). 
+The heat gained by the room with the large window was found to be \qty{527.8}{\kilo\joule} while with the small window it was found to be \qty{58.1}{\kilo\joule}. This is to be expected as a larger window would justly allow more irradiance to (semi-)directly into the room. 
 
-The next test was to check if heat was being conducted through the interior walls of the building. A room was chosen, and its temperature was purposely raised to an unnatural level of \qty{60}{\celsius}. One would expect that the temperature of the adjacent rooms would increase by means of conduction.\footnote{Door and window openings were not modelled as part of this simulation. The air infiltration rate was increased slightly to compensate for this. However, this also means interzonal airflow was also not modelled.} The test involved comparing the adjacent room temperatures to the corresponding room temperatures in the case where the chosen room's temperature was not artificially raised. The temperature was found to increase an average of \qty{6}{\celsius} across the 4 neighbouring rooms. 
+The next test was to check if heat was being conducted through the interior walls of the building. A room was chosen, and its temperature was purposely raised to an unnatural level of \qty{60}{\celsius}. One would expect that the temperature of the adjacent rooms would increase by means of conduction.\graffito{Door and window openings were not modelled as part of this simulation. The air infiltration rate was increased slightly to compensate for this. However, this also means interzonal airflow was also not modelled.} The test involved comparing the adjacent room temperatures to the corresponding room temperatures in the case where the chosen temperature of the room was not artificially raised. The temperature was found to increase an average of \qty{16}{\celsius} across the 4 neighbouring rooms. 
 
 
 \subsection{Validation} \label{subsubsec:validation}
 
 \subsubsection{Climate}
-Climatic weather data obtained from the OneBuilding weather database \cite{onebuilding_climateonebuildingorg_nodate} in the \texttt{.epw} filetype and produced by ASHRAE. The weather data file used in this study is a product of an amalgamation of representative monthly weather data from a year occurring between 2020 and 2008 for each of the twelve months. This weather data was collected by the Clones weather station Operated by Met Éireann, located 16.5 kilometres away from Belturbet. 
+Climatic weather data was obtained from the OneBuilding weather database \cite{onebuilding_climateonebuildingorg_nodate} in the \texttt{.epw} filetype and produced by ASHRAE. The weather data file used in this study is a product of an amalgamation of representative monthly weather data from a year occurring between 2020 and 2008 for each of the twelve months. This weather data was collected by the Clones weather station Operated by Met Éireann, located 16.5 kilometres away from Belturbet. 
 
 The weather data contains various weather properties, such as dry bulb temperature, wet bulb temperature, dew point temperature, relative humidity, wind speed, wind direction, global horizontal irradiance, direct normal irradiance, diffuse horizontal irradiance, and atmospheric pressure, all of which are used in \texttt{EnergyPlus} in the envelope simulation. The data is presented in an hourly interval. \texttt{EnergyPlus} and \texttt{Modelica} (via \texttt{WeatherData.Bus} \texttt{Modelica} model provided by the Buildings Library) linearly interpolate the hourly data to give data at the appropriate/chosen timestep of the simulation. 
 
@@ -52,10 +57,21 @@ According to \citetitle{ashrae_guideline_project_committee_14_ashrae_2014} \cite
 \begin{figure}[htb]
     \centering
     \import{tikz/}{weathercomp}
-    \caption{Three dry-bulb temperature series compared}
+    \caption{Year long comparison of the three dry-bulb temperature series. Met Éireann Clones weather station vs. experimental data from Belturbet vs. \texttt{.epw}-file based off of Clones data}
     \label{fig:weathercomp}
 \end{figure}
 
+\begin{table}[htb]
+    \centering
+    \caption{Summary of statistical indices results for climatic data validation}
+    \label{tbl:statstableweather}
+    \begin{tabular}{cccc}
+        \toprule
+        \begin{tabular}[c]{@{}c@{}}Statistical\\ Index\end{tabular} & \begin{tabular}[c]{@{}c@{}}Met Éireann\\ vs. Belturbet\end{tabular} & \begin{tabular}[c]{@{}c@{}}Belturbet\\ vs. \texttt{.epw}-file\end{tabular} & Tolerances \\ \midrule
+        \ac{NMBE} & \num{-9.369} & \num{9.764} & $\pm10\%$ \\
+        \ac{SMAPE} & \num{10.938} & \num{19.518} & \num{10}\%--\num{20}\%\\\bottomrule
+        \end{tabular}
+\end{table}
 
 The comparison of temperature values using these statistical metrics revealed that the weather data obtained from ASHRAE was in good agreement with the in-situ temperature measurements in Belturbet and the historical metrological data from Met Éireann in Clones, with \ac{SMAPE} and \ac{NMBE} values which lay within the appropriate tolerances respectively. This indicates that the weather data file was a reliable source of climatic data for the study, and the statistical metrics used provided a robust method for evaluating the accuracy of the data. 
 
@@ -65,45 +81,76 @@ The validation of the \ac{BEM} was performed by comparing values obtained from t
 
 The validation criteria used to assess the accuracy of the model were based on  \citetitle{ashrae_guideline_project_committee_14_ashrae_2014} \cite{ashrae_guideline_project_committee_14_ashrae_2014}, using the three statistical indices explained in \cref{subsubsec:validation}, these indicators measure the deviation between simulated and measured values, as well as the direction and magnitude of the bias. A monthly calibration approach was adopted, meaning the \ac{CVRMSE}, \ac{NMBE} and \ac{SMAPE} values were calculated for each month using \cref{eq:cvrmse,eq:nmbe,eq:smape} respectively. 
 
-The \ac{CVRMSE} achieved was 9.483\%, which is under the ASHRAE suggested 15.0\% for monthly data comparisons. The \ac{NMBE} was calculated to be 0.02242, well under the suggested 5\%  threshold, meaning the model did not systematically over- or underpredict the space heating load. The \ac{SMAPE} value came to 6.061\%, which is under the generally accepted 10\% threshold for very good predictions. \cref{fig:spaceheatingcalib} shows a clustered bar chart comparing the simulation and experimental space heating values for all heating months. 
+For the space heating load a \ac{CVRMSE} of 9.483\% was achieved, which is under the ASHRAE suggested 15.0\% for monthly data comparisons. The \ac{NMBE} was calculated to be 0.02242\%, well under the suggested 5\%  threshold, meaning the model did not systematically over- or underpredict the space heating load. The \ac{SMAPE} value came to 6.061\%, which is under the generally accepted 10\% threshold for very good predictions. \cref{fig:spaceheatingcalib} shows a clustered bar chart comparing the simulation and experimental space heating values for all heating months. 
 
 \begin{figure}[htb]
     \centering
     \includegraphics[width=1\linewidth]{figures/spaceHeating.tikz}
-    \caption{Space heating load for dwelling: experimental vs. simulation}
+    \caption{Space heating load for dwelling broken down by month: experimental vs. simulation}
     \label{fig:spaceheatingcalib}
 \end{figure}
 
 
-The electricity and gas energy usage for the simulation and experimental values were also compared. The \ac{CVRMSE} evaluated to: \num{13.933} for the gas and \num{11.499} for the electricity and the \ac{NMBE} came to \num{0.490} and \num{3.841} for gas and electricity respectively, which are below the thresholds set by the ASHRAE guidelines for monthly calibrations. The \ac{SMAPE} was \num{10.817} for gas and \num{6.305} for electricity which is also below the commonly agreed upon threshold. \cref{fig:energycalib} shows a stacked, group bar chart of the electricity and gas usage for the experimental and simulation. It can be seen that the two sets of data are in good agreement.
+The electricity and gas energy usage for the simulation and experimental values were also compared. The \ac{CVRMSE} evaluated to: \num{13.933} for the gas and \num{11.499} for the electricity and the \ac{NMBE} came to \num{0.490} and \num{3.841} for gas and electricity respectively, which are below the thresholds set by the ASHRAE guidelines for monthly calibrations. The \ac{SMAPE} was \num{10.817} for gas and \num{6.305} for electricity which is also below the commonly agreed upon threshold. \cref{fig:energycalib} shows a stacked, group bar chart of the electricity and gas usage for the experimental and simulation. It can be seen that the two sets of data are in good agreement. \cref{tbl:statstable} shows a summary of the statistical indices results for the three heating system validation comparisons.
 
 
 \begin{figure}[htb]
     \centering
     \includegraphics[width=1\linewidth]{figures/energyCalib.tikz}
-    \caption{Combined energy usage for space heating}
+    \caption{Energy usage for space heating broken down by energy type and by month, comparing experimental values to model values}
     \label{fig:energycalib}
 \end{figure}
 
+\begin{table}[htb]
+    \centering
+    \caption{Summary of statistical indices results for model calibration and the corresponding tolerances}
+    \label{tbl:statstable}
+    \begin{tabular}{ccccc}
+        \toprule   
+    \begin{tabular}[c]{@{}c@{}}Statistical\\ Index\end{tabular} & \begin{tabular}[c]{@{}c@{}}Space\\ Heating\end{tabular} & Electricity & Gas & Tolerance \\ \midrule
+    \ac{CVRMSE} & \num{9.483} & \num{11.499} & \num{13.933} & $15\%$ \\
+    \ac{NMBE} & \num{0.02242} & \num{3.841} & \num{0.490} & $\pm5\%$ \\
+    \ac{SMAPE} & \num{6.061} & \num{6.305} & \num{10.817} &  \num{10}\%--\num{20}\% \\\bottomrule
+    \end{tabular}
+\end{table}
 
-The Daikin Altherma \HP catalogue specifies that when producing hot water for space heating at \qty{35}{\celsius}, an \ac{SCOP} of 3.26 will be achieved for the model of \HP being simulated \cite{daikin_daikin_2018}. When the \ac{HHS} \texttt{Modelica} model was altered to strictly produce \qty{35}{\celsius} hot water, the \HP model provided by the IDEAS library reached an \ac{SCOP} of 3.17, which comes to a percentage change of just 2.76\%. This is accurate enough for the purposes of this analysis and confirms that the model should accurately represent the in-sutu \HP. For the subsequent sensitivity analysis in \cref{ch:sensitivity}, the temperature which the \HP is producing water at is not fixed, and instead is allowed to be controlled by a space heating water supply temperature curve as described in \cref{subsubsec:heatgenloopcont}. This affects the \ac{COP} positively and negatively depending on the whether the demanded water supply temperature is greater or lower than \qty{35}{\celsius}, however, overall, the \ac{SCOP} is negatively affected. However, having the \HP sometimes produce water at a higher temperature results in the boiler having to carry out less heating on that hotter water to ``top it up'' to the demanded water supply temperature, resulting in less gas usage.
+
+The Daikin Altherma \HP catalogue specifies that when producing hot water for space heating at \qty{35}{\celsius}, an \ac{SCOP} of 3.26 will be achieved for the model of \HP being simulated \cite{daikin_daikin_2018}. When the \ac{HHS} \texttt{Modelica} model was altered to strictly produce \qty{35}{\celsius} hot water, the \HP model provided by the IDEAS library reached an \ac{SCOP} of 3.17, which comes to a percentage change of just 2.76\%. This is accurate enough for the purposes of this analysis and confirms that the model should accurately represent the in-sutu \HP. For the subsequent sensitivity analysis in \cref{ch:sensitivity}, the temperature which the \HP is producing water at is not fixed, and instead is allowed to be controlled by a space heating water supply temperature curve as described in \cref{subsubsec:heatgenloopcont}. This affects the \ac{COP} positively and negatively depending on whether the demanded water supply temperature is greater or lower than \qty{35}{\celsius}, however, overall, the \ac{SCOP} is negatively affected. However, having the \HP sometimes produce water at a higher temperature results in the boiler having to carry out less heating on that hotter water to ``top it up'' to the demanded water supply temperature, resulting in less gas usage.
+
+
 
 
 
 \section{Sensitivity Analysis}\label{sec:sensanal}
 A full factorial parametric study was carried out on the bivalent parallel operation temperature window of modelled \ac{HHS}. This analysis aims to evaluate the effect of varying the bivalent temperature and cut-off temperature on the total cost of fuel and electricity for the heating system, in addition to assessing its \ac{PEF} and $\text{CO}_2$ emissions. First, some fundamental preliminary steps must be completed before carrying out the sensitivity analysis. Choosing/identifying the parameters to be varied: it was discovered from the literature review that an optimising of the hybrid operation temperature window has not been carried out for the Irish climate, and not in any comprehensive way for other climates either. \ac{ASHP} manufacturers may have carried out proprietary research regarding this, however, such data is not available openly. Defining the range of values for each parameter: it is understood from Daikin's user manuals that they use a cut-off temperature of \qty{2}{\celsius} and a bivalent temperature of \qty{7}{\celsius}, which gives a good starting point. Knowledge gained from the literature review and Daikin's specifications manual for the \HP being modelled, it is understood that the performance of a \HP dramatically decreases with temperature due to diminishing \ac{COP} and frosting effects, therefore a lower bound of \qty{-2}{\celsius} was chosen. For the bivalent temperature, an upper bound of \qty{10}{\celsius} was chosen, as if it were much higher, the desired effects of running the \ac{HHS} solely with the \HP would be quite limited, almost defeating the purpose of the \HP entirely. The upper bound for the cut-off temperature was set to \qty{4}{\celsius} and finally the lower bound of the bivalent temperature was subsequently set to \qty{5}{\celsius} to avoid creating a bivalent alternative operation hybrid system with the bivalent temperature and cut-off temperature being equal.
 
-Next the resolution of the parameters was to be decided. This is typically determined based on the available computational resources and the desired level of detail in the analysis. Intervals of \qty{1}{\celsius} were chosen, resulting in a resolution of 6 for the bivalent temperature and 7 for the cut-off temperature. With this, a matrix that specifies all possible combinations of values for each parameter can be drawn. Then the simulations must be ran one-by-one, varying the parameters in sequence and systematically.
+Next the resolution of the parameters was to be decided. This is typically determined based on the available computational resources and the desired level of detail in the analysis. Intervals of \qty{1}{\celsius} were chosen, resulting in a resolution of 6 for the bivalent temperature and 7 for the cut-off temperature. With this, a matrix that specifies all possible combinations of values for each parameter can be drawn. Then the simulations must be ran one-by-one, varying the parameters in sequence and systematically. A graphical representation of the bivalent operation window can be seen in \cref{fig:bivopwindow}. It takes as an example a cut-off temperature of \qty{7}{\celsius} and a bivalent temperature of \qty{0}{\celsius}, meaning, when the outdoor temperature is between \qty{0}{\celsius} and \qty{7}{\celsius}, bivalent-parallel operation is occurring.
+
+\begin{figure}[htb]
+    \centering
+    \includegraphics[width=1\linewidth]{tikz/bivopwindow.tikz}
+    \caption{Representation of the bivalent operation window. An example is showcased of bivalent operation if the external temperature is between \qty{0}{\celsius} and \qty{7}{\celsius}.}
+    \label{fig:bivopwindow}
+\end{figure}
+
+A brief technical analysis of the system's performance and its operation will be carried out to conclude the sensitivity analysis chapter. The \ac{SCOP} will be calculated for each parameter-level combination, and the on-off cycling of the \HP will be investigated.
 
 \section{Eco-Economic Assessment}\label{sec:methodecoeco}
-The eco-economic assessment chapter deals with showcasing the results gathered from the 42 total simulation runs and performing the analysis. This paper is seeking to answer two questions: what is the optimal temperature window to minimise cost, and what is the optimal temperature window to minimise environmental impact. The economic analysis involves determining the hourly consumption of gas and electricity by the two heating devices and determining the overall cost of running the heating system for the year. The price of gas does not fluctuate, only changing at most a couple of times in a year, however, the price of electricity fluctuates on an hourly basis due to Time-of-Use tariffs. The cost of heating for a a given timestep for this analysis was simply the sum of the products of cost of energy type at time $t$ by consumption over the time interval, given by \cref{eq:sumofprod}, where $B$ is the fuel consumption in kilowatt-hours and $C$ is the cost of the fuel type in cent per kilowatt-hours for a given fuel (at a given time if electricity).
+The eco-economic assessment chapter deals with showcasing the results gathered from the 42 total simulation runs and performing the analysis. This paper is seeking to answer two questions: what is the optimal temperature window to minimise cost, and what is the optimal temperature window to minimise environmental impact. The economic analysis involves determining the hourly consumption of gas and electricity by the two heating devices and determining the overall cost of running the heating system for the year. The price of gas does not fluctuate, only changing at most a couple of times in a year, however, the price of electricity fluctuates on an hourly basis due to Time-of-Use tariffs. The cost of heating for a a given timestep for this analysis was simply the sum from time $\mathit{ts}=0$ to $\mathit{ts}=N$ of the sum of the products of cost of energy type at time $\mathit{ts}$ by consumption over the time interval, given by \cref{eq:sumofprod}, where $B$ is the fuel consumption in kilowatts and $C$ is the cost of the fuel type in cent per kilowatt-hour for a given fuel (at a given time $\mathit{ts}$, if electricity). $N$ is number of timesteps in the simulation, typically around \num{180000} due to timesteps of three-minute intervals being chosen. The first term is multiplied by the difference between the time corresponding to timestep $\mathit{ts}$ and the previous timestep. This is done to integrate over time. 
 
+Afterwards, an attempt will be made to generalise the economic findings by varying the prices of gas and electricity to different rates. What effect this has on the annual cost of operation will be looked into.
 
 \begin{equation}
-    B_\text{gas}C_\text{gas} + B_\text{elec}C_\text{elec}\label{eq:sumofprod}
+    \text{Total Annual Cost} = \sum_{\mathit{ts}=0}^{N} \left(B_{\text{gas}_\mathit{ts}}  C_\text{gas} + B_{\text{elec}_\mathit{ts}} C_{\text{elec}_\mathit{ts}} \right)\bigl(t(\mathit{ts})-t(\mathit{ts}-1)\bigr)\label{eq:sumofprod}
 \end{equation}
 
+As for the ecological component, similarly to the economic assessment, the Irish market will be taken as a case study, and then an attempt at generalisation will be made. To calculate the $\text{CO}_2$ used over the course of a year, similarly to \cref{eq:sumofprod}, except the energy values of the \HP and boiler are multiplied by the energy sources' respective carbon intensity values, in grams of carbon dioxide per kilowatt-hour of energy produced. 
+
+\begin{equation}
+    \text{Total Annual CO}_2 = \sum_{\mathit{ts}=0}^{N} \left(B_{\text{gas}_\mathit{ts}} I_\text{gas} + B_{\text{elec}_\mathit{ts}} I_{\text{elec}} \right)\bigl(t(\mathit{ts})-t(\mathit{ts}-1)\bigr)\label{eq:sumofprodeco}
+\end{equation}
 
 \section{Conclusion}\label{sec:methodconclusion}
+In conclusion, a residential, two-storey house located in Cavan, Ireland was used as a reference to build a numerical model from. The house model was created using the likeness of the dwelling: the thermal constructions, geometry and thermal envelope were modelled. Experimental measurements were taken of the thermal energy demand of the house and energy usage broken down by energy type. A numerical model of a \ac{HHS} was created in \texttt{Modelica}, using a Daikin Altherma 3 \HP as a reference, and a weather model created from data originating from the Clones weather station was used as the climatic model. The dwelling-\ac{HHS} composite model was verified and validated against the experimental measurements, falling within agreed upon tolerances provided by ASHRAE and the literature in general. A parametric study was designed to capture how varying the bivalent operation temperature window of the boiler-\HP system would affect the system performance. Various other smaller models were designed, including internal gains from persons, lighting, etc., a frosting model and a \ac{HHPS}-capable controller model. 
 
 

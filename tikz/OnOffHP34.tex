@@ -1,0 +1,89 @@
+\begin{tikzpicture}[trim axis left, trim axis right]
+  \footnotesize
+  \begin{groupplot}[
+      group style = {
+      group name = myplot,
+        group size = 1 by 2,
+        horizontal sep = 0,
+        vertical sep = 5,
+        y descriptions at = edge left,
+      },
+      enlarge x limits = false,
+      height = \plotheight,
+      scale only axis = true,
+      xmin = 42082,
+      xmax = 42092.99792,
+      width = \subplotlength,
+    ]
+    \nextgroupplot[
+    legend to name={CommonLegend1},legend style={legend columns=3},
+      width = \subplotlength,
+      height = \firstrowheight,
+      xticklabels={,,},
+      ylabel = {Radiator Loop Temp. [\unit{\celsius}]},
+      scaled x ticks = false,
+    ]
+    \coordinate (top) at (rel axis cs:0,1);% coordinate at top of the first plot
+    \addplot [thin, blue, opacity=0.5] table[y = TemRet] from \HPthreefourtable ;
+    \addplot [thin, red, opacity=0.5] table[y = TemSup] from \HPthreefourtable ;
+    \addlegendimage{olive, dashed}
+    %\addlegendimage{red, mark=*}
+    \addlegendentry[color=black]{Return Temp.}
+  \addlegendentry[color=black]{Supply Temp.}
+  \addlegendentry[color=black]{Outdoor Temp.}
+      
+
+    \nextgroupplot[
+      ymin = -0.5,
+      ymax = 1.5,
+      height = .35\plotheight,
+      width = \subplotlength,
+      xtick = {42082,42083,42084,42085,42086,42087,42088,42089,42090,42091,42092,42093},
+      scaled x ticks = false,
+      ytick = {0,1},
+      yticklabels= {{Off},{On}},
+      xticklabels = {{19/3},{20/3},{21/3},{22/3},{23/3},{24/3},{25/3},{26/3},{27/3},{28/3},{29/3}},
+      %xshift = \subplotlength,
+    ]
+    \addplot [thin, blue, opacity=0.5] table[y = On] from \HPthreefourtable ;
+    \coordinate (bot) at (rel axis cs:1,0);% coordinate at bottom of the last plot
+    %\nextgroupplot[group/empty plot]
+  \end{groupplot}
+
+      \begin{groupplot}[
+      group style = {
+        group size = 1 by 2,
+        horizontal sep = 0,
+        vertical sep = 5,
+        y descriptions at = edge right,
+      },
+      enlarge x limits = false,
+      height = \plotheight,
+      scale only axis = true,
+      xmin = 42082,
+      xmax = 42092.99792,
+      width = \subplotlength,
+      ytick style={draw=none},
+      axis line style={draw=none}
+    ]
+    \nextgroupplot[
+      width = \subplotlength,
+      height = \firstrowheight,
+      xticklabels={,,},
+      ymin = 0,
+      ylabel = {Outdoor Temp. [\unit{\celsius}]},
+      ymax = 15,
+      scaled x ticks = false,
+      ytick style={draw=none},
+      draw=none,
+    ]
+    %\addplot [thin, blue, opacity=0.5, smooth] table[y = Out] from \HPthreefourtable ;
+    \addplot +[olive, raw gnuplot, no markers, dashed] gnuplot{plot 'data/HPOnOff34.dat' using 1:4 smooth csplines title columnheader(1);};
+  %\addlegendimage{blue, mark=square*,mark options={solid, scale=0.85, fill=white}, dashed}
+    %\addplot [thin, red, opacity=0.5] table[y = TemSup] from \HPthreefourtable ;
+  \end{groupplot}
+  % legend
+  %\path (top-|current bounding box.west) -- node[above]{\ref{CommonLegend1}} (bot-|current bounding box.west);
+  %\path (top-|current bounding box.west)node[right]{\ref{CommonLegend1}} --  (bot-|current bounding box.west);
+  \path (1,1) -- node[right]{\ref{CommonLegend1}} (15.75,6);
+\end{tikzpicture}

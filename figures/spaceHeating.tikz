@@ -1,8 +1,9 @@
 \begin{tikzpicture}[trim axis left]
+\footnotesize
 \begin{axis}[ybar,
         scale only axis,
         height=6cm,
-        bar width=3mm,
+        bar width=2.5mm,
         ymin=0,
         yticklabel = {$\num[round-mode=places,round-precision=0]{\tick}$},
         ymax=2500,       
@@ -16,6 +17,8 @@
             \strut Apr,
             \strut May,
             \strut Jun,
+            \strut Jul,
+            \strut Aug,
             \strut Sep,
             \strut Oct,
             \strut Nov,

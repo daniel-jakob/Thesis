@@ -10,9 +10,9 @@
     line/.style = {draw, -latex'}
 }
 \node [rblock]  (radloop) {Radiator \& Radiator\\ loop control};
-\node [io, right of=radloop, node distance=5cm] (outsidetemp) {Outside temp};
+\node [io, right of=radloop, node distance=5cm] (outsidetemp) {Outside temp.};
 \node [io, below of=radloop, node distance=4cm] (daynight) {Room setpoint:\\Day: \qty{21}{\celsius}\\Night: \qty{16}{\celsius}};
-\node [io, below of=daynight, node distance=2.5cm] (supplytemp) {Supply temp actual};
+\node [io, below of=daynight, node distance=2.5cm] (supplytemp) {Supply temp. actual};
 \node [block, below of=outsidetemp, node distance=4 cm] (calcsupply) {Calculate water\\supply temperature};
 \node [block, below of=calcsupply, node distance=2.5 cm] (adjust3way) {Adjust 3-way valve\\w/ P-control};
 
@@ -40,7 +40,7 @@
 \node[right of=pumphysteresis,node distance=2.25 cm,align=left] {on/off\\high=0.5\\low=0.01};
 
 \node [io, left of=PIcontrol, node distance=5 cm] (pumpspeed) {Rad pump rotational speed};
-\node [io, below of=supplytemp, node distance=1.25 cm] (pressure) {Pressure differential\\across rad pump};
+\node [io, below of=supplytemp, node distance=1.25 cm] (pressure) {Pressure differential\\across radiator pump};
 \node [coordinate,below=0.5 cm of maxP] (undermax) {};
 
 
@@ -56,7 +56,7 @@
 \path [line] (unblockP) -| (maxP);
 \path [line] (unblockP) -- (radvalve);
 \path [line] (maxP) -- (pumphysteresis);
-\path [line] (pumphysteresis) -- (PIcontrol)node[below,midway,align=center]{Bool\\to\\Real};
+\path [line] (pumphysteresis) -- (PIcontrol)node[below,midway,align=center]{Boolean\\to\\Real};
 \path [line] (PIcontrol) -- (pumpspeed);
 \path [line] (PIcontrol) -- (pumpspeed);
 \path [line] (pressure) -| (PIcontrol);

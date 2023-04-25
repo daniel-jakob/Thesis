@@ -1,8 +1,9 @@
 \begin{tikzpicture}[trim axis left]
+\footnotesize
 \begin{axis}[ybar stacked,
         scale only axis,
         height=6cm,
-        bar width=3mm,
+        bar width=2.5mm,
         ymin=0,
         ymax=1500,       
         enlarge x limits={abs=0.5},
@@ -10,6 +11,8 @@
         yticklabel = {$\num[round-mode=places,round-precision=0]{\tick}$},
         xtick=data,
         xticklabels = {
+            \strut Exp,
+            \strut Exp,
             \strut Exp,
             \strut Exp,
             \strut Exp,
@@ -34,7 +37,7 @@
         legend image code/.code={%
             \draw[#1,/tikz/.cd,bar width=3pt,yshift=-0.2em,bar shift=0pt]
             plot coordinates {(0cm,0.8em) (2*\pgfplotbarwidth,0.6em)};},
-         extra x ticks={1,2,3,4,5,6,7,8,9,10},
+         extra x ticks={1,2,3,4,5,6,7,8,9,10,11,12},
          extra x tick style={
         tick label style={rotate=-90,anchor=south},
            yshift = -35pt,
@@ -47,6 +50,8 @@
             \strut Apr,
             \strut May,
             \strut Jun,
+            \strut Jul,
+            \strut Aug,
             \strut Sep,
             \strut Oct,
             \strut Nov,
@@ -54,8 +59,8 @@
         }
 },
         ]
-\addplot[draw=black,fill=green!20, xshift=6pt] table[x index=0,y index=1, col sep=tab] {data/expGasAndElec.dat}; 
-\addplot[draw=black,fill=blue!40, xshift=6pt] table[x index=0,y index=2, col sep=tab] {data/expGasAndElec.dat}; 
+\addplot[draw=black,fill=green!20, xshift=5pt] table[x index=0,y index=1, col sep=tab] {data/expGasAndElec.dat}; 
+\addplot[draw=black,fill=blue!40, xshift=5pt] table[x index=0,y index=2, col sep=tab] {data/expGasAndElec.dat}; 
 \end{axis}
 \begin{axis}[ybar stacked,
         major x tick style = {opacity=0},
@@ -63,13 +68,15 @@
         axis line style={draw=none},
         scale only axis,
         height=6cm,
-        bar width=3mm,
+        bar width=2.5mm,
         ymin=0,
         ymax=1500,       
         enlarge x limits={abs=0.5},
         yticklabels={,,},
         xtick=data,
         xticklabels = {
+            \strut Sim,
+            \strut Sim,
             \strut Sim,
             \strut Sim,
             \strut Sim,
@@ -88,7 +95,7 @@
         %minor tick length=2ex,
         xticklabel style={rotate=90,anchor=east,yshift=-5pt},% <-- this is added
         ]
-\addplot[draw=black,fill=green!20, xshift=-6pt] table[x index=0,y index=1, col sep=tab] {data/simGasAndElec.dat}; 
-\addplot[draw=black,fill=blue!40, xshift=-6pt] table[x index=0,y index=2, col sep=tab] {data/simGasAndElec.dat}; 
+\addplot[draw=black,fill=green!20, xshift=-5pt] table[x index=0,y index=1, col sep=tab] {data/simGasAndElec.dat}; 
+\addplot[draw=black,fill=blue!40, xshift=-5 pt] table[x index=0,y index=2, col sep=tab] {data/simGasAndElec.dat}; 
 \end{axis}
 \end{tikzpicture}
