@@ -2,9 +2,10 @@
     \WarningFilter{scrreprt}{Usage of package `titlesec'}
     %\WarningFilter{scrreprt}{Activating an ugly workaround}
     \WarningFilter{titlesec}{Non standard sectioning command detected}
-\documentclass[twoside,openright,titlepage,numbers=noenddot,%1headlines,
+\documentclass[%twoside,openright, 
+                parts=false,titlepage,numbers=noenddot,%1headlines,
                 headinclude,footinclude,cleardoublepage=empty,abstract=on,
-                BCOR=5mm,paper=b5,fontsize=11pt,dvipsnames
+                BCOR=5mm,paper=b5,fontsize=11pt,dvipsnames,openany
                 ]{scrbook}
 
 % python terminal: 
@@ -21,11 +22,26 @@
 %*******************************************************
 \input{tex/classicthesis-config}
 
+\newlength\plotwidth
+\setlength\plotwidth{\textwidth}
+\newlength\plotheight
+\setlength\plotheight{3cm}
+\newlength\firstrowheight
+\setlength\firstrowheight{3cm} %%% CHANGE ME
+\newlength\subplotlength
+\setlength\subplotlength{\plotwidth}
+\newlength\plotgroupshift
+\setlength\plotgroupshift{-4em}
+
+
 %********************************************************************
 % Bibliographies
 %*******************************************************
 \addbibresource{bibliography/bibliography.bib}
+\addbibresource{bibliography/validation.bib}
 \addbibresource{bibliography/zotero.bib}
+\addbibresource{bibliography/othertheses.bib}
+\addbibresource{bibliography/internalgains.bib}
 %\addbibresource[label=ownpubs]{bibliography/AMiede_Publications.bib}
 
 %********************************************************************
@@ -41,6 +57,9 @@
 %\newcolumntype{Z}{S[round-mode=places, round-precision=3,table-number-alignment = center] }
 \makeindex
 \begin{document}
+\pgfplotstableread{data/HPOnOff51.dat}{\HPfiveonetable}
+\pgfplotstableread{data/HPOnOff34.dat}{\HPthreefourtable}
+\pgfplotstableread{data/HPOnOff07.dat}{\HPzeroseventable}
 \frenchspacing
 \raggedbottom
 \selectlanguage{british} % american ngerman
@@ -53,26 +72,35 @@
 %*******************************************************
 \spacing{1.213} % One-and-a-half spacing shall be used, except for indented quotations and footnotes, where single spacing may be used.
 \frontmatter
-\include{frontbackmatter/DirtyTitlepage}
+%\include{frontbackmatter/DirtyTitlepage}
 \include{frontbackmatter/Titlepage}
 \include{frontbackmatter/Titleback}
-\cleardoublepage\include{frontbackmatter/Contents}
-\cleardoublepage\include{frontbackmatter/Abstract}
-\cleardoublepage\include{frontbackmatter/Declaration}
-\cleardoublepage\include{frontbackmatter/Acknowledgments}
-\cleardoublepage\include{frontbackmatter/Dedication}
-\cleardoublepage\input{frontbackmatter/Nomenclature}
+\include{frontbackmatter/Declaration}
+\include{frontbackmatter/Dedication}
+\include{frontbackmatter/Contents}
+\include{frontbackmatter/Nomenclature}
+\include{frontbackmatter/Abstract}
+\include{frontbackmatter/Acknowledgments}
+
+
+
+
+
+
+
+
+
 %********************************************************************
 % Mainmatter
 %*******************************************************
 \mainmatter
-\cleardoublepage
+%\cleardoublepage
 \pagestyle{scrheadings}
 \pagenumbering{arabic}
 %\setcounter{page}{90}
 % use \cleardoublepage here to avoid problems with pdfbookmark
-\cleardoublepage
-\part{Preamble}\label{pt:preamble}
+%\cleardoublepage
+%\part{Preamble}\label{pt:preamble}
 \include{chapters/Chapter01}
 %\cleardoublepage
 \include{chapters/Chapter02}
@@ -82,14 +110,15 @@
 % se avantiate publicationes via. Pan in terra summarios, capital
 % interlingua se que. Al via multo esser specimen, campo responder que
 % da. Le usate medical addresses pro, europa origine sanctificate nos se.}
-\part{Model and Results}\label{pt:showcase}
+%\part{Model and Results}\label{pt:showcase}
 \include{chapters/Chapter03}
 \include{chapters/Chapter04}
 \include{chapters/Chapter05}
 \include{chapters/Chapter06}
 \include{chapters/Chapter07}
 \bookmarksetup{startatroot}
-\cleardoublepage\include{frontbackmatter/Bibliography}
+%\cleardoublepage
+\include{frontbackmatter/Bibliography}
 %\include{multiToC} % <--- just debug stuff, ignore for your documents
 % ********************************************************************
 % Backmatter
@@ -103,15 +132,16 @@
 % \creflabelformat{figure}{#2\scshape{#1}#3}
 % \creflabelformat{equation}{#2\scshape{#1}#3}
 % \makeatother
-\cleardoublepage
-\part{Appendix}\label{pt:appx}
+%\cleardoublepage
+%\part{Appendix}\label{pt:appx}
 \include{chapters/Chapter0A}
+\include{chapters/Chapter0B}
 %********************************************************************
 % Other Stuff in the Back
 %*******************************************************
 \bookmarksetup{startatroot}
 \backmatter
-\cleardoublepage\include{frontbackmatter/Colophon}
+%\cleardoublepage\include{frontbackmatter/Colophon}
 % ********************************************************************
 % Game Over: Restore, Restart, or Quit?
 %*******************************************************

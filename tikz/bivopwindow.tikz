@@ -1,0 +1,33 @@
+\begin{tikzpicture}
+\footnotesize
+% a straight line segment
+\draw[->] (0.5,0) -- (7.75,0);
+% the ticks and their labels
+\foreach \x  in {1,...,15}
+  \draw[xshift=\x*0.5 cm] (0pt,2pt) -- (0pt,-4pt) node[below,fill=white] {$\the\numexpr\x -4\relax$};
+% the thicker segment
+%\draw[ultra thick] (4,0) -- (11,0);
+
+\draw[ultra thick,blue] (1,0) -- (4,0);
+\draw[ultra thick,red] (4.5,0) -- (7,0);
+
+\draw[thin, dashed, gray] (2,0) -- (2,0.5);
+\draw[thin, dashed, gray] (5.5,0) -- (5.5,0.5);
+% the labels
+
+\draw[ultra thick,purple] (2,0.5) -- (5.5,0.5);
+\node[fill=white,draw=black,circle,inner sep=2pt,label=above:{$T_\mathrm{cut}=\qty{0}{\celsius}$}] at (2,0.5) {};
+\node[fill=white,draw=black,circle,inner sep=2pt,label=above:{$T_\mathrm{biv}=\qty{7}{\celsius}$}] at (5.5,0.5) {};
+
+\node at (7.75,0.4) {$T_\mathrm{ext}$ [\unit{\celsius}]};
+
+\node[red] at (5.75,-0.6) {Bivalent Temperature};
+\node[blue] at (2.5,-0.6) {Cut-off Temperature};
+
+\node at (1,0) {\textbf{(}}; \node at (4,0) {\textbf{)}};
+\node at (4.5,0) {\textbf{(}}; \node at (7,0) {\textbf{)}};
+
+
+\node[purple] at (3.75,1.2) {Bivalent Operation Window};
+
+\end{tikzpicture}

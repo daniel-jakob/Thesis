@@ -4,7 +4,7 @@
 \begin{titlepage}
     \pdfbookmark[1]{Title Page}{title page}
     % if you want the titlepage to be centered, uncomment and fine-tune the line below (KOMA classes environment)
-    \begin{addmargin}[-1cm]{-3cm}
+    \begin{addmargin}[-1cm]{-1cm}
     \begin{center}
         \large
 
@@ -14,9 +14,11 @@
         \rule{\textwidth}{1.6pt}\vspace*{-\baselineskip}\vspace*{2pt} % Thick horizontal rule
         \rule{\textwidth}{0.4pt}\\ % Thin horizontal rule
         \vspace{0.75\baselineskip} % Whitespace above the title
+        \begin{center}
         \begingroup
-            \Large\color{CTtitle}\spacedallcaps{\myTitle} %\\ \bigskip
+           \Large\color{CTtitle}\spacedallcaps{\myTitle} %\\ \bigskip
         \endgroup
+        \end{center}
         \vspace{0.1\baselineskip} % Whitespace below the title
         \rule{\textwidth}{0.4pt}\vspace*{-\baselineskip}\vspace{3.2pt} % Thin horizontal rule
 	    \rule{\textwidth}{1.6pt} % Thick horizontal rule
@@ -34,12 +36,16 @@
         \includegraphics[width=2cm]{ucd_crest.png} \\ \medskip
 
         %\mySubtitle \\ \medskip
+        The thesis is submitted to University College Dublin in part fulfilment of the requirements for the degree:\\\medskip
         \myDegree \\
         \myDepartment \\
         \myFaculty \\
         \myUni \\ \bigskip
 
-        \today~--~\myVersion
+        \noindent\spacedlowsmallcaps{Supervisor}: \myProf \\
+        \medskip
+
+        \today%~--~\myVersion
 
         \vfill
 

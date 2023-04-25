@@ -1,6 +1,209 @@
 %************************************************
 \chapter{Sensitivity Analysis}\label{ch:sensitivity} 
 %************************************************
-% establish the thermodynamic parameters of the system. Effect of ambient air temp. establish behaviour of system in different climates
+% establish the thermodynamic parameters of the system. Effect of ambient air temp. establish behaviour of system in different climates (maybe). 
+% How does the T_biv and T_cutoff temperature window affect raw energy consumption values. 
 
-\cite{li_parallel_2018}
+A sensitivity analysis, also referred to as a parametric study, is a technique utilised in simulation modelling to assess the impact of varying parameters on the outcomes of the model. The process involves iteratively running the simulation multiple times with systematic modifications to input parameters and can enable the identification of critical parameters that exert the most substantial influence on the model outcomes, and also, in particular, identify the optimal pair of values of the parallel operation temperature window. 
+
+In this thesis, an exhaustive or full factorial sensitivity analysis has been performed on the bivalent parallel operation temperature window of a \ac{HHPS} as opposed to other sampling methods such as a Latin Hypercube approach or Monte Carlo Sampling. The analysis evaluates the impact of altering the bivalent temperature and cut-off temperature on the total cost of fuel and electricity for the \ac{HHS} over the course of a year in the economic assessment, as well as on the \ac{PE} used and $\text{CO}_2$ emissions in the ecological assessment. The approach adopted in this research allows for a comprehensive examination of the system, by identifying the factors that are critical in determining the optimal operation of the system, while also providing insights into potential cost savings and environmental benefits.
+
+Although full factorial designs can be computationally expensive and time-consuming, this approach was chosen as the dimensionality of the parameter space is very low at just two, and the resolution, or number of levels, being simulated for the two parameters is also relatively low. This enables a full factorial parametric study to be carried out given the complexity of the model and the computational resources available. 
+
+\section{Parametric Study Design}
+As discussed in \cref{sec:sensanal}, the two parameters were varied with a non-uniform resolution. The bivalent temperature was varied from \qty{5}{\celsius} to \qty{10}{\celsius}, while the cut-off temperature was varied from \qty{-2}{\celsius} to \qty{4}{\celsius}, giving a resolution of 6 and 7 respectively. The increment size (the step size between the resolution levels) was fixed at \qty{1}{\celsius} for both parameters sweeps, as it resulted in an acceptable level of granularity between the various simulation runs. For the sake of brevity, a notation will be introduced to denote the certain parameter-level combination being discussed in a given sentence/paragraph. This idea will be denoted by $\{X\text{, }Y\}$, where the first number refers to the bivalent temperature and the second number refers to the cut-off temperature, not to be confused with the bivalent and cut-off temperature level indices e.g., the cut-off temperature level parameter of \qty{10}{\celsius} has an index of 1, \qty{9}{\celsius} has an index of 2, etc. When it is desired to refer to a certain column or row of the upcoming carpet plots, a tilde will be used to denote that the corresponding parameter levels are all being referenced, e.g., $\{-2\text{,}\sim\}$ would be used to refer to all cells corresponding to a bivalent temperature of \qty{-2}{\celsius}. If multiple rows or columns are to be referred to, a right-arrow will be used in order to be discernable to a minus sign, e.g., $\{-2\rightarrow-1\text{, }6\}$ would refer to the two cells corresponding to a cut-off temperature of \qty{6}{\celsius} and bivalent temperature of \qty{-2}{\celsius} and \qty{-1}{\celsius}.
+
+
+\section{Energy Consumption}
+As the two parameters were varied, the energy consumption of the two energy sources changes of course, in magnitude and their respective share of the total energy consumption. \cref{tbl:gasconsump} and \cref{tbl:elecconsump} show heatmaps of the year-total gas consumption and electricity consumption, in kilowatt hours, for each of the parameter-level combinations respectively. The bivalent temperature is varied in the horizontal direction, while the cut-off temperature is varied in the vertical direction. The heatmaps are coloured, with red cells representing high values and green cells representing low values Some general and relatively obvious first impressions from the heatmap reveal that the level of gas consumption falls off dramatically between the levels corresponding to \qty{1}{\celsius} and \qty{4}{\celsius} of the bivalent temperature, from a high of \qty{3996.7}{\kWh} to \qty{2215.6}{\kWh}, which also happen to be the minimum and maximum gas consumption values for the gas consumption carpet plot overall. It can be intuited that when the \HP turns off at higher outdoor temperatures, that the gas boiler must operate longer/more frequently to heat the dwelling. Once the bivalent temperature parameter is less than \qty{1}{\celsius}, the level of gas consumption rises again, though much slower than from the other direction. This can be understood by considering that when the \HP is forced to operate at these lower temperatures, the \HP must be defrosted more often, which of course requires energy from the boiler, as a reverse-cycling model was implemented. This results in the consumption of gas increasing moderately. 
+
+
+
+\begin{table}[htb]
+    \footnotesize
+    \centering
+    \caption{Year-total gas consumption carpet plot for each parameter-level combination [\unit{\kWh\per\year}]}
+    \label{tbl:gasconsump}
+    \pgfplotstabletypeset[
+        col sep=space,
+        precision=0,
+        /pgf/number format/1000 sep= ,
+        color cells={min=2215,max=3996.66,textcolor=-mapped color!50!black},
+        /pgfplots/colormap name=mycolor,
+        every head row/.style={%
+            output empty row,
+            before row={%
+                \diagbox[width=4em,height=2.6em]{$T_\mathrm{cut}$}{$T_\mathrm{biv}$} & $-$2 & $-$1 & 0 & 1 & 2 & 3& 4\\
+                },
+            },
+        create on use/newcol/.style={
+            create col/set list={10,9,8,7,6,5}
+        },
+        columns/newcol/.style={string type,reset styles,},
+        columns={newcol,0,1,2,3,4,5,6},
+        /pgf/number format/.cd,%sci,
+        set decimal separator={.},
+    ]{data/gasconsump.dat}
+\end{table}
+
+When considering the electricity consumption heatmap, it is perhaps easier to interpret than the gas consumption heatmap. For lower levels of bivalent temperature, more electricity is consumed, as the \HP naturally has simply more opportunities to operate, especially that during colder spells, where more heating is required. For lower values of cut-off temperature, less electricity is used, as the boiler is allowed to operate during colder temperatures, thus the heating system simply requires less input from the \HP. The highest value of electricity consumption observed is \qty{4347}{\kWh} and the lowest value is \qty{3425.4}{\kWh} for parameter-level combinations of $\{-2\text{, }10\}$ and $\{4\text{, }5\}$ respectively. 
+
+\begin{table}[htb]
+    \footnotesize
+    \centering
+    \caption{Year-total electricity consumption carpet plot for each parameter-level combination [\unit{\kWh\per\year}]}
+    \label{tbl:elecconsump}
+    \pgfplotstabletypeset[
+        col sep=space,
+        precision=0,
+        /pgf/number format/1000 sep= ,
+        color cells={min=3425.39,max=4347.03,textcolor=-mapped color!50!black},
+        /pgfplots/colormap name=mycolor,
+        every head row/.style={%
+            output empty row,
+            before row={%
+                \diagbox[width=4em,height=2.6em]{$T_\mathrm{cut}$}{$T_\mathrm{biv}$} & $-$2 & $-$1 & 0 & 1 & 2 & 3& 4\\
+                },
+            },
+        create on use/newcol/.style={
+            create col/set list={10,9,8,7,6,5}
+        },
+        columns/newcol/.style={string type,reset styles,},
+        columns={newcol,0,1,2,3,4,5,6},
+        /pgf/number format/.cd,%sci,
+        set decimal separator={.},
+    ]{data/elecconsump.dat}
+\end{table}
+
+\cref{tbl:totalconsump} shows the carpet plot for the year-total energy consumption for the heating system, i.e., the sum of the electricity and gas consumption, again, in kilowatt hours. It can be seen that similarly to \cref{tbl:gasconsump}, the overall energy consumption is greatest for the parameter-level combinations where the bivalent temperature is \qty{3}{\celsius} or greater. There is a sharp decline in energy consumption from $\{4\rightarrow2\text{,}\sim\}$, likely as the gas consumption figures dominate this region of the table. In the region of the table where the bivalent temperature is less than \qty{0}{\celsius}, the total energy consumption is mildly greater than in the middle region of the table. This is due to the electricity consumption increasing as discussed previously. The maximum and minimum values are \qty{7671.86}{\kWh} and \qty{6249.63}{\kWh} for parameter-level combinations of $\{4\text{, }10\}$ and $\{1\text{, }5\}$ respectively. 
+
+\begin{table}[htb]
+    \footnotesize
+    \centering
+    \caption{Year-total energy consumption carpet plot for each parameter-level combination [\unit{\kWh\per\year}]}
+    \label{tbl:totalconsump}
+    \pgfplotstabletypeset[
+        col sep=space,
+        precision=0,
+        /pgf/number format/1000 sep= ,
+        color cells={min=6249.6,max=7671.9,textcolor=-mapped color!50!black},
+        /pgfplots/colormap name=mycolor,
+        every head row/.style={%
+            output empty row,
+            before row={%
+                \diagbox[width=4em,height=2.6em]{$T_\mathrm{cut}$}{$T_\mathrm{biv}$} & $-$2 & $-$1 & 0 & 1 & 2 & 3& 4\\
+                },
+            },
+        create on use/newcol/.style={
+            create col/set list={10,9,8,7,6,5}
+        },
+        columns/newcol/.style={string type,reset styles,},
+        columns={newcol,0,1,2,3,4,5,6},
+        /pgf/number format/.cd,%sci,
+        set decimal separator={.},
+    ]{data/totalconsump.dat}
+\end{table}
+
+
+\subsection{Performance Indices}
+\subsubsection{\acs{SCOP} Variation in Parametric Study}
+As the hybrid operation temperature window shifts, and contracts and expands, the performance of the \ac{HHS} changes due to the changing of the modes of heating active at a given a temperature and the dynamics between the operation of the gas boiler, \ac{ASHP} and building model at large. As discussed in \cref{subsec:ashp}, the \ac{SCOP} of the \HP can be thought of as the average \ac{COP} of the \ac{ASHP} over the course of the year or heating season. For this analysis, the entire year is being considered. The \ac{COP} will be greatly affected by the outdoor temperatures the \HP is operated at, thus, the \ac{COP} will be highly dependent on the bivalent temperature parameter being varied throughout the sensitivity analysis. It will also be minorly affected by the cut-off temperature due to the aforementioned system dynamics. The \ac{SCOP} for this analysis is calculated using \cref{eq:scop}. The tabulated results are found in \cref{tbl:scop}.
+
+\begin{table}[htb]
+    \centering
+    \begin{threeparttable}
+    \footnotesize
+    \centering
+    \caption{\acs{SCOP} values for each parameter-level combination}
+    \label{tbl:scop}
+    \pgfplotstabletypeset[
+        col sep=space,
+        /pgf/number format/1000 sep= ,
+        color cells={min=3.13,max=3.04,textcolor=-mapped color!50!black},
+        /pgfplots/colormap name=mycolor,
+        precision=2,
+        every head row/.style={%
+            output empty row,
+            before row={%
+                \diagbox[width=4em,height=2.6em]{$T_\mathrm{cut}$}{$T_\mathrm{biv}$} & $-$2 & $-$1 & 0 & 1 & 2 & 3& 4\\
+                },
+            },
+        create on use/newcol/.style={
+            create col/set list={10,9,8,7,6,5}
+        },
+        columns/newcol/.style={string type,reset styles,},
+        columns={newcol,0,1,2,3,4,5,6},
+        /pgf/number format/.cd,%sci,
+        set decimal separator={.},
+    ]{data/scop.dat}
+    \begin{tablenotes}
+        \small
+        \item Note: the colours in this table are the opposite to \cref{tbl:totalconsump,tbl:elecconsump,tbl:gasconsump}. 
+      \end{tablenotes}
+    \end{threeparttable}
+\end{table}
+
+At first the results from \cref{tbl:scop} may be confounding for two main reasons, first that the \ac{SCOP} values change only very slightly with the different parameter-level combinations, and secondly, the lowest \ac{SCOP} measured occurs in what was previously found to be the parameter-level combination, $\{1\text{, }5\}$, with the overall lowest energy consumption and a middling electricity consumption.
+
+A simple explanation for the \ac{SCOP} hardly changing as a function of the bivalent temperature and is because there simply are very few opportunities for a low outdoor temperature to greatly affect the overall \ac{COP} value of the \HP. As can be seen from the outdoor temperature plot in \cref{fig:weathercomp}, there are rarely times throughout the year where the ambient temperature drops below \qty{0}{\celsius}. Thus, when the \ac{COP} is averaged over the full 8760-hour year, the few number of hours where the \ac{COP} is low due to low outdoor temperatures hardly cause an affect, but is still detectable. If however, one were to perform the \ac{SCOP} calculation for the months where the outdoor temperatures do fall below \qty{0}{\celsius}, greater variances would be found. 
+
+However, there is another compounding phenomenon occurring which is perhaps downplaying the negative effects of low outdoor temperatures affecting the \ac{COP}, which is the effect of frosting on the time under which the \HP is operating at, at lower temperatures. The frosting of course only occurs when the outdoor temperature is low, and due to the frosting model described in \cref{subsubsec:frostingmod}, the \HP operation is blocked for a set time to emulate defrosting. This results in the \HP simply operating less at these temperatures, reducing the negative consequences on the \ac{COP}. This explains why the \ac{COP} is generally lowest at $\{1\text{,}\sim\}$. 
+
+\subsubsection{Number of \acs{HP} Cycles Variation in Parametric Study}
+
+The number of on cycles for a \HP over the course of a year is closely linked to the temperature below which it will be blocked from operating, i.e., its bivalent temperature, due to frosting effects. This is due to the fact that as the \HP operates in cold weather, frost builds up on its outdoor unit, reducing its efficiency and eventually, the controller shuts off the \HP to perform a defrost cycle. \cref{tbl:cycling} shows a heatmap of the number of on-cycles. A clear delineation can be seen when the bivalent temperature decreases past \qty{3}{\celsius}. This is due to the frosting model activating at outdoor temperatures less than \qty{2}{\celsius}. The \HP can be thought of as being interrupted when the ambient temperature is less than \qty{2}{\celsius} for longer than 60 minutes, leading to more regular on-off cycles, restarting the \HP after the 10-minute defrosting period. There is a 50.9\% increase in number of on-off cycles when comparing the value at  $\{4\text{, }10\}$ to $\-2\text{, }5\}$. There appear to be anomalous values at the $\{-1\text{, }10\}$ and $\{0\text{, }6\}$ combinations, for which there is little explanation other than pure chance.
+
+\begin{table}[htb]
+    \footnotesize
+    \centering
+    \caption{Annual number of \acs{HP} cycles for the different parameter-level combinations}
+    \label{tbl:cycling}
+    \pgfplotstabletypeset[
+        col sep=space,
+        precision=1,
+        /pgf/number format/1000 sep= ,
+        color cells={min=684,max=1024,textcolor=-mapped color!50!black},
+        /pgfplots/colormap name=mycolor,
+        every head row/.style={%
+            output empty row,
+            before row={%
+                \diagbox[width=4em,height=2.6em]{$T_\mathrm{cut}$}{$T_\mathrm{biv}$} & $-$2 & $-$1 & 0 & 1 & 2 & 3& 4\\
+                },
+            },
+        create on use/newcol/.style={
+            create col/set list={10,9,8,7,6,5}
+        },
+        columns/newcol/.style={string type,reset styles,},
+        columns={newcol,0,1,2,3,4,5,6},
+        /pgf/number format/.cd,%sci,
+        set decimal separator={.},
+    ]{data/cycling.dat}
+\end{table}
+
+Time series plots can be seen in \cref{fig:onoffhp51,fig:onoffhp34,fig:onoffhp07}, of a ten-day period from the 19\textsuperscript{th} of March to 29\textsuperscript{th} of March. This period was chosen quasi-arbitrarily, with the only criteria being a period where the temperature drops below \qty{2}{\celsius} multiple times for extended periods. Three series are shown in each, the water temperature of the supply and return radiator loop, and the outdoor temperature. At the bottom of each is a small subplot which shows the \HP on-off cycling. \cref{fig:onoffhp51,fig:onoffhp34} show parameter-level combinations where the \HP operates below \qty{2}{\celsius}, while \cref{fig:onoffhp07} does not. From the cycling subplot it can be seen that in \cref{fig:onoffhp51,fig:onoffhp34}, the \HP restarts many many times around the 20\textsuperscript{th}, 21\textsuperscript{st}, 23\textsuperscript{rd} and 25\textsuperscript{th}. This matches up with the outdoor temperature dropping below \qty{2}{\celsius} from the plot above. Constant on and off cycling incurs cycling losses which can amount to large amounts of energy and are detrimental to the lifespan of the \HP \cite{bagarella_cycling_2013,dongellini_-off_2019}.
+
+\begin{figure}[b]
+    \centering
+    \import{tikz/}{OnOffHP51.tex}
+    \vspace*{-1.8\baselineskip}
+    \caption[Supply and return water temperature, outdoor temperature and \acs{HP} on/off cycling for $\{-2\text{, }5\}$]{Supply and return water temperature overlaid with external temperature with subplot of \acs{HP} on-off cycles for $\{-2\text{, }5\}$ parameter-level combination for 19\textsuperscript{th} to 29\textsuperscript{th} March}
+    \label{fig:onoffhp51}
+\end{figure}
+
+\begin{figure}[htb]
+    \centering
+    \import{tikz/}{OnOffHP34.tex}
+    \vspace*{-1.8\baselineskip}
+    \caption[Supply and return water temperature, outdoor temperature and \acs{HP} on/off cycling for $\{1\text{, }7\}$]{Supply and return water temperature overlaid with external temperature with a subplot of \acs{HP} on-off cycles for $\{1\text{, }7\}$ parameter-level combination for 19\textsuperscript{th} to 29\textsuperscript{th} March}
+    \label{fig:onoffhp34}
+\end{figure}
+
+\begin{figure}[htb]
+    \centering
+    \import{tikz/}{OnOffHP07.tex}
+    \vspace*{-1.8\baselineskip}
+    \caption[Supply and return water temperature, outdoor temperature and \acs{HP} on/off cycling for $\{4\text{, }10\}$]{Supply and return water temperature overlaid with external temperature with a subplot of \acs{HP} on-off cycles for $\{4\text{, }10\}$ parameter-level combination for 19\textsuperscript{th} to 29\textsuperscript{th} March}
+    \label{fig:onoffhp07}
+\end{figure}
+
+

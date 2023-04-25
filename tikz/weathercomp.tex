@@ -1,0 +1,47 @@
+\pgfplotstableread{data/weathertemps.dat}{\table}
+
+\begin{tikzpicture}[trim axis left]
+\begin{axis}[
+    clip=false,
+    xmin = 0, xmax = 8676,
+    ymin = -10, ymax = 30.0,
+    %^xtick distance = 2.5,
+    %ytick distance = 0.5,
+    grid = both,
+    %minor tick num = 1,
+    %major grid style = {lightgray},
+    %minor grid style = {lightgray!25},
+    width = \textwidth,
+    height = 0.7\textwidth,
+    xlabel = {Hour},
+    /pgf/number format/1000 sep= ,
+    ylabel = {Outdoor Temperature [\unit{\celsius}]},
+    legend style={draw=none, font=\footnotesize,overlay,        % <-- added
+                at={(0.55,0.05)},
+                anchor=south,}]
+ 
+% Plot data from a file
+\addplot[
+    %smooth,
+    thin,
+    red,
+    %dashed
+] table [x = {time}, y = {MetEireann}] {\table};
+\addplot[
+    %smooth,
+    thin,
+    blue,
+    %dashed
+    opacity=0.5
+] table [x = {time}, y = {Belturbet}] {\table};
+\addplot[
+    %smooth,
+    thin,
+    green,
+    %dashed
+    opacity=0.5
+] table [x = {time}, y = {Clones}] {\table};
+\legend{Met Éireann, Belturbet, Clones} 
+\end{axis}
+ 
+\end{tikzpicture}

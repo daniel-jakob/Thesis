@@ -5,22 +5,35 @@
 %Intervals...
 %Improvements... Future Work
 
+\section{Conclusions}
+This thesis set out to determine the optimal hybrid operation temperature window of a \ac{HHS} in the Irish climate, a temperate oceanic climate in a residential dwelling. The hybrid operation window was to be optimised along two dimensions, minimising annual carbon emissions, and minimising annual heating costs. The analysis was based off of an in-situ \ac{HHS} implemented in a residential dwelling in a town in Ireland, which was used to create the initial \texttt{EnergyPlus} building model. A \texttt{Modelica} \ac{HHS} model was built, and the composite model was calibrated using experimental data collected from the in-situ heating system.
 
-% \begin{algorithm}[htpb]
-%     \SetKwFunction{counter}{counter}
-%     \caption{Newton-Raphson Method}
-%     \label{alg:newton-raphson}
-%     \SetAlgoLined
-%     \KwIn{Estimate $x_0$ and function $f(x)$}
-%     \KwResult{Approximation of the root of $f(x)$}
-%      \counter $\leftarrow$ 0\tcc*[r]{initialisations}
-%      $x_n \leftarrow x_0$\;
-%      \While{\counter\ $< 20$}{
-%       $\displaystyle x_{n+1}=x_n-\frac{f\kern-0.25em\rbk{x_n}}{f'\kern-0.25em\rbk{x_n}}$\tcc*[r]{see: \cref{fig:fds}}
-%       \If(\tcc*[f]{break func. if tol. level met}){$\abs{f\kern-0.25em\rbk{x_{n+1}}}<10^{-10}$}{Terminate\;
-%        }
-%        set $x_n$ to $x_{n+1}$\;
-%        \counter = \counter + 1\tcc*[r]{increment counter}
-%      }
-%      \Return{$x_{n+1}$}
-%     \end{algorithm}
+The model then was used in a parametric study, where the bivalent temperature of the \HP and cut-off temperature of the conventional gas boiler were varied, resulting in 42 simulation runs. The system behaviour was analysed, and an ecological-economic assessment was carried out.
+
+The main results from the thesis are:
+\begin{itemize}
+    \item A decrease in the bivalent temperature generally meant that the \HP operated more frequently and longer overall over the course of year, even though frosting caused the \HP to have to shut down for periods of time during colder weather. A lower bivalent temperature also resulted in the \HP using up to 25\% more energy than higher bivalent temperatures, partially due to the decrease in \ac{SCOP} accompanying the lower temperature operation.
+    \item The effect of frosting on the \HP caused it to have up to 50\% increase in number of on-off cycles over the course of a year, which can negatively affect the performance of the \HP. 
+    \item The distribution of gas consumption and electricity consumption for different bivalent and cut-off temperatures are very different. Gas consumption peaks at high bivalent temperatures, with a steep drop of and levelling at lower bivalent temperatures. While electricity consumption peaks at low bivalent temperatures and high cut-off temperatures, and decreasing linearly to a low at high bivalent temperatures and low cut-off temperatures. 
+    \item \ac{SCOP} values do not change very much with varying bivalent and cut-off temperatures. This is most likely due to the mild Irish climate modelled, which does not offer many opportunities for good weather to massively increase the \ac{SCOP}, nor for cold weather to negatively affect the \ac{SCOP}. 
+    \item The annual total cost of heating depends very much on the price of gas and electricity, with it being particularly sensitive to electricity rates. Higher bivalent and lower cut-off temperatures seem to be more sensitive to price changes than the inverse. 
+    \item Annual carbon emissions from the \ac{HHS} are also very sensitive to the carbon intensity of electricity. At low electricity carbon intensities, the higher bivalent temperatures result in much greater carbon emissions due to the higher usage of gas. While at higher electricity carbon intensities, a combination of low cut-off temperatures and middling bivalent temperatures result in the lowest carbon emissions.
+    \item Finally, for the Irish climate studied, it appears as though a bivalent temperature of \qty{1}{\celsius} and a cut-off temperature of \qty{5}{\celsius} resulted in the lowest carbon emissions and the lowest annual cost simultaneously.     
+\end{itemize}
+
+
+
+
+
+\section{Future Work}
+There are many avenues to pursue in regard to potential future work in the \ac{HHPS} field. Although a great effort was made to investigate the issue of varying bivalent temperature operation windows, there is always more to study, science is never finished. A brief list of areas of potential future research which could be fruitful includes:
+\begin{itemize}
+    \item Improve the frosting model implemented in this thesis. The frosting model described in \cref{subsubsec:frostingmod} is perhaps not the most developed or accurate model, a more nuanced model may include a model which tracks ice build up as a function both temperature and r.h. The data required for this may be too sparse to accurately model this behaviour however. A full reversing-flow capable hydronic system would also increase accuracy.
+    \item Different constructions, perhaps a model representing a dwelling having undergone a deep retrofit could be investigated. The resulting improved thermal properties of the house would result in less heating demand overall and would surely alter the dynamics of the boiler-\HP relationship.
+    \item Calibration was only performed for one of the temperature windows, namely a bivalent temperature of \qty{7}{\celsius} and a cut-off temperature of \qty{2}{\celsius}. It would better if a second operation window was experimentally measured and calibrated with. 
+    \item More climates could be investigated. The Irish climate is perhaps under researched in the field of \ac{HHPS}, however, there are also other climates which could be researched to further generalise the optimisation of the operation window.
+    \item \ac{DHW} production was omitted in the simulation of this thesis, however it could be of merit to inquire into how  \ac{DHW} production would alter the dynamics of the \HP and boiler, given the boiler were not the sole producer of hot water.
+    \item Scrutinise whether parallel vs. in-series \HP and boiler makes a difference in the analysis.
+    \item Finally, smart, real-time bivalent operation temperature window shifting and dilating could be a very interesting topic to pursue. 
+\end{itemize}
+

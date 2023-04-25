@@ -1,0 +1,30 @@
+\begin{tikzpicture}[auto,node distance=2cm,scale=0.70, transform shape]
+    \node [cinput](cinput){};
+    \node [csum, right of=cinput, node distance=2cm](csum1){};
+    \node [cblock, fill=cyan!20, right of=csum1, node distance=3cm](fbcont){Feedback};
+    \node [csum, right of=fbcont, node distance=2cm](csum2){};
+    \node [cblock, fill=pink!20, right of=csum2, node distance=3cm](act){Actuator};
+    \node [cblock, fill=orange!20, right of=act, node distance=3.5cm](plant){Plant};
+    \node [cblock, fill=green!20, above of=fbcont](ffcont){Feed-forward};
+    \node [cblock, fill=brown!20, below of=act](sens1){Sensor};
+    \node [cinput, below of=csum1](interim){};
+    \node [coutput, right of=plant](out1){};
+    \node [coutput, below of=out1](out2){};
+
+    \draw [carrow] (csum1)--node{$e(t)$}(fbcont);
+    \draw [carrow] (fbcont)--(csum2);
+    \draw [carrow] (csum2)--node{$u(t)$}(act);
+    \draw [carrow] (act)--(plant);
+    \draw [cline] (plant)--(out1);
+    \draw [carrow] (out1)|-(sens1);
+    \draw [carrow] (sens1)-|node[pos=0.99]{$-$} node [near end]{$y_m(t)$} (csum1);
+    \draw [cline] (interim)-|(cinput);
+    \draw [carrow] (cinput)--node{$r(t)$}(csum1);
+    \draw [carrow] (cinput)|-(ffcont);
+    \draw [carrow] (ffcont)-|(csum2);
+
+    \node[fit=(csum1|-sens1)(ffcont)(csum2)(cinput),draw,blue,dashed,
+    label={[blue]above:Controller}]{};
+    \node[fit=(sens1)(plant),draw,orange,dashed,
+    label={[orange]above:System}]{};
+    \end{tikzpicture}

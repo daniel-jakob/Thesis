@@ -1,0 +1,105 @@
+\begin{tikzpicture}[scale=0.70, transform shape,every node/.style={font=\normalsize, >=stealth}]
+    \tikzset{
+    rblock/.style={draw, shape=rectangle,rounded corners=0.8em,align=center,minimum width=1.5cm,minimum height=0.5 cm, fill=green!30},
+    block/.style= {draw, rectangle,rounded corners, align=center,minimum width=2cm,minimum height=1cm,text width= 2cm, fill=red!30},
+    block1/.style= {draw, rectangle,rounded corners, align=center,minimum width=3 cm,minimum height=1cm,text width= 3cm, fill=red!30},
+    io/.style = {draw, shape=trapezium , trapezium left angle=60, trapezium right angle=120, minimum width=2 cm, align=center, draw=black, fill=blue!30},
+    subblock/.style= {draw, rectangle,rounded corners, align=center,minimum width=1cm,minimum height=1cm, fill=red!30},
+    superblock/.style= {draw, rectangle,rounded corners, align=center,minimum width=4 cm,minimum height=1cm, fill=red!30},
+    decision/.style = {draw,diamond, aspect =2, minimum width=3cm, minimum height=1cm, text centered,text width= 1.8 cm, draw=black, inner sep=0pt, fill=orange!30},
+    line/.style = {draw, -latex'}
+}
+
+\node [rblock] (casebuild) {Case Study \\Building};
+\node [block, below of=casebuild, node distance=2cm] (eplusmodel) {Experimental \\Weather Data};
+\node [block, right of=eplusmodel, node distance=5cm] (expweather) {\texttt{EnergyPlus model}};
+\node [block1, left of=eplusmodel, node distance=5cm] (exploads) {Experimental thermal loads \& energy usage data of \acsfont{HHPS}};
+\node [block, below of=expweather, node distance=2cm] (modelica) {\texttt{Modelica} model of HHS};
+\node [block, left of=modelica, node distance=3.5cm] (spawn) {\texttt{Spawn of EnergyPlus} engine};
+\node [block, left of=spawn, node distance=3.5cm] (valid) {validation \& calibration};
+\node [io, left of=valid, node distance=3.5cm] (met) {Met Éireann\\weather data};
+
+\node [block, below of=met, node distance=2cm] (sens) {Parametric study};
+\node [block1, right of=sens, node distance=5cm] (tech) {System behaviour \& Technical analysis};   
+\node [io, right of=tech, node distance=5cm] (market) {Irish Market \\ Context};
+\node [block, below of=tech, node distance=2cm] (irish) {Irish Market Eco-Economic Analysis};
+\node [block, right of=irish, node distance=5cm] (general) {Generalised Eco-Economic Analysis};
+
+
+
+% \node [rblock]  (radloop) {Radiator \& Radiator\\ loop control};
+% \node [io, right of=radloop, node distance=5cm] (outsidetemp) {Outside temp};
+% \node [io, below of=radloop, node distance=4cm] (daynight) {Room setpoint:\\Day: 21C\\Night: 16C};
+% \node [io, below of=daynight, node distance=2.5cm] (supplytemp) {Supply temp actual};
+% \node [block, below of=outsidetemp, node distance=4 cm] (calcsupply) {Calculate water\\supply temperature};
+% \node [block, below of=calcsupply, node distance=2.5 cm] (adjust3way) {Adjust 3-way valve\\w/ P-contol};
+
+
+
+
+% \node [coordinate,right=2.5 cm of outsidetemp] (topmid) {};
+% \node [decision, below of=topmid, node distance=1.25 cm] (less16) {$<$16C};
+% \node [coordinate,below=0.75 cm of less16] (fork1) {};
+
+
+% \node [io, right of=radloop, node distance=13.5 cm] (roomtemps) {Individual room temps};
+
+% \node [block, below of=roomtemps, node distance=4 cm] (unblockP) {Unblock P-controllers for each room};
+
+% \node [coordinate,below=0.5 cm of calcsupply] (undercalc) {};
+
+
+% \node [superblock, below of=unblockP, node distance=2.5 cm] (radvalve) {Control radiator valve\\ for individual  rooms};
+% \node[below of=radvalve,align=center] {max: nom. flowrate $\times$ \%-age of total vol.};
+% \node [block, right of=adjust3way, node distance=4 cm] (maxP) {max P-controller output value};
+
+% \node [block, below of=maxP, node distance=2.5 cm] (pumphysteresis) {Radiator pump hysteresis};
+% \node [block, left of=pumphysteresis, node distance=4 cm] (PIcontrol) {PI controller};
+% \node[right of=pumphysteresis,node distance=2.25 cm,align=left] {on/off\\high=0.5\\low=0.01};
+
+% \node [io, left of=PIcontrol, node distance=5 cm] (pumpspeed) {Rad pump rotational speed};
+% \node [io, below of=supplytemp, node distance=1.25 cm] (pressure) {Pressure differential\\across rad pump};
+% \node [coordinate,below=0.5 cm of maxP] (undermax) {};
+
+
+\path [line] (casebuild) -- (eplusmodel);
+\path [line] (casebuild) -- (expweather);
+\path [line] (casebuild) -- (exploads);
+\path [line] (expweather) -- (spawn);
+\path [line] (modelica) -- (spawn);
+\path [line] (met) -- (valid);
+\path [line] (spawn) -- (valid);
+\path [line] (exploads) -- (valid);
+\path [line] (eplusmodel) -- (valid);
+\path [line] (valid) -- (sens);
+\path [line] (sens) -- (tech);
+\path [line] (eplusmodel) -- (valid);
+\path [line] (market) -- (irish);
+\path [line] (tech) -- (irish);
+\path [line] (irish) -- (general);
+
+%  \path [line] (less16) -- (fork1)node[left,midway,align=center] {Yes} -| ([xshift=.5cm] calcsupply);
+%  \path [line] (less16) -- (fork1) -| ([xshift=-.5cm] unblockP);
+%  \path [line] (roomtemps) -- (unblockP);
+%  \path [line] (daynight) -- (calcsupply);
+%  \path [line] (outsidetemp) -- (calcsupply)node[left,near start]{actual};
+%  \path [line] (supplytemp) -- (adjust3way);
+%  \path [line] (calcsupply) -- (adjust3way);
+%  \path [line] (unblockP) -| (maxP);
+%  \path [line] (unblockP) -- (radvalve);
+%  \path [line] (maxP) -- (pumphysteresis);
+%  \path [line] (pumphysteresis) -- (PIcontrol)node[below,midway,align=center]{Bool\\to\\Real};
+%  \path [line] (PIcontrol) -- (pumpspeed);
+%  \path [line] (PIcontrol) -- (pumpspeed);
+%  \path [line] (pressure) -| (PIcontrol);
+%  \path [line] (daynight) |- (undercalc) -| ([xshift=-.5cm] unblockP);
+
+% \path [line] (exp_weather_data) |- (valid);
+% \path [line] (exp_usage_data) |- (valid);
+
+% \path [line] (eplus) |- (simmodel) ;
+% \path [line] (modelica) |- (simmodel);
+% \path [line] (valid) -- (simmodel);
+
+
+\end{tikzpicture}

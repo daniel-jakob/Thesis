@@ -27,30 +27,30 @@
 % ****************************************************************************************************
 % 1. Personal data and user ad-hoc commands (insert your own data here)
 % ****************************************************************************************************
-\newcommand{\myTitle}{Hybrid Heat Pump Analysis\xspace}
-\newcommand{\mySubtitle}{The optimisation of a heat pump--gas boiler combination in a residential home\xspace}
-\newcommand{\myDegree}{Mechanical Engineering Master's (MEng.)\xspace}
+\newcommand{\myTitle}{Optimising the Hybrid Operation Temperature Window of a Hybrid Heating System in the Irish Climate\xspace}
+\newcommand{\mySubtitle}{A Numerical Simulation Study of an Air-Water Heat Pump and Conventional Gas Boiler in a Residential Setting\xspace}
+\newcommand{\myDegree}{ME in Mechanical Engineering\xspace}
 \newcommand{\myName}{Daniel Jakob\xspace}
 \newcommand{\myStdNumber}{18409686}
 \newcommand{\myProf}{Prof. Donal Finn\xspace}
 \newcommand{\HoS}{Prof. Kenneth Stanton\xspace}
 %\newcommand{\myOtherProf}{hmm\xspace}
 %\newcommand{\mySupervisor}{Prof. Donal Finn\xspace}
-\newcommand{\myCollaborator}{Dr. Mohammad Saffari\xspace}
-\newcommand{\myExaminer}{Dr. Joe Bloggs\xspace}
+\newcommand{\myCollaborator}{Dr Mohammad Saffari\xspace}
+\newcommand{\myExaminer}{Dr Joe Bloggs\xspace}
 \newcommand{\myFaculty}{College of Engineering \& Architecture\xspace}
 \newcommand{\myDepartment}{School of Mechanical and Materials Engineering\xspace}
 \newcommand{\myUni}{University College Dublin\xspace}
 \newcommand{\myLocation}{Belfield, Dublin 4\xspace}
 \newcommand{\myCountry}{Ireland\xspace}
-\newcommand{\myPrintLocation}{Ballsbridge, Dublin 6, Ireland}
+\newcommand{\myPrintLocation}{Ballsbridge, Dublin 4, Ireland}
 %\newcommand{\myTime}{August 2022\xspace}
 \newcommand{\myVersion}{v0.1}
 \newcommand{\ctVersion}{\classicthesis}
-\newcommand{\mykeywords}{Hybrid heat pumps}
-\newcommand{\mysubject}{Analysis of a Hybrid Heat Pump Configuration in a Residential Home, Mechanical Engineering}
+\newcommand{\mykeywords}{Hybrid heating system, parametric study, numerical building energy modelling}
+\newcommand{\mysubject}{A numerical simulation study of an air-water heat pump and conventional gas boiler hybrid heating system in the Irish climate to optimize the bivalent temperature.}
 
-\DTMsavedate{submitdate}{2023-05-22}
+\DTMsavedate{submitdate}{2023-04-25}
 \DTMsavedate{duedate}{2024-11-10}
 \DTMsavedate{printdate}{2023-05-15}
 
@@ -66,8 +66,9 @@
 \newcommand{\Eg}{E.\,g.,}
 \newcommand{\modelica}{\texttt{Modelica}\xspace}
 \newcommand{\HP}{\ac{HP}\xspace}
-\newcommand{\ASHP}{\ac{ASHP}\xspace}
 \newcommand{\HPs}{\acp{HP}\xspace}
+\newcommand{\ASHP}{\ac{ASHP}\xspace}
+\newcommand{\ASHPs}{\ac{ASHPs}\xspace}
 \newcommand{\AWHP}{\ac{AWHP}\xspace}
 \newcommand{\AWHPs}{\acp{AWHP}\xspace}
 
@@ -93,14 +94,18 @@ backend=biber,bibencoding=utf8, %instead of bibtex
 %backend=bibtex8,bibencoding=ascii,%
 language=english,%
 style=numeric-comp,%
+giveninits,
 %style=authoryear-comp, % Author 1999, 2010
 %bibstyle=authoryear,dashed=false, % dashed: substitute rep. author with ---
-sorting=nyt, % name, year, title
-%maxbibnames=10, % default: 3, et al.
+%sorting=nyt, % name, year, title
+sorting=none, % sort by appearance
+maxbibnames=10, % default: 3, et al.
+maxcitenames = 5,
 backref=true,%
 natbib=true % natbib compatibility mode (\citep and \citet still work)
 ]{biblatex}
 
+% Places bib numeric in left margin 
 \defbibenvironment{bibliography}
 {\list{\printtext[labelnumberwidth]{%
     \printfield{prefixnumber}%
@@ -123,6 +128,7 @@ natbib=true % natbib compatibility mode (\citep and \citet still work)
   backrefpage={\!\!},
   backrefpages={\!\!}
 }
+
 
 \RequirePackage{mathtools} % Required for some maths elements 
 \usepackage{amsmath, amsthm,amssymb} % math environments and more by the AMS
@@ -162,6 +168,8 @@ natbib=true % natbib compatibility mode (\citep and \citet still work)
 
 \usepackage[tight-spacing=true]{siunitx}
 
+\usepackage{multirow}
+
 \usepackage{nomencl}
 \makenomenclature
 %% This will add the subgroups
@@ -169,8 +177,8 @@ natbib=true % natbib compatibility mode (\citep and \citet still work)
 \usepackage{etoolbox}
 \renewcommand\nomgroup[1]{%
   \item[\bfseries
-  \ifstrequal{#1}{A}{Physics Constants}{%
-  \ifstrequal{#1}{B}{Number Sets}{%
+  \ifstrequal{#1}{A}{Abbreviations}{%
+  \ifstrequal{#1}{B}{Subscripts}{%
   \ifstrequal{#1}{C}{Other Symbols}{}}}%
 ]}
 %----------------------------------------------
@@ -203,14 +211,18 @@ natbib=true % natbib compatibility mode (\citep and \citet still work)
 % \makeatother
 % ****************************************************************************************************
 
+\usepackage[flushleft]{threeparttable} % table notes
+
 % Need to use MATLAB2TikZ %%% 
 \usepackage{pgfplots}
-\pgfplotsset{compat=1.17}
+
 % \usepgfplotslibrary{patchplots}
 % \usepackage{grffile}
 \usetikzlibrary{arrows,
                   calc,
                   intersections,
+                  fit,
+                  shapes.geometric,
                   positioning,
                   angles, 
                   quotes,
@@ -218,8 +230,20 @@ natbib=true % natbib compatibility mode (\citep and \citet still work)
                   arrows.meta}
 % \usepackage{tikz-3dplot}
 
+\usepgfplotslibrary{fillbetween}
+\usepgfplotslibrary{groupplots}
 
-% \usepackage{pgfplotstable}
+\usepackage{pgfplotstable}
+\pgfplotsset{compat=1.18, 
+        colormap={mycolor}{
+        rgb255=(0, 181, 26)
+        rgb255=(255,255,0)
+        rgb255=(255, 45, 33)
+    },
+    }
+\usepackage{diagbox}
+\usepackage{colortbl}
+\usepackage{tikzscale}
 % \pgfplotstableset{% global config, for example in the preamble
 % empty cells with={--}, % replace empty cells with '--'
 % every head row/.style={before row=\toprule,after row=\midrule},
@@ -228,7 +252,58 @@ natbib=true % natbib compatibility mode (\citep and \citet still work)
 
 %\pgfkeys{/pgf/plot/gnuplot call={cd .aux && gnuplot}}
 
+\pgfplotstableset{
+    /color cells/min/.initial=1000,
+    /color cells/max/.initial=8000,
+    /color cells/textcolor/.initial=,
+    %
+    % Usage: 'color cells={min=<value which is mapped to lowest color>, 
+    %   max = <value which is mapped to largest>}
+    color cells/.code=
+    {%
+        \pgfqkeys{/color cells}{#1}%
+        \pgfkeysalso
+        {%
+            postproc cell content/.code=
+            {%
+                \begingroup
+                \pgfkeysgetvalue{/pgfplots/table/@preprocessed cell content}\value
+                \pgfmathfloatparsenumber{\value}%
+                \pgfmathfloattofixed{\pgfmathresult}%
+                \let\value=\pgfmathresult
+                \pgfplotscolormapaccess
+                    [\pgfkeysvalueof{/color cells/min}:\pgfkeysvalueof{/color cells/max}]
+                    {\value}
+                    {\pgfkeysvalueof{/pgfplots/colormap name}}
+                \pgfkeysgetvalue{/pgfplots/table/@cell content}\typesetvalue %This is the important if-statement for font color selection
+                \ifdim\value pt<.5pt\relax
+                  \def\textcolorvalue{black}%
+                \else
+                  \def\textcolorvalue{black}%
+                \fi
+                \toks0=\expandafter{\typesetvalue}%
+                \xdef\temp{%
+                    \noexpand\pgfkeysalso{%
+                        @cell content={%
+                            \noexpand\cellcolor[rgb]{\pgfmathresult}%
+                            \noexpand\definecolor{mapped color}{rgb}{\pgfmathresult}%
+                            \ifx\textcolorvalue\empty
+                            \else
+                                \noexpand\color{\textcolorvalue}%
+                            \fi
+                            \the\toks0 %
+                        }%
+                    }%
+                }%
+                \endgroup
+                \temp
+            }%
+        }%
+    }%
+}
+
 \usepackage[ruled,vlined]{algorithm2e}
+
 
 % ****************************************************************************************************
 % 3. Setup floats: tables, (sub)figures, and captions
@@ -240,6 +315,8 @@ natbib=true % natbib compatibility mode (\citep and \citet still work)
 %\usepackage{subfig}
 \usepackage[labelformat=simple]{subcaption}
 
+\usepackage{stackengine}
+
 %\usepackage{multirow} % to have multirow cells in tables
 
 % ****************************************************************************************************
@@ -248,52 +325,68 @@ natbib=true % natbib compatibility mode (\citep and \citet still work)
 \appto{\appendix}{ % Makes tables, listing, figures etc appear lowercase.
 \renewcommand\thefigure{\spacedlowsmallcaps{\thechapter}.\arabic{figure}}
 \renewcommand\theequation{\spacedlowsmallcaps{\thechapter}.\arabic{equation}}
-\renewcommand{\thelstlisting}{\spacedlowsmallcaps{\thechapter}.\arabic{lstlisting}}
+%\renewcommand{\thelstlisting}{\spacedlowsmallcaps{\thechapter}.\arabic{lstlisting}}
 \renewcommand\thetable{\spacedlowsmallcaps{\thechapter}.\arabic{table}}
 }
 
+\DeclareSIUnit{\kWh}{kWh}
+\DeclareSIUnit{\EUR}{\text{\euro}}
+\DeclareSIUnit{\cents}{\text{¢}}
+\DeclareSIUnit\year{yr}
 
 % ****************************************************************************************************
 % 4. Setup code listings
 % ****************************************************************************************************
-\usepackage{listings}
+%\usepackage{listings}
 %\lstset{emph={trueIndex,root},emphstyle=\color{BlueViolet}}%\underbar} % for special keywords
-\lstset{language=[LaTeX]Tex,%C++,
-  morekeywords={PassOptionsToPackage,selectlanguage},
-  keywordstyle=\color{RoyalBlue},%\bfseries,
-  basicstyle=\small\ttfamily,
-  %identifierstyle=\color{NavyBlue},
-  commentstyle=\color{Green}\ttfamily,
-  stringstyle=\rmfamily,
-  numbers=left,%none
-  numberstyle=\scriptsize,%\tiny
-  stepnumber=1,
-  numbers=left,
-  numbersep=8pt,
-  showstringspaces=false,
-  breaklines=true,
-  %frameround=ftff,
-  %frame=single,
-  belowcaptionskip=.75\baselineskip
-  %frame=L
-}
-
-% \RequirePackage[cachedir=.minted,outputdir=.aux]{minted} % code listing package 
-% \setminted{ % style setup for minted 
-%     fontsize=\footnotesize,   
-%     baselinestretch=0.8, 
-%     linenos=true,
-%     autogobble,
-%     breaklines,
-%     escapeinside=££
+% \lstset{language=[LaTeX]Tex,%C++,
+%   morekeywords={PassOptionsToPackage,selectlanguage},
+%   keywordstyle=\color{RoyalBlue},%\bfseries,
+%   basicstyle=\small\ttfamily,
+%   %identifierstyle=\color{NavyBlue},
+%   commentstyle=\color{Green}\ttfamily,
+%   stringstyle=\rmfamily,
+%   numbers=left,%none
+%   numberstyle=\scriptsize,%\tiny
+%   stepnumber=1,
+%   numbers=left,
+%   numbersep=8pt,
+%   showstringspaces=false,
+%   breaklines=true,
+%   %frameround=ftff,
+%   %frame=single,
+%   belowcaptionskip=.75\baselineskip
+%   %frame=L
 % }
 
-% \newenvironment{longlisting}{\captionsetup{type=listing}}{} % allows for multipage and page-breaking of code listings
-% \AfterEndEnvironment{longlisting}{\hspace{-.5em}}
+% \input{tex/listings-modelica.cfg}
+
+
+%\RequirePackage[cachedir=.minted,outputdir=.aux]{minted} % code listing package 
+\RequirePackage[cachedir=.minted]{minted} % code listing package 
+\setminted{ % style setup for minted 
+    fontsize=\footnotesize,   
+    baselinestretch=0.8, 
+    linenos=true,
+    autogobble,
+    breaklines,
+    escapeinside=££
+}
+
+\newenvironment{longlisting}{\captionsetup{type=listing}}{} % allows for multipage and page-breaking of code listings
+\AfterEndEnvironment{longlisting}{\hspace{-.5em}}
 %\renewcommand\p@FancyVerbLine{Ln.~\@} % changes how cross referenced lines of code are displayed
 
 % ****************************************************************************************************
-
+\tikzset{cblock/.style={draw, fill=blue!10, rectangle, 
+minimum height=2em, minimum width=5em},
+csum/.style={draw, fill=blue!20, circle, node distance=1cm},
+cinput/.style={coordinate},
+coutput/.style={coordinate},
+pinstyle/.style={pin edge={Triangle[],thick,black}},
+carrow/.style={draw,thick,-{Triangle[]}},
+cline/.style={draw,thick,-},
+triangle/.style={draw,fill=red!20,regular polygon,regular polygon sides=3}}
 
 
 
@@ -305,7 +398,7 @@ natbib=true % natbib compatibility mode (\citep and \citet still work)
 % in order to deactivate the time-stamp on the pages
 % (see ClassicThesis.pdf for more information):
 
-\usepackage[  drafting=true,    % print version information on the bottom of the pages
+\usepackage[  %drafting=true,    % print version information on the bottom of the pages
   tocaligned=false, % the left column of the toc will be aligned (no indentation)
   dottedtoc=false,  % page numbers in ToC flushed right
   eulerchapternumbers=true, % use AMS Euler for chapter font (otherwise Palatino)

@@ -1,5 +1,256 @@
 %************************************************
-\chapter{Techno-Economic Assessment}\label{ch:scenarioB} 
+\chapter{Eco-Economic Assessment}\label{ch:eco-ecoass} 
 %************************************************
-% % P.E. savings, Energy and exergy utilisation 
-\cite{li_parallel_2018}
+% % P.E. savings, Energy and exergy(?) utilisation
+%An eco-economic study is an interdisciplinary analysis that combines ecological and economic evaluations to assess the interactions between the environment and the economy. It aims to evaluate the sustainability and social welfare implications of economic activities and policies, taking into account the ecological impacts and natural resource constraints. The study can help to identify trade-offs and synergies between ecological and economic objectives, and provide insights for decision-makers to achieve sustainable and equitable outcomes.
+
+\begin{flushright}{\slshape
+    Wir m\"ussen wissen. Wir werden wissen.} \\ 
+    \textit{We must know. We will know.}\\\medskip
+    --- David Hilbert
+\end{flushright}
+
+The ecological-economic assessment of a \ac{HHS} involves an analysis of the environmental and economic impacts associated with its operation. Such an assessment can provide insights into the effectiveness of the \ac{HHS} in achieving the dual goals of reducing \ac{GHG} emissions and minimising operational costs. The optimisation of the hybrid operation temperature window is a critical component of this assessment, as it has the potential to significantly impact both the ecological and economic performance of the system. By determining the optimal temperature range for the \ac{HHS}, it is possible to achieve a balance between reducing energy consumption, minimising carbon emissions, and ensuring comfortable indoor temperatures. This chapter presents a detailed analysis of the ecological and economic benefits of optimising the hybrid operation temperature window and discusses the key factors that influence the optimal temperature range.
+
+\section{Economic Assessment} \label{sec:ecoass}
+
+The economic assessment was carried out to identify the most cost-effective hybrid operation temperature window for the \ac{HHS} through the parametric study explained in \cref{ch:sensitivity}. To achieve this, the Irish market was used as a case study. The typical cost of natural gas and a time-of-use electricity tariff model was employed to estimate the cost of energy consumption accurately, accounting for fluctuating peak and off-peak hours. Standing costs, such as connection and fixed charges, were excluded from the assessment as they are typically independent of the heating system used. By using the previously established electricity and gas usage metrics from \cref{tbl:gasconsump,tbl:elecconsump}, and respective energy costs,  the total cost of space heating was evaluated and the most cost-effective hybrid operation temperature window for the system was identified.
+
+\subsection{Cost of Energy} \label{subsec:costofenergy}
+For the Irish market case study, the price of gas was taken to be a constant at 12.06 cent, which is the figure provided by the Household Energy Price Index (HEPI) in their February 2023 monthly update \cite{household_energy_price_index_price_nodate}. For the generalised analysis, varying values of gas price will be used of course. 
+
+\subsubsection{Electricity Tme-of-Use Tariff}\label{subsubsec:electou}
+A time-of-use tariff electricity price was utilised to calculate the cost of the electricity used in heating the dwelling at a given time. The tariff price comprised three tiers, namely peak rate, standard rate, and night rate, with each tier representing different costs. The peak rate was the most expensive, followed by the standard rate, with the night rate being the least expensive. By utilising the time-of-use tariff, the study accounted for the variation in electricity prices across different times of the day, thereby providing a more accurate representation of the energy costs associated with the operation of the \ac{HHS}. \cref{tbl:toutariffs} shows the price breakdown by tier for the electricity, provided by \citeauthor{electric_ireland_time--use_2023}. 
+
+\begin{table}[htb]
+    \centering
+    \caption{Time-of-Use Electricity tariffs \cite{electric_ireland_time--use_2023}}   
+    \label{tbl:toutariffs}
+    \begin{tabular}
+        {ccc}
+        \toprule
+        Time-band name & Interval & Cost [cents]\\\midrule
+        Night & \num[parse-numbers=false]{23}:\num[parse-numbers=false]{00} \rightarrow \num[parse-numbers=false]{08}:\num[parse-numbers=false]{00}  & \num{22.39} \\
+        Day & \num[parse-numbers=false]{08}:\num[parse-numbers=false]{00} \rightarrow \num[parse-numbers=false]{17}:\num[parse-numbers=false]{00} \& \num[parse-numbers=false]{19}:\num[parse-numbers=false]{00} \rightarrow \num[parse-numbers=false]{23}:\num[parse-numbers=false]{00} & \num{44.50} \\
+        Peak & \num[parse-numbers=false]{17}:\num[parse-numbers=false]{00} \rightarrow \num[parse-numbers=false]{19}:\num[parse-numbers=false]{00}  & \num{47.47} \\
+        \bottomrule
+    \end{tabular}
+\end{table}
+
+\subsection{Irish Market Case Study}
+When the product of the gas and electricity usage rates for all of the different parameter-level combinations from \cref{tbl:gasconsump,tbl:elecconsump}, and the energy prices are taken, as explained in \cref{subsec:costofenergy,subsubsec:electou}, using the formula \cref{eq:sumofprod} is used, \cref{tbl:annualheatingcost} is obtained. This table is the annual cost of the \ac{HHS} for the different bivalent operation temperature window combinations in Euro.
+
+\begin{table}[htb]
+    \footnotesize
+    \centering
+    \caption{Total annual cost of \acs{HHS} for different parameter-level combinations [\unit{\EUR\per\year}]}
+    \label{tbl:annualheatingcost}
+    \pgfplotstabletypeset[
+        col sep=space,
+        precision=0,
+        /pgf/number format/1000 sep= ,
+        color cells={min=1707.88,max=1896.37,textcolor=-mapped color!50!black},
+        /pgfplots/colormap name=mycolor,
+        every head row/.style={%
+            output empty row,
+            before row={%
+                \diagbox[width=4em,height=2.6em]{$T_\mathrm{cut}$}{$T_\mathrm{biv}$} & $-$2 & $-$1 & 0 & 1 & 2 & 3& 4\\
+                },
+            },
+        create on use/newcol/.style={
+            create col/set list={10,9,8,7,6,5}
+        },
+        columns/newcol/.style={string type,reset styles,},
+        columns={newcol,0,1,2,3,4,5,6},
+        /pgf/number format/.cd,%sci,
+        set decimal separator={.},
+    ]{data/annualheatingcost.dat}
+\end{table}
+
+As can be seen from the table the $\{1\text{, }5\}$ parameter-level combination is the combination with the lowest annual operating costs, with a total cost of €1707.88. While $\{-2\text{, }10\}$ is the combination resulting in the highest annual cost of €1889.62. Generally, the worst performing combinations reside in the $\{\sim\text{, }9\rightarrow10\}$ band, while the best performing combinations reside in the $\{\sim\text{, }5\rightarrow6\}$ band. A sort of horseshoe-shaped pattern can be identified from the heatmap, with all gradients leading towards the lowest cost combination. There are no other local minima. This carpet plot can be thought of as a superposition of \cref{tbl:gasconsump,tbl:elecconsump}, along with a transformation due to the fixed cost of gas and fluctuating cost of electricity. 
+
+This may be interpreted in the following way: the highest cost combinations are those where the boiler is allowed to operate at very high temperatures, i.e., the cut-off temperature is high. This means the \HP, which coincidentally, has its greatest \acp{COP} at these temperatures, is denied from providing the entire heating demand of the dwelling. At the lower cut-off temperatures, the \HP is permitted to provide all the heating demand at lower temperatures. As for the changes in the cost in the bivalent temperature direction of the heatmap, this can be explained by recalling that the electricity usage increases dramatically towards the lower bivalent temperature values. 
+
+The resulting values in this heatmap are very fickle, and are very sensitive to the prices of gas and electricity, as was also determined by \citeauthor{rauschkolb_cost-optimal_2020} \cite{rauschkolb_cost-optimal_2020}. It is also worth noting that the ratio between the maximum and minimum cost is 10.66\%, which is not negligible, but perhaps not the single greatest cost saving measure implementable in a heating system. It is clear from \citeauthor{keogh_technical_2018} \cite{keogh_technical_2018} that a deep retrofit would decrease the total energy usage of the dwelling for space heating by about a third, which would have a much greater affect on the annual heating bill, however, at a high upfront cost.
+
+\subsection{Generalised Economic Analysis}
+Due to how sensitive the results from the Irish market case study total annual heating costs were on the prices of natural gas and electricity, it is worth considering how the analysis changes depending on how the prices change. For this reason, two diametrically opposed parameter-level combinations were chosen which vary in their make-up of electrical and gas distribution, $\{-2\text{, }10\}$ and $\{4\text{, }5\}$. These combinations have different compositions of gas and electrical usage as can be seen from \cref{tbl:gasconsump,tbl:elecconsump}. These two combinations had their electrical cost and gas cost varied systematically. The gas cost was varied from 0.06 cents to 0.18 cents per kilowatt-hour, using the 12.06 cents per kilowatt-hour found in Ireland as a pivot point, linearly increasing and decreasing by 3 steps in 0.02 cent increments. The electrical cost was varied from 30\% of the Irish price to 130\% of the Irish price. Ireland currently has the highest electricity cost in Europe \cite{household_energy_price_index_price_nodate}, while the lowest electrical prices can be found in Hungary and Ukraine at 9.33 cents and 4.3 cents per kilowatt-hour respectively. \cref{eq:sumofprod} was used to calculate the cost for each new gas and electricity cost combination and divided by the Irish price, in order to see relative change. 
+
+\begin{figure}[htb]
+    \centering
+    \begin{tikzpicture}
+        \begin{axis}[view={-60}{20}, grid=both,ylabel style={sloped}, xlabel style={sloped}, xlabel={$\times$ Irish elec. rate},ylabel={Gas cost [\unit{\EUR\per\kWh}]},zlabel={Ratio to unvaried annual cost},xtick={0.3,0.5,0.7,0.9,1.1,1.3},ytick={0.18,0.15,0.12,0.10,0.08,0.06}, scaled y ticks = false, y tick label style={/pgf/number format/fixed},xticklabel style = {yshift=+0.5em,xshift=+0.5em},ztick={0.3,0.5,0.7,0.9,1.1,1.3},zmin=0.3]
+          \addplot3 plot [mark=*, mark size=5] coordinates{(1,0.12,1)}; 
+          \addplot3[surf] file {data/minus210cost.dat};
+        \end{axis}
+      \end{tikzpicture}
+    \caption{Varying gas price from \qty{6}{\cents\per\kWh} to \qty{18}{\cents\per\kWh} and electricity from 30\% to 130\% of Irish prices for parameter-level combination $\{-2\text{, }10\}$}
+    \label{fig:minus210cost}
+\end{figure}
+
+% \begin{figure}[htb]
+%     \centering
+%     \begin{tikzpicture}
+%         \begin{axis}[view={-60}{20}, grid=both,]
+%           \addplot3 plot [mark=*, mark size=5] coordinates{(1,0.12,1)}; 
+%           \addplot3[surf] file {data/one7cost.dat};
+%         \end{axis}
+%       \end{tikzpicture}
+%     \caption{varying gas price from \qty{0.06}{\cents\per\kWh} to \qty{0.18}{\cents\per\kWh} and electricity from 30\% to 130\% of Irish prices for parameter-level combination $\{1\text{, }7\}$}
+%     \label{fig:one7cost}
+% \end{figure}
+
+
+\begin{figure}[htb]
+    \centering
+    \begin{tikzpicture}
+        \begin{axis}[view={-60}{20}, grid=both, ylabel style={sloped}, xlabel style={sloped}, xlabel={$\times$ Irish elec. rate},ylabel={Gas cost [\unit{\EUR\per\kWh}]},zlabel={Ratio to unvaried annual cost},xtick={0.3,0.5,0.7,0.9,1.1,1.3},ytick={0.18,0.15,0.12,0.10,0.08,0.06}, scaled y ticks = false, y tick label style={/pgf/number format/fixed},xticklabel style = {yshift=+0.5em,xshift=+0.5em},ztick={0.3,0.5,0.7,0.9,1.1,1.3},zmin=0.3]
+          \addplot3 plot [mark=*, mark size=5] coordinates{(1,0.12,1)}; 
+          \addplot3[surf] file {data/four5cost.dat};
+        \end{axis}
+      \end{tikzpicture}
+    \caption{Varying gas price from \qty{6}{\cents\per\kWh} to \qty{18}{\cents\per\kWh} and electricity from 30\% to 130\% of Irish prices for parameter-level combination $\{4\text{, }5\}$}
+    \label{fig:four5cost}
+\end{figure}
+
+\cref{fig:four5cost,fig:minus210cost} show two surface plots. The electrical cost per unit is varied along the $x$-axis and the gas cost is varied along the $y$-axis. The resulting total annual cost is divided by the non-varied total price (i.e., \qty{12.06}{\cents\per\kWh} of gas and the time-of-use electrical tariffs from \cref{tbl:toutariffs}) to obtain a ratio, where less than unity is cheaper and vice-versa. A blue sphere is placed at the ``original'' Irish price for that particular combination for reference. Comparing the incline of the surface along the the varying gas cost at 30\% of the Irish electricity rate, one can see that \cref{fig:four5cost} is steeper than \cref{fig:minus210cost}, with the former reaching a ratio of 0.63 while the latter reaches 0.47. Along the incline of of gas cost fixed at \qty{0.06}{\unit{\EUR\per\kWh}]} and varying electricity rate, once again \cref{fig:four5cost} is steeper than \cref{fig:minus210cost}, with ratios of 1.17 and 1.07 respectively. The highest ratios of 1.32 and 1.35 for \cref{fig:minus210cost} and \cref{fig:four5cost} respectively, are of course achieved when the electricity is 130\% of Irish prices and the gas is at the greatest price of \qty{0.18}{\unit{\EUR\per\kWh}]}.
+
+The $\{-2\text{, }10\}$ parameter-level combination is less sensitive to price increases or decreases than the $\{4\text{, }5\}$ combination. This could be possibly due to the how the gas and electricity usage totals from \cref{tbl:gasconsump} and \cref{tbl:elecconsump} for those combinations are interacting with the with the price changes. The price of electricity seems to affect the annual price much more than the price of gas. Even though the gas is being varied by half and almost double, it has a much shallower incline than the electricity.
+
+
+
+
+
+\section{Ecological Assessment}
+
+A similar sequence of steps to \cref{sec:ecoass} will be carried out for the ecological assessment, where first the Irish market is used a case study, and then an attempt to generalise the analysis is made. 
+
+
+\subsection{Irish Market Case Study} \label{subsec:irishmarket}
+Similarly to the how the total annual cost of the heating system was calculated, the total annual carbon emissions from the heating system was calculated by finding the sum of the product of the gas and electricity usage by their respective carbon intensity figures. The carbon intensity figure for natural gas was placed at \qty{202.9}{\gram\per\kWh}, as is suggested by SEAI \cite{seai_conversion_nodate}. The carbon intensity figure for electricity is however as constantly changing variable due to how the grid operates. 
+
+The carbon intensity of electrical grids is subject to fluctuations resulting from factors such as variable renewable energy sources, changing electricity demand, and the availability of backup power sources. In the case of the Irish grid, wind energy is a significant contributor to electricity generation, and its variability can cause fluctuations in carbon intensity. These fluctuations are influenced by weather conditions, including wind speed and direction. During periods of peak electricity demand, more power may need to be generated, resulting in a higher carbon intensity if more fossil fuel-based power plants are used. Finally, backup power sources, such as hydroelectric or gas-fired power plants, may need to be utilised in times of supply disruption, resulting in a higher carbon intensity.
+
+The carbon intensity figure for electricity was placed at \qty{296}{\gram\per\kWh}, as this is the figure determined by \citeauthor{seai_energy_2021} \cite{seai_energy_2021}, and is a historic low for the annual carbon intensity for Ireland. 
+
+\cref{tbl:annualheatingco2} shows the results for the annual carbon emissions generated by the heating system. Once again, the parameter-level combination $\{1\text{, }5\}$ is the combination which performs the best, with a carbon emissions value of \qty{1638}{\kilo\gram}, while the $\{4\text{, }10\}$ combination performs the worst with a carbon emissions value of \qty{1899}{\kilo\gram}. The ratio between these figures comes to 15.93\%. 
+
+\begin{table}[htb]
+    \footnotesize
+    \centering
+    \caption{Irish Case Study: Total annual $\text{CO}_2$ emissions from \acs{HHS} [kg]}
+    \label{tbl:annualheatingco2}
+    \pgfplotstabletypeset[
+        col sep=space,
+        precision=0,
+        /pgf/number format/1000 sep= ,
+        color cells={min=1638.01,max=1898.78,textcolor=-mapped color!50!black},
+        /pgfplots/colormap name=mycolor,
+        every head row/.style={%
+            output empty row,
+            before row={%
+                \diagbox[width=4em,height=2.6em]{$T_\mathrm{cut}$}{$T_\mathrm{biv}$} & $-$2 & $-$1 & 0 & 1 & 2 & 3& 4\\
+                },
+            },
+        create on use/newcol/.style={
+            create col/set list={10,9,8,7,6,5}
+        },
+        columns/newcol/.style={string type,reset styles,},
+        columns={newcol,0,1,2,3,4,5,6},
+        /pgf/number format/.cd,%sci,
+        set decimal separator={.},
+    ]{data/annualCO2.dat}
+\end{table}
+
+
+\subsection{Generalised Ecological Analysis}
+It was decided to perform a 3-case-scenario analysis for the generalised ecological analysis. Since the carbon intensity of the natural gas is almost entirely fixed, the variable in this analysis will be the the carbon intensity of the electricity. Worst case, middle case and best case scenarios will be devised and compared. 
+
+Using the \citetitle{eirgrid_group_explore_2023} \cite{eirgrid_group_explore_2023} utility provided by \citeauthor{eirgrid_group_explore_2023}, the highest carbon intensity experienced in 2023 was \qty{454}{\gram\per\kWh} which occurred on the 3\textsuperscript{rd} of March, while the lowest figure was \qty{131}{\gram\per\kWh} on 28\textsuperscript{th} of March. It could also be noted that France, due to its high number of nuclear plants has typical carbon intensity figures of \qty{58}{\gram\per\kWh}, with lows around the \qty{20}{\gram\per\kWh} \cite{iea2019world}.
+
+Therefore, for the best case scenario a carbon intensity of \qty{58}{\gram\per\kWh} was chosen, as although that is lofty goal for Ireland to reach in the near future, it may be a possibility once the Ireland-France interconnector is completed and more renewable energy sources are installed on the island. The middle case scenario assumed a carbon intensity of \qty{131}{\gram\per\kWh} as this figure has been achieved as of recent and is a very achievable average carbon intensity figure for the Irish grid in the coming years. The worst case scenario used a carbon intensity figure of \qty{454}{\gram\per\kWh}, as this value represents the worst carbon emissions of the Irish grid as of recent, and a middling value of \qty{296}{\gram\per\kWh} was already used in \cref{subsec:irishmarket}.
+
+\begin{table}[htb]
+    \footnotesize
+    \centering
+    \caption{Best Case (\qty{58}{\gram\per\kWh}): Total annual $\text{CO}_2$ emissions from \acs{HHS} [kg]}
+    \label{tbl:bestcase}
+    \pgfplotstabletypeset[
+        col sep=space,
+        precision=1,
+        /pgf/number format/1000 sep= ,
+        color cells={min=684,max=1024,textcolor=-mapped color!50!black},
+        /pgfplots/colormap name=mycolor,
+        every head row/.style={%
+            output empty row,
+            before row={%
+                \diagbox[width=4em,height=2.6em]{$T_\mathrm{cut}$}{$T_\mathrm{biv}$} & $-$2 & $-$1 & 0 & 1 & 2 & 3& 4\\
+                },
+            },
+        create on use/newcol/.style={
+            create col/set list={10,9,8,7,6,5}
+        },
+        columns/newcol/.style={string type,reset styles,},
+        columns={newcol,0,1,2,3,4,5,6},
+        /pgf/number format/.cd,%sci,
+        set decimal separator={.},
+    ]{data/bestcase.dat}
+\end{table}
+
+\begin{table}[htb]
+    \footnotesize
+    \centering
+    \caption{Middle Case (\qty{131}{\gram\per\kWh}): Total annual $\text{CO}_2$ emissions from \acs{HHS} [kg]}
+    \label{tbl:middlecase}
+    \pgfplotstabletypeset[
+        col sep=space,
+        precision=0,
+        /pgf/number format/1000 sep= ,
+        color cells={min=980,max=1293,textcolor=-mapped color!50!black},
+        /pgfplots/colormap name=mycolor,
+        every head row/.style={%
+            output empty row,
+            before row={%
+                \diagbox[width=4em,height=2.6em]{$T_\mathrm{cut}$}{$T_\mathrm{biv}$} & $-$2 & $-$1 & 0 & 1 & 2 & 3& 4\\
+                },
+            },
+        create on use/newcol/.style={
+            create col/set list={10,9,8,7,6,5}
+        },
+        columns/newcol/.style={string type,reset styles,},
+        columns={newcol,0,1,2,3,4,5,6},
+        /pgf/number format/.cd,%sci,
+        set decimal separator={.},
+    ]{data/middlecast.dat}
+\end{table}
+
+\begin{table}[htb]
+    \footnotesize
+    \centering
+    \caption{Worst Case (\qty{454}{\gram\per\kWh}): Total annual $\text{CO}_2$ emissions from \acs{HHS} [kg]}
+    \label{tbl:worstcase}
+    \pgfplotstabletypeset[
+        col sep=space,
+        precision=0,
+        /pgf/number format/1000 sep= ,
+        color cells={min=2266,max=2479,textcolor=-mapped color!50!black},
+        /pgfplots/colormap name=mycolor,
+        every head row/.style={%
+            output empty row,
+            before row={%
+                \diagbox[width=4em,height=2.6em]{$T_\mathrm{cut}$}{$T_\mathrm{biv}$} & $-$2 & $-$1 & 0 & 1 & 2 & 3& 4\\
+                },
+            },
+        create on use/newcol/.style={
+            create col/set list={10,9,8,7,6,5}
+        },
+        columns/newcol/.style={string type,reset styles,},
+        columns={newcol,0,1,2,3,4,5,6},
+        /pgf/number format/.cd,%sci,
+        set decimal separator={.},
+    ]{data/worstcase.dat}
+\end{table}
+
+\cref{tbl:bestcase,tbl:middlecase,tbl:worstcase} show the three resulting tables from the best, middle and worst case scenarios. As it turns out, \cref{tbl:bestcase,tbl:middlecase} look much more similar to \cref{tbl:annualheatingco2} than \cref{tbl:worstcase} does to any of the other three. A change can be seen where around the Irish value of \qty{296}{\gram\per\kWh} where the emissions resulting from the gas boiler seem to dominate heavily as this figure begins to decrease. The parameter-level combinations of $\{3\rightarrow4\text{,}\sim\}$ are consistently the highest compared to the rest, and recalling the consumption distributions from \cref{tbl:gasconsump,tbl:elecconsump} along with the decreasing value of carbon emissions of the middle and best case, it make sense that the $\{3\rightarrow4\text{,}\sim\}$ dominate as the electricity carbon intensity is decreased.
+
+As the carbon intensity of the electricity increases, it appears as though low cut-off temperatures and middling bivalent temperatures give the lowest carbon emissions, as was the case for the Irish case study in \cref{subsec:irishmarket} and \cref{tbl:worstcase}. While for low electricity carbon intensities, parameter-level combinations where less gas is used is preferable, due to the electricity being more ecologically friendly. 
