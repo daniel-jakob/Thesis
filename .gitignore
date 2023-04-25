@@ -1,6 +1,7 @@
 ## workspace
 *.code-workspace
 *.minted
+main.pdf
 
 ## Core latex/pdflatex auxiliary files:
 *.aux
