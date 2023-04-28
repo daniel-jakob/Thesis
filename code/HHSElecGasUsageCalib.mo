@@ -1,4 +1,3 @@
-within Thesis_Project.Experiments;
 model HHSFinalModel "Model of a hydronic heating system with energy storage"
 extends Modelica.Icons.Example;
 replaceable package MediumA = Buildings.Media.Air(T_default=293.15) "Medium model for air";

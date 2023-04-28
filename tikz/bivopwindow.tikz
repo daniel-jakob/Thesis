@@ -16,16 +16,16 @@
 % the labels
 
 \draw[ultra thick,purple] (2,0.5) -- (5.5,0.5);
-\node[fill=white,draw=black,circle,inner sep=2pt,label=above:{$T_\mathrm{cut}=\qty{0}{\celsius}$}] at (2,0.5) {};
-\node[fill=white,draw=black,circle,inner sep=2pt,label=above:{$T_\mathrm{biv}=\qty{7}{\celsius}$}] at (5.5,0.5) {};
+\node[fill=white,draw=black,circle,inner sep=2pt,label=above:{$T_\mathrm{biv}=\qty{0}{\celsius}$}] at (2,0.5) {};
+\node[fill=white,draw=black,circle,inner sep=2pt,label=above:{$T_\mathrm{cut}=\qty{7}{\celsius}$}] at (5.5,0.5) {};
 
-\node at (7.75,0.4) {$T_\mathrm{ext}$ [\unit{\celsius}]};
+\node at (7.75,0.4) {$T_\mathrm{ext} \left[\unit{\celsius}\right]$};
 
-\node[red] at (5.75,-0.6) {Bivalent Temperature};
-\node[blue] at (2.5,-0.6) {Cut-off Temperature};
+\node[red] at (5.75,-0.6) {Cut-off Temperature};
+\node[blue] at (2.5,-0.6) {Bivalent Temperature};
 
-\node at (1,0) {\textbf{(}}; \node at (4,0) {\textbf{)}};
-\node at (4.5,0) {\textbf{(}}; \node at (7,0) {\textbf{)}};
+\node at (1,0) {\textbf{[}}; \node at (4,0) {\textbf{]}};
+\node at (4.5,0) {\textbf{[}}; \node at (7,0) {\textbf{]}};
 
 
 \node[purple] at (3.75,1.2) {Bivalent Operation Window};

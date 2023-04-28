@@ -44,10 +44,10 @@ The reference model has a floor area of 160 square metres, 93 square metres of w
 \begin{table}[htb]
     \footnotesize
     \centering
-    \caption{Summary of $U$-Values}
+    \caption{Summary of $U$-Values and infiltration rate of building model}
     \label{tbl:uvalues}  
     \begin{tabular}{lccccc}\toprule
-        \multicolumn{1}{c}{\multirow{2}{*}{\begin{tabular}[c]{@{}c@{}}Building \\ Model\end{tabular}}} & \multicolumn{4}{c}{\begin{tabular}[c]{@{}c@{}}$U$-Value\\ {[}\unit{\watt\per\square\meter\per\kelvin}{]}\end{tabular}} & \multirow{2}{*}{\begin{tabular}[c]{@{}c@{}}Infiltration\\ Rate\\ {[}\acs{ACPH}{]}\end{tabular}} \\ \cmidrule(lr){2-5}
+        \multicolumn{1}{c}{\multirow{2}{*}{\begin{tabular}[c]{@{}c@{}}Building \\ Model\end{tabular}}} & \multicolumn{4}{c}{\begin{tabular}[c]{@{}c@{}}$U$-Value\\ $\left[\unit{\watt\per\square\meter\per\kelvin}\right]$\end{tabular}} & \multirow{2}{*}{\begin{tabular}[c]{@{}c@{}}Infiltration\\ Rate\\ {[}\acs{ACPH}{]}\end{tabular}} \\ \cmidrule(lr){2-5}
         \multicolumn{1}{c}{} & \begin{tabular}[c]{@{}c@{}}Exterior\\ Wall\end{tabular} & \begin{tabular}[c]{@{}c@{}}Pitched\\ Roof\end{tabular} & \begin{tabular}[c]{@{}c@{}}Exterior\\ Floor\end{tabular} & \begin{tabular}[c]{@{}c@{}}Exterior\\ Glazing\end{tabular} &  \\ \midrule
         \begin{tabular}[c]{@{}l@{}}Minimal\\ Retrofit\end{tabular} & \num{0.31} & \num{0.16} & \num{0.25} & \num{2.15} & \num{0.8} %\\
         %\begin{tabular}[c]{@{}l@{}}Deep 
@@ -65,7 +65,7 @@ The reference model has a floor area of 160 square metres, 93 square metres of w
     \label{tbl:extwallconst}
     \begin{tabular}{lcccc}
         \toprule
-        Layer        & \multicolumn{1}{c}{\begin{tabular}[c]{@{}c@{}}Thickness \\ {[}m{]}\end{tabular}} & \multicolumn{1}{c}{\begin{tabular}[c]{@{}c@{}}Density \\ {[}\unit{\kilogram\per\cubic\meter}{]}\end{tabular}} & \multicolumn{1}{c}{\begin{tabular}[c]{@{}c@{}}Heat Capacity \\  {[}\unit{\joule\per\kilogram\per\kelvin}{]}\end{tabular}}  & \multicolumn{1}{c}{\begin{tabular}[c]{@{}c@{}}Conductivity \\   {[}\unit{\watt\per\meter\per\kelvin}{]}\end{tabular}} \\ \midrule
+        Layer        & \multicolumn{1}{c}{\begin{tabular}[c]{@{}c@{}}Thickness \\ {[}m{]}\end{tabular}} & \multicolumn{1}{c}{\begin{tabular}[c]{@{}c@{}}Density \\ $\left[\unit{\kilogram\per\cubic\meter}\right]$\end{tabular}} & \multicolumn{1}{c}{\begin{tabular}[c]{@{}c@{}}Heat Capacity \\  $\left[\unit{\joule\per\kilogram\per\kelvin}\right]$\end{tabular}}  & \multicolumn{1}{c}{\begin{tabular}[c]{@{}c@{}}Conductivity \\   $\left[\unit{\watt\per\meter\per\kelvin}\right]$\end{tabular}} \\ \midrule
         Rainscreen   & \num{0.01}              & \num{7824}                & \num{500}                        & \num{30}                       \\
         Insulation   & \num{0.085}             & \num{43}                  & \num{1210}                       & \num{0.03}                     \\
         Air Cavity      & \num{0.15}              & $-$                  & $-$                      &  $-$                  \\
@@ -83,7 +83,7 @@ The reference model has a floor area of 160 square metres, 93 square metres of w
     \label{tbl:extfloorconst}
     \begin{tabular}{lcccc}
         \toprule
-        Layer        & \multicolumn{1}{c}{\begin{tabular}[c]{@{}c@{}}Thickness \\ {[}m{]}\end{tabular}} & \multicolumn{1}{c}{\begin{tabular}[c]{@{}c@{}}Density \\ {[}\unit{\kilogram\per\cubic\meter}{]}\end{tabular}} & \multicolumn{1}{c}{\begin{tabular}[c]{@{}c@{}}Heat Capacity \\  {[}\unit{\joule\per\kilogram\per\kelvin}{]}\end{tabular}}  & \multicolumn{1}{c}{\begin{tabular}[c]{@{}c@{}}Conductivity \\   {[}\unit{\watt\per\meter\per\kelvin}{]}\end{tabular}} \\ \midrule
+        Layer        & \multicolumn{1}{c}{\begin{tabular}[c]{@{}c@{}}Thickness \\ {[}m{]}\end{tabular}} & \multicolumn{1}{c}{\begin{tabular}[c]{@{}c@{}}Density \\ $\left[\unit{\kilogram\per\cubic\meter}\right]$\end{tabular}} & \multicolumn{1}{c}{\begin{tabular}[c]{@{}c@{}}Heat Capacity \\  $\left[\unit{\joule\per\kilogram\per\kelvin}\right]$\end{tabular}}  & \multicolumn{1}{c}{\begin{tabular}[c]{@{}c@{}}Conductivity \\   $\left[\unit{\watt\per\meter\per\kelvin}\right]$\end{tabular}} \\ \midrule
         Acoustic Tile   & \num{0.0191}            & \num{368}                 & \num{590}                        & \num{0.06}                     \\
         Air Cavity      & \num{0.15}              & $-$                  & $-$                      &  $-$                  \\
         Insulation      & \num{0.085}             & \num{43}                  & \num{1210}                       & \num{0.03}                     \\
@@ -102,7 +102,7 @@ The reference model has a floor area of 160 square metres, 93 square metres of w
     \label{tbl:pitchroofconst}
     \begin{tabular}{lcccc}
         \toprule
-        Layer        & \multicolumn{1}{c}{\begin{tabular}[c]{@{}c@{}}Thickness \\ {[}m{]}\end{tabular}} & \multicolumn{1}{c}{\begin{tabular}[c]{@{}c@{}}Density \\ {[}\unit{\kilogram\per\cubic\meter}{]}\end{tabular}} & \multicolumn{1}{c}{\begin{tabular}[c]{@{}c@{}}Heat Capacity \\  {[}\unit{\joule\per\kilogram\per\kelvin}{]}\end{tabular}}  & \multicolumn{1}{c}{\begin{tabular}[c]{@{}c@{}}Conductivity \\   {[}\unit{\watt\per\meter\per\kelvin}{]}\end{tabular}} \\ \midrule
+        Layer        & \multicolumn{1}{c}{\begin{tabular}[c]{@{}c@{}}Thickness \\ {[}m{]}\end{tabular}} & \multicolumn{1}{c}{\begin{tabular}[c]{@{}c@{}}Density \\ $\left[\unit{\kilogram\per\cubic\meter}\right]$\end{tabular}} & \multicolumn{1}{c}{\begin{tabular}[c]{@{}c@{}}Heat Capacity \\  $\left[\unit{\joule\per\kilogram\per\kelvin}\right]$\end{tabular}}  & \multicolumn{1}{c}{\begin{tabular}[c]{@{}c@{}}Conductivity \\   $\left[\unit{\watt\per\meter\per\kelvin}\right]$\end{tabular}} \\ \midrule
         Clay Tile   & \num{0.025}            & \num{1900}                 & \num{800}                        & \num{0.84}                     \\
         Air Cavity      & \num{0.15}              & $-$                  & $-$                      &  $-$                  \\
         Insulation      & \num{0.162}            & \num{43}                  & \num{1210}                       & \num{0.03}                     \\
@@ -119,7 +119,7 @@ The dormer roof provides no insulation and is only in place to protect the insid
     \label{tbl:dormerroofconst}
     \begin{tabular}{lcccc}
         \toprule
-        Layer        & \multicolumn{1}{c}{\begin{tabular}[c]{@{}c@{}}Thickness \\ {[}m{]}\end{tabular}} & \multicolumn{1}{c}{\begin{tabular}[c]{@{}c@{}}Density \\ {[}\unit{\kilogram\per\cubic\meter}{]}\end{tabular}} & \multicolumn{1}{c}{\begin{tabular}[c]{@{}c@{}}Heat Capacity \\  {[}\unit{\joule\per\kilogram\per\kelvin}{]}\end{tabular}}  & \multicolumn{1}{c}{\begin{tabular}[c]{@{}c@{}}Conductivity \\   {[}\unit{\watt\per\meter\per\kelvin}{]}\end{tabular}} \\ \midrule
+        Layer        & \multicolumn{1}{c}{\begin{tabular}[c]{@{}c@{}}Thickness \\ {[}m{]}\end{tabular}} & \multicolumn{1}{c}{\begin{tabular}[c]{@{}c@{}}Density \\ $\left[\unit{\kilogram\per\cubic\meter}\right]$\end{tabular}} & \multicolumn{1}{c}{\begin{tabular}[c]{@{}c@{}}Heat Capacity \\  $\left[\unit{\joule\per\kilogram\per\kelvin}\right]$\end{tabular}}  & \multicolumn{1}{c}{\begin{tabular}[c]{@{}c@{}}Conductivity \\   $\left[\unit{\watt\per\meter\per\kelvin}\right]$\end{tabular}} \\ \midrule
         Clay Tile   & \num{0.025}            & \num{1900}                 & \num{800}                        & \num{0.84}                     \\
         Air Cavity      & \num{0.15}              & $-$                  & $-$                      &  $-$                  \\
         Roofing Felt      & \num{0.005}            & \num{960}                  & \num{837}                      & \num{0.19}                    \\
@@ -134,7 +134,7 @@ The dormer roof provides no insulation and is only in place to protect the insid
     \label{tbl:glazingconst}
     \begin{tabular}{lccc}
         \toprule
-        Layer        & \multicolumn{1}{c}{\begin{tabular}[c]{@{}c@{}}Thickness \\ {[}m{]}\end{tabular}} & \multicolumn{1}{c}{\begin{tabular}[c]{@{}c@{}}Transmittance \\ {[}\unit{\kilogram\per\cubic\meter}{]}\end{tabular}}  & \multicolumn{1}{c}{\begin{tabular}[c]{@{}c@{}}Conductivity \\   {[}\unit{\watt\per\meter\per\kelvin}{]}\end{tabular}} \\ \midrule
+        Layer        & \multicolumn{1}{c}{\begin{tabular}[c]{@{}c@{}}Thickness \\ {[}m{]}\end{tabular}} & \multicolumn{1}{c}{\begin{tabular}[c]{@{}c@{}}Transmittance \\ $\left[\unit{\kilogram\per\cubic\meter}\right]$\end{tabular}}  & \multicolumn{1}{c}{\begin{tabular}[c]{@{}c@{}}Conductivity \\   $\left[\unit{\watt\per\meter\per\kelvin}\right]$\end{tabular}} \\ \midrule
         Inner Pane   & \num{0.003}            & \num{0.783}                 & \num{0.4}                                         \\
         Argon Gas      & \num{0.20}              & $-$                  & $-$                                   \\
         Outer Pane     & \num{0.003}            & \num{0.783}                  & \num{0.4}                                    \\
@@ -152,7 +152,7 @@ The dormer roof provides no insulation and is only in place to protect the insid
 %     \label{tbl:deepglazingconst}
 %     \begin{tabular}{lccc}
 %         \toprule
-%         Layer        & \multicolumn{1}{c}{\begin{tabular}[c]{@{}c@{}}Thickness \\ {[}m{]}\end{tabular}} & \multicolumn{1}{c}{\begin{tabular}[c]{@{}c@{}}Transmittance \\ {[}\unit{\kilogram\per\cubic\meter}{]}\end{tabular}}  & \multicolumn{1}{c}{\begin{tabular}[c]{@{}c@{}}Conductivity \\   {[}\unit{\watt\per\meter\per\kelvin}{]}\end{tabular}} \\ \midrule
+%         Layer        & \multicolumn{1}{c}{\begin{tabular}[c]{@{}c@{}}Thickness \\ {[}m{]}\end{tabular}} & \multicolumn{1}{c}{\begin{tabular}[c]{@{}c@{}}Transmittance \\ $\left[\unit{\kilogram\per\cubic\meter}\right]$\end{tabular}}  & \multicolumn{1}{c}{\begin{tabular}[c]{@{}c@{}}Conductivity \\   $\left[\unit{\watt\per\meter\per\kelvin}\right]$\end{tabular}} \\ \midrule
 %         Inner Pane   & \num{0.003}            & \num{0.783}                 & \num{0.4}                                         \\
 %         Argon Gas      & \num{0.20}              & $-$                  & $-$                                   \\
 %         Middle Pane   & \num{0.003}            & \num{0.783}                 & \num{0.4}                                         \\
@@ -169,7 +169,7 @@ The dormer roof provides no insulation and is only in place to protect the insid
 %     \label{tbl:deepextfloorconst}
 %     \begin{tabular}{lcccc}
 %         \toprule
-%         Layer        & \multicolumn{1}{c}{\begin{tabular}[c]{@{}c@{}}Thickness \\ {[}m{]}\end{tabular}} & \multicolumn{1}{c}{\begin{tabular}[c]{@{}c@{}}Density \\ {[}\unit{\kilogram\per\cubic\meter}{]}\end{tabular}} & \multicolumn{1}{c}{\begin{tabular}[c]{@{}c@{}}Heat Capacity \\  {[}\unit{\joule\per\kilogram\per\kelvin}{]}\end{tabular}}  & \multicolumn{1}{c}{\begin{tabular}[c]{@{}c@{}}Conductivity \\   {[}\unit{\watt\per\meter\per\kelvin}{]}\end{tabular}} \\ \midrule
+%         Layer        & \multicolumn{1}{c}{\begin{tabular}[c]{@{}c@{}}Thickness \\ {[}m{]}\end{tabular}} & \multicolumn{1}{c}{\begin{tabular}[c]{@{}c@{}}Density \\ $\left[\unit{\kilogram\per\cubic\meter}\right]$\end{tabular}} & \multicolumn{1}{c}{\begin{tabular}[c]{@{}c@{}}Heat Capacity \\  $\left[\unit{\joule\per\kilogram\per\kelvin}\right]$\end{tabular}}  & \multicolumn{1}{c}{\begin{tabular}[c]{@{}c@{}}Conductivity \\   $\left[\unit{\watt\per\meter\per\kelvin}\right]$\end{tabular}} \\ \midrule
 %         Acoustic Tile   & \num{0.0191}            & \num{368}                 & \num{590}                        & \num{0.06}                     \\
 %         Air Cavity      & \num{0.15}              & $-$                  & $-$                      &  $-$                  \\
 %         Insulation      & \num{0.085}             & \num{43}                  & \num{1210}                       & \num{0.03}                     \\
@@ -185,7 +185,7 @@ The dormer roof provides no insulation and is only in place to protect the insid
 %     \label{tbl:deepextwallconst}
 %     \begin{tabular}{lcccc}
 %         \toprule
-%         Layer        & \multicolumn{1}{c}{\begin{tabular}[c]{@{}c@{}}Thickness \\ {[}m{]}\end{tabular}} & \multicolumn{1}{c}{\begin{tabular}[c]{@{}c@{}}Density \\ {[}\unit{\kilogram\per\cubic\meter}{]}\end{tabular}} & \multicolumn{1}{c}{\begin{tabular}[c]{@{}c@{}}Heat Capacity \\  {[}\unit{\joule\per\kilogram\per\kelvin}{]}\end{tabular}}  & \multicolumn{1}{c}{\begin{tabular}[c]{@{}c@{}}Conductivity \\   {[}\unit{\watt\per\meter\per\kelvin}{]}\end{tabular}} \\ \midrule
+%         Layer        & \multicolumn{1}{c}{\begin{tabular}[c]{@{}c@{}}Thickness \\ {[}m{]}\end{tabular}} & \multicolumn{1}{c}{\begin{tabular}[c]{@{}c@{}}Density \\ $\left[\unit{\kilogram\per\cubic\meter}\right]$\end{tabular}} & \multicolumn{1}{c}{\begin{tabular}[c]{@{}c@{}}Heat Capacity \\  $\left[\unit{\joule\per\kilogram\per\kelvin}\right]$\end{tabular}}  & \multicolumn{1}{c}{\begin{tabular}[c]{@{}c@{}}Conductivity \\   $\left[\unit{\watt\per\meter\per\kelvin}\right]$\end{tabular}} \\ \midrule
 %         Rainscreen   & \num{0.01}              & \num{7824}                & \num{500}                        & \num{30}                       \\
 %         Insulation   & \num{0.085}             & \num{43}                  & \num{1210}                       & \num{0.03}                     \\
 %         Air Cavity      & \num{0.15}              & $-$                  & $-$                      &  $-$                  \\
@@ -244,7 +244,7 @@ In order to accurately model occupancy gains in a \ac{BEM}, it is important to u
         \begin{tabular}
         {lr}
         \toprule
-        Time & \multicolumn{1}{c}{\begin{tabular}[c]{@{}c@{}}Metabolic\\ rate\\ {[}\unit{\watt\per\square\meter}{]}\end{tabular}}   \\
+        Time & \multicolumn{1}{c}{\begin{tabular}[c]{@{}c@{}}Metabolic\\ rate\\ $\left[\unit{\watt\per\square\meter}\right]$\end{tabular}}   \\
         \midrule
         \num[parse-numbers=false]{00}:\num[parse-numbers=false]{00} $\rightarrow$ \num[parse-numbers=false]{06}:\num[parse-numbers=false]{50} & \num{40}\\
         \num[parse-numbers=false]{06}:\num[parse-numbers=false]{50} $\rightarrow$ \num[parse-numbers=false]{08}:\num[parse-numbers=false]{20} & \num{120}\\
@@ -262,14 +262,12 @@ In order to accurately model occupancy gains in a \ac{BEM}, it is important to u
         \begin{tabular}
         {lr}
         \toprule
-        Time & \multicolumn{1}{c}{\begin{tabular}[c]{@{}c@{}}Metabolic\\ rate\\ {[}\unit{\watt\per\square\meter}{]}\end{tabular}} \\
+        Time & \multicolumn{1}{c}{\begin{tabular}[c]{@{}c@{}}Metabolic\\ rate\\ $\left[\unit{\watt\per\square\meter}\right]$\end{tabular}} \\
         \midrule
         \num[parse-numbers=false]{00}:\num[parse-numbers=false]{00} $\rightarrow$ \num[parse-numbers=false]{01}:\num[parse-numbers=false]{00} & \num{75}\\
         \num[parse-numbers=false]{01}:\num[parse-numbers=false]{00} $\rightarrow$ \num[parse-numbers=false]{07}:\num[parse-numbers=false]{20} & \num{40}\\
         \num[parse-numbers=false]{07}:\num[parse-numbers=false]{20} $\rightarrow$ \num[parse-numbers=false]{09}:\num[parse-numbers=false]{30} & \num{75}\\
         \num[parse-numbers=false]{09}:\num[parse-numbers=false]{30} $\rightarrow$ \num[parse-numbers=false]{24}:\num[parse-numbers=false]{00} & \num{120}\\
-        \num[parse-numbers=false]{20}:\num[parse-numbers=false]{00} $\rightarrow$ \num[parse-numbers=false]{23}:\num[parse-numbers=false]{10} & \num{75}\\
-        \num[parse-numbers=false]{23}:\num[parse-numbers=false]{10} $\rightarrow$ \num[parse-numbers=false]{24}:\num[parse-numbers=false]{00} & \num{40}\\
         \bottomrule
         \end{tabular}
     \end{subtable}%
@@ -297,6 +295,7 @@ Plug loads in a residential home refer to the energy consumed by appliances and 
         \midrule
         \num[parse-numbers=false]{00}:\num[parse-numbers=false]{00} $\rightarrow$ \num[parse-numbers=false]{07}:\num[parse-numbers=false]{00} & \num{0.251}\\
         \num[parse-numbers=false]{07}:\num[parse-numbers=false]{00} $\rightarrow$ \num[parse-numbers=false]{11}:\num[parse-numbers=false]{00} & \num{0.749}\\
+        \num[parse-numbers=false]{11}:\num[parse-numbers=false]{00} $\rightarrow$ \num[parse-numbers=false]{17}:\num[parse-numbers=false]{00} & \num{1.0}\\
         \num[parse-numbers=false]{17}:\num[parse-numbers=false]{00} $\rightarrow$ \num[parse-numbers=false]{23}:\num[parse-numbers=false]{00} & \num{0.251}\\
         \num[parse-numbers=false]{23}:\num[parse-numbers=false]{00} $\rightarrow$ \num[parse-numbers=false]{24}:\num[parse-numbers=false]{00} & \num{0.749}\\
         \bottomrule
@@ -352,7 +351,7 @@ The \ac{SCOP} of the \HP is calculated by taking the ratio the total heat energy
 The model uses modulation to introduce some hysteresis to avoid quick-succession, repeated on-off cycling. The \HP turns off when the modulation drops below 20\% and turns on when the modulation exceeds 35\%. Heat losses to the surroundings are taken into account to produce a dynamic model, all the while maintaining the performance as per Daikin's data \cite{daikin_altherma_tech_2006}.
 
 \subsubsection{Frosting Modelling} \label{subsubsec:frostingmod}
-The model provided by IDEAS library does not include frosting effects. Thus, a simple model for the repercussions of frosting on the \ac{ASHP} was developed in the \modelica model. A conditional timer block and greater-than-threshold block were used to identify whether the outdoor temperature had been less than \qty{2}{\celsius} for an aggregate of 60 minutes, resetting the timer only if the outdoor temperature had exceeded \qty{4}{\celsius} for a contiguous 5-minute period. If this 60-minute condition was met, the \ac{ASHP} was turned off, no matter the modulation level, for 10 minutes. This is intended to introduce a ``penalty'' to the \HP for operating under cold conditions. The approximate values were taken from \citeauthor{sandstrom_frosting_2021} \cite{sandstrom_frosting_2021}. To account for energy loss due to a reverse-cycling defrosting of the \HP, A secondary, model-only boiler was fired for such a period as to consume approximately \qty{500000}{\joule} of energy. This energy was summed with the consumption of the primary boiler. This figure was calculated using data from \citeauthor{sandstrom_frosting_2021} \cite{sandstrom_frosting_2021} and the 60\% defrosting efficiency figure mentioned in \cref{subsec:defrost}. 
+The model provided by IDEAS library does not include frosting effects. Thus, a simple model for the repercussions of frosting on the \ac{ASHP} was developed in the \modelica model. A conditional timer block and greater-than-threshold block were used to identify whether the outdoor temperature had been less than \qty{2}{\celsius} for an aggregate of 60 minutes, resetting the timer only if the outdoor temperature had exceeded \qty{4}{\celsius} for a contiguous five-minute period. If this 60-minute condition was met, the \ac{ASHP} was turned off, no matter the modulation level, for 10 minutes. This is intended to introduce a ``penalty'' to the \HP for operating under cold conditions. The approximate values were taken from \citeauthor{sandstrom_frosting_2021} \cite{sandstrom_frosting_2021}. To account for energy loss due to a reverse-cycling defrosting of the \HP, A secondary, model-only boiler was fired for such a period as to consume approximately \qty{500000}{\joule} of energy. This energy was summed with the consumption of the primary boiler. This figure was calculated using data from \citeauthor{sandstrom_frosting_2021} \cite{sandstrom_frosting_2021} and the 60\% defrosting efficiency figure mentioned in \cref{subsec:defrost}. 
 
 \subsection{Radiators} \label{subsec:rad}
 The \texttt{RadiatorEN442} radiator model from the Buildings library \cite{wetter_modelica_2014} was used. Each of the twelve conditioned rooms was assigned a radiator. The nominal heat flow for a radiator in room $i$ was determined by taking the nominal total heat flow of the system, $Q_\text{flow, nom}$ and multiplying it by the ratio of the volume of room $i$, $V_{\text{room, }i}$ to the total conditioned room volume, $V_\text{rooms, tot}$. The radiator model uses five discretised elements to perform a discretised element method heat transfer calculation. The model parameters were altered to only produce convective heat transfer to the room i.e., no radiative heat transfer as the \texttt{EnergyPlus} compatible \texttt{ThermalZone} model has no radiative heat input. The convective heat transfer was modelled with \cref{eq:radiatorheatrans}.

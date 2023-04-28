@@ -2,8 +2,8 @@
 \begin{axis}[ymajorgrids, clip=false,
           xmax=25,ymax=55,xmin=-10,ymin=0,
           axis lines=middle,
-          xlabel={Outdoor temp. [\unit{\celsius}]},
-            ylabel={Water temp. [\unit{\celsius}]},
+          xlabel={Outdoor temp. $\left[\unit{\celsius}\right]$},
+            ylabel={Water temp. $\left[\unit{\celsius}\right]$},
           %enlargelimits
           ]
 

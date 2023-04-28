@@ -1,6 +1,8 @@
 ## workspace
 *.code-workspace
 
+main.pdf
+
 ## Core latex/pdflatex auxiliary files:
 *.aux
 *.lof
