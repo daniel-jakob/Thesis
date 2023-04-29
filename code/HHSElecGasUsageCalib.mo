@@ -305,7 +305,7 @@ connect(pumBoi.port_b, thrWayVal.port_1);
 connect(temRet.port_b, splVal.port_1);     
 connect(thrWayVal.port_3, splVal.port_3);     
 connect(splVal.port_2, tan.port_b);     
-connect(splVal1.port_3, $1$al1. port_a);     
+connect(splVal1.port_3, val1. port_a);     
 connect(splVal1.port_1, temSup.port_b);     
 connect(temRet.port_a, splVal2.port_1);     
 connect(splVal2.port_3, rad1. port_b);     

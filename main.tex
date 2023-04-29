@@ -10,7 +10,7 @@
 
 % python terminal: 
 % import os, shutil;new='jakob_daniel_18409686_MEEN30020_2020-21_assign1_report.pdf';os.replace(r'main.pdf',new); newPath = shutil.copy(new, '../')
-
+\includeonly{chapters/Chapter04.tex, frontbackmatter/Contents.tex}
 
 % latexmk -lualatex -auxdir=".aux" -shell-escape -recorder-  main.tex
 % lualatex  -shell-escape -aux-directory=".aux"  "main.tex"
@@ -67,6 +67,11 @@
 %\setbibpreamble{}
 \pagenumbering{roman}
 \pagestyle{plain}
+
+\makeatletter
+\renewcommand{\figurename}{Fig.}
+\renewcommand{\tablename}{Tbl.}
+\makeatother
 %********************************************************************
 % Frontmatter
 %*******************************************************
@@ -87,7 +92,10 @@
 
 
 
-
+\makeatletter
+\renewcommand{\figurename}{Figure}
+\renewcommand{\tablename}{Table}
+\makeatother
 
 
 %********************************************************************

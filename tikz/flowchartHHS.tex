@@ -14,17 +14,14 @@
 \node [io, below of=radloop, node distance=4cm] (daynight) {Room setpoint:\\Day: \qty{21}{\celsius}\\Night: \qty{16}{\celsius}};
 \node [io, below of=daynight, node distance=2.5cm] (supplytemp) {Supply temp. actual};
 \node [block, below of=outsidetemp, node distance=4 cm] (calcsupply) {Calculate water\\supply temperature};
-\node [block, below of=calcsupply, node distance=2.5 cm] (adjust3way) {Adjust 3-way valve\\w/ P-control};
-
-
-
+\node [block, below of=calcsupply, node distance=2.5 cm] (adjust3way) {Adjust 3-way valve\\with P-control};
 
 \node [coordinate,right=2.5 cm of outsidetemp] (topmid) {};
 \node [decision, below of=topmid, node distance=1.25 cm] (less16) {$<$\qty{16}{\celsius}};
 \node [coordinate,below=0.75 cm of less16] (fork1) {};
 
 
-\node [io, right of=radloop, node distance=13.5 cm] (roomtemps) {Individual room temps};
+\node [io, right of=radloop, node distance=13.5 cm] (roomtemps) {Individual \\room temps};
 
 \node [block, below of=roomtemps, node distance=4 cm] (unblockP) {Unblock P-controllers for each room};
 

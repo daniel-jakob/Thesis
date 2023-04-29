@@ -16,7 +16,7 @@
       width = \subplotlength,
     ]
     \nextgroupplot[
-    %legend to name={CommonLegend},legend style={legend columns=3},
+    legend to name={CommonLegend},legend style={legend columns=3},
       width = \subplotlength,
       height = \firstrowheight,
       xticklabels={,,},
@@ -26,11 +26,11 @@
     \coordinate (top) at (rel axis cs:0,1);% coordinate at top of the first plot
     \addplot [thin, blue, opacity=0.5] table[y = TemRet] from \HPzeroseventable ;
     \addplot [thin, red, opacity=0.5] table[y = TemSup] from \HPzeroseventable ;
-  %   \addlegendimage{olive, dashed}
+    \addlegendimage{olive, dashed}
   %   %\addlegendimage{red, mark=*}
-  %   \addlegendentry[color=black]{Return Temp}
-  % \addlegendentry[color=black]{Supply Temp}
-  % \addlegendentry[color=black]{Outdoor Temp}
+     \addlegendentry[color=black]{Return Temp}
+   \addlegendentry[color=black]{Supply Temp}
+   \addlegendentry[color=black]{Outdoor Temp}
       
 
     \nextgroupplot[
@@ -85,5 +85,5 @@
   % legend
   %\path (top-|current bounding box.west) -- node[above]{\ref{CommonLegend}} (bot-|current bounding box.west);
   %\path (top-|current bounding box.west)node[right]{\ref{CommonLegend}} --  (bot-|current bounding box.west);
-  % \path (1,1) -- node[right]{\ref{CommonLegend}} (17,6);
+  \path (1,1) -- node[right]{\ref{CommonLegend}} (15.9,6);
 \end{tikzpicture}

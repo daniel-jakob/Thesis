@@ -32,7 +32,7 @@ In \cref{fig:controllersec}, just north of the centre is the day-night setback c
 \cref{fig:radssec} shows the radiator section of the model. Not all of the connections are rendered as they were not created using the \texttt{Dymola} interface, rather, they were manually created in the underlying code in order to avoid mistakes. The \texttt{rad1}, \texttt{rad2}, etc. blocks are the radiator blocks, as described in \cref{subsec:rad}, serving each of the twelve conditioned rooms, with \texttt{rad3} omitted as the third indexed room is unconditioned. The \texttt{val1}, \texttt{val2}, etc. blocks are controllable valves, limiting the flowrate as a function of the respective volume of the room to the total room volume, and are controlled by the \texttt{conRoo1}, \texttt{conRoo2}, etc. P-controller blocks. The P-controllers take the respective temperature of the room as input via \texttt{TRoo1}, \texttt{TRoo2}, etc. and the \texttt{swi} block from the day-night setback switch. The output of these P-controllers feeds into the \texttt{mulMax} block from \cref{fig:boilerandhp}.
 \begin{figure}[htb]
     \centering
-    \includegraphics[width=0.9\linewidth]{rads}
+    \includegraphics[width=0.85\linewidth]{rads}
     \caption{Radiator section of the \texttt{Modelica} model}
     \label{fig:radssec}
 \end{figure}

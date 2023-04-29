@@ -492,7 +492,7 @@
     \renewcommand{\cftfigleader}{\hspace{1.5em}}%
     \renewcommand{\cftfigafterpnum}{\cftparfillskip}%
 }
-\renewcommand{\cftfigpresnum}{Fig.~}%Fig.~}
+%\renewcommand{\cftfigpresnum}{Fig.~}%Fig.~}
 \newlength{\figurelabelwidth}
 \settowidth{\figurelabelwidth}{\cftfigpresnum~999}
 \addtolength{\figurelabelwidth}{2.5em}
@@ -505,7 +505,8 @@
     \renewcommand{\cfttableader}{\hspace{1.5em}}%
     \renewcommand{\cfttabafterpnum}{\cftparfillskip}%
 }
-\renewcommand{\cfttabpresnum}{Tbl.~}%Tab.~}
+%\renewcommand{\cfttabpresnum}{Tbl.~}%Tab.~}
+\renewcommand\cfttabpresnum{Tbl.~}
 \newlength{\tablelabelwidth}
 \settowidth{\tablelabelwidth}{\cfttabpresnum~999}
 \addtolength{\tablelabelwidth}{2.5em}

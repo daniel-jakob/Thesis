@@ -13,9 +13,9 @@
 % \end{flushright}
 
 \section{Timestep and solver}
-A nominal timestep of 3 minutes was chosen, as this results in a very accurate simulation run. The dynamics of the model are accurately captured by a timestep of 180 seconds. The timestep value used in the simulations in the literature is sparse, however, \citeauthor{roccatello_analysis_2022} \cite{roccatello_analysis_2022} use five-minute timesteps, while \citeauthor{dongellini_influence_2021} \cite{dongellini_influence_2021} use timesteps of 30 seconds, \citeauthor{klein_numerical_2014} \cite{klein_numerical_2014} also use timesteps of 3 minutes. The \texttt{Dymola} built-in \texttt{Radau II-A} solver was used, as this is recommended by the Buildings Library Best Practices \cite{lawrence_berkeley_national_laboratory_user_2022}, which also suggests a tolerance of \num{1E-6} for ``faster and more robust simulation for thermo-fluid flow systems''. 
+A nominal timestep of three minutes was chosen, as this results in a very accurate simulation run. The dynamics of the model are accurately captured by a timestep of 180 seconds. The timestep value used in the simulations in the literature is sparse, however, \citeauthor{roccatello_analysis_2022} \cite{roccatello_analysis_2022} use five-minute timesteps, while \citeauthor{dongellini_influence_2021} \cite{dongellini_influence_2021} use timesteps of 30 seconds, \citeauthor{klein_numerical_2014} \cite{klein_numerical_2014} also use timesteps of three minutes. The \texttt{Dymola} built-in \texttt{Radau II-A} solver was used, as this is recommended by the Buildings Library Best Practices \cite{lawrence_berkeley_national_laboratory_user_2022}, which also suggests a tolerance of \num{1E-6} for ``faster and more robust simulation for thermo-fluid flow systems''. 
 
-The \texttt{Radau II-A} solver uses the user-inputted timestep as a nominal value, but can dynamically decrease the timestep in order to maintain stability or accuracy. Thus, even though there are \num{175200} three-minute intervals in a year, during each simulation run there tends to be circa \num{180000} timesteps. 
+The \texttt{Radau II-A} solver uses the user-inputted timestep as a nominal value, but can dynamically decrease the timestep in order to maintain stability or accuracy. Thus, even though there are \num{175200} three-minute intervals in a year, during each simulation run there tends to be circa \num{180000} timesteps. \graffito{A hipped dormer style roof is a type of roof that has sloping sides and a ridge, similar to a traditional hipped roof, but with a small gabled extension, or dormer, protruding from the surface of the roof.}
 
 \section{Location} \label{sec:location}
 The reference house that the building model is based off of a hipped dormer, two-storey residential house located in Belturbet, Cavan, a small town close to the Republic of Ireland and Northern Ireland border, about 125 kilometres from Dublin. The reference house lies at an elevation of 80 metres and is Easterly facing. The dwelling is located in a residential estate, and is thus classified as being located in an urban environment.
@@ -327,15 +327,9 @@ Plug loads in a residential home refer to the energy consumed by appliances and 
 \section{Heating System}
 \cref{fig:modelicadiagram} shows an overall diagram view of the \ac{HHPS}, along with controller and frosting model. \cref{appx:modelbreakdown} goes into detail regarding the individual blocks that comprise the \texttt{Modelica} model. On a high level, in the bounded box labelled 1 are the boiler, \ac{HP}, house model and various valves pertaining to the hydronic system. In the box labelled 2, is the controller and active state machine. Box 3 houses the frosting model, and box 4 contains the radiators, valves, room temperature sensors and P-controllers. 
 
-\begin{figure}[htb]
-    \centering
-    \import{tikz/}{overallHHSbreakdown.tikz}
-    \caption{\texttt{Modelica} diagram view of implemented system}
-    \label{fig:modelicadiagram}
-\end{figure}
 
 \subsection{\acs{ASHP}} \label{subsec:ashp}
-The \ac{ASHP} model was imported from the IDEAS library \cite{jorissen_implementation_2018}.Performance table data obtained from Daikin for a low-temperature, modulating \ac{AWHP} was used in the modelling of the heat pump. By interpolating the data in the table, the model is able to determine the heating power, electricity usage, and \ac{COP} based on the condenser outlet temperature and the ambient temperature. The \HP has a nominal heating power of \qty{7177}{\watt} at a test condition of 2/\qty{35}{\celsius} (air/condenser temperature), with a \ac{COP} of 3.17 at this condition and a \ac{COP} of 2.44 at a test condition of 2/\qty{45}{\celsius} for full load operation. The heat pump can operate at leaving water temperatures up to \qty{55}{\celsius}.
+The \ac{ASHP} model was imported from the IDEAS library \cite{jorissen_implementation_2018}.Performance table data obtained from Daikin for a low-temperature, modulating \ac{AWHP} was used in the modelling of the heat pump. By interpolating the data in the table, the model is able to determine the heating power, electricity usage, and \ac{COP} based on the condenser outlet temperature and the ambient temperature. The \HP has a nominal heating power of \qty{7177}{\watt} at a test condition of 2/\qty{35}{\celsius} (air/condenser temperature), with a \ac{COP} of 3.17 at this condition and a \ac{COP} of 2.44 at a test condition of \num{2}/\qty{45}{\celsius} for full load operation. The heat pump can operate at leaving water temperatures up to \qty{55}{\celsius}.
 
 The \ac{COP} of the \ac{AWHP} model is calculated by the ratio of heat energy transferred to the passing water to the electrical power used. This is given by \cref{eq:cop}. 
 
@@ -399,18 +393,24 @@ The heat generation loop starts when both of the following conditions have been 
 
 The demanded water supply temperature curve changes depending on the outdoor temperature. If the temperature is greater than the bivalent temperature, the supply curve is calculated based off of the nominal post-\HP water temperature of \qty{35}{\celsius}, and the time-dependent room setpoint temperature, otherwise the supply curve is calculated using the values of the nominal post-boiler water temperature of \qty{50}{\celsius}. During bivalent operation, the \HP heats up the circulating water to \qty{35}{\celsius}, and the boiler ``tops up'' the water to the demanded supply temperature using a PD-controller. The two supply temperature curves can be seen in \cref{fig:supplytempcurves}.
 
-\begin{figure}[htb]
+
+\subsubsection{Radiator Loop Control}
+Conceptually, this aspect of the heating system decides whether both the outdoor temperature is low and the P-controllers are outputting a higher than threshold level signal, determines the appropriate water supply temperature and subsequently mixes the supply and return water to achieve this setpoint, and controls the individual valve opening positions to distribute the supply water proportionally to the rooms depending on their temperature and percentage of total conditioned volume of the particular room. 
+
+\begin{figure}[h!]
     \centering
-    %\includegraphics[width=0.6\linewidth]{tikz/supplytempscurves.tikz}
-    \import{tikz/}{supplytempscurves.tikz}
+    \includegraphics[width=0.6\linewidth]{tikz/supplytempscurves.tikz}
+    %\import{tikz/}{supplytempscurves.tikz}
     \caption{Supply temperature curves, demanded water temperature against outdoor temperature}
     \label{fig:supplytempcurves}
 \end{figure}
 
-
-
-\subsubsection{Radiator Loop Control}
-Conceptually, this aspect of the heating system decides whether both the outdoor temperature is low and the P-controllers are outputting a higher than threshold level signal, determines the appropriate water supply temperature and subsequently mixes the supply and return water to achieve this setpoint, and controls the individual valve opening positions to distribute the supply water proportionally to the rooms depending on their temperature and percentage of total conditioned volume of the particular room. 
+\begin{figure}[htb]
+    \centering
+    \import{tikz/}{overallHHSbreakdown.tikz}
+    \caption{\texttt{Modelica} diagram view of implemented system}
+    \label{fig:modelicadiagram}
+\end{figure}
 
 
 \begin{figure}[htb]

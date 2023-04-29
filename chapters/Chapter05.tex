@@ -33,11 +33,11 @@ As the two parameters were varied, the energy consumption of the two energy sour
         every head row/.style={%
             output empty row,
             before row={%
-                \diagbox[width=4em,height=2.6em]{$T_\mathrm{cut}$}{$T_\mathrm{biv}$} & $-$2 & $-$1 & 0 & 1 & 2 & 3& 4\\
+                \diagbox[width=4em,height=2.6em]{$T_\mathrm{cut}$}{$T_\mathrm{biv}$} & \qty{-2}{\celsius} & \qty{-1}{\celsius} & \qty{0}{\celsius} & \qty{1}{\celsius} & \qty{2}{\celsius} & \qty{2}{\celsius} & \qty{4}{\celsius}\\
                 },
             },
         create on use/newcol/.style={
-            create col/set list={10,9,8,7,6,5}
+            create col/set list={\qty{10}{\celsius},\qty{9}{\celsius},\qty{8}{\celsius},\qty{7}{\celsius},\qty{6}{\celsius},\qty{5}{\celsius}}
         },
         columns/newcol/.style={string type,reset styles,},
         columns={newcol,0,1,2,3,4,5,6},
@@ -62,11 +62,11 @@ When considering the electricity consumption heatmap, it is perhaps easier to in
         every head row/.style={%
             output empty row,
             before row={%
-                \diagbox[width=4em,height=2.6em]{$T_\mathrm{cut}$}{$T_\mathrm{biv}$} & $-$2 & $-$1 & 0 & 1 & 2 & 3& 4\\
+                \diagbox[width=4em,height=2.6em]{$T_\mathrm{cut}$}{$T_\mathrm{biv}$} & \qty{-2}{\celsius} & \qty{-1}{\celsius} & \qty{0}{\celsius} & \qty{1}{\celsius} & \qty{2}{\celsius} & \qty{2}{\celsius} & \qty{4}{\celsius}\\
                 },
             },
         create on use/newcol/.style={
-            create col/set list={10,9,8,7,6,5}
+            create col/set list={\qty{10}{\celsius},\qty{9}{\celsius},\qty{8}{\celsius},\qty{7}{\celsius},\qty{6}{\celsius},\qty{5}{\celsius}}
         },
         columns/newcol/.style={string type,reset styles,},
         columns={newcol,0,1,2,3,4,5,6},
@@ -91,11 +91,11 @@ When considering the electricity consumption heatmap, it is perhaps easier to in
         every head row/.style={%
             output empty row,
             before row={%
-                \diagbox[width=4em,height=2.6em]{$T_\mathrm{cut}$}{$T_\mathrm{biv}$} & $-$2 & $-$1 & 0 & 1 & 2 & 3& 4\\
+                \diagbox[width=4em,height=2.6em]{$T_\mathrm{cut}$}{$T_\mathrm{biv}$} & \qty{-2}{\celsius} & \qty{-1}{\celsius} & \qty{0}{\celsius} & \qty{1}{\celsius} & \qty{2}{\celsius} & \qty{2}{\celsius} & \qty{4}{\celsius}\\
                 },
             },
         create on use/newcol/.style={
-            create col/set list={10,9,8,7,6,5}
+            create col/set list={\qty{10}{\celsius},\qty{9}{\celsius},\qty{8}{\celsius},\qty{7}{\celsius},\qty{6}{\celsius},\qty{5}{\celsius}}
         },
         columns/newcol/.style={string type,reset styles,},
         columns={newcol,0,1,2,3,4,5,6},
@@ -125,11 +125,11 @@ As the hybrid operation temperature window shifts, and contracts and expands, th
         every head row/.style={%
             output empty row,
             before row={%
-                \diagbox[width=4em,height=2.6em]{$T_\mathrm{cut}$}{$T_\mathrm{biv}$} & $-$2 & $-$1 & 0 & 1 & 2 & 3& 4\\
+                \diagbox[width=4em,height=2.6em]{$T_\mathrm{cut}$}{$T_\mathrm{biv}$} & \qty{-2}{\celsius} & \qty{-1}{\celsius} & \qty{0}{\celsius} & \qty{1}{\celsius} & \qty{2}{\celsius} & \qty{2}{\celsius} & \qty{4}{\celsius}\\
                 },
             },
         create on use/newcol/.style={
-            create col/set list={10,9,8,7,6,5}
+            create col/set list={\qty{10}{\celsius},\qty{9}{\celsius},\qty{8}{\celsius},\qty{7}{\celsius},\qty{6}{\celsius},\qty{5}{\celsius}}
         },
         columns/newcol/.style={string type,reset styles,},
         columns={newcol,0,1,2,3,4,5,6},
@@ -167,11 +167,11 @@ The number of on cycles for a \HP over the course of a year is closely linked to
         every head row/.style={%
             output empty row,
             before row={%
-                \diagbox[width=4em,height=2.6em]{$T_\mathrm{cut}$}{$T_\mathrm{biv}$} & $-$2 & $-$1 & 0 & 1 & 2 & 3& 4\\
+                \diagbox[width=4em,height=2.6em]{$T_\mathrm{cut}$}{$T_\mathrm{biv}$} & \qty{-2}{\celsius} & \qty{-1}{\celsius} & \qty{0}{\celsius} & \qty{1}{\celsius} & \qty{2}{\celsius} & \qty{2}{\celsius} & \qty{4}{\celsius}\\
                 },
             },
         create on use/newcol/.style={
-            create col/set list={10,9,8,7,6,5}
+            create col/set list={\qty{10}{\celsius},\qty{9}{\celsius},\qty{8}{\celsius},\qty{7}{\celsius},\qty{6}{\celsius},\qty{5}{\celsius}}
         },
         columns/newcol/.style={string type,reset styles,},
         columns={newcol,0,1,2,3,4,5,6},
@@ -181,14 +181,15 @@ The number of on cycles for a \HP over the course of a year is closely linked to
 \end{table}
 
 Time series plots can be seen in \cref{fig:onoffhp51,fig:onoffhp34,fig:onoffhp07}, of a ten-day period from the 19\textsuperscript{th} of March to 29\textsuperscript{th} of March. This period was chosen quasi-arbitrarily, with the only criteria being a period where the temperature drops below \qty{2}{\celsius} multiple times for extended periods. Three series are shown in each, the water temperature of the supply and return radiator loop, and the outdoor temperature. At the bottom of each is a small subplot which shows the \HP on-off cycling. \cref{fig:onoffhp51,fig:onoffhp34} show parameter-level combinations where the \HP operates below \qty{2}{\celsius}, while \cref{fig:onoffhp07} does not. From the cycling subplot it can be seen that in \cref{fig:onoffhp51,fig:onoffhp34}, the \HP restarts many times around the 20\textsuperscript{th}, 21\textsuperscript{st}, 23\textsuperscript{rd} and 25\textsuperscript{th}. This matches up with the outdoor temperature dropping below \qty{2}{\celsius} from the plot above. Constant on and off cycling incurs cycling losses which can amount to large amounts of energy and are detrimental to the lifespan of the \HP \cite{bagarella_cycling_2013,dongellini_-off_2019}.
-
-\begin{figure}[b]
+%\vspace*{-5em}
+\begin{figure}[h!]
     \centering
     \import{tikz/}{OnOffHP51.tex}
     \vspace*{-1.8\baselineskip}
     \caption[Supply and return water temperature, outdoor temperature and \acs{HP} on/off cycling for $\{-2\text{, }5\}$]{Supply and return water temperature overlaid with external temperature with subplot of \acs{HP} on-off cycles for $\{-2\text{, }5\}$ parameter-level combination for 19\textsuperscript{th} to 29\textsuperscript{th} March}
     \label{fig:onoffhp51}
 \end{figure}
+
 
 \begin{figure}[htb]
     \centering

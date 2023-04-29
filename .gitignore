@@ -16,8 +16,6 @@ main.pdf
 *.cb
 *.cb2
 .*.lb
-*.pygtex
-*.pygstyle
 
 ## Intermediate documents:
 *.dvi
@@ -177,7 +175,7 @@ acs-*.bib
 
 # minted
 _minted*
-*.pyg
+*.pyg*
 
 # morewrites
 *.mw
