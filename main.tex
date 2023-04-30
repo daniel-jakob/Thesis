@@ -4,13 +4,15 @@
     \WarningFilter{titlesec}{Non standard sectioning command detected}
 \documentclass[%twoside,openright, 
                 parts=false,titlepage,numbers=noenddot,%1headlines,
-                headinclude,footinclude,cleardoublepage=empty,abstract=on,
-                BCOR=5mm,paper=b5,fontsize=11pt,dvipsnames,openany
+                headinclude,footinclude,%cleardoublepage=empty,
+                abstract=on,
+                BCOR=5mm,paper=b5,fontsize=11pt,dvipsnames,openany,captions=tableabove,
                 ]{scrbook}
 
 % python terminal: 
 % import os, shutil;new='jakob_daniel_18409686_MEEN30020_2020-21_assign1_report.pdf';os.replace(r'main.pdf',new); newPath = shutil.copy(new, '../')
-\includeonly{chapters/Chapter04.tex, frontbackmatter/Contents.tex}
+%\includeonly{frontbackmatter/Contents.tex, frontbackmatter/Acknowledgments.tex, frontbackmatter/Abstract.tex, chapters/Chapter02.tex}
+
 
 % latexmk -lualatex -auxdir=".aux" -shell-escape -recorder-  main.tex
 % lualatex  -shell-escape -aux-directory=".aux"  "main.tex"
@@ -21,6 +23,7 @@
 % Note: Make all your adjustments in here
 %*******************************************************
 \input{tex/classicthesis-config}
+
 
 \newlength\plotwidth
 \setlength\plotwidth{\textwidth}
@@ -68,10 +71,6 @@
 \pagenumbering{roman}
 \pagestyle{plain}
 
-\makeatletter
-\renewcommand{\figurename}{Fig.}
-\renewcommand{\tablename}{Tbl.}
-\makeatother
 %********************************************************************
 % Frontmatter
 %*******************************************************
@@ -86,16 +85,6 @@
 \include{frontbackmatter/Nomenclature}
 \include{frontbackmatter/Abstract}
 \include{frontbackmatter/Acknowledgments}
-
-
-
-
-
-
-\makeatletter
-\renewcommand{\figurename}{Figure}
-\renewcommand{\tablename}{Table}
-\makeatother
 
 
 %********************************************************************
